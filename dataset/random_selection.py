@@ -4,8 +4,8 @@ import numpy
 random.seed(1337)
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--data', type=str, default='bc5cdr/train.txt', help="text file - dataset")
-parser.add_argument('--number', type=int, default=100, help="number of sentences in dataset")
+parser.add_argument('--data', type=str, default='ontonotes_conll/train.txt', help="text file - dataset")
+parser.add_argument('--number', type=int, default=200, help="number of sentences in dataset")
 
 args = parser.parse_known_args()[0]
 print(args)
@@ -27,14 +27,40 @@ def data_to_sents(data):
             temp.append(i)
     return sents
 
+B_PREF="B-"
+I_PREF = "I-"
+S_PREF = "S-"
+E_PREF = "E-"
+O = "O"
+
+def convert_iobes(labels):
+	for pos in range(len(labels)):
+		curr_entity = labels[pos]
+		if pos == len(labels) - 1:
+			if curr_entity.startswith(B_PREF):
+				labels[pos] = curr_entity.replace(B_PREF, S_PREF)
+			elif curr_entity.startswith(I_PREF):
+				labels[pos] = curr_entity.replace(I_PREF, E_PREF)
+		else:
+			next_entity = labels[pos + 1]
+			if curr_entity.startswith(B_PREF):
+				if next_entity.startswith(O) or next_entity.startswith(B_PREF):
+					labels[pos] = curr_entity.replace(B_PREF, S_PREF)
+			elif curr_entity.startswith(I_PREF):
+				if next_entity.startswith(O) or next_entity.startswith(B_PREF):
+					labels[pos] = curr_entity.replace(I_PREF, E_PREF)
+	return labels
+
 def labels_from_sents(sents):
     labels=set()
-    sents=list(numpy.concatenate(sents).flat)
-    counter={}
-    for i in sents:
-        label=i.split(' ')[-1]
-        if label not in labels:
-            labels.add(label)
+    for sent in sents:
+        sent_label = []
+        for i in sent:
+            label=i.split(' ')[-1]
+            sent_label.append(label)
+        sent_label = convert_iobes(sent_label)
+        for s_label in sent_label:
+            labels.add(s_label)
     labels=list(labels)
     return labels
 
@@ -61,38 +87,30 @@ def clean_labels(labels):
 
 
 def dataset_slice(number,data,label_space):
-    sents=data_to_sents(data)
-    #random.shuffle(sents)
-    labels=labels_from_sents(sents)
-    counter=count_labels(sents)
-    sents=sents[:number]
-    if len(labels)==len(label_space):
-        return sents
-    else:
-        temp=[i for i in labels + label_space if i not in labels or i not in label_space]
-        for i in temp:
-            for j in range(len(data)):
-                if i in data[j]:
-                    sents.append(data[j])
-                break
-    num_extra=len(sents)-number
-    for label,count in counter.items():
-        if num_extra<count:
-            del_label=key
-    for i in sents:
-        if num_extra!=0:
-            if del_label in i:
-                sents.remove(i)
-        else:
-            break   
-    return sents
+    sents = data_to_sents(data)
+    labels = set()
+
+    sent_index = 0
+    sliced_sents = []
+    while len(list(labels)) != len(label_space):
+        if len(sliced_sents) == number:
+            del sliced_sents[-1]
+        sent_labels = []
+        for s in sents[sent_index]:
+            sent_labels.append(s.split(' ')[-1])
+        sent_labels = convert_iobes(sent_labels)
+        labels = labels.union(set(sent_labels))
+        sliced_sents.append(sents[sent_index])
+        sent_index += 1
+
+    return sliced_sents
 
 
 all_sents=data_to_sents(data)
 label_space=labels_from_sents(all_sents)
 reduced_sents=dataset_slice(number,lines,label_space)
 
-refined_file = open(f'bc5cdr/train_100.txt', 'w')
+refined_file = open(f'ontonotes_conll/train_200.txt', 'w')
 
 def write_original(refined, writefile):
     for instance in refined:

@@ -47,7 +47,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
         labels = inst.labels
         label_ids = [label2idx[label] for label in labels] if labels else [-100] * len(words)
 
-        if prompt is not None:
+        if prompt is None:
             input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token])
         else:
             prompt_tokens = tokenizer.tokenize(" " + prompt)
