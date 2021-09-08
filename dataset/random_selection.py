@@ -92,7 +92,7 @@ def dataset_slice(number,data,label_space):
 
     sent_index = 0
     sliced_sents = []
-    while len(list(labels)) != len(label_space):
+    while (len(list(labels)) != len(label_space)) or (len(sliced_sents) < number):
         if len(sliced_sents) == number:
             del sliced_sents[-1]
         sent_labels = []
@@ -104,6 +104,7 @@ def dataset_slice(number,data,label_space):
             sliced_sents.append(sents[sent_index])
         sent_index += 1
 
+    print(len(sliced_sents))
     return sliced_sents
 
 
