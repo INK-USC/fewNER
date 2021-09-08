@@ -1,25 +1,5 @@
-python train.py \
---data-dir 'dataset/CONLL' \
---model-type 'bert' \
---model-name 'bert-large-cased' \
---output-dir 'eval/conll2003' \
---gpu '0,1,2,3' \
---labels 'dataset/CONLL/labels.txt' \
---max-seq-length 128 \
---overwrite-output-dir \
---do-train \
---do-eval \
---do-predict \
---evaluate-during-training \
---batch-size 8 \
---learning-rate 5e-5 \
---gradient-accumulation-steps 4 \
---num-train-epochs 20 \
---save-steps 750 \
---seed 1 \
---train-examples -1 \
---eval-batch-size 128 \
---pad-subtoken-with-real-label \
---eval-pad-subtoken-with-first-subtoken-only \
---label-sep-cls \
---trigger
+CUDA_VISIBLE_DEVICES=1 python3 transformers_trainer.py --dataset conll --data_dir dataset/conll/human_triggers --model_folder models/conll/baseline --device cuda:0
+
+
+CUDA_VISIBLE_DEVICES=4 python3 transformers_trainer_concat.py --dataset conll --data_dir dataset/conll/ner --model_folder models/conll/entityconcat20156 --device cuda:0 --percent_filename_suffix 201
+CUDA_VISIBLE_DEVICES=4 python3 transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr/ner --model_folder models/bc5cdr/na --device cuda:0 --percent_filename_suffix 251
