@@ -134,7 +134,8 @@ class TransformersNERDataset(Dataset):
                 line = line.rstrip()
                 if line == "":
                     labels = convert_iobes(labels)
-                    insts.append(Instance(words=words, ori_words=ori_words, labels=labels))
+                    if len(set(labels)) > 1:
+                        insts.append(Instance(words=words, ori_words=ori_words, labels=labels))
                     words = []
                     ori_words = []
                     labels = []

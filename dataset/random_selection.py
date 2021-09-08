@@ -5,7 +5,7 @@ random.seed(1337)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--data', type=str, default='ontonotes_conll/train.txt', help="text file - dataset")
-parser.add_argument('--number', type=int, default=200, help="number of sentences in dataset")
+parser.add_argument('--number', type=int, default=50, help="number of sentences in dataset")
 
 args = parser.parse_known_args()[0]
 print(args)
@@ -99,8 +99,9 @@ def dataset_slice(number,data,label_space):
         for s in sents[sent_index]:
             sent_labels.append(s.split(' ')[-1])
         sent_labels = convert_iobes(sent_labels)
-        labels = labels.union(set(sent_labels))
-        sliced_sents.append(sents[sent_index])
+        if len(list(set(sent_labels))) > 1:
+            labels = labels.union(set(sent_labels))
+            sliced_sents.append(sents[sent_index])
         sent_index += 1
 
     return sliced_sents
@@ -110,7 +111,7 @@ all_sents=data_to_sents(data)
 label_space=labels_from_sents(all_sents)
 reduced_sents=dataset_slice(number,lines,label_space)
 
-refined_file = open(f'ontonotes_conll/train_200.txt', 'w')
+refined_file = open(f'ontonotes_conll/train_50.txt', 'w')
 
 def write_original(refined, writefile):
     for instance in refined:
