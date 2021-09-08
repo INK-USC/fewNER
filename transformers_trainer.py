@@ -52,6 +52,7 @@ def parse_arguments(parser):
     parser.add_argument('--max_grad_norm', type=float, default=1.0, help="The maximum gradient norm, if <=0, means no clipping, usually we don't use clipping for normal neural ncrf")
 
     ##model hyperparameter
+    parser.add_argument('--checkpoint', type=str, default="", help="The name to save the model files")
     parser.add_argument('--model_folder', type=str, default="english_model", help="The name to save the model files")
     parser.add_argument('--hidden_dim', type=int, default=0, help="hidden size of the LSTM, usually we set to 200 for LSTM-CRF")
     parser.add_argument('--dropout', type=float, default=0.5, help="dropout for embedding")
@@ -171,6 +172,7 @@ def evaluate_model(config: Config, model: TransformersCRF, data_loader: DataLoad
     ## evaluation
     p_dict, total_predict_dict, total_entity_dict = Counter(), Counter(), Counter()
     batch_size = data_loader.batch_size
+    model.to(config.device)
     with torch.no_grad():
         for batch_id, batch in tqdm(enumerate(data_loader, 0), desc="--evaluating batch", total=len(data_loader)):
             one_batch_insts = insts[batch_id * batch_size:(batch_id + 1) * batch_size]
@@ -215,12 +217,13 @@ def main():
         print(colored(f"[Data Info] Tokenizing the instances using '{conf.embedder_type}' tokenizer", "blue"))
         tokenizer = context_models[conf.embedder_type]["tokenizer"].from_pretrained(conf.embedder_type)
         print(colored(f"[Data Info] Reading dataset from: \n{conf.train_file}\n{conf.dev_file}\n{conf.test_file}", "blue"))
-        train_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True, percentage=conf.percentage)
+
+        train_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True, percentage=conf.percentage, prompt="max")
         conf.label2idx = train_dataset.label2idx
         conf.idx2labels = train_dataset.idx2labels
 
-        dev_dataset = TransformersNERDataset(conf.dev_file, tokenizer, number=conf.dev_num, label2idx=train_dataset.label2idx, is_train=False)
-        test_dataset = TransformersNERDataset(conf.test_file, tokenizer, number=conf.test_num, label2idx=train_dataset.label2idx, is_train=False)
+        dev_dataset = TransformersNERDataset(conf.dev_file, tokenizer, number=conf.dev_num, label2idx=train_dataset.label2idx, is_train=False, prompt="max", prompt_candidates_from_outside=train_dataset.prompt_candidates)
+        test_dataset = TransformersNERDataset(conf.test_file, tokenizer, number=conf.test_num, label2idx=train_dataset.label2idx, is_train=False, prompt="max", prompt_candidates_from_outside=train_dataset.prompt_candidates)
         num_workers = 8
         conf.label_size = len(train_dataset.label2idx)
         train_dataloader = DataLoader(train_dataset, batch_size=conf.batch_size, shuffle=True, num_workers=num_workers,

@@ -48,10 +48,11 @@ def parse_arguments(parser):
     parser.add_argument('--train_num', type=int, default=-1, help="-1 means all the data")
     parser.add_argument('--dev_num', type=int, default=-1, help="-1 means all the data")
     parser.add_argument('--test_num', type=int, default=-1, help="-1 means all the data")
-    parser.add_argument('--max_no_incre', type=int, default=10, help="early stop when there is n epoch not increasing on dev")
+    parser.add_argument('--max_no_incre', type=int, default=20, help="early stop when there is n epoch not increasing on dev")
     parser.add_argument('--max_grad_norm', type=float, default=1.0, help="The maximum gradient norm, if <=0, means no clipping, usually we don't use clipping for normal neural ncrf")
 
     ##model hyperparameter
+    parser.add_argument('--checkpoint', type=str, default="", help="The name to save the model files")
     parser.add_argument('--model_folder', type=str, default="english_model", help="The name to save the model files")
     parser.add_argument('--hidden_dim', type=int, default=0, help="hidden size of the LSTM, usually we set to 200 for LSTM-CRF")
     parser.add_argument('--dropout', type=float, default=0.5, help="dropout for embedding")
@@ -83,7 +84,26 @@ def train_model(config: Config, epoch: int, train_loader: DataLoader, dev_loader
         colored(f"[Model Info]: Working with transformers package from huggingface with {config.embedder_type}", 'red'))
     print(colored(f"[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.", 'red'))
     print(colored(f"[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.", 'red'))
-    model = TransformersCRF(config)
+
+    if config.checkpoint.endswith("tar.gz"):
+        tar = tarfile.open(config.checkpoint)
+        # self.conf = pickle.load(tar.extractfile(tar.getnames()[1]))  ## config file
+        model = TransformersCRF(config)
+        model.load_state_dict(torch.load(tar.extractfile(tar.getnames()[2]), map_location=config.device))  ## model file
+    else:
+        folder_name = config.checkpoint
+        assert os.path.isdir(folder_name)
+
+        f = open(folder_name + "/config.conf", 'rb')
+        temp_config = pickle.load(f)
+        f.close()
+        temp_model = TransformersCRF(temp_config)
+        temp_model.load_state_dict(torch.load(f"{folder_name}/lstm_crf.m", map_location=config.device))
+
+        model = TransformersCRF(config)
+        model.embedder = temp_model.embedder
+        #model.encoder = temp_model.encoder
+
     optimizer, scheduler = get_huggingface_optimizer_and_scheduler(config, model, num_training_steps=len(train_loader) * epoch,
                                                                    weight_decay=0.0, eps = 1e-8, warmup_step=0)
     print(colored(f"[Optimizer Info] Modify the optimizer info as you need.", 'red'))
@@ -215,12 +235,23 @@ def main():
         print(colored(f"[Data Info] Tokenizing the instances using '{conf.embedder_type}' tokenizer", "blue"))
         tokenizer = context_models[conf.embedder_type]["tokenizer"].from_pretrained(conf.embedder_type)
         print(colored(f"[Data Info] Reading dataset from: \n{conf.train_file}\n{conf.dev_file}\n{conf.test_file}", "blue"))
-        train_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True, percentage=conf.percentage)
+
+        temp_train_dataset = TransformersNERDataset('dataset/conll/train.txt', tokenizer, number=conf.train_num,
+                                                    is_train=True, percentage=conf.percentage, prompt="max")
+        train_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True,
+                                               percentage=conf.percentage, prompt="max",
+                                               prompt_candidates_from_outside=temp_train_dataset.prompt_candidates)
         conf.label2idx = train_dataset.label2idx
         conf.idx2labels = train_dataset.idx2labels
 
-        dev_dataset = TransformersNERDataset(conf.dev_file, tokenizer, number=conf.dev_num, label2idx=train_dataset.label2idx, is_train=False)
-        test_dataset = TransformersNERDataset(conf.test_file, tokenizer, number=conf.test_num, label2idx=train_dataset.label2idx, is_train=False)
+        dev_dataset = TransformersNERDataset(conf.dev_file, tokenizer, number=conf.dev_num,
+                                             label2idx=train_dataset.label2idx, is_train=False, prompt="max",
+                                             prompt_candidates_from_outside=temp_train_dataset.prompt_candidates)
+        test_dataset = TransformersNERDataset(conf.test_file, tokenizer, number=conf.test_num,
+                                              label2idx=train_dataset.label2idx, is_train=False, prompt="max",
+                                              prompt_candidates_from_outside=temp_train_dataset.prompt_candidates)
+
+
         num_workers = 8
         conf.label_size = len(train_dataset.label2idx)
         train_dataloader = DataLoader(train_dataset, batch_size=conf.batch_size, shuffle=True, num_workers=num_workers,

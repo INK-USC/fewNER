@@ -21,9 +21,35 @@ Feature.__new__.__defaults__ = (None,) * 6
 def convert_instances_to_feature_tensors(instances: List[Instance],
                                          tokenizer: PreTrainedTokenizer,
                                          label2idx: Dict[str, int],
-                                         prompt: str = None) -> List[Feature]:
+                                         prompt: str = None,
+                                         prompt_candidates_from_outside: List[str] = None):
     features = []
     # max_candidate_length = -1
+    entity_dict = None
+    if prompt_candidates_from_outside is None and prompt is not None:
+        ##### get popular entity
+        entity_dict = {}
+        for inst in instances:
+            for entity, label in inst.entities:
+                if label not in entity_dict:
+                    entity_dict[label] = {}
+                if entity not in entity_dict[label]:
+                    entity_dict[label][entity] = [inst]
+                else:
+                    entity_dict[label][entity].append(inst)
+
+        max_entities = {}
+        for label in entity_dict:
+            for x in sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True)[0:1]:
+                max_entities[label] = [x[0], random.choice(tuple(x[1])).words]
+
+        ######
+    elif prompt_candidates_from_outside is not None and prompt is not None:
+        entity_dict = prompt_candidates_from_outside
+        max_entities = {}
+        for label in entity_dict:
+            for x in sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True)[0:1]:
+                max_entities[label] = [x[0], random.choice(tuple(x[1])).words]
 
     for idx, inst in enumerate(instances):
         words = inst.ori_words
@@ -49,24 +75,57 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
 
         if prompt is None:
             input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token])
-        else:
-            prompt_tokens = tokenizer.tokenize(" " + prompt)
+        elif prompt == "max":
+            prompt_tokens = []
+
+            for entity_label in max_entities:
+                # for i, word in enumerate(max_entities[entity_label][1]):
+                #     word_tokens = tokenizer.tokenize(" " + word)
+                #     for sub_token in word_tokens:
+                #         prompt_tokens.append(sub_token)
+                # prompt_tokens.append(tokenizer.sep_token)
+                entity_tokens = tokenizer.tokenize(" " + max_entities[entity_label][0])
+                for sub_token in entity_tokens:
+                    prompt_tokens.append(sub_token)
+                prompt_tokens.append("is")
+                prompt_tokens.append(entity_label)
+                # if entity_label == "PER":
+                #     prompt_tokens.append("(")
+                #     prompt_tokens.append("person")
+                #     prompt_tokens.append(")")
+                # elif entity_label == "ORG":
+                #     prompt_tokens.append("(")
+                #     prompt_tokens.append("organization")
+                #     prompt_tokens.append(")")
+                # elif entity_label == "LOC":
+                #     prompt_tokens.append("(")
+                #     prompt_tokens.append("location")
+                #     prompt_tokens.append(")")
+                # elif entity_label == "MISC":
+                #     prompt_tokens.append("(")
+                #     prompt_tokens.append("miscellaneous")
+                #     prompt_tokens.append(")")
+                # prompt_tokens.append(tokenizer.sep_token)
+
+            # del prompt_tokens[-1]
+            print(prompt_tokens)
+            input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
+
+        elif prompt == "random":
+            prompt_tokens = []
+            for entity_label in entity_dict:
+
+                entity = random.choice(tuple(entity_dict[entity_label]))
+                entity_tokens = tokenizer.tokenize(" " + entity)
+                for sub_token in entity_tokens:
+                    prompt_tokens.append(sub_token)
+                prompt_tokens.append("is")
+                prompt_tokens.append(entity_label)
+
+            print(prompt_tokens)
+
             input_ids = tokenizer.convert_tokens_to_ids(
                 [tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
-
-        # entities = []
-        # if suffix is None:
-        #     entities = []
-        # else:
-        #     for label in suffix:
-        #         entity = random.choice(tuple(suffix[label]))
-        #         entity_tokens = tokenizer.tokenize(" " + entity)
-        #
-        #         for sub_token in entity_tokens:
-        #             entities.append(sub_token)
-        #         entities.append("is")
-        #         entities.append(label)
-        #         entities.append(".")
 
         segment_ids = [0] * len(input_ids)
         input_mask = [1] * len(input_ids)
@@ -78,7 +137,13 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                                 token_type_ids=segment_ids,
                                 word_seq_len=len(orig_to_tok_index),
                                 label_ids=label_ids))
-    return features
+
+    if prompt_candidates_from_outside is None and prompt is not None:
+        return features, entity_dict
+    elif prompt_candidates_from_outside is not None and prompt is not None:
+        return features
+    else:
+        return features
 
 
 class TransformersNERDataset(Dataset):
@@ -89,7 +154,9 @@ class TransformersNERDataset(Dataset):
                  sents: List[List[str]] = None,
                  label2idx: Dict[str, int] = None,
                  number: int = -1,
-                 percentage: int = 100):
+                 percentage: int = 100,
+                 prompt:str = None,
+                 prompt_candidates_from_outside: List[str] = None):
         """
         sents: we use sentences if we want to build dataset from sentences directly instead of file
         """
@@ -108,7 +175,11 @@ class TransformersNERDataset(Dataset):
             assert label2idx is not None ## for dev/test dataset we don't build label2idx
             self.label2idx = label2idx
             # check_all_labels_in_dict(insts=insts, label2idx=self.label2idx)
-        self.insts_ids = convert_instances_to_feature_tensors(insts, tokenizer, label2idx)
+
+        if is_train and prompt is not None:
+            self.insts_ids, self.prompt_candidates = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt)
+        else:
+            self.insts_ids = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt, prompt_candidates_from_outside=prompt_candidates_from_outside)
         self.tokenizer = tokenizer
 
 
@@ -130,15 +201,23 @@ class TransformersNERDataset(Dataset):
             words = []
             ori_words = []
             labels = []
+            entities = []
+            entity = []
+            entity_label = []
             for line in tqdm(f.readlines()):
                 line = line.rstrip()
                 if line == "":
                     labels = convert_iobes(labels)
+                    if len(entity) != 0:
+                        entities.append([" ".join(entity),entity_label[0]])
                     if len(set(labels)) > 1:
-                        insts.append(Instance(words=words, ori_words=ori_words, labels=labels))
+                        insts.append(Instance(words=words, ori_words=ori_words, labels=labels, entities=entities))
                     words = []
                     ori_words = []
                     labels = []
+                    entities = []
+                    entity = []
+                    entity_label = []
                     if len(insts) == number:
                         break
                     continue
@@ -147,6 +226,17 @@ class TransformersNERDataset(Dataset):
                 ori_words.append(word)
                 words.append(word)
                 labels.append(label)
+
+                if label.startswith("B"):
+                    entity.append(word)
+                    entity_label.append(label.split('-')[1])
+                elif label.startswith("I"):
+                    entity.append(word)
+                else:
+                    if len(entity) != 0:
+                        entities.append([" ".join(entity), entity_label[0]])
+                        entity = []
+                        entity_label = []
 
         numbers = int(len(insts) * self.percentage / 100)
         percentage_insts = insts[:numbers]
