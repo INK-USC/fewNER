@@ -13,7 +13,7 @@ from transformers import PreTrainedTokenizer
 import collections
 import numpy as np
 from src.data.data_utils import convert_iobes, build_label_idx, check_all_labels_in_dict
-from bert_score import score
+import bert_score
 from src.data import Instance
 
 Feature = collections.namedtuple('Feature', 'input_ids attention_mask token_type_ids orig_to_tok_index word_seq_len label_ids')
@@ -125,7 +125,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
             # prompt_tokens.append(tokenizer.sep_token)
             query = " ".join(inst.ori_words)
             queries = [query] * len(search_space)
-            P, R, F1 = score(search_space, queries, lang="en", verbose=True)
+            P, R, F1 = bert_score.score(search_space, queries, lang="en", verbose=True)
             top_results = torch.topk(F1, k=1)
 
             for score, idx in zip(top_results[0], top_results[1]):
@@ -142,7 +142,9 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                         prompt_tokens.append(sub_token)
                     prompt_tokens.append("is")
                     prompt_tokens.append(label)
-
+            print(prompt_tokens)
+            input_ids = tokenizer.convert_tokens_to_ids(
+                [tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
         elif prompt == "max":
             prompt_tokens = []
             for entity_label in max_entities:

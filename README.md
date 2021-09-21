@@ -13,10 +13,10 @@ CUDA_VISIBLE_DEVICES=1 \
 python3 transformers_trainer.py \
 --dataset conll \
 --data_dir dataset/conll \
---model_folder models/conll/train_50_sbert \
+--model_folder models/conll/train_50_bertscore \
 --device cuda:0 \
 --percent_filename_suffix 50 \
---prompt sbert
+--prompt bertscore
 ```
 
 ```
