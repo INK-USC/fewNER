@@ -7,7 +7,6 @@ from src.model import TransformersCRF
 import torch
 from typing import List
 from termcolor import colored
-import os
 from src.config.utils import write_results
 from src.config.transformers_util import get_huggingface_optimizer_and_scheduler
 from src.config import context_models, get_metric
@@ -17,7 +16,8 @@ from tqdm import tqdm
 from collections import Counter
 from src.data import TransformersNERDataset
 from torch.utils.data import DataLoader
-
+import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 def set_seed(opt, seed):
     random.seed(seed)
@@ -68,6 +68,8 @@ def parse_arguments(parser):
     parser.add_argument('--mode', type=str, default="train", choices=["train", "test"], help="training model or test mode")
     parser.add_argument('--test_file', type=str, default="data/conll2003_sample/test.txt", help="test file for test mode, only applicable in test mode")
     parser.add_argument('--percentage', type=int, default=100, help="how much percentage of training dataset to use")
+
+    parser.add_argument('--prompt', type=str, default="max", choices=["max", "random", "sbert", "bertscore"], help="training model or test mode")
 
     args = parser.parse_args()
     for k in args.__dict__:
@@ -218,20 +220,20 @@ def main():
         tokenizer = context_models[conf.embedder_type]["tokenizer"].from_pretrained(conf.embedder_type)
         print(colored(f"[Data Info] Reading dataset from: \n{conf.train_file}\n{conf.dev_file}\n{conf.test_file}", "blue"))
 
-        train_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True, percentage=conf.percentage, prompt="max")
+        prompt_candidate_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True, percentage=conf.percentage, prompt=conf.prompt)
+
+        train_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True, percentage=conf.percentage, prompt=conf.prompt, prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
         conf.label2idx = train_dataset.label2idx
         conf.idx2labels = train_dataset.idx2labels
 
-        dev_dataset = TransformersNERDataset(conf.dev_file, tokenizer, number=conf.dev_num, label2idx=train_dataset.label2idx, is_train=False, prompt="max", prompt_candidates_from_outside=train_dataset.prompt_candidates)
-        test_dataset = TransformersNERDataset(conf.test_file, tokenizer, number=conf.test_num, label2idx=train_dataset.label2idx, is_train=False, prompt="max", prompt_candidates_from_outside=train_dataset.prompt_candidates)
+        dev_dataset = TransformersNERDataset(conf.dev_file, tokenizer, number=conf.dev_num, label2idx=train_dataset.label2idx, is_train=False, prompt=conf.prompt, prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
+        test_dataset = TransformersNERDataset(conf.test_file, tokenizer, number=conf.test_num, label2idx=train_dataset.label2idx, is_train=False, prompt=conf.prompt, prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
+
         num_workers = 8
         conf.label_size = len(train_dataset.label2idx)
-        train_dataloader = DataLoader(train_dataset, batch_size=conf.batch_size, shuffle=True, num_workers=num_workers,
-                                      collate_fn=train_dataset.collate_fn)
-        dev_dataloader = DataLoader(dev_dataset, batch_size=conf.batch_size, shuffle=False, num_workers=num_workers,
-                                      collate_fn=dev_dataset.collate_fn)
-        test_dataloader = DataLoader(test_dataset, batch_size=conf.batch_size, shuffle=False, num_workers=num_workers,
-                                      collate_fn=test_dataset.collate_fn)
+        train_dataloader = DataLoader(train_dataset, batch_size=conf.batch_size, shuffle=True, num_workers=num_workers, collate_fn=train_dataset.collate_fn)
+        dev_dataloader = DataLoader(dev_dataset, batch_size=conf.batch_size, shuffle=False, num_workers=num_workers, collate_fn=dev_dataset.collate_fn)
+        test_dataloader = DataLoader(test_dataset, batch_size=conf.batch_size, shuffle=False, num_workers=num_workers, collate_fn=test_dataset.collate_fn)
 
         # For writing the metric results
         result_out_dir = "results_metrics/{}/{}".format(opt.dataset, opt.embedder_type.replace("-", "_"))

@@ -13,9 +13,10 @@ CUDA_VISIBLE_DEVICES=1 \
 python3 transformers_trainer.py \
 --dataset conll \
 --data_dir dataset/conll \
---model_folder models/conll/train_50_max2 \
+--model_folder models/conll/train_50_sbert \
 --device cuda:0 \
---percent_filename_suffix 50
+--percent_filename_suffix 50 \
+--prompt sbert
 ```
 
 ```
@@ -23,9 +24,10 @@ CUDA_VISIBLE_DEVICES=2 \
 python3 transformers_trainer.py \
 --dataset conll \
 --data_dir dataset/conll \
---model_folder models/conll/train_100_random \
+--model_folder models/conll/train_100_sbert \
 --device cuda:0 \
---percent_filename_suffix 100
+--percent_filename_suffix 100 \
+--prompt sbert
 ```
 
 ```
@@ -33,9 +35,10 @@ CUDA_VISIBLE_DEVICES=3 \
 python3 transformers_trainer.py \
 --dataset conll \
 --data_dir dataset/conll \
---model_folder models/conll/train_150_random \
+--model_folder models/conll/train_150_sbert \
 --device cuda:0 \
---percent_filename_suffix 150
+--percent_filename_suffix 150 \
+--prompt sbert
 ```
 
 ```
@@ -43,9 +46,10 @@ CUDA_VISIBLE_DEVICES=3 \
 python3 transformers_trainer.py \
 --dataset conll \
 --data_dir dataset/conll \
---model_folder models/conll/train_200_max2 \
+--model_folder models/conll/train_200_sbert \
 --device cuda:0 \
---percent_filename_suffix 200
+--percent_filename_suffix 200 \
+--prompt sbert
 ```
 
 ```
@@ -53,9 +57,10 @@ CUDA_VISIBLE_DEVICES=1 \
 python3 transformers_trainer.py \
 --dataset bc5cdr \
 --data_dir dataset/bc5cdr \
---model_folder models/bc5cdr/train_50_random \
+--model_folder models/bc5cdr/train_50_sbert \
 --device cuda:0 \
---percent_filename_suffix 50
+--percent_filename_suffix 50 \
+--prompt sbert
 ```
 
 ```
@@ -63,9 +68,10 @@ CUDA_VISIBLE_DEVICES=2 \
 python3 transformers_trainer.py \
 --dataset bc5cdr \
 --data_dir dataset/bc5cdr \
---model_folder models/bc5cdr/train_100_random \
+--model_folder models/bc5cdr/train_100_sbert \
 --device cuda:0 \
---percent_filename_suffix 100
+--percent_filename_suffix 100 \
+--prompt sbert
 ```
 
 ```
@@ -73,19 +79,21 @@ CUDA_VISIBLE_DEVICES=3 \
 python3 transformers_trainer.py \
 --dataset bc5cdr \
 --data_dir dataset/bc5cdr \
---model_folder models/bc5cdr/train_150_random \
+--model_folder models/bc5cdr/train_150_sbert \
 --device cuda:0 \
---percent_filename_suffix 150
+--percent_filename_suffix 150 \
+--prompt sbert
 ```
 
 ```
-CUDA_VISIBLE_DEVICES=3 \
+CUDA_VISIBLE_DEVICES=0 \
 python3 transformers_trainer.py \
 --dataset bc5cdr \
 --data_dir dataset/bc5cdr \
---model_folder models/bc5cdr/train_200_random \
+--model_folder models/bc5cdr/train_200_sbert \
 --device cuda:0 \
---percent_filename_suffix 200
+--percent_filename_suffix 200 \
+--prompt sbert
 ```
 
 ```
@@ -93,9 +101,10 @@ CUDA_VISIBLE_DEVICES=1 \
 python3 transformers_trainer.py \
 --dataset conll \
 --data_dir dataset/ontonotes_conll \
---model_folder models/ontonotes_conll/train_50_conll \
+--model_folder models/ontonotes_conll/train_50_sbert \
 --device cuda:0 \
---percent_filename_suffix 50
+--percent_filename_suffix 50 \
+--prompt sbert
 ```
 
 ```
@@ -103,9 +112,10 @@ CUDA_VISIBLE_DEVICES=2 \
 python3 transformers_trainer.py \
 --dataset ontonotes_conll \
 --data_dir dataset/ontonotes_conll \
---model_folder models/ontonotes_conll/train_100_conll \
+--model_folder models/ontonotes_conll/train_100_sbert \
 --device cuda:0 \
---percent_filename_suffix 100
+--percent_filename_suffix 100 \
+--prompt sbert
 ```
 
 ```
@@ -113,9 +123,10 @@ CUDA_VISIBLE_DEVICES=3 \
 python3 transformers_trainer.py \
 --dataset ontonotes_conll \
 --data_dir dataset/ontonotes_conll \
---model_folder models/ontonotes_conll/train_150_conll\
+--model_folder models/ontonotes_conll/train_150_sbert \
 --device cuda:0 \
---percent_filename_suffix 150
+--percent_filename_suffix 150 \
+--prompt sbert
 ```
 
 ```
@@ -123,9 +134,10 @@ CUDA_VISIBLE_DEVICES=3 \
 python3 transformers_trainer.py \
 --dataset ontonotes_conll \
 --data_dir dataset/ontonotes_conll \
---model_folder models/ontonotes_conll/train_200_conll \
+--model_folder models/ontonotes_conll/train_200_sbert \
 --device cuda:0 \
---percent_filename_suffix 200
+--percent_filename_suffix 200 \
+--prompt sbert
 ```
 
 ```
@@ -228,4 +240,16 @@ python3 transformers_continual_trainer.py \
 --model_folder models/bc5cdr/transfer_train_200_max \
 --device cuda:0 \
 --percent_filename_suffix 200
+```
+
+```
+CUDA_VISIBLE_DEVICES=3 \
+python3 transformers_continual_trainer.py \
+--dataset bc5cdr \
+--data_dir dataset/bc5cdr \
+--checkpoint model_files/models/conll/train_all \
+--model_folder models/bc5cdr/transfer_train_200_max_new \
+--device cuda:0 \
+--percent_filename_suffix 200 \
+--prompt max
 ```

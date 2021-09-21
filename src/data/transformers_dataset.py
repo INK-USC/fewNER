@@ -5,13 +5,15 @@
 import random
 from tqdm import tqdm
 from typing import List, Dict
+from sentence_transformers import SentenceTransformer, util
+import torch
 from torch.utils.data import Dataset
 from torch.utils.data._utils.collate import default_collate
 from transformers import PreTrainedTokenizer
 import collections
 import numpy as np
 from src.data.data_utils import convert_iobes, build_label_idx, check_all_labels_in_dict
-
+from bert_score import score
 from src.data import Instance
 
 Feature = collections.namedtuple('Feature', 'input_ids attention_mask token_type_ids orig_to_tok_index word_seq_len label_ids')
@@ -21,52 +23,56 @@ Feature.__new__.__defaults__ = (None,) * 6
 def convert_instances_to_feature_tensors(instances: List[Instance],
                                          tokenizer: PreTrainedTokenizer,
                                          label2idx: Dict[str, int],
-                                         prompt: str = None,
+                                         prompt: str = None, # "max", "random", "sbert", "bertscore"
                                          prompt_candidates_from_outside: List[str] = None):
     features = []
-    # max_candidate_length = -1
-    entity_dict = None
-    if prompt_candidates_from_outside is None and prompt is not None:
-        ##### get popular entity
-        entity_dict = {}
-        for inst in instances:
-            for entity, label in inst.entities:
-                if label not in entity_dict:
-                    entity_dict[label] = {}
-                if entity not in entity_dict[label]:
-                    entity_dict[label][entity] = [inst]
-                else:
-                    entity_dict[label][entity].append(inst)
+    candidates = [] # usually whole train dataset = prompt_candidates_from_outside
 
+    if prompt_candidates_from_outside is not None and prompt is not None:
+        candidates = prompt_candidates_from_outside
+    else:
+        candidates = instances
+
+    ## Construct entity dictionary for "max" or "random".
+    entity_dict = {}
+    for inst in candidates:
+        for entity, label in inst.entities:
+            if label not in entity_dict:
+                entity_dict[label] = {}
+            if entity not in entity_dict[label]:
+                entity_dict[label][entity] = [inst]
+            else:
+                entity_dict[label][entity].append(inst)
+
+    ## Popular Entity
+    if prompt == "max":
         max_entities = {}
         for label in entity_dict:
             for x in sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True)[0:1]:
                 max_entities[label] = [x[0], random.choice(tuple(x[1])).words]
 
-        ######
-    elif prompt_candidates_from_outside is not None and prompt is not None:
-        entity_dict = prompt_candidates_from_outside
+    if prompt == "sbert" or prompt == "bertscore":
         max_entities = {}
         for label in entity_dict:
             for x in sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True)[0:1]:
                 max_entities[label] = [x[0], random.choice(tuple(x[1])).words]
+        search_space = []
+        search_space_dict = {}
+        for inst in candidates:
+            search_space.append(" ".join(inst.ori_words))
+            search_space_dict[" ".join(inst.ori_words)] = inst
+        if prompt == "sbert":
+            search_model = SentenceTransformer('all-MiniLM-L6-v2')
+            corpus_embeddings = search_model.encode(search_space, convert_to_tensor=True)
+        if prompt == "bertscore":
+            None
 
     for idx, inst in enumerate(instances):
         words = inst.ori_words
         orig_to_tok_index = []
         tokens = []
         for i, word in enumerate(words):
-            """
-            Note: by default, we use the first wordpiece token to represent the word
-            If you want to do something else (e.g., use last wordpiece to represent), modify them here.
-            """
             orig_to_tok_index.append(len(tokens))
-            ## tokenize the word into word_piece / BPE
-            ## NOTE: adding a leading space is important for BART/GPT/Roberta tokenization.
-            ## Related GitHub issues:
-            ##      https://github.com/huggingface/transformers/issues/1196
-            ##      https://github.com/pytorch/fairseq/blob/master/fairseq/models/roberta/hub_interface.py#L38-L56
-            ##      https://github.com/ThilinaRajapakse/simpletransformers/issues/458
             word_tokens = tokenizer.tokenize(" " + word)
             for sub_token in word_tokens:
                 tokens.append(sub_token)
@@ -75,46 +81,82 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
 
         if prompt is None:
             input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token])
+        elif prompt == "sbert":
+            prompt_tokens = []
+            # for entity_label in max_entities:
+            #     entity_tokens = tokenizer.tokenize(" " + max_entities[entity_label][0])
+            #     for sub_token in entity_tokens:
+            #         prompt_tokens.append(sub_token)
+            #     prompt_tokens.append("is")
+            #     prompt_tokens.append(entity_label)
+            # prompt_tokens.append(tokenizer.sep_token)
+            query = " ".join(inst.ori_words)
+            query_embedding = search_model.encode(query, convert_to_tensor=True)
+
+            # We use cosine-similarity and torch.topk to find the highest 5 scores
+            cos_scores = util.pytorch_cos_sim(query_embedding, corpus_embeddings)[0]
+            top_results = torch.topk(cos_scores, k=1)
+
+            for score, idx in zip(top_results[0], top_results[1]):
+                prompt_words = search_space_dict[search_space[idx]].ori_words
+                prompt_entities = search_space_dict[search_space[idx]].entities
+                for i, word in enumerate(prompt_words):
+                    word_tokens = tokenizer.tokenize(" " + word)
+                    for sub_token in word_tokens:
+                        prompt_tokens.append(sub_token)
+                prompt_tokens.append(tokenizer.sep_token)
+                for entity, label in prompt_entities:
+                    entity_tokens = tokenizer.tokenize(" " + entity)
+                    for sub_token in entity_tokens:
+                        prompt_tokens.append(sub_token)
+                    prompt_tokens.append("is")
+                    prompt_tokens.append(label)
+
+            print(prompt_tokens)
+            input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
+        elif prompt == "bertscore":
+            prompt_tokens = []
+            # for entity_label in max_entities:
+            #     entity_tokens = tokenizer.tokenize(" " + max_entities[entity_label][0])
+            #     for sub_token in entity_tokens:
+            #         prompt_tokens.append(sub_token)
+            #     prompt_tokens.append("is")
+            #     prompt_tokens.append(entity_label)
+            # prompt_tokens.append(tokenizer.sep_token)
+            query = " ".join(inst.ori_words)
+            queries = [query] * len(search_space)
+            P, R, F1 = score(search_space, queries, lang="en", verbose=True)
+            top_results = torch.topk(F1, k=1)
+
+            for score, idx in zip(top_results[0], top_results[1]):
+                prompt_words = search_space_dict[search_space[idx]].ori_words
+                prompt_entities = search_space_dict[search_space[idx]].entities
+                for i, word in enumerate(prompt_words):
+                    word_tokens = tokenizer.tokenize(" " + word)
+                    for sub_token in word_tokens:
+                        prompt_tokens.append(sub_token)
+                prompt_tokens.append(tokenizer.sep_token)
+                for entity, label in prompt_entities:
+                    entity_tokens = tokenizer.tokenize(" " + entity)
+                    for sub_token in entity_tokens:
+                        prompt_tokens.append(sub_token)
+                    prompt_tokens.append("is")
+                    prompt_tokens.append(label)
+
         elif prompt == "max":
             prompt_tokens = []
-
             for entity_label in max_entities:
-                # for i, word in enumerate(max_entities[entity_label][1]):
-                #     word_tokens = tokenizer.tokenize(" " + word)
-                #     for sub_token in word_tokens:
-                #         prompt_tokens.append(sub_token)
-                # prompt_tokens.append(tokenizer.sep_token)
                 entity_tokens = tokenizer.tokenize(" " + max_entities[entity_label][0])
                 for sub_token in entity_tokens:
                     prompt_tokens.append(sub_token)
                 prompt_tokens.append("is")
                 prompt_tokens.append(entity_label)
-                # if entity_label == "PER":
-                #     prompt_tokens.append("(")
-                #     prompt_tokens.append("person")
-                #     prompt_tokens.append(")")
-                # elif entity_label == "ORG":
-                #     prompt_tokens.append("(")
-                #     prompt_tokens.append("organization")
-                #     prompt_tokens.append(")")
-                # elif entity_label == "LOC":
-                #     prompt_tokens.append("(")
-                #     prompt_tokens.append("location")
-                #     prompt_tokens.append(")")
-                # elif entity_label == "MISC":
-                #     prompt_tokens.append("(")
-                #     prompt_tokens.append("miscellaneous")
-                #     prompt_tokens.append(")")
-                # prompt_tokens.append(tokenizer.sep_token)
-
-            # del prompt_tokens[-1]
             print(prompt_tokens)
             input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
 
         elif prompt == "random":
             prompt_tokens = []
             for entity_label in entity_dict:
-
                 entity = random.choice(tuple(entity_dict[entity_label]))
                 entity_tokens = tokenizer.tokenize(" " + entity)
                 for sub_token in entity_tokens:
@@ -124,12 +166,10 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
 
             print(prompt_tokens)
 
-            input_ids = tokenizer.convert_tokens_to_ids(
-                [tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
+            input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
 
         segment_ids = [0] * len(input_ids)
         input_mask = [1] * len(input_ids)
-
 
         features.append(Feature(input_ids=input_ids,
                                 attention_mask=input_mask,
@@ -139,12 +179,9 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                                 label_ids=label_ids))
 
     if prompt_candidates_from_outside is None and prompt is not None:
-        return features, entity_dict
-    elif prompt_candidates_from_outside is not None and prompt is not None:
-        return features
+        return features, candidates
     else:
         return features
-
 
 class TransformersNERDataset(Dataset):
 
@@ -270,16 +307,3 @@ class TransformersNERDataset(Dataset):
                                label_ids=np.asarray(label_ids))
         results = Feature(*(default_collate(samples) for samples in zip(*batch)))
         return results
-
-
-## testing code to test the dataset
-# from transformers import *
-# tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-# dataset = TransformersNERDataset(file= "data/conll2003_sample/train.txt",tokenizer=tokenizer, is_train=True)
-# from torch.utils.data import DataLoader
-# train_dataloader = DataLoader(dataset, batch_size=10, shuffle=True, num_workers=2, collate_fn=dataset.collate_fn)
-# print(len(train_dataloader))
-# for batch in train_dataloader:
-#     # print(batch.input_ids.size())
-#     print(batch.input_ids)
-#     pass
