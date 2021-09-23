@@ -413,7 +413,7 @@ python3 transformers_trainer.py \
 
 
 ```
-CUDA_VISIBLE_DEVICES=1 \
+srun --gres=gpu:1080:1 --nodelist ink-lucy \
 python3 transformers_continual_trainer.py \
 --dataset ontonotes_conll \
 --data_dir dataset/ontonotes_conll \
@@ -424,7 +424,7 @@ python3 transformers_continual_trainer.py \
 ```
 
 ```
-CUDA_VISIBLE_DEVICES=2 \
+srun --gres=gpu:1080:1 --nodelist ink-lucy \
 python3 transformers_continual_trainer.py \
 --dataset ontonotes_conll \
 --data_dir dataset/ontonotes_conll \
@@ -435,7 +435,7 @@ python3 transformers_continual_trainer.py \
 ```
 
 ```
-CUDA_VISIBLE_DEVICES=3 \
+srun --gres=gpu:1080:1 --nodelist ink-lucy \
 python3 transformers_continual_trainer.py \
 --dataset ontonotes_conll \
 --data_dir dataset/ontonotes_conll \
@@ -446,7 +446,7 @@ python3 transformers_continual_trainer.py \
 ```
 
 ```
-CUDA_VISIBLE_DEVICES=3 \
+srun --gres=gpu:1080:1 --nodelist ink-lucy \
 python3 transformers_continual_trainer.py \
 --dataset ontonotes_conll \
 --data_dir dataset/ontonotes_conll \
@@ -458,7 +458,7 @@ python3 transformers_continual_trainer.py \
 
 
 ```
-CUDA_VISIBLE_DEVICES=1 \
+srun --gres=gpu:1080:1 --nodelist ink-lucy \
 python3 transformers_continual_trainer.py \
 --dataset bc5cdr \
 --data_dir dataset/bc5cdr \
@@ -469,7 +469,7 @@ python3 transformers_continual_trainer.py \
 ```
 
 ```
-CUDA_VISIBLE_DEVICES=2 \
+srun --gres=gpu:1080:1 --nodelist ink-lucy \
 python3 transformers_continual_trainer.py \
 --dataset bc5cdr \
 --data_dir dataset/bc5cdr \
@@ -480,7 +480,7 @@ python3 transformers_continual_trainer.py \
 ```
 
 ```
-CUDA_VISIBLE_DEVICES=3 \
+srun --gres=gpu:1080:1 --nodelist ink-lucy \
 python3 transformers_continual_trainer.py \
 --dataset bc5cdr \
 --data_dir dataset/bc5cdr \
@@ -491,7 +491,7 @@ python3 transformers_continual_trainer.py \
 ```
 
 ```
-CUDA_VISIBLE_DEVICES=3 \
+srun --gres=gpu:1080:1 --nodelist ink-lucy \
 python3 transformers_continual_trainer.py \
 --dataset bc5cdr \
 --data_dir dataset/bc5cdr \
@@ -502,7 +502,7 @@ python3 transformers_continual_trainer.py \
 ```
 
 ```
-CUDA_VISIBLE_DEVICES=3 \
+srun --gres=gpu:1080:1 --nodelist ink-lucy \
 python3 transformers_continual_trainer.py \
 --dataset bc5cdr \
 --data_dir dataset/bc5cdr \
