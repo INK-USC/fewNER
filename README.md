@@ -255,6 +255,7 @@ python3 transformers_continual_trainer.py \
 ```
 # Slurm Commands
 
+To see whether you have set up the project correctly, simply `cd` to the repo root directory and run `./bin/test`. 
 
 ```
 srun --gres=gpu:1080:1 --nodelist ink-lucy \
