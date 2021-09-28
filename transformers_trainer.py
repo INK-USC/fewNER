@@ -71,7 +71,7 @@ def parse_arguments(parser):
     parser.add_argument('--test_file', type=str, default="data/conll2003_sample/test.txt", help="test file for test mode, only applicable in test mode")
     parser.add_argument('--percentage', type=int, default=100, help="how much percentage of training dataset to use")
 
-    parser.add_argument('--prompt', type=str, default="max", choices=["max", "random", "sbert", "bertscore"], help="training model or test mode")
+    parser.add_argument('--prompt', type=str, choices=["max", "random", "sbert", "bertscore"], help="training model or test mode")
 
     args = parser.parse_args()
     for k in args.__dict__:
@@ -222,7 +222,7 @@ def main():
         print(colored(f"[Data Info] Tokenizing the instances using '{conf.embedder_type}' tokenizer", "blue"))
         tokenizer = context_models[conf.embedder_type]["tokenizer"].from_pretrained(conf.embedder_type)
         print(colored(f"[Data Info] Reading dataset from: \n{conf.train_file}\n{conf.dev_file}\n{conf.test_file}", "blue"))
-        
+
         prompt_candidate_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True, percentage=conf.percentage, prompt=conf.prompt)
 
         train_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True, percentage=conf.percentage, prompt=conf.prompt, prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
