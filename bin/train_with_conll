@@ -1,0 +1,19 @@
+#!/bin/bash
+if [ $# -ne 1 ]; then
+    echo $0: Usage: ./train_with_conll PERCENT_FILENAME_SUFFIX, e.g ./train_with_conll 50
+    exit 1
+fi
+
+suffix=$1
+
+NODENAME=$(hostname)
+SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+ROOTPATH="${SCRIPTPATH}/../"
+
+srun --gres=gpu:1080:1 --nodelist "${NODENAME}" \
+python3 "${ROOTPATH}transformers_trainer.py" \
+--dataset conll \
+--data_dir "dataset/conll" \
+--model_folder "models/conll/train_all" \
+--device cuda:0 \
+--percent_filename_suffix "${suffix}"

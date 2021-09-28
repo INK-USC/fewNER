@@ -30,7 +30,9 @@ def set_seed(opt, seed):
 
 
 def parse_arguments(parser):
-    ###Training Hyperparameters
+    """
+        Configure optional arguments for the command line argument parser.
+    """
     parser.add_argument('--device', type=str, default="cpu", choices=['cpu', 'cuda:0', 'cuda:1', 'cuda:2'],
                         help="GPU/CPU devices")
     parser.add_argument('--seed', type=int, default=42, help="random seed")
@@ -210,6 +212,7 @@ def evaluate_model(config: Config, model: TransformersCRF, data_loader: DataLoad
 
 
 def main():
+    # Configure command line argument parser
     parser = argparse.ArgumentParser(description="LSTM CRF implementation")
     opt = parse_arguments(parser)
 
@@ -219,7 +222,7 @@ def main():
         print(colored(f"[Data Info] Tokenizing the instances using '{conf.embedder_type}' tokenizer", "blue"))
         tokenizer = context_models[conf.embedder_type]["tokenizer"].from_pretrained(conf.embedder_type)
         print(colored(f"[Data Info] Reading dataset from: \n{conf.train_file}\n{conf.dev_file}\n{conf.test_file}", "blue"))
-
+        
         prompt_candidate_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True, percentage=conf.percentage, prompt=conf.prompt)
 
         train_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True, percentage=conf.percentage, prompt=conf.prompt, prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
@@ -245,7 +248,7 @@ def main():
         result_out_file_path = os.path.join(result_out_dir, "train_{}.txt".format(opt.percent_filename_suffix))
 
         train_model(conf, conf.num_epochs, train_dataloader, dev_dataloader, test_dataloader, result_out_file_path)
-    else:
+    elif opt.mode == "test":
         folder_name = f"model_files/{opt.model_folder}"
         device = torch.device(opt.device)
         assert os.path.isdir(folder_name)
@@ -263,7 +266,9 @@ def main():
         model.eval()
         evaluate_model(config=saved_config, model=model, data_loader=test_dataloader, name="test mode", insts = test_dataset.insts,
                        print_each_type_metric=False)
-
+    else:
+        print(f"Unknown mode {opt.mode}")
+        return
 
 if __name__ == "__main__":
     main()

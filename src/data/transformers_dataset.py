@@ -112,7 +112,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                     prompt_tokens.append("is")
                     prompt_tokens.append(label)
 
-            print(prompt_tokens)
+            # print(prompt_tokens)
             input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
         elif prompt == "bertscore":
             prompt_tokens = []
@@ -142,7 +142,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                         prompt_tokens.append(sub_token)
                     prompt_tokens.append("is")
                     prompt_tokens.append(label)
-            print(prompt_tokens)
+            # print(prompt_tokens)
             input_ids = tokenizer.convert_tokens_to_ids(
                 [tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
         elif prompt == "max":
@@ -153,7 +153,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                     prompt_tokens.append(sub_token)
                 prompt_tokens.append("is")
                 prompt_tokens.append(entity_label)
-            print(prompt_tokens)
+            # print(prompt_tokens)
             input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
 
         elif prompt == "random":
@@ -166,7 +166,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                 prompt_tokens.append("is")
                 prompt_tokens.append(entity_label)
 
-            print(prompt_tokens)
+            # print(prompt_tokens)
 
             input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
 

@@ -1,3 +1,13 @@
+
+# fewNER
+### bash scripts
+* To test your setup, `cd` to the repo root folder and run `./bin/test_setup`. This runs a training scripts and if you setup is correct you shouldn't see any errors. 
+* To train with conll dataset with a specific percent_filename_suffix, run `./bin/train_with_conll SUFFIX`. For example `./bin/train_with_conll 50`, or `./bin/train_with_conll all`.
+* To clear the **all** current models, results, and metrics to revert to a repo with just source code, run `./bin/clear_existing_outputs`. Note that by running this you will lose all the trained models and calculated results. 
+
+
+### Commands Memo:
+
 ```
 CUDA_VISIBLE_DEVICES=1 \
 python3 transformers_trainer.py \
@@ -253,9 +263,6 @@ python3 transformers_continual_trainer.py \
 --percent_filename_suffix 200 \
 --prompt max
 ```
-# Slurm Commands
-
-To see whether you have set up the project correctly, simply `cd` to the repo root directory and run `./bin/test`. 
 
 ```
 srun --gres=gpu:1080:1 --nodelist ink-lucy \
