@@ -1,9 +1,9 @@
 
 # fewNER
 ### bash scripts
-* To test your setup, `cd` to the repo root folder and run `./bin/test_setup`. This runs a training scripts and if you setup is correct you shouldn't see any errors. 
+* To test your setup, `cd` to the repo root folder and run `./bin/test_setup`. This runs a training script and if you setup is correct you shouldn't see any errors. 
 * To train with conll dataset with a specific percent_filename_suffix, run `./bin/train_with_conll SUFFIX`. For example `./bin/train_with_conll 50`, or `./bin/train_with_conll all`.
-* To clear the **all** current models, results, and metrics to revert to a repo with just source code, run `./bin/clear_existing_outputs`. Note that by running this you will lose all the trained models and calculated results. 
+* To clear **all** current models, results, and metrics to revert to a repo with just source code, run `./bin/clear_existing_outputs`. Note that by running this you will lose all the trained models and calculated results. 
 
 
 ### Commands Memo:
