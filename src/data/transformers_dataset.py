@@ -12,6 +12,7 @@ from torch.utils.data._utils.collate import default_collate
 from transformers import PreTrainedTokenizer
 import collections
 import numpy as np
+from termcolor import colored
 from src.data.data_utils import convert_iobes, build_label_idx, check_all_labels_in_dict
 import bert_score
 from src.data import Instance
@@ -20,11 +21,19 @@ Feature = collections.namedtuple('Feature', 'input_ids attention_mask token_type
 Feature.__new__.__defaults__ = (None,) * 6
 
 
+
+def maybe_show_prompt(id, word, prompt, mod):
+    if id % mod == 0:
+        print(colored(f"Instance {id}: {word}", "blue"))
+        print(colored(f"Prompt {id}: {prompt}\n", "yellow"))
+
 def convert_instances_to_feature_tensors(instances: List[Instance],
                                          tokenizer: PreTrainedTokenizer,
                                          label2idx: Dict[str, int],
                                          prompt: str = None, # "max", "random", "sbert", "bertscore"
                                          prompt_candidates_from_outside: List[str] = None):
+    
+    
     features = []
     candidates = [] # usually whole train dataset = prompt_candidates_from_outside
 
@@ -66,6 +75,13 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
             corpus_embeddings = search_model.encode(search_space, convert_to_tensor=True)
         if prompt == "bertscore":
             None
+    
+
+    num_to_examine = 10 # Number of sample prompts we want to see
+    step_sz = len(instances) // num_to_examine 
+
+    if prompt:
+        print(colored("Some sample prompts used: ", "red"))
 
     for idx, inst in enumerate(instances):
         words = inst.ori_words
@@ -111,8 +127,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                         prompt_tokens.append(sub_token)
                     prompt_tokens.append("is")
                     prompt_tokens.append(label)
-
-            # print(prompt_tokens)
+            maybe_show_prompt(idx, words, prompt_tokens, step_sz)
             input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
         elif prompt == "bertscore":
             prompt_tokens = []
@@ -142,7 +157,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                         prompt_tokens.append(sub_token)
                     prompt_tokens.append("is")
                     prompt_tokens.append(label)
-            # print(prompt_tokens)
+            maybe_show_prompt(idx, words, prompt_tokens, step_sz)
             input_ids = tokenizer.convert_tokens_to_ids(
                 [tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
         elif prompt == "max":
@@ -153,7 +168,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                     prompt_tokens.append(sub_token)
                 prompt_tokens.append("is")
                 prompt_tokens.append(entity_label)
-            # print(prompt_tokens)
+            maybe_show_prompt(idx, words, prompt_tokens, step_sz)
             input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
 
         elif prompt == "random":
@@ -165,9 +180,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                     prompt_tokens.append(sub_token)
                 prompt_tokens.append("is")
                 prompt_tokens.append(entity_label)
-
-            # print(prompt_tokens)
-
+            maybe_show_prompt(idx, words, prompt_tokens, step_sz)
             input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
 
         segment_ids = [0] * len(input_ids)
@@ -219,6 +232,7 @@ class TransformersNERDataset(Dataset):
             self.insts_ids, self.prompt_candidates = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt)
         else:
             self.insts_ids = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt, prompt_candidates_from_outside=prompt_candidates_from_outside)
+            self.prompt_candidates = None
         self.tokenizer = tokenizer
 
 
