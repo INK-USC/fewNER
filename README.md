@@ -1,5 +1,8 @@
-
 # fewNER
+
+### Setup
+1. Locate your python libraries directory and replace the `~/.conda/envs/<ENV_NAME>/lib/python3.6/site-packages/bert_score/score.py` with the [`./score.py`](./score.py) provided in this repositories root
+
 ### bash scripts
 * To test your setup, `cd` to the repo root folder and run `./bin/test_setup`. This runs a training script and if you setup is correct you shouldn't see any errors. 
 * To train with conll dataset with a specific percent_filename_suffix, run `./bin/train_with_conll SUFFIX`. For example `./bin/train_with_conll 50`, or `./bin/train_with_conll all`.

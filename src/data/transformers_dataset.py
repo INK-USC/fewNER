@@ -74,8 +74,9 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
             search_model = SentenceTransformer('all-MiniLM-L6-v2')
             corpus_embeddings = search_model.encode(search_space, convert_to_tensor=True)
         if prompt == "bertscore":
-            None
-    
+            bert_score_model_type = bert_score.lang2model["en"]
+            num_layers = bert_score.model2layers[bert_score_model_type]
+            bert_score_model = bert_score.get_model(bert_score_model_type, num_layers, False)
 
     num_to_examine = 10 # Number of sample prompts we want to see
     step_sz = len(instances) // num_to_examine 
@@ -140,7 +141,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
             # prompt_tokens.append(tokenizer.sep_token)
             query = " ".join(inst.ori_words)
             queries = [query] * len(search_space)
-            P, R, F1 = bert_score.score(search_space, queries, lang="en", verbose=True)
+            P, R, F1 = bert_score.score(search_space, queries, model_type=(bert_score_model_type, bert_score_model), verbose=True)
             top_results = torch.topk(F1, k=1)
 
             for score, idx in zip(top_results[0], top_results[1]):
