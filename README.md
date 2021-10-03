@@ -266,7 +266,7 @@ python3 transformers_continual_trainer.py \
 --percent_filename_suffix 200 \
 --prompt max
 ```
-
+### Slurm Commands
 ```
 srun --gres=gpu:1080:1 --nodelist ink-lucy \
 python3 transformers_trainer.py \
