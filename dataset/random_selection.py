@@ -1,10 +1,9 @@
 import random
 import argparse
 import numpy
-random.seed(1337)
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--data', type=str, default='ontonotes_conll/train.txt', help="text file - dataset")
+parser.add_argument('--data', type=str, default='bc5cdr/train.txt', help="text file - dataset")
 parser.add_argument('--number', type=int, default=50, help="number of sentences in dataset")
 
 args = parser.parse_known_args()[0]
@@ -88,6 +87,10 @@ def clean_labels(labels):
 
 def dataset_slice(number,data,label_space):
     sents = data_to_sents(data)
+
+    random.seed(2021)
+    random.shuffle(sents)
+
     labels = set()
 
     sent_index = 0
@@ -112,7 +115,7 @@ all_sents=data_to_sents(data)
 label_space=labels_from_sents(all_sents)
 reduced_sents=dataset_slice(number,lines,label_space)
 
-refined_file = open(f'ontonotes_conll/train_50.txt', 'w')
+refined_file = open(f'bc5cdr/train_50_2021.txt', 'w')
 
 def write_original(refined, writefile):
     for instance in refined:
