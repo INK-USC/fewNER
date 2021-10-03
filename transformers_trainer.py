@@ -43,7 +43,7 @@ def parse_arguments(parser):
     parser.add_argument('--momentum', type=float, default=0.0)
     parser.add_argument('--l2', type=float, default=1e-8)
     parser.add_argument('--lr_decay', type=float, default=0)
-    parser.add_argument('--batch_size', type=int, default=10, help="default batch size is 10 (works well for normal neural crf), here default 30 for bert-based crf")
+    parser.add_argument('--batch_size', type=int, default=15, help="default batch size is 10 (works well for normal neural crf), here default 30 for bert-based crf")
     parser.add_argument('--num_epochs', type=int, default=20, help="Usually we set to 10.")
     parser.add_argument('--train_num', type=int, default=-1, help="-1 means all the data")
     parser.add_argument('--dev_num', type=int, default=-1, help="-1 means all the data")
@@ -69,7 +69,7 @@ def parse_arguments(parser):
     parser.add_argument('--test_file', type=str, default="data/conll2003_sample/test.txt", help="test file for test mode, only applicable in test mode")
     parser.add_argument('--percentage', type=int, default=100, help="how much percentage of training dataset to use")
 
-    parser.add_argument('--prompt', type=str, default="max", choices=["max", "random", "sbert", "bertscore"], help="training model or test mode")
+    parser.add_argument('--prompt', type=str,choices=["max", "random", "sbert", "bertscore",None], help="training model or test mode")
 
     args = parser.parse_args()
     for k in args.__dict__:
@@ -229,12 +229,15 @@ def main():
         dev_dataset = TransformersNERDataset(conf.dev_file, tokenizer, number=conf.dev_num, label2idx=train_dataset.label2idx, is_train=False, prompt=conf.prompt, prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
         test_dataset = TransformersNERDataset(conf.test_file, tokenizer, number=conf.test_num, label2idx=train_dataset.label2idx, is_train=False, prompt=conf.prompt, prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
 
+
+        print(train_dataset.collate_fn)
         num_workers = 8
         conf.label_size = len(train_dataset.label2idx)
         train_dataloader = DataLoader(train_dataset, batch_size=conf.batch_size, shuffle=True, num_workers=num_workers, collate_fn=train_dataset.collate_fn)
+        print('here')
         dev_dataloader = DataLoader(dev_dataset, batch_size=conf.batch_size, shuffle=False, num_workers=num_workers, collate_fn=dev_dataset.collate_fn)
         test_dataloader = DataLoader(test_dataset, batch_size=conf.batch_size, shuffle=False, num_workers=num_workers, collate_fn=test_dataset.collate_fn)
-
+        
         # For writing the metric results
         result_out_dir = "results_metrics/{}/{}".format(opt.dataset, opt.embedder_type.replace("-", "_"))
         if opt.hidden_dim > 0:

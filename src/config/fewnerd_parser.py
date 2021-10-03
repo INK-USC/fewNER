@@ -2,8 +2,8 @@ import argparse
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--inp_data', type=str, default='dataset/fewnerd/supervised/dev.txt', help="text file - dataset")
-parser.add_argument('--out_data', type=str, default='dataset/fewnerd/supervised/converted/dev.txt', help="text file - dataset")
+parser.add_argument('--inp_data', type=str, default='dataset/fewnerd/supervised/test.txt', help="text file - dataset")
+parser.add_argument('--out_data', type=str, default='dataset/fewnerd/supervised/converted/test.txt', help="text file - dataset")
 
 
 args = parser.parse_known_args()[0]
@@ -37,6 +37,12 @@ for i in range(len(lines)):
         elif inside == True and label==lines[i-1].strip().split()[-1]:
         
             new_label = 'I-'+label
+        else:
+            new_label='B-'+label
+        # if new_label=='':
+        #     print('line= ',lines[i])
+        #     print('label= ',label)
+        #     # print(label)
         sent.append([word,new_label])
 
   

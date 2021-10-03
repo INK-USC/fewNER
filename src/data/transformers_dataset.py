@@ -38,6 +38,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
     for inst in candidates:
         for entity, label in inst.entities:
             if label not in entity_dict:
+                # print(label)
                 entity_dict[label] = {}
             if entity not in entity_dict[label]:
                 entity_dict[label][entity] = [inst]
@@ -112,7 +113,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                     prompt_tokens.append("is")
                     prompt_tokens.append(label)
 
-            print(prompt_tokens)
+            # print(prompt_tokens)
             input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
         elif prompt == "bertscore":
             prompt_tokens = []
@@ -142,7 +143,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                         prompt_tokens.append(sub_token)
                     prompt_tokens.append("is")
                     prompt_tokens.append(label)
-            print(prompt_tokens)
+            # print(prompt_tokens)
             input_ids = tokenizer.convert_tokens_to_ids(
                 [tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
         elif prompt == "max":
@@ -153,7 +154,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                     prompt_tokens.append(sub_token)
                 prompt_tokens.append("is")
                 prompt_tokens.append(entity_label)
-            print(prompt_tokens)
+            # print(prompt_tokens)
             input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
 
         elif prompt == "random":
@@ -219,6 +220,7 @@ class TransformersNERDataset(Dataset):
             self.insts_ids, self.prompt_candidates = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt)
         else:
             self.insts_ids = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt, prompt_candidates_from_outside=prompt_candidates_from_outside)
+            self.prompt_candidates = None
         self.tokenizer = tokenizer
 
 
@@ -247,7 +249,8 @@ class TransformersNERDataset(Dataset):
                 line = line.rstrip()
                 if line == "":
                     labels = convert_iobes(labels)
-                    if len(entity) != 0:
+                    if len(entity) != 0 and len(entity_label)!=0:
+                        # print(entity)
                         entities.append([" ".join(entity),entity_label[0]])
                     if len(set(labels)) > 1:
                         insts.append(Instance(words=words, ori_words=ori_words, labels=labels, entities=entities))
@@ -261,18 +264,26 @@ class TransformersNERDataset(Dataset):
                         break
                     continue
                 ls = line.split()
+                # if len(ls)==1:
+                #     print(ls)
                 word, label = ls[0],ls[-1]
+                # if label=='Primera':
+                #     print('word',word)
+                #     print('label',label)
+                #     print(ls)
+                #     print(line)
                 ori_words.append(word)
                 words.append(word)
                 labels.append(label)
 
                 if label.startswith("B"):
                     entity.append(word)
-                    entity_label.append(label.split('-')[1])
+                    entity_label.append('-'.join(label.split('-')[1:]))
                 elif label.startswith("I"):
                     entity.append(word)
                 else:
-                    if len(entity) != 0:
+                    if len(entity) != 0 and len(entity_label)!=0:
+                        # print(entity_label)
                         entities.append([" ".join(entity), entity_label[0]])
                         entity = []
                         entity_label = []
@@ -292,8 +303,15 @@ class TransformersNERDataset(Dataset):
     def collate_fn(self, batch:List[Feature]):
         word_seq_len = [len(feature.orig_to_tok_index) for feature in batch]
         max_seq_len = max(word_seq_len)
+        print('max seq len', max_seq_len)
         max_wordpiece_length = max([len(feature.input_ids) for feature in batch])
+        print('max wordpiece len', max_wordpiece_length)
         for i, feature in enumerate(batch):
+            # if(len(feature.orig_to_tok_index)==514):
+            #     print('Feature',feature.input_ids)
+            #     print(i)
+            #     print(self.tokenizer.convert_ids_to_tokens(input_ids))
+            # print('in colate',i)
             padding_length = max_wordpiece_length - len(feature.input_ids)
             input_ids = feature.input_ids + [self.tokenizer.pad_token_id] * padding_length
             mask = feature.attention_mask + [0] * padding_length
@@ -303,9 +321,12 @@ class TransformersNERDataset(Dataset):
             label_ids = feature.label_ids + [0] * padding_word_len
 
             batch[i] = Feature(input_ids=np.asarray(input_ids),
-                               attention_mask=np.asarray(mask), token_type_ids=np.asarray(type_ids),
-                               orig_to_tok_index=np.asarray(orig_to_tok_index),
-                               word_seq_len =feature.word_seq_len,
-                               label_ids=np.asarray(label_ids))
+                            attention_mask=np.asarray(mask), token_type_ids=np.asarray(type_ids),
+                            orig_to_tok_index=np.asarray(orig_to_tok_index),
+                            word_seq_len =feature.word_seq_len,
+                            label_ids=np.asarray(label_ids))
+            
+            # print(batch[i])
+        print('lololol','end for here')
         results = Feature(*(default_collate(samples) for samples in zip(*batch)))
         return results
