@@ -3,19 +3,21 @@ import argparse
 import numpy
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--data', type=str, default='bc5cdr/train.txt', help="text file - dataset")
-parser.add_argument('--number', type=int, default=50, help="number of sentences in dataset")
+parser.add_argument('--data', type=str, default='conll/train_all.txt', help="text file - dataset")
+parser.add_argument('--number', type=int, default=100, help="number of sentences in dataset")
+parser.add_argument('--seed', type=int, default=2021, help="number of sentences in dataset")
 
 args = parser.parse_known_args()[0]
 print(args)
 
-data=args.data
-number=args.number
+data = args.data
+number =args.number
+seed = args.seed
 
 with open(data,'r') as f:
     lines=f.readlines()
 
-def data_to_sents(data):
+def data_to_sents():
     sents=[]
     temp=[]
     for i in lines:
@@ -86,7 +88,7 @@ def clean_labels(labels):
 
 
 def dataset_slice(number,data,label_space):
-    sents = data_to_sents(data)
+    sents = data_to_sents()
 
     random.seed(2021)
     random.shuffle(sents)
@@ -97,7 +99,8 @@ def dataset_slice(number,data,label_space):
     sliced_sents = []
     while (len(list(labels)) != len(label_space)) or (len(sliced_sents) < number):
         if len(sliced_sents) == number:
-            del sliced_sents[-1]
+            index = random.choice(range(len(sliced_sents)))
+            del sliced_sents[index]
         sent_labels = []
         for s in sents[sent_index]:
             sent_labels.append(s.split(' ')[-1])
@@ -106,16 +109,17 @@ def dataset_slice(number,data,label_space):
             labels = labels.union(set(sent_labels))
             sliced_sents.append(sents[sent_index])
         sent_index += 1
-
+    print(label_space)
+    print(labels)
     print(len(sliced_sents))
     return sliced_sents
 
 
-all_sents=data_to_sents(data)
+all_sents=data_to_sents()
 label_space=labels_from_sents(all_sents)
 reduced_sents=dataset_slice(number,lines,label_space)
 
-refined_file = open(f'bc5cdr/train_50_2021.txt', 'w')
+refined_file = open(f'conll/train_100_2021.txt', 'w')
 
 def write_original(refined, writefile):
     for instance in refined:
