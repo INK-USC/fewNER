@@ -3,30 +3,16 @@ import argparse
 import numpy
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--data', type=str, default='conll/train_all.txt', help="text file - dataset")
-parser.add_argument('--number', type=int, default=100, help="number of sentences in dataset")
+parser.add_argument('--data', type=str, default='bc5cdr/train.txt', help="text file - dataset")
+parser.add_argument('--target_data', type=str, default='bc5cdr/train.txt', help="text file - dataset")
+parser.add_argument('--number', type=int, default=50, help="number of sentences in dataset")
 parser.add_argument('--seed', type=int, default=2021, help="number of sentences in dataset")
 
 args = parser.parse_known_args()[0]
-print(args)
 
 data = args.data
-number =args.number
+number = args.number
 seed = args.seed
-
-with open(data,'r') as f:
-    lines=f.readlines()
-
-def data_to_sents():
-    sents=[]
-    temp=[]
-    for i in lines:
-        if i=='\n':
-            sents.append(temp)
-            temp=[]
-        else:
-            temp.append(i)
-    return sents
 
 B_PREF="B-"
 I_PREF = "I-"
@@ -57,7 +43,7 @@ def labels_from_sents(sents):
     for sent in sents:
         sent_label = []
         for i in sent:
-            label=i.split(' ')[-1]
+            label = i.split(' ')[-1]
             sent_label.append(label)
         sent_label = convert_iobes(sent_label)
         for s_label in sent_label:
@@ -65,34 +51,9 @@ def labels_from_sents(sents):
     labels=list(labels)
     return labels
 
-def count_labels(sents):
-    counter={}
-    sents=list(numpy.concatenate(sents).flat)
-    for i in sents:
-        label=i.split(' ')[-1]
-        if label not in counter:
-            counter[label]=1
-        else:
-            counter[label]+=1
-    return counter
-
-
-def clean_labels(labels):
-    for i in range(len(labels)):
-        labels[i]=labels[i].replace('\n','')
-        if '-' in labels[i]:
-            labels[i]=labels[i].split('-')[-1]
-    if '' in labels:
-        labels.remove('')
-    return list(set(labels))
-
-
-def dataset_slice(number,data,label_space):
-    sents = data_to_sents()
-
-    random.seed(2021)
+def dataset_slice(number, sents, label_space):
+    random.seed(seed)
     random.shuffle(sents)
-
     labels = set()
 
     sent_index = 0
@@ -109,17 +70,28 @@ def dataset_slice(number,data,label_space):
             labels = labels.union(set(sent_labels))
             sliced_sents.append(sents[sent_index])
         sent_index += 1
+
     print(label_space)
     print(labels)
     print(len(sliced_sents))
+
     return sliced_sents
 
+sents = []
+temp = []
+with open(data,'r') as f:
+    lines=f.readlines()
+    for i in lines:
+        if i == '\n':
+            sents.append(temp)
+            temp=[]
+        else:
+            temp.append(i)
 
-all_sents=data_to_sents()
-label_space=labels_from_sents(all_sents)
-reduced_sents=dataset_slice(number,lines,label_space)
+label_space=labels_from_sents(sents)
+reduced_sents=dataset_slice(number, sents, label_space)
 
-refined_file = open(f'conll/train_100_2021.txt', 'w')
+refined_file = open(args.target_data, 'w')
 
 def write_original(refined, writefile):
     for instance in refined:
