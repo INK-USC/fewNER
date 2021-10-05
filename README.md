@@ -10,6 +10,12 @@
 
 
 ### Commands Memo:
+```
+python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 0 --suffix 50
+python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 1 --suffix 100
+python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 2 --suffix 150
+python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 3 --suffix 200
+```
 
 ```
 CUDA_VISIBLE_DEVICES=1 \
