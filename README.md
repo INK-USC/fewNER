@@ -15,6 +15,16 @@ python sampling_run.py --train_file transformers_trainer.py --dataset conll --da
 python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 1 --suffix 100
 python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 2 --suffix 150
 python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 3 --suffix 200
+
+python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --gpu 0 --suffix 50
+python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --gpu 1 --suffix 100
+python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --gpu 2 --suffix 150
+python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --gpu 3 --suffix 200
+
+python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --gpu 0 --suffix 50
+python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --gpu 1 --suffix 100
+python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --gpu 2 --suffix 150
+python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --gpu 3 --suffix 200
 ```
 
 ```
