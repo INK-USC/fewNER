@@ -11,10 +11,10 @@
 
 ### Commands Memo:
 ```
-python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 0 --suffix 50
-python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 1 --suffix 100
-python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 2 --suffix 150
-python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 3 --suffix 200
+python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 0 --suffix 50 --prompt max
+python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 0 --suffix 100 --prompt max
+python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 0 --suffix 150 --prompt max
+python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 0 --suffix 200 --prompt max
 
 python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --gpu 0 --suffix 50
 python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --gpu 1 --suffix 100
@@ -32,9 +32,11 @@ CUDA_VISIBLE_DEVICES=1 \
 python3 transformers_trainer.py \
 --dataset conll \
 --data_dir dataset/conll \
---model_folder models/conll/train_all \
+--model_folder models/conll/train_50_max4 \
 --device cuda:0 \
---percent_filename_suffix all
+--percent_filename_suffix 50 \
+--prompt max \
+--num_epochs 100
 ```
 
 ```

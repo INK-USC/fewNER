@@ -169,8 +169,10 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                     prompt_tokens.append(sub_token)
                 prompt_tokens.append("is")
                 prompt_tokens.append(entity_label)
+                prompt_tokens.append(".")
+                prompt_tokens.append(tokenizer.sep_token)
             maybe_show_prompt(idx, words, prompt_tokens, step_sz)
-            input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
+            input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens)
 
         elif prompt == "random":
             prompt_tokens = []
