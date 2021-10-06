@@ -39,20 +39,20 @@ python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_
 
 ### Slurm Sampling Command
 ```
-python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --nodes ink-ron --suffix 50 --prompt max
-python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --nodes ink-ron --suffix 100 --prompt max
-python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --nodes ink-ron --suffix 150 --prompt max
-python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --nodes ink-ron --suffix 200 --prompt max
+python sampling_run_slurm.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --nodes ink-ron --suffix 50 --prompt max --template basic
+python sampling_run_slurm.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --nodes ink-ron --suffix 100 --prompt max --template basic
+python sampling_run_slurm.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --nodes ink-ron --suffix 150 --prompt max --template basic
+python sampling_run_slurm.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --nodes ink-ron --suffix 200 --prompt max --template basic
 
-python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --nodes ink-ron --suffix 50
-python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --nodes ink-ron --suffix 100
-python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --nodes ink-ron --suffix 150
-python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --nodes ink-ron --suffix 200
+python sampling_run_slurm.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --nodes ink-ron --suffix 50 --prompt max --template basic
+python sampling_run_slurm.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --nodes ink-ron --suffix 100 --prompt max --template basic
+python sampling_run_slurm.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --nodes ink-ron --suffix 150 --prompt max --template basic
+python sampling_run_slurm.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --nodes ink-ron --suffix 200 --prompt max --template basic
 
-python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --nodes ink-ron --suffix 50
-python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --nodes ink-ron --suffix 100
-python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --nodes ink-ron --suffix 150
-python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --nodes ink-ron --suffix 200
+python sampling_run_slurm.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --nodes ink-ron --suffix 50 --prompt max --template basic
+python sampling_run_slurm.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --nodes ink-ron --suffix 100 --prompt max --template basic
+python sampling_run_slurm.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --nodes ink-ron --suffix 150 --prompt max --template basic
+python sampling_run_slurm.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --nodes ink-ron --suffix 200 --prompt max --template basic
 ```
 
 ```
