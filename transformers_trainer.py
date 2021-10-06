@@ -71,7 +71,8 @@ def parse_arguments(parser):
     parser.add_argument('--test_file', type=str, default="data/conll2003_sample/test.txt", help="test file for test mode, only applicable in test mode")
     parser.add_argument('--percentage', type=int, default=100, help="how much percentage of training dataset to use")
 
-    parser.add_argument('--prompt', type=str, choices=["max", "random", "sbert", "bertscore"], help="training model or test mode")
+    parser.add_argument('--prompt', type=str, choices=["max", "random", "sbert", "bertscore"], help="prompt mode")
+    parser.add_argument('--template', type=str, choices=["no_context", "basic", "basic_all", "structure", "structure_all"], help="template mode")
 
     args = parser.parse_args()
     for k in args.__dict__:
@@ -223,14 +224,30 @@ def main():
         tokenizer = context_models[conf.embedder_type]["tokenizer"].from_pretrained(conf.embedder_type)
         print(colored(f"[Data Info] Reading dataset from: \n{conf.train_file}\n{conf.dev_file}\n{conf.test_file}", "blue"))
 
-        prompt_candidate_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True, percentage=conf.percentage, prompt=conf.prompt)
+        if conf.prompt is None:
+            train_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True, percentage=conf.percentage)
+        else:
+            prompt_candidate_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num,
+                                                              is_train=True, percentage=conf.percentage,
+                                                              prompt=conf.prompt, template=conf.template)
+            train_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True,
+                                                   percentage=conf.percentage, prompt=conf.prompt, template=conf.template,
+                                                   prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
 
-        train_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True, percentage=conf.percentage, prompt=conf.prompt, prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
         conf.label2idx = train_dataset.label2idx
         conf.idx2labels = train_dataset.idx2labels
 
-        dev_dataset = TransformersNERDataset(conf.dev_file, tokenizer, number=conf.dev_num, label2idx=train_dataset.label2idx, is_train=False, prompt=conf.prompt, prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
-        test_dataset = TransformersNERDataset(conf.test_file, tokenizer, number=conf.test_num, label2idx=train_dataset.label2idx, is_train=False, prompt=conf.prompt, prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
+        if conf.prompt is None:
+            dev_dataset = TransformersNERDataset(conf.dev_file, tokenizer, number=conf.dev_num, label2idx=train_dataset.label2idx, is_train=False)
+            test_dataset = TransformersNERDataset(conf.test_file, tokenizer, number=conf.test_num, label2idx=train_dataset.label2idx, is_train=False)
+        else:
+            dev_dataset = TransformersNERDataset(conf.dev_file, tokenizer, number=conf.dev_num,
+                                                 label2idx=train_dataset.label2idx, is_train=False, prompt=conf.prompt, template=conf.template,
+                                                 prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
+            test_dataset = TransformersNERDataset(conf.test_file, tokenizer, number=conf.test_num,
+                                                  label2idx=train_dataset.label2idx, is_train=False, prompt=conf.prompt, template=conf.template,
+                                                  prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
+
 
         num_workers = 8
         conf.label_size = len(train_dataset.label2idx)
