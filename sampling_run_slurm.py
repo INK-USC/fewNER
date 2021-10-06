@@ -9,6 +9,7 @@ parser.add_argument('--dataset', type=str, required=True, help='Dataset')
 parser.add_argument('--data_dir', type=str, required=True, help='Data Directory')
 parser.add_argument('--suffix', type=str, required=True, help='Data Directory')
 parser.add_argument('--prompt', type=str, required=True, help='Data Directory')
+parser.add_argument('--template', type=str, required=True, help='Data Directory')
 parser.add_argument('--nodes', type=str, default="ink-ron", help='value for --nodelist flag of srun')
 
 args = parser.parse_known_args()[0]
@@ -34,6 +35,7 @@ for suffix in suffices:
             " --percent_filename_suffix " + suffix + \
             " --num_epochs 50" + \
             " --prompt " + args.prompt + \
+            " --template " + args.template + \
             " --seed " + seed + " > " + log_file
         log_files.append(log_file)
         model_folders.append(model_folder)
@@ -41,7 +43,7 @@ for suffix in suffices:
         os.system(predict_cmd)
 
 for model_folder in model_folders:
-    rm_cmd = "rm -rf " + model_folder
+    rm_cmd = "rm -rf model_files/" + model_folder
     os.system(rm_cmd)
 
 ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
