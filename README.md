@@ -11,31 +11,42 @@
 
 ### Commands Memo:
 ```
-python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 0 --suffix 50 --prompt max
-python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 0 --suffix 100 --prompt max
-python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 0 --suffix 150 --prompt max
-python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 0 --suffix 200 --prompt max
+python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 1 --suffix 50 --prompt max --template basic
+python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 1 --suffix 100 --prompt max --template basic
+python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 1 --suffix 150 --prompt max --template basic
+python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu 1 --suffix 200 --prompt max --template basic
 
-python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --gpu 0 --suffix 50
-python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --gpu 1 --suffix 100
-python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --gpu 2 --suffix 150
-python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --gpu 3 --suffix 200
+python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --gpu 2 --suffix 50 --prompt max --template basic
+python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --gpu 2 --suffix 100 --prompt max --template basic
+python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --gpu 2 --suffix 150 --prompt max --template basic
+python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --gpu 2 --suffix 200 --prompt max --template basic
 
-python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --gpu 0 --suffix 50
-python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --gpu 1 --suffix 100
-python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --gpu 2 --suffix 150
-python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --gpu 3 --suffix 200
+python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --gpu 3 --suffix 50 --prompt random
+python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --gpu 3 --suffix 100 --prompt random
+python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --gpu 3 --suffix 150 --prompt random
+python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --gpu 3 --suffix 200 --prompt random
 ```
 
+### Combination Table:
+
+| Prompt| Template |
+|-------| ------- |
+|`max`|`no_context`, `basic`, `basic_all`, `structure`, `structure_all`|
+|`random`|`no_context`, `basic`, `basic_all`, `structure`, `structure_all`|
+|`sbert`|`basic_all`, `structure_all`|
+|`bertscore`|`basic_all`, `structure_all`|
+|`search`|On progress|
+
 ```
-CUDA_VISIBLE_DEVICES=1 \
+CUDA_VISIBLE_DEVICES=0 \
 python3 transformers_trainer.py \
 --dataset conll \
 --data_dir dataset/conll \
---model_folder models/conll/train_50_max4 \
+--model_folder models/conll/test10 \
 --device cuda:0 \
 --percent_filename_suffix 50 \
 --prompt max \
+--template structure_all \
 --num_epochs 100
 ```
 

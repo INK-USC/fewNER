@@ -45,6 +45,7 @@ class Config:
         self.use_char_rnn = args.use_char_rnn if "use_char_rnn" in args.__dict__ else None
         self.checkpoint = args.checkpoint
         self.prompt = args.prompt
+        self.template = args.template
 
         self.embedder_type = args.embedder_type if "embedder_type" in args.__dict__ else None
         self.parallel_embedder = args.parallel_embedder if "parallel_embedder" in args.__dict__ else None

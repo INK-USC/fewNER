@@ -31,6 +31,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                                          tokenizer: PreTrainedTokenizer,
                                          label2idx: Dict[str, int],
                                          prompt: str = None, # "max", "random", "sbert", "bertscore"
+                                         template: str = None, # "no_context", "basic", "basic_all", "structure", "structure_all"
                                          prompt_candidates_from_outside: List[str] = None):
     
     
@@ -58,13 +59,9 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
         max_entities = {}
         for label in entity_dict:
             for x in sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True)[0:1]:
-                max_entities[label] = [x[0], random.choice(tuple(x[1])).words]
+                max_entities[label] = [x[0], tuple(x[1])[0]]
 
     if prompt == "sbert" or prompt == "bertscore":
-        max_entities = {}
-        for label in entity_dict:
-            for x in sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True)[0:1]:
-                max_entities[label] = [x[0], random.choice(tuple(x[1])).words]
         search_space = []
         search_space_dict = {}
         for inst in candidates:
@@ -100,13 +97,6 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
             input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token])
         elif prompt == "sbert":
             prompt_tokens = []
-            # for entity_label in max_entities:
-            #     entity_tokens = tokenizer.tokenize(" " + max_entities[entity_label][0])
-            #     for sub_token in entity_tokens:
-            #         prompt_tokens.append(sub_token)
-            #     prompt_tokens.append("is")
-            #     prompt_tokens.append(entity_label)
-            # prompt_tokens.append(tokenizer.sep_token)
             query = " ".join(inst.ori_words)
             query_embedding = search_model.encode(query, convert_to_tensor=True)
 
@@ -117,28 +107,45 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
             for score, idx in zip(top_results[0], top_results[1]):
                 prompt_words = search_space_dict[search_space[idx]].ori_words
                 prompt_entities = search_space_dict[search_space[idx]].entities
-                for i, word in enumerate(prompt_words):
-                    word_tokens = tokenizer.tokenize(" " + word)
-                    for sub_token in word_tokens:
-                        prompt_tokens.append(sub_token)
-                prompt_tokens.append(tokenizer.sep_token)
-                for entity, label in prompt_entities:
-                    entity_tokens = tokenizer.tokenize(" " + entity)
-                    for sub_token in entity_tokens:
-                        prompt_tokens.append(sub_token)
-                    prompt_tokens.append("is")
-                    prompt_tokens.append(label)
+
+                if template == "basic_all":
+                    for i, word in enumerate(prompt_words):
+                        instance_tokens = tokenizer.tokenize(" " + word)
+                        for sub_token in instance_tokens:
+                            prompt_tokens.append(sub_token)
+
+                    for entity in prompt_entities:
+                        entity_tokens = tokenizer.tokenize(" " + entity[0])
+                        for sub_token in entity_tokens:
+                            prompt_tokens.append(sub_token)
+
+                        prompt_tokens.append("is")
+                        prompt_tokens.append(entity[1])
+                        prompt_tokens.append(".")
+
+                elif template == "structure_all":
+                    instance_prompt_tokens = []
+                    for i, word in enumerate(prompt_words):
+                        instance_tokens = tokenizer.tokenize(" " + word)
+                        for sub_token in instance_tokens:
+                            instance_prompt_tokens.append(sub_token)
+
+                    for entity in prompt_entities:
+                        entity_tokens = tokenizer.tokenize(" " + entity[0])
+                        start_ind = instance_prompt_tokens.index(entity_tokens[0])
+                        end_ind = instance_prompt_tokens.index(entity_tokens[-1])
+
+                        instance_prompt_tokens.insert(end_ind + 1, ']')
+                        instance_prompt_tokens.insert(end_ind + 1, entity[1])
+                        instance_prompt_tokens.insert(end_ind + 1, '|')
+                        instance_prompt_tokens.insert(start_ind, '[')
+                    prompt_tokens.extend(instance_prompt_tokens)
+
             maybe_show_prompt(idx, words, prompt_tokens, step_sz)
             input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
+
         elif prompt == "bertscore":
             prompt_tokens = []
-            # for entity_label in max_entities:
-            #     entity_tokens = tokenizer.tokenize(" " + max_entities[entity_label][0])
-            #     for sub_token in entity_tokens:
-            #         prompt_tokens.append(sub_token)
-            #     prompt_tokens.append("is")
-            #     prompt_tokens.append(entity_label)
-            # prompt_tokens.append(tokenizer.sep_token)
             query = " ".join(inst.ori_words)
             queries = [query] * len(search_space)
             P, R, F1 = bert_score.score(search_space, queries, model_type=(bert_score_model_type, bert_score_model), verbose=True)
@@ -147,44 +154,182 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
             for score, idx in zip(top_results[0], top_results[1]):
                 prompt_words = search_space_dict[search_space[idx]].ori_words
                 prompt_entities = search_space_dict[search_space[idx]].entities
-                for i, word in enumerate(prompt_words):
-                    word_tokens = tokenizer.tokenize(" " + word)
-                    for sub_token in word_tokens:
-                        prompt_tokens.append(sub_token)
-                prompt_tokens.append(tokenizer.sep_token)
-                for entity, label in prompt_entities:
-                    entity_tokens = tokenizer.tokenize(" " + entity)
-                    for sub_token in entity_tokens:
-                        prompt_tokens.append(sub_token)
-                    prompt_tokens.append("is")
-                    prompt_tokens.append(label)
+
+                if template == "basic_all":
+                    for i, word in enumerate(prompt_words):
+                        instance_tokens = tokenizer.tokenize(" " + word)
+                        for sub_token in instance_tokens:
+                            prompt_tokens.append(sub_token)
+
+                    for entity in prompt_entities:
+                        entity_tokens = tokenizer.tokenize(" " + entity[0])
+                        for sub_token in entity_tokens:
+                            prompt_tokens.append(sub_token)
+
+                        prompt_tokens.append("is")
+                        prompt_tokens.append(entity[1])
+                        prompt_tokens.append(".")
+
+                elif template == "structure_all":
+                    instance_prompt_tokens = []
+                    for i, word in enumerate(prompt_words):
+                        instance_tokens = tokenizer.tokenize(" " + word)
+                        for sub_token in instance_tokens:
+                            instance_prompt_tokens.append(sub_token)
+
+                    for entity in prompt_entities:
+                        entity_tokens = tokenizer.tokenize(" " + entity[0])
+                        start_ind = instance_prompt_tokens.index(entity_tokens[0])
+                        end_ind = instance_prompt_tokens.index(entity_tokens[-1])
+
+                        instance_prompt_tokens.insert(end_ind + 1, ']')
+                        instance_prompt_tokens.insert(end_ind + 1, entity[1])
+                        instance_prompt_tokens.insert(end_ind + 1, '|')
+                        instance_prompt_tokens.insert(start_ind, '[')
+                    prompt_tokens.extend(instance_prompt_tokens)
+
             maybe_show_prompt(idx, words, prompt_tokens, step_sz)
             input_ids = tokenizer.convert_tokens_to_ids(
                 [tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
+
         elif prompt == "max":
             prompt_tokens = []
             for entity_label in max_entities:
-                entity_tokens = tokenizer.tokenize(" " + max_entities[entity_label][0])
-                for sub_token in entity_tokens:
-                    prompt_tokens.append(sub_token)
-                prompt_tokens.append("is")
-                prompt_tokens.append(entity_label)
-                prompt_tokens.append(".")
-                prompt_tokens.append(tokenizer.sep_token)
+                if template in ["no_context", "basic", "basic_all"]:
+                    if template in ["basic", "basic_all"]:
+                        instance_words = max_entities[entity_label][1].ori_words
+                        for i, word in enumerate(instance_words):
+                            instance_tokens = tokenizer.tokenize(" " + word)
+                            for sub_token in instance_tokens:
+                                prompt_tokens.append(sub_token)
+
+                    if template in ["no_context", "basic"]:
+                        entity_tokens = tokenizer.tokenize(" " + max_entities[entity_label][0])
+                        for sub_token in entity_tokens:
+                            prompt_tokens.append(sub_token)
+
+                        prompt_tokens.append("is")
+                        prompt_tokens.append(entity_label)
+                        prompt_tokens.append(".")
+                        prompt_tokens.append(tokenizer.sep_token)
+
+                    elif template in ["basic_all"]:
+                        for entity in max_entities[entity_label][1].entities:
+                            entity_tokens = tokenizer.tokenize(" " + entity[0])
+                            for sub_token in entity_tokens:
+                                prompt_tokens.append(sub_token)
+
+                            prompt_tokens.append("is")
+                            prompt_tokens.append(entity[1])
+                            prompt_tokens.append(".")
+                        prompt_tokens.append(tokenizer.sep_token)
+
+                if template in ["structure", "structure_all"]:
+                    instance_prompt_tokens = []
+                    instance_words = max_entities[entity_label][1].ori_words
+                    for i, word in enumerate(instance_words):
+                        instance_tokens = tokenizer.tokenize(" " + word)
+                        for sub_token in instance_tokens:
+                            instance_prompt_tokens.append(sub_token)
+
+                    if template == "structure":
+                        entity_tokens = tokenizer.tokenize(" " + max_entities[entity_label][0])
+                        start_ind = instance_prompt_tokens.index(entity_tokens[0])
+                        end_ind = instance_prompt_tokens.index(entity_tokens[-1])
+                        instance_prompt_tokens.insert(end_ind + 1, ']')
+                        instance_prompt_tokens.insert(end_ind + 1, entity_label)
+                        instance_prompt_tokens.insert(end_ind + 1, '|')
+                        instance_prompt_tokens.insert(start_ind, '[')
+
+                    elif template == "structure_all":
+                        for entity in max_entities[entity_label][1].entities:
+                            entity_tokens = tokenizer.tokenize(" " + entity[0])
+                            start_ind = instance_prompt_tokens.index(entity_tokens[0])
+                            end_ind = instance_prompt_tokens.index(entity_tokens[-1])
+                            instance_prompt_tokens.insert(end_ind + 1, ']')
+                            instance_prompt_tokens.insert(end_ind + 1, entity[1])
+                            instance_prompt_tokens.insert(end_ind + 1, '|')
+                            instance_prompt_tokens.insert(start_ind, '[')
+
+                    prompt_tokens.extend(instance_prompt_tokens)
+                    prompt_tokens.append(tokenizer.sep_token)
+
             maybe_show_prompt(idx, words, prompt_tokens, step_sz)
             input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens)
 
         elif prompt == "random":
             prompt_tokens = []
             for entity_label in entity_dict:
-                entity = random.choice(tuple(entity_dict[entity_label]))
-                entity_tokens = tokenizer.tokenize(" " + entity)
-                for sub_token in entity_tokens:
-                    prompt_tokens.append(sub_token)
-                prompt_tokens.append("is")
-                prompt_tokens.append(entity_label)
+                if template in ["no_context", "basic", "basic_all"]:
+                    entity = random.choice(tuple(entity_dict[entity_label]))
+                    instance = random.choice(entity_dict[entity_label][entity])
+
+                    if template in ["basic", "basic_all"]:
+                        instance_words = instance.ori_words
+                        for i, word in enumerate(instance_words):
+                            instance_tokens = tokenizer.tokenize(" " + word)
+                            for sub_token in instance_tokens:
+                                prompt_tokens.append(sub_token)
+
+                    if template in ["no_context", "basic"]:
+                        entity_tokens = tokenizer.tokenize(" " + entity)
+                        for sub_token in entity_tokens:
+                            prompt_tokens.append(sub_token)
+
+                        prompt_tokens.append("is")
+                        prompt_tokens.append(entity_label)
+                        prompt_tokens.append(".")
+                        prompt_tokens.append(tokenizer.sep_token)
+
+                    elif template in ["basic_all"]:
+                        for entity in instance.entities:
+                            entity_tokens = tokenizer.tokenize(" " + entity[0])
+                            for sub_token in entity_tokens:
+                                prompt_tokens.append(sub_token)
+
+                            prompt_tokens.append("is")
+                            prompt_tokens.append(entity[1])
+                            prompt_tokens.append(".")
+                        prompt_tokens.append(tokenizer.sep_token)
+
+                if template in ["structure", "structure_all"]:
+                    entity = random.choice(tuple(entity_dict[entity_label]))
+                    instance = random.choice(entity_dict[entity_label][entity])
+
+                    instance_prompt_tokens = []
+                    instance_words = instance.ori_words
+                    for i, word in enumerate(instance_words):
+                        instance_tokens = tokenizer.tokenize(" " + word)
+                        for sub_token in instance_tokens:
+                            instance_prompt_tokens.append(sub_token)
+
+
+                    if template == "structure":
+                        entity_tokens = tokenizer.tokenize(" " + entity)
+                        start_ind = instance_prompt_tokens.index(entity_tokens[0])
+                        end_ind = instance_prompt_tokens.index(entity_tokens[-1])
+
+                        instance_prompt_tokens.insert(end_ind + 1, ']')
+                        instance_prompt_tokens.insert(end_ind + 1, entity_label)
+                        instance_prompt_tokens.insert(end_ind + 1, '|')
+                        instance_prompt_tokens.insert(start_ind, '[')
+
+                    elif template == "structure_all":
+                        for entity in instance.entities:
+                            entity_tokens = tokenizer.tokenize(" " + entity[0])
+                            start_ind = instance_prompt_tokens.index(entity_tokens[0])
+                            end_ind = instance_prompt_tokens.index(entity_tokens[-1])
+
+                            instance_prompt_tokens.insert(end_ind + 1, ']')
+                            instance_prompt_tokens.insert(end_ind + 1, entity[1])
+                            instance_prompt_tokens.insert(end_ind + 1, '|')
+                            instance_prompt_tokens.insert(start_ind, '[')
+
+                    prompt_tokens.extend(instance_prompt_tokens)
+                    prompt_tokens.append(tokenizer.sep_token)
+
             maybe_show_prompt(idx, words, prompt_tokens, step_sz)
-            input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
+            input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens)
 
         segment_ids = [0] * len(input_ids)
         input_mask = [1] * len(input_ids)
@@ -210,7 +355,8 @@ class TransformersNERDataset(Dataset):
                  label2idx: Dict[str, int] = None,
                  number: int = -1,
                  percentage: int = 100,
-                 prompt:str = None,
+                 prompt: str = None,
+                 template: str = None,
                  prompt_candidates_from_outside: List[str] = None):
         """
         sents: we use sentences if we want to build dataset from sentences directly instead of file
@@ -232,9 +378,9 @@ class TransformersNERDataset(Dataset):
             # check_all_labels_in_dict(insts=insts, label2idx=self.label2idx)
 
         if is_train and prompt is not None:
-            self.insts_ids, self.prompt_candidates = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt)
+            self.insts_ids, self.prompt_candidates = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt, template=template)
         else:
-            self.insts_ids = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt, prompt_candidates_from_outside=prompt_candidates_from_outside)
+            self.insts_ids = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt, template=template, prompt_candidates_from_outside=prompt_candidates_from_outside)
             self.prompt_candidates = None
         self.tokenizer = tokenizer
 
