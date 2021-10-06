@@ -71,7 +71,7 @@ def parse_arguments(parser):
     parser.add_argument('--test_file', type=str, default="data/conll2003_sample/test.txt", help="test file for test mode, only applicable in test mode")
     parser.add_argument('--percentage', type=int, default=100, help="how much percentage of training dataset to use")
 
-    parser.add_argument('--prompt', type=str, choices=["max", "random", "sbert", "bertscore"], help="training model or test mode")
+    parser.add_argument('--prompt', type=str, choices=["max", "random", "sbert", "bertscore",'max_1_basic','max_1_struct','max_all_basic','max_all_struct'], help="training model or test mode")
 
     args = parser.parse_args()
     for k in args.__dict__:

@@ -16,6 +16,7 @@ from termcolor import colored
 from src.data.data_utils import convert_iobes, build_label_idx, check_all_labels_in_dict
 import bert_score
 from src.data import Instance
+import sys
 
 Feature = collections.namedtuple('Feature', 'input_ids attention_mask token_type_ids orig_to_tok_index word_seq_len label_ids')
 Feature.__new__.__defaults__ = (None,) * 6
@@ -30,7 +31,7 @@ def maybe_show_prompt(id, word, prompt, mod):
 def convert_instances_to_feature_tensors(instances: List[Instance],
                                          tokenizer: PreTrainedTokenizer,
                                          label2idx: Dict[str, int],
-                                         prompt: str = None, # "max", "random", "sbert", "bertscore"
+                                         prompt: str = None, # "max", "random", "sbert", "bertscore",'max_1_basic','max_1_all'
                                          prompt_candidates_from_outside: List[str] = None):
     
     
@@ -59,6 +60,15 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
         for label in entity_dict:
             for x in sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True)[0:1]:
                 max_entities[label] = [x[0], random.choice(tuple(x[1])).words]
+    
+    if prompt=='max_1_basic' or prompt=='max_1_struct' or prompt=='max_all_basic':
+        max_entities = {}
+        res={}
+        for label in entity_dict:
+            for x in sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True)[0:1]:
+                max_entities[label] = [x[0], random.choice(tuple(x[1])).words]
+        for ent in max_entities:
+            res[ent]=max_entities[ent][0]
 
     if prompt == "sbert" or prompt == "bertscore":
         max_entities = {}
@@ -171,9 +181,97 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                 prompt_tokens.append(entity_label)
             maybe_show_prompt(idx, words, prompt_tokens, step_sz)
             input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
+        
+        elif prompt == "max_1_basic":
+            prompt_tokens = []            
+            for entity_label in res:
+                if len(prompt_tokens)==0:
+                    if res[entity_label] in words:
+                        # print('True')
+                        # print(words)
+                        entity_tokens = tokenizer.tokenize(" " + res[entity_label])
+                        for sub_token in entity_tokens:
+                            prompt_tokens.append(sub_token)
+                        prompt_tokens.append("is")
+                        prompt_tokens.append(entity_label)
+                        # print(prompt_tokens)
+                else:
+                    break
+
+            # if len(prompt_tokens)==0:
+            # # print('False')
+            #     for entity_label in entity_dict:
+            #         entity = random.choice(tuple(entity_dict[entity_label]))
+            #         entity_tokens = tokenizer.tokenize(" " + entity)
+            #         for sub_token in entity_tokens:
+            #             prompt_tokens.append(sub_token)
+            #         prompt_tokens.append("is")
+            #         prompt_tokens.append(entity_label)
+            #         break
+                    
+            maybe_show_prompt(idx, words, prompt_tokens, step_sz)
+            input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
+
+        elif prompt == "max_all_basic":
+            prompt_tokens = []            
+            for entity_label in res:
+                if len(prompt_tokens)==0:
+                    if res[entity_label] in words:
+                        entity_tokens = tokenizer.tokenize(" " + res[entity_label])
+                        for sub_token in entity_tokens:
+                            prompt_tokens.append(sub_token)
+                        prompt_tokens.append("is")
+                        prompt_tokens.append(entity_label)
+                        # print(prompt_tokens)
+                else:
+                    break
+
+            if len(prompt_tokens)!=0:
+                if len(label)>1:
+                    for i in inst.entities:
+                        if i[1] not in prompt_tokens:
+                            temp=tokenizer.tokenize(" " + i[0])
+                            for j in temp:
+                                prompt_tokens.append(j)
+                            prompt_tokens.append('is')
+                            prompt_tokens.append(i[1])
+
+            input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
+            print(prompt_tokens)
+
+        elif prompt == "max_1_struct":           
+            for entity_label in res:
+                
+                if res[entity_label] in words:
+                    entity_tokens = tokenizer.tokenize(" " + res[entity_label])
+                    start_ind=tokens.index(entity_tokens[0])
+                    end_ind=tokens.index(entity_tokens[-1])
+
+                    tokens.insert(end_ind+1,']')
+                    tokens.insert(end_ind+1,entity_label)
+                    tokens.insert(end_ind+1,'|')
+                    tokens.insert(start_ind,'[')  
+                break                  
+            input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + prompt_tokens+[tokenizer.sep_token] )
+        
+        elif prompt == "max_all_struct":           
+            for entity_label in res:
+                
+                if res[entity_label] in words:
+                    entity_tokens = tokenizer.tokenize(" " + res[entity_label])
+                    start_ind=tokens.index(entity_tokens[0])
+                    end_ind=tokens.index(entity_tokens[-1])
+
+                    tokens.insert(end_ind+1,']')
+                    tokens.insert(end_ind+1,entity_label)
+                    tokens.insert(end_ind+1,'|')
+                    tokens.insert(start_ind,'[')                    
+            input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] )
+            
 
         elif prompt == "random":
             prompt_tokens = []
+            
             for entity_label in entity_dict:
                 entity = random.choice(tuple(entity_dict[entity_label]))
                 entity_tokens = tokenizer.tokenize(" " + entity)
