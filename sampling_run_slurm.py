@@ -10,7 +10,6 @@ parser.add_argument('--data_dir', type=str, required=True, help='Data Directory'
 parser.add_argument('--suffix', type=str, required=True, help='Data Directory')
 parser.add_argument('--prompt', type=str, required=True, help='Data Directory')
 parser.add_argument('--template', type=str, required=True, help='Data Directory')
-parser.add_argument('--nodes', type=str, default="ink-ron", help='value for --nodelist flag of srun')
 
 args = parser.parse_known_args()[0]
 
@@ -26,7 +25,6 @@ for suffix in suffices:
         log_file = "logs/" + args.dataset + "/" + args.train_file.split('.')[0] + "_" + suffix + "_" + seed + ".txt"
         model_folder = "models/" + args.dataset + "/" + args.train_file.split('.')[0] + "_" + suffix + "_" + seed
         predict_cmd = \
-            "srun --gres=gpu:1080:1 --nodelist " + args.nodes + \
             " python3 " + args.train_file + \
             " --dataset " + args.dataset + \
             " --data_dir " + args.data_dir + \
