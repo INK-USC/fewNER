@@ -16,7 +16,10 @@ args = parser.parse_known_args()[0]
 suffices = [args.suffix, args.suffix + "_1337", args.suffix + "_2021"]
 seeds = ['42', '1337', '2021']
 
-os.makedirs("logs/" + args.dataset + "/")
+try:
+    os.makedirs("logs/" + args.dataset + "/")
+except:
+    pass
 
 log_files = []
 model_folders = []
