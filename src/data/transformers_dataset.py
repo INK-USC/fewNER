@@ -334,12 +334,15 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
         segment_ids = [0] * len(input_ids)
         input_mask = [1] * len(input_ids)
 
-        features.append(Feature(input_ids=input_ids,
-                                attention_mask=input_mask,
-                                orig_to_tok_index=orig_to_tok_index,
-                                token_type_ids=segment_ids,
-                                word_seq_len=len(orig_to_tok_index),
-                                label_ids=label_ids))
+        if len(input_ids) > 512:
+            continue
+        else:
+            features.append(Feature(input_ids=input_ids,
+                                    attention_mask=input_mask,
+                                    orig_to_tok_index=orig_to_tok_index,
+                                    token_type_ids=segment_ids,
+                                    word_seq_len=len(orig_to_tok_index),
+                                    label_ids=label_ids))
 
     if prompt_candidates_from_outside is None and prompt is not None:
         return features, candidates

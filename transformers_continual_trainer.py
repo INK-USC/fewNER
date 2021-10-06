@@ -52,7 +52,7 @@ def parse_arguments(parser):
     parser.add_argument('--max_grad_norm', type=float, default=1.0, help="The maximum gradient norm, if <=0, means no clipping, usually we don't use clipping for normal neural ncrf")
 
     ##model hyperparameter
-    parser.add_argument('--checkpoint', type=str, default="", help="The name to save the model files")
+    parser.add_argument('--checkpoint', type=str, default="model_files/model/conll_all", help="The name to save the model files")
     parser.add_argument('--model_folder', type=str, default="english_model", help="The name to save the model files")
     parser.add_argument('--hidden_dim', type=int, default=0, help="hidden size of the LSTM, usually we set to 200 for LSTM-CRF")
     parser.add_argument('--dropout', type=float, default=0.5, help="dropout for embedding")
@@ -68,6 +68,10 @@ def parse_arguments(parser):
     parser.add_argument('--mode', type=str, default="train", choices=["train", "test"], help="training model or test mode")
     parser.add_argument('--test_file', type=str, default="data/conll2003_sample/test.txt", help="test file for test mode, only applicable in test mode")
     parser.add_argument('--percentage', type=int, default=100, help="how much percentage of training dataset to use")
+
+    parser.add_argument('--prompt', type=str, choices=["max", "random", "sbert", "bertscore"], help="prompt mode")
+    parser.add_argument('--template', type=str, choices=["no_context", "basic", "basic_all", "structure", "structure_all"], help="template mode")
+    parser.add_argument('--search_pool', type=str, choices=["source","target","source+target"], help="template mode")
 
     args = parser.parse_args()
     for k in args.__dict__:
@@ -85,24 +89,19 @@ def train_model(config: Config, epoch: int, train_loader: DataLoader, dev_loader
     print(colored(f"[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.", 'red'))
     print(colored(f"[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.", 'red'))
 
-    if config.checkpoint.endswith("tar.gz"):
-        tar = tarfile.open(config.checkpoint)
-        # self.conf = pickle.load(tar.extractfile(tar.getnames()[1]))  ## config file
-        model = TransformersCRF(config)
-        model.load_state_dict(torch.load(tar.extractfile(tar.getnames()[2]), map_location=config.device))  ## model file
-    else:
-        folder_name = config.checkpoint
-        assert os.path.isdir(folder_name)
 
-        f = open(folder_name + "/config.conf", 'rb')
-        temp_config = pickle.load(f)
-        f.close()
-        temp_model = TransformersCRF(temp_config)
-        temp_model.load_state_dict(torch.load(f"{folder_name}/lstm_crf.m", map_location=config.device))
+    folder_name = config.checkpoint
+    assert os.path.isdir(folder_name)
 
-        model = TransformersCRF(config)
-        model.embedder = temp_model.embedder
-        #model.encoder = temp_model.encoder
+    f = open(folder_name + "/config.conf", 'rb')
+    temp_config = pickle.load(f)
+    f.close()
+    temp_model = TransformersCRF(temp_config)
+    temp_model.load_state_dict(torch.load(f"{folder_name}/lstm_crf.m", map_location=config.device))
+
+    model = TransformersCRF(config)
+    model.embedder = temp_model.embedder
+    #model.encoder = temp_model.encoder
 
     optimizer, scheduler = get_huggingface_optimizer_and_scheduler(config, model, num_training_steps=len(train_loader) * epoch,
                                                                    weight_decay=0.0, eps = 1e-8, warmup_step=0)
@@ -236,21 +235,47 @@ def main():
         tokenizer = context_models[conf.embedder_type]["tokenizer"].from_pretrained(conf.embedder_type)
         print(colored(f"[Data Info] Reading dataset from: \n{conf.train_file}\n{conf.dev_file}\n{conf.test_file}", "blue"))
 
-        temp_train_dataset = TransformersNERDataset('dataset/conll/train.txt', tokenizer, number=conf.train_num,
-                                                    is_train=True, percentage=conf.percentage, prompt="max")
-        train_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True,
-                                               percentage=conf.percentage, prompt="max",
-                                               prompt_candidates_from_outside=temp_train_dataset.prompt_candidates)
+        if conf.prompt is None:
+            train_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True, percentage=conf.percentage)
+        else:
+            if conf.search_pool == "source":
+                source_data = TransformersNERDataset('dataset/conll/train_all.txt', tokenizer, number=conf.train_num,
+                                                     is_train=True, percentage=conf.percentage,
+                                                     prompt=conf.prompt, template=conf.template)
+                search_pool = source_data.prompt_candidates
+
+            elif conf.search_pool == "target":
+                target_data = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num,
+                                                     is_train=True, percentage=conf.percentage,
+                                                     prompt=conf.prompt, template=conf.template)
+                search_pool = target_data.prompt_candidates
+
+            elif conf.search_pool == "source+target":
+                source_data = TransformersNERDataset('dataset/conll/train_all.txt', tokenizer, number=conf.train_num,
+                                                     is_train=True, percentage=conf.percentage,
+                                                     prompt=conf.prompt, template=conf.template)
+                target_data = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num,
+                                                     is_train=True, percentage=conf.percentage,
+                                                     prompt=conf.prompt, template=conf.template)
+                search_pool = source_data.prompt_candidates + target_data.prompt_candidates
+
+            train_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True,
+                                                   percentage=conf.percentage, prompt=conf.prompt, template=conf.template,
+                                                   prompt_candidates_from_outside=search_pool)
+
         conf.label2idx = train_dataset.label2idx
         conf.idx2labels = train_dataset.idx2labels
 
-        dev_dataset = TransformersNERDataset(conf.dev_file, tokenizer, number=conf.dev_num,
-                                             label2idx=train_dataset.label2idx, is_train=False, prompt="max",
-                                             prompt_candidates_from_outside=temp_train_dataset.prompt_candidates)
-        test_dataset = TransformersNERDataset(conf.test_file, tokenizer, number=conf.test_num,
-                                              label2idx=train_dataset.label2idx, is_train=False, prompt="max",
-                                              prompt_candidates_from_outside=temp_train_dataset.prompt_candidates)
-
+        if conf.prompt is None:
+            dev_dataset = TransformersNERDataset(conf.dev_file, tokenizer, number=conf.dev_num, label2idx=train_dataset.label2idx, is_train=False)
+            test_dataset = TransformersNERDataset(conf.test_file, tokenizer, number=conf.test_num, label2idx=train_dataset.label2idx, is_train=False)
+        else:
+            dev_dataset = TransformersNERDataset(conf.dev_file, tokenizer, number=conf.dev_num,
+                                                 label2idx=train_dataset.label2idx, is_train=False, prompt=conf.prompt, template=conf.template,
+                                                 prompt_candidates_from_outside=search_pool)
+            test_dataset = TransformersNERDataset(conf.test_file, tokenizer, number=conf.test_num,
+                                                  label2idx=train_dataset.label2idx, is_train=False, prompt=conf.prompt, template=conf.template,
+                                                  prompt_candidates_from_outside=search_pool)
 
         num_workers = 8
         conf.label_size = len(train_dataset.label2idx)
