@@ -27,6 +27,24 @@ python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_
 python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --gpu 3 --suffix 200
 ```
 
+### Slurm Sampling Command
+```
+python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --nodes ink-ron --suffix 50 --prompt max
+python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --nodes ink-ron --suffix 100 --prompt max
+python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --nodes ink-ron --suffix 150 --prompt max
+python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --nodes ink-ron --suffix 200 --prompt max
+
+python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --nodes ink-ron --suffix 50
+python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --nodes ink-ron --suffix 100
+python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --nodes ink-ron --suffix 150
+python sampling_run.py --train_file transformers_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --nodes ink-ron --suffix 200
+
+python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --nodes ink-ron --suffix 50
+python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --nodes ink-ron --suffix 100
+python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --nodes ink-ron --suffix 150
+python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --nodes ink-ron --suffix 200
+```
+
 ```
 CUDA_VISIBLE_DEVICES=1 \
 python3 transformers_trainer.py \
