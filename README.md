@@ -55,6 +55,9 @@ srun --gres=gpu:1080:1 --nodelist ink-ron python sampling_run_slurm.py --train_f
 srun --gres=gpu:1080:1 --nodelist ink-ron python sampling_run_slurm.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --suffix 100 --prompt max --template basic
 srun --gres=gpu:1080:1 --nodelist ink-ron python sampling_run_slurm.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --suffix 150 --prompt max --template basic
 srun --gres=gpu:1080:1 --nodelist ink-ron python sampling_run_slurm.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --suffix 200 --prompt max --template basic
+
+
+srun --gres=gpu:1080:1 --nodelist ink-ron python sampling_continual_run_slurm.py --train_file transformers_continual_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --suffix 50 --prompt max --template basic --search_pool source --checkpoint /home/shared/fewner/conll_all
 ```
 
 ```
