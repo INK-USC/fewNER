@@ -10,6 +10,7 @@ parser.add_argument('--data_dir', type=str, required=True, help='Data Directory'
 parser.add_argument('--suffix', type=str, required=True, help='Data Directory')
 parser.add_argument('--prompt', type=str, required=True, help='Data Directory')
 parser.add_argument('--template', type=str, required=True, help='Data Directory')
+parser.add_argument('--search_pool', type=str, required=True, help='Data Directory')
 parser.add_argument('--gpu', type=str, default="0", help='GPU ids separated by "," to use for computation')
 
 args = parser.parse_known_args()[0]
@@ -28,17 +29,20 @@ for suffix in suffices:
             " python3 " + args.train_file + \
             " --dataset " + args.dataset + \
             " --data_dir " + args.data_dir + \
+            " --checkpoint /home/shared/fewner/conll_all" + \
             " --model_folder " + model_folder + \
             " --device cuda:0" + \
             " --percent_filename_suffix " + suffix + \
             " --num_epochs 50" + \
             " --prompt " + args.prompt + \
             " --template " + args.template + \
+            " --search_pool " + args.search_pool + \
             " --seed " + seed + " > " + log_file
         log_files.append(log_file)
         model_folders.append(model_folder)
         print(predict_cmd, "\n")
         os.system(predict_cmd)
+
 
 for model_folder in model_folders:
     rm_cmd = "rm -rf model_files/" + model_folder
