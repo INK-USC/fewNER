@@ -11,6 +11,7 @@ parser.add_argument('--suffix', type=str, required=True, help='Data Directory')
 parser.add_argument('--prompt', type=str, required=True, help='Data Directory')
 parser.add_argument('--template', type=str, required=True, help='Data Directory')
 parser.add_argument('--search_pool', type=str, required=True, help='Data Directory')
+parser.add_argument('--checkpoint', type=str, required=True, help='Data Directory')
 parser.add_argument('--gpu', type=str, default="0", help='GPU ids separated by "," to use for computation')
 
 args = parser.parse_known_args()[0]
@@ -29,7 +30,7 @@ for suffix in suffices:
             " python3 " + args.train_file + \
             " --dataset " + args.dataset + \
             " --data_dir " + args.data_dir + \
-            " --checkpoint /home/shared/fewner/conll_all" + \
+            " --checkpoint " + args.checkpoint + \
             " --model_folder " + model_folder + \
             " --device cuda:0" + \
             " --percent_filename_suffix " + suffix + \

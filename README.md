@@ -25,6 +25,8 @@ python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_
 python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --gpu 3 --suffix 100 --prompt random
 python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --gpu 3 --suffix 150 --prompt random
 python sampling_run.py --train_file transformers_trainer.py --dataset ontonotes_conll --data_dir dataset/ontonotes_conll --gpu 3 --suffix 200 --prompt random
+
+python sampling_continual_run.py --train_file transformers_continual_trainer.py --dataset bc5cdr --data_dir dataset/bc5cdr --gpu 1 --suffix 50 --prompt max --template basic --search_pool source --checkpoint /home/shared/fewner/conll_all
 ```
 
 ### Combination Table:
@@ -218,7 +220,7 @@ CUDA_VISIBLE_DEVICES=1 \
 python3 transformers_continual_trainer.py \
 --dataset ontonotes_conll \
 --data_dir dataset/ontonotes_conll \
---checkpoint model_files/models/conll/train_all \
+--checkpoint /home/shared/fewner/conll_all \
 --model_folder models/ontonotes_conll/transfer_train_50_conll \
 --device cuda:0 \
 --percent_filename_suffix 50
