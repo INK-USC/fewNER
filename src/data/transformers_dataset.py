@@ -16,6 +16,7 @@ from termcolor import colored
 from src.data.data_utils import convert_iobes, build_label_idx, check_all_labels_in_dict
 import bert_score
 from src.data import Instance
+import sys
 
 Feature = collections.namedtuple('Feature', 'input_ids attention_mask token_type_ids orig_to_tok_index word_seq_len label_ids')
 Feature.__new__.__defaults__ = (None,) * 6
@@ -60,6 +61,12 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
         for label in entity_dict:
             for x in sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True)[0:1]:
                 max_entities[label] = [x[0], tuple(x[1])[0]]
+                # print('label and its frequency',label,' ',len(tuple(x[1])))
+        # print(max_entities)
+        # print('xxxxxxxxxxxxxxxxx',sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True)[0:1])
+        # sys.exit(0)
+
+    # print('xxxxxxxxxxxxxxxxx',sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True))
 
     if prompt == "sbert" or prompt == "bertscore":
         search_space = []
@@ -224,7 +231,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                             prompt_tokens.append(".")
                         prompt_tokens.append(tokenizer.sep_token)
 
-                if template in ["structure", "structure_all"]:
+                if template in ["structure", "structure_all",'lexical','lexical_all']:
                     instance_prompt_tokens = []
                     instance_words = max_entities[entity_label][1].ori_words
                     for i, word in enumerate(instance_words):
@@ -250,6 +257,19 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                             instance_prompt_tokens.insert(end_ind + 1, entity[1])
                             instance_prompt_tokens.insert(end_ind + 1, '|')
                             instance_prompt_tokens.insert(start_ind, '[')
+                    
+                    elif template =='lexical':
+                        entity_tokens = tokenizer.tokenize(" " + max_entities[entity_label][0])
+                        start_ind = instance_prompt_tokens.index(entity_tokens[0])
+                        end_ind = instance_prompt_tokens.index(entity_tokens[-1])
+                        instance_prompt_tokens[start_ind] = entity_label
+                    
+                    elif template=='lexical_all':
+                        for entity in max_entities[entity_label][1].entities:
+                            entity_tokens = tokenizer.tokenize(" " + entity[0])
+                            start_ind = instance_prompt_tokens.index(entity_tokens[0])
+                            end_ind = instance_prompt_tokens.index(entity_tokens[-1])
+                            instance_prompt_tokens[start_ind] = entity[1]
 
                     prompt_tokens.extend(instance_prompt_tokens)
                     prompt_tokens.append(tokenizer.sep_token)
