@@ -314,7 +314,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                             prompt_tokens.append(".")
                         prompt_tokens.append(tokenizer.sep_token)
 
-                if template in ["structure", "structure_all"]:
+                if template in ["structure", "structure_all","lexical","lexical_all"]:
                     entity = random.choice(tuple(entity_dict[entity_label]))
                     instance = random.choice(entity_dict[entity_label][entity])
 
