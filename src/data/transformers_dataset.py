@@ -61,13 +61,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
         for label in entity_dict:
             for x in sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True)[0:1]:
                 max_entities[label] = [x[0], tuple(x[1])[0]]
-                # print('label and its frequency',label,' ',len(tuple(x[1])))
-        # print(max_entities)
-        # print('xxxxxxxxxxxxxxxxx',sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True)[0:1])
-        # sys.exit(0)
-
-    # print('xxxxxxxxxxxxxxxxx',sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True))
-
+                
     if prompt == "sbert" or prompt == "bertscore":
         search_space = []
         search_space_dict = {}
