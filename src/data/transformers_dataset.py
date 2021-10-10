@@ -256,16 +256,18 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                         entity_tokens = tokenizer.tokenize(" " + max_entities[entity_label][0])
                         start_ind = instance_prompt_tokens.index(entity_tokens[0])
                         end_ind = instance_prompt_tokens.index(entity_tokens[-1])
-                        for i in range(start_ind,end_ind+1):
-                            instance_prompt_tokens[i] = entity_label
+
+                        instance_prompt_tokens[start_ind] = entity_label
+                        del instance_prompt_tokens[start_ind+1:end_ind+1]
+
                     
                     elif template=='lexical_all':
                         for entity in max_entities[entity_label][1].entities:
                             entity_tokens = tokenizer.tokenize(" " + entity[0])
                             start_ind = instance_prompt_tokens.index(entity_tokens[0])
                             end_ind = instance_prompt_tokens.index(entity_tokens[-1])
-                            for i in range(start_ind,end_ind+1):
-                                instance_prompt_tokens[i] = entity[1]
+                            instance_prompt_tokens[start_ind] = entity_label
+                            del instance_prompt_tokens[start_ind + 1:end_ind + 1]
 
                     prompt_tokens.extend(instance_prompt_tokens)
                     prompt_tokens.append(tokenizer.sep_token)
@@ -340,21 +342,21 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                             instance_prompt_tokens.insert(end_ind + 1, entity[1])
                             instance_prompt_tokens.insert(end_ind + 1, '|')
                             instance_prompt_tokens.insert(start_ind, '[')
-                    
+
                     elif template =='lexical':
                         entity_tokens = tokenizer.tokenize(" " + entity)
                         start_ind = instance_prompt_tokens.index(entity_tokens[0])
                         end_ind = instance_prompt_tokens.index(entity_tokens[-1])
-                        for i in range(start_ind,end_ind+1):
-                            instance_prompt_tokens[i] = entity_label
-                    
+                        instance_prompt_tokens[start_ind] = entity_label
+                        del instance_prompt_tokens[start_ind + 1:end_ind + 1]
+
                     elif template=='lexical_all':
                         for entity in instance.entities:
                             entity_tokens = tokenizer.tokenize(" " + entity[0])
                             start_ind = instance_prompt_tokens.index(entity_tokens[0])
                             end_ind = instance_prompt_tokens.index(entity_tokens[-1])
-                            for i in range(start_ind,end_ind+1):
-                                instance_prompt_tokens[i] = entity[1]
+                            instance_prompt_tokens[start_ind] = entity_label
+                            del instance_prompt_tokens[start_ind + 1:end_ind + 1]
 
                     prompt_tokens.extend(instance_prompt_tokens)
                     prompt_tokens.append(tokenizer.sep_token)
