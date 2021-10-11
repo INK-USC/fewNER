@@ -50,7 +50,7 @@ def parse_arguments(parser):
     parser.add_argument('--train_num', type=int, default=-1, help="-1 means all the data")
     parser.add_argument('--dev_num', type=int, default=-1, help="-1 means all the data")
     parser.add_argument('--test_num', type=int, default=-1, help="-1 means all the data")
-    parser.add_argument('--max_no_incre', type=int, default=10, help="early stop when there is n epoch not increasing on dev")
+    parser.add_argument('--max_no_incre', type=int, default=3, help="early stop when there is n epoch not increasing on dev")
     parser.add_argument('--max_grad_norm', type=float, default=1.0, help="The maximum gradient norm, if <=0, means no clipping, usually we don't use clipping for normal neural ncrf")
 
     ##model hyperparameter
