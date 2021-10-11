@@ -163,7 +163,7 @@ def train_model(config: Config, epoch: int, train_loader: DataLoader, dev_loader
             f = open(config_path, 'wb')
             pickle.dump(config, f)
             f.close()
-            write_results(res_path, test_loader.dataset.insts)
+            #write_results(res_path, test_loader.dataset.insts)
         else:
             no_incre_dev += 1
         model.zero_grad()
@@ -182,6 +182,7 @@ def train_model(config: Config, epoch: int, train_loader: DataLoader, dev_loader
     print("Final testing.")
     model.load_state_dict(torch.load(model_path))
     model.eval()
+
     evaluate_model(config, model, test_loader, "test", test_loader.dataset.insts, result_out_file_path=result_out_file_path)
     write_results(res_path, test_loader.dataset.insts)
 

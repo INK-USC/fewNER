@@ -151,7 +151,7 @@ def train_model(config: Config, epoch: int, train_loader: DataLoader, dev_loader
             f = open(config_path, 'wb')
             pickle.dump(config, f)
             f.close()
-            write_results(res_path, test_loader.dataset.insts)
+            #write_results(res_path, test_loader.dataset.insts)
         else:
             no_incre_dev += 1
         model.zero_grad()
