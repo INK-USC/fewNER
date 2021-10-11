@@ -3,10 +3,10 @@ import argparse
 import numpy
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--data', type=str, default='bc5cdr/train.txt', help="text file - dataset")
-parser.add_argument('--target_data', type=str, default='bc5cdr/train.txt', help="text file - dataset")
-parser.add_argument('--number', type=int, default=50, help="number of sentences in dataset")
-parser.add_argument('--seed', type=int, default=2021, help="number of sentences in dataset")
+parser.add_argument('--data', type=str, default='conll/train_all.txt', help="text file - dataset")
+parser.add_argument('--target_data', type=str, default='conll/train_25_1337.txt', help="text file - dataset")
+parser.add_argument('--number', type=int, default=25, help="number of sentences in dataset")
+parser.add_argument('--seed', type=int, default=1337, help="number of sentences in dataset")
 
 args = parser.parse_known_args()[0]
 
@@ -60,8 +60,22 @@ def dataset_slice(number, sents, label_space):
     sliced_sents = []
     while (len(list(labels)) != len(label_space)) or (len(sliced_sents) < number):
         if len(sliced_sents) == number:
-            index = random.choice(range(len(sliced_sents)))
-            del sliced_sents[index]
+            delete_index = 0
+            for i, sent in enumerate(sliced_sents):
+                tmp_bool = False
+                tmp_labels = []
+                for s in sent:
+                    tmp_labels.append(s.split(' ')[-1])
+                tmp_labels = convert_iobes(tmp_labels)
+                for tl in tmp_labels:
+                    if tl.startswith("I-"):
+                        tmp_bool = True
+                if not tmp_bool:
+                    delete_index = i
+                    break
+
+            del sliced_sents[delete_index]
+
         sent_labels = []
         for s in sents[sent_index]:
             sent_labels.append(s.split(' ')[-1])
