@@ -1,0 +1,394 @@
+device: cuda:0
+seed: 2021
+dataset: ontonotes_conll
+data_dir: dataset/ontonotes_conll
+percent_filename_suffix: 50_1337
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 10
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: /home/shared/fewner/conll_all
+model_folder: models/ontonotes_conll/transformers_continual_trainer_max_basic_50_1337_2021
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: max
+template: basic
+search_pool: target
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/ontonotes_conll/train_50_1337.txt
+dataset/ontonotes_conll/dev.txt
+dataset/ontonotes_conll/test.txt[0m
+[Data Info] Reading file: dataset/ontonotes_conll/train_50_1337.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'S-ORG': 2, 'B-ORG': 3, 'E-ORG': 4, 'S-MISC': 5, 'B-MISC': 6, 'E-MISC': 7, 'S-LOC': 8, 'I-MISC': 9, 'B-LOC': 10, 'E-LOC': 11, 'I-ORG': 12, 'B-PER': 13, 'E-PER': 14, 'S-PER': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['but', 'if', 'VDOT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', "n't", 'know', 'what', 'would', 'happen', '.'][0m
+[33mPrompt 0: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 5: ['The', 'implicit', 'price', 'deflator', ',', 'a', 'measure', 'of', 'inflation', ',', 'was', 'down', 'to', 'a', '2.9', '%', 'annual', 'rate', 'of', 'increase', 'in', 'the', 'quarter', 'from', 'a', '4.6', '%', 'rate', 'of', 'gain', 'in', 'the', 'second', 'quarter', '.'][0m
+[33mPrompt 5: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 10: ['``', 'People', 'think', 'of', 'the', 'steel', 'business', 'as', 'an', 'old', 'and', 'mundane', 'smokestack', 'business', ',', "''", 'says', 'Mr.', 'Iverson', '.'][0m
+[33mPrompt 10: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 15: ['The', 'first', 'is', 'to', 'point', 'out', 'that', 'Letting', 'Them', 'Go', '-', 'in', 'which', 'the', 'protagonist', 'of', 'every', 'story', 'is', 'an', 'elderly', 'person', '-', 'is', 'entirely', 'of', 'a', 'piece', 'with', 'his', 'other', 'work', '.'][0m
+[33mPrompt 15: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Uh', ',', 'there', 'are', 'still', 'more', 'than', 'just', 'over', 'ten', 'years', 'for', 'us', 'to', 'forecast', '.'][0m
+[33mPrompt 20: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 25: ['For', 'example', ',', 'this', 'Hu', 'San', 'Niang', ',', 'with', 'all', 'her', 'loved', 'ones', 'recklessly', 'slaughtered', 'by', 'Li', 'Kui', ',', 'if', 'she', 'had', 'any', 'guts', 'at', 'all', ',', 'she', 'should', 'have', 'fought', 'it', 'out', 'with', 'that', 'guy', '.'][0m
+[33mPrompt 25: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 30: ['Hayao', 'Tada', ',', 'commander', 'of', 'the', 'Japanese', 'North', 'China', 'Area', 'Army', ',', 'adopted', 'a', 'strategy', 'of', 'siege', 'warfare', 'to', 'deal', 'with', 'the', 'Eighth', 'Route', 'Army', '.'][0m
+[33mPrompt 30: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 35: ['the', 'Japanese', 'they', 'turn', 'out', '.'][0m
+[33mPrompt 35: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 40: ['The', '2000', 'race', ',', 'with', 'so', 'many', 'tickets', 'contending', ',', 'reflects', 'this', 'aspiration', '.'][0m
+[33mPrompt 40: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 45: ['because', 'I', "'ve", 'been', 'trying', 'to', 'get', 'it', 'around', 'into', 'other', '%um', 'archives'][0m
+[33mPrompt 45: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/ontonotes_conll/train_50_1337.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'S-ORG': 2, 'B-ORG': 3, 'E-ORG': 4, 'S-MISC': 5, 'B-MISC': 6, 'E-MISC': 7, 'S-LOC': 8, 'I-MISC': 9, 'B-LOC': 10, 'E-LOC': 11, 'I-ORG': 12, 'B-PER': 13, 'E-PER': 14, 'S-PER': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['but', 'if', 'VDOT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', "n't", 'know', 'what', 'would', 'happen', '.'][0m
+[33mPrompt 0: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 5: ['The', 'implicit', 'price', 'deflator', ',', 'a', 'measure', 'of', 'inflation', ',', 'was', 'down', 'to', 'a', '2.9', '%', 'annual', 'rate', 'of', 'increase', 'in', 'the', 'quarter', 'from', 'a', '4.6', '%', 'rate', 'of', 'gain', 'in', 'the', 'second', 'quarter', '.'][0m
+[33mPrompt 5: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 10: ['``', 'People', 'think', 'of', 'the', 'steel', 'business', 'as', 'an', 'old', 'and', 'mundane', 'smokestack', 'business', ',', "''", 'says', 'Mr.', 'Iverson', '.'][0m
+[33mPrompt 10: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 15: ['The', 'first', 'is', 'to', 'point', 'out', 'that', 'Letting', 'Them', 'Go', '-', 'in', 'which', 'the', 'protagonist', 'of', 'every', 'story', 'is', 'an', 'elderly', 'person', '-', 'is', 'entirely', 'of', 'a', 'piece', 'with', 'his', 'other', 'work', '.'][0m
+[33mPrompt 15: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Uh', ',', 'there', 'are', 'still', 'more', 'than', 'just', 'over', 'ten', 'years', 'for', 'us', 'to', 'forecast', '.'][0m
+[33mPrompt 20: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 25: ['For', 'example', ',', 'this', 'Hu', 'San', 'Niang', ',', 'with', 'all', 'her', 'loved', 'ones', 'recklessly', 'slaughtered', 'by', 'Li', 'Kui', ',', 'if', 'she', 'had', 'any', 'guts', 'at', 'all', ',', 'she', 'should', 'have', 'fought', 'it', 'out', 'with', 'that', 'guy', '.'][0m
+[33mPrompt 25: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 30: ['Hayao', 'Tada', ',', 'commander', 'of', 'the', 'Japanese', 'North', 'China', 'Area', 'Army', ',', 'adopted', 'a', 'strategy', 'of', 'siege', 'warfare', 'to', 'deal', 'with', 'the', 'Eighth', 'Route', 'Army', '.'][0m
+[33mPrompt 30: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 35: ['the', 'Japanese', 'they', 'turn', 'out', '.'][0m
+[33mPrompt 35: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 40: ['The', '2000', 'race', ',', 'with', 'so', 'many', 'tickets', 'contending', ',', 'reflects', 'this', 'aspiration', '.'][0m
+[33mPrompt 40: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 45: ['because', 'I', "'ve", 'been', 'trying', 'to', 'get', 'it', 'around', 'into', 'other', '%um', 'archives'][0m
+[33mPrompt 45: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/ontonotes_conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 7602
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['President', 'Chen', 'Travels', 'Abroad'][0m
+[33mPrompt 0: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 760: ['First', 'of', 'all', 'here', "'s", 'a', 'quick', 'track', 'of', 'some', 'of', 'the', 'stories', 'we', "'re", 'following', 'tonight', '/.'][0m
+[33mPrompt 760: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1520: ['Yes', ',', 'there', 'is', 'a', '100', 'year', '-', 'old', 'Israeli', '-', 'Arab', 'conflict', ','][0m
+[33mPrompt 1520: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2280: ['The', 'stressful', ',', 'monumental', 'task', 'for', 'the', 'crew', 'on', 'the', 'U.S.', 'carrier', 'suffered', 'a', 'setback', '.'][0m
+[33mPrompt 2280: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 3040: ['For', 'the', 'first', 'time', ',', 'with', 'the', '``', 'Cole', "''", 'out', 'of', 'the', 'water', ',', 'the', 'full', 'impact', 'of', 'the', 'catastrophic', 'blast', 'clearly', 'visible', '.'][0m
+[33mPrompt 3040: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 3800: ['The', 'total', 'marks', 'the', 'sixth', 'consecutive', 'monthly', 'decline', '.'][0m
+[33mPrompt 3800: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 4560: ['In', 'an', 'interview', ',', 'Mr.', 'Bernstein', 'said', 'his', 'departure', '``', 'evolved', 'out', 'of', 'discussions', 'with', 'Si', 'Newhouse', 'and', 'that', "'s", 'the', 'decision', 'I', 'reached', '.', "''"][0m
+[33mPrompt 4560: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 5320: ['Thursday', "'s", 'report', 'on', 'the', 'September', 'consumer', 'price', 'index', 'is', 'expected', 'to', 'rise', ',', 'although', 'not', 'as', 'sharply', 'as', 'the', '0.9', '%', 'gain', 'reported', 'Friday', 'in', 'the', 'producer', 'price', 'index', '.'][0m
+[33mPrompt 5320: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 6080: ['Well', 'before', 'Campeau', ',', 'though', ',', 'there', 'were', 'signs', 'that', 'the', 'junk', 'market', 'was', 'stumbling', 'through', 'one', 'of', 'its', 'worst', 'years', 'ever', '.'][0m
+[33mPrompt 6080: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 6840: ['Fidelity', ',', 'for', 'example', ',', 'prepared', 'ads', 'several', 'months', 'ago', 'in', 'case', 'of', 'a', 'market', 'plunge', '.'][0m
+[33mPrompt 6840: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 7600: ['Henceforth', ',', 'the', 'focus', 'of', 'national', 'economic', 'construction', 'will', 'be', 'gradually', 'transferred', 'to', 'the', 'Mid-west', 'in', 'steps', ',', 'and', 'has', 'reinforced', 'support', 'for', 'foreign', 'investment', 'utilization', 'in', 'the', 'Mid-west', 'areas', ',', 'and', 'fundamental', 'industries', 'such', 'as', 'agriculture', ',', 'transportation', ',', 'raw', 'materials', ',', 'etc.', 'are', 'still', 'the', 'focus', 'of', 'investments', '.'][0m
+[33mPrompt 7600: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/ontonotes_conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 5091
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Powerful', 'Tools', 'for', 'Biotechnology', '-', 'Biochips'][0m
+[33mPrompt 0: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 509: ['would', "n't", 'it', 'also', 'contribute', 'to', 'completely', 'connect', 'the', 'Palestinian', 'and', 'Jordanian', 'economy', 'to', 'the', 'Israeli', 'I', 'mean', ',', 'what', 'generates', 'from', 'it', ',', 'may', 'be', ',', 'of', 'demographic', ',', 'economic', 'and', 'development', 'projects', '.'][0m
+[33mPrompt 509: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1018: ['Um', 'you', 'were', 'recently', 'profiled', 'about', 'this', 'in', 'Fortune', 'magazine', '/.'][0m
+[33mPrompt 1018: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1527: ['Taylor', ',', 'who', 'is', 'now', 'in', 'exile', 'in', 'Nigeria', ',', 'was', 'a', 'business', 'partner', 'with', 'Christian', 'Coalition', 'founder', 'Pat', 'Robertson', '...', 'in', 'a', 'Cayman', 'Islands', 'front', 'company', 'called', 'Freedom', 'Gold', ',', 'Ltd', '.'][0m
+[33mPrompt 1527: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2036: ['Saddam', 'Hussein', ':', 'I', 'have', 'only', 'honor', 'left', 'and', 'honor', 'can', 'not', 'be', 'sold', 'or', 'bought', '.'][0m
+[33mPrompt 2036: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2545: ['The', 'FBI', 'says', 'when', 'they', 'questioned', 'him', ',', 'he', 'told', 'them', 'of', 'another', 'plot', 'to', 'bomb', 'an', 'American', 'ship', 'in', 'Yemen', ',', 'where', 'the', '``', 'USS', 'Cole', "''", 'was', 'ultimately', 'attacked', '.'][0m
+[33mPrompt 2545: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 3054: ['If', 'the', 'workers', 'do', "n't", 'approve', 'the', 'steep', 'cutbacks', 'American', 'says', 'it', 'will', 'file', 'for', 'bankruptcy', '.'][0m
+[33mPrompt 3054: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 3563: ['However', ',', 'Time', 'executives', 'used', 'the', 'same', 'explanation', 'when', 'in', 'October', '1988', 'the', 'magazine', 'cut', 'its', 'guaranteed', 'circulation', 'from', '4.6', 'million', 'to', '4.3', 'million', '.'][0m
+[33mPrompt 3563: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 4072: ['CNN', 'executives', 'hope', 'the', 'headlines', 'created', 'by', 'such', 'scoops', 'will', 'generate', 'excitement', 'for', 'its', '``', 'branded', "''", 'programs', ',', 'in', 'the', 'way', '``', '60', 'Minutes', "''", 'did', 'so', 'well', 'for', 'CBS', '.'][0m
+[33mPrompt 4072: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 4581: ['He', 'has', 'said', 'that', 'he', 'now', 'knows', 'how', 'Justice', 'John', 'Harlan', 'felt', ',', 'a', 'reference', 'to', 'the', 'late', 'conservative', 'justice', 'who', 'was', 'the', 'most', 'frequent', 'dissenter', 'from', 'the', 'Warren', 'Court', "'s", 'opinions', '.'][0m
+[33mPrompt 4581: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 5090: ['Picture', 'taken', 'by', 'Xinhua', 'News', 'Agency', 'reporter', 'Shengnan', 'Li'][0m
+[33mPrompt 5090: ['but', 'if', 'V', '##D', '##OT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', 'n', "'", 't', 'know', 'what', 'would', 'happen', '.', 'V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'Before', 'his', 'death', 'he', 'was', 'always', 'concerned', 'with', 'China', 'and', 'US', 'relations', ',', 'successively', 'visited', 'China', 'seven', 'times', ',', 'made', 'important', 'contributions', 'towards', 'the', 'improvement', 'and', 'development', 'of', 'the', 'two', 'countries', 'relations', ',', 'winning', 'the', 'respect', 'of', 'the', 'Chinese', 'people', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'joins', 'us', 'with', 'the', 'latest', 'from', 'Rama', '##llah', '.', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 5
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/ontonotes_conll/transformers_continual_trainer_max_basic_50_1337_2021.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 4815.48920, Time is 2.01s
+[34m[dev set Total] Prec.: 3.12, Rec.: 8.67, F1: 4.59[0m
+[34m[test set Total] Prec.: 2.71, Rec.: 8.11, F1: 4.06[0m
+saving the best model...
+Epoch 2: 3012.58270, Time is 1.76s
+[34m[dev set Total] Prec.: 4.06, Rec.: 16.17, F1: 6.49[0m
+[34m[test set Total] Prec.: 3.84, Rec.: 16.35, F1: 6.22[0m
+saving the best model...
+Epoch 3: 1909.64014, Time is 1.73s
+[34m[dev set Total] Prec.: 14.45, Rec.: 9.35, F1: 11.35[0m
+[34m[test set Total] Prec.: 15.81, Rec.: 10.62, F1: 12.71[0m
+saving the best model...
+Epoch 4: 1378.58350, Time is 1.72s
+[34m[dev set Total] Prec.: 14.88, Rec.: 9.08, F1: 11.28[0m
+[34m[test set Total] Prec.: 16.21, Rec.: 10.35, F1: 12.63[0m
+Epoch 5: 1234.99524, Time is 1.72s
+[34m[dev set Total] Prec.: 15.80, Rec.: 9.04, F1: 11.50[0m
+[34m[test set Total] Prec.: 17.22, Rec.: 10.39, F1: 12.96[0m
+saving the best model...
+Epoch 6: 1120.30920, Time is 1.75s
+[34m[dev set Total] Prec.: 17.32, Rec.: 9.45, F1: 12.23[0m
+[34m[test set Total] Prec.: 18.83, Rec.: 10.94, F1: 13.84[0m
+saving the best model...
+Epoch 7: 951.13184, Time is 1.72s
+[34m[dev set Total] Prec.: 21.87, Rec.: 12.10, F1: 15.58[0m
+[34m[test set Total] Prec.: 21.70, Rec.: 12.71, F1: 16.03[0m
+saving the best model...
+Epoch 8: 793.50818, Time is 1.70s
+[34m[dev set Total] Prec.: 30.10, Rec.: 18.64, F1: 23.02[0m
+[34m[test set Total] Prec.: 28.37, Rec.: 18.18, F1: 22.16[0m
+saving the best model...
+Epoch 9: 658.47180, Time is 1.71s
+[34m[dev set Total] Prec.: 34.33, Rec.: 23.49, F1: 27.89[0m
+[34m[test set Total] Prec.: 31.80, Rec.: 22.61, F1: 26.43[0m
+saving the best model...
+Epoch 10: 528.18848, Time is 1.74s
+[34m[dev set Total] Prec.: 35.21, Rec.: 28.45, F1: 31.47[0m
+[34m[test set Total] Prec.: 33.53, Rec.: 27.71, F1: 30.34[0m
+saving the best model...
+Epoch 11: 439.90051, Time is 1.71s
+[34m[dev set Total] Prec.: 41.50, Rec.: 36.69, F1: 38.95[0m
+[34m[test set Total] Prec.: 41.07, Rec.: 37.33, F1: 39.11[0m
+saving the best model...
+Epoch 12: 353.37634, Time is 1.73s
+[34m[dev set Total] Prec.: 52.59, Rec.: 49.04, F1: 50.76[0m
+[34m[test set Total] Prec.: 53.30, Rec.: 50.93, F1: 52.09[0m
+saving the best model...
+Epoch 13: 282.20642, Time is 1.71s
+[34m[dev set Total] Prec.: 55.81, Rec.: 54.49, F1: 55.14[0m
+[34m[test set Total] Prec.: 56.20, Rec.: 55.72, F1: 55.96[0m
+saving the best model...
+Epoch 14: 234.65723, Time is 1.73s
+[34m[dev set Total] Prec.: 59.42, Rec.: 56.65, F1: 58.00[0m
+[34m[test set Total] Prec.: 59.99, Rec.: 58.07, F1: 59.01[0m
+saving the best model...
+Epoch 15: 192.93591, Time is 1.69s
+[34m[dev set Total] Prec.: 62.21, Rec.: 60.58, F1: 61.38[0m
+[34m[test set Total] Prec.: 61.68, Rec.: 61.00, F1: 61.34[0m
+saving the best model...
+Epoch 16: 154.44312, Time is 1.73s
+[34m[dev set Total] Prec.: 63.93, Rec.: 62.99, F1: 63.46[0m
+[34m[test set Total] Prec.: 63.18, Rec.: 63.14, F1: 63.16[0m
+saving the best model...
+Epoch 17: 126.96704, Time is 1.70s
+[34m[dev set Total] Prec.: 65.23, Rec.: 63.76, F1: 64.48[0m
+[34m[test set Total] Prec.: 64.23, Rec.: 63.45, F1: 63.84[0m
+saving the best model...
+Epoch 18: 102.18164, Time is 1.71s
+[34m[dev set Total] Prec.: 65.59, Rec.: 63.96, F1: 64.77[0m
+[34m[test set Total] Prec.: 64.93, Rec.: 63.87, F1: 64.40[0m
+saving the best model...
+Epoch 19: 81.07336, Time is 1.72s
+[34m[dev set Total] Prec.: 66.34, Rec.: 65.00, F1: 65.66[0m
+[34m[test set Total] Prec.: 65.60, Rec.: 65.18, F1: 65.39[0m
+saving the best model...
+Epoch 20: 67.00562, Time is 1.73s
+[34m[dev set Total] Prec.: 67.26, Rec.: 65.34, F1: 66.29[0m
+[34m[test set Total] Prec.: 66.59, Rec.: 65.61, F1: 66.09[0m
+saving the best model...
+Epoch 21: 51.33728, Time is 1.71s
+[34m[dev set Total] Prec.: 67.71, Rec.: 65.55, F1: 66.61[0m
+[34m[test set Total] Prec.: 66.98, Rec.: 65.68, F1: 66.32[0m
+saving the best model...
+Epoch 22: 41.79980, Time is 1.68s
+[34m[dev set Total] Prec.: 68.30, Rec.: 66.50, F1: 67.39[0m
+[34m[test set Total] Prec.: 67.29, Rec.: 66.50, F1: 66.89[0m
+saving the best model...
+Epoch 23: 40.87683, Time is 1.73s
+[34m[dev set Total] Prec.: 68.37, Rec.: 67.56, F1: 67.97[0m
+[34m[test set Total] Prec.: 67.34, Rec.: 67.40, F1: 67.37[0m
+saving the best model...
+Epoch 24: 27.79041, Time is 1.74s
+[34m[dev set Total] Prec.: 68.08, Rec.: 67.95, F1: 68.01[0m
+[34m[test set Total] Prec.: 67.09, Rec.: 67.86, F1: 67.47[0m
+saving the best model...
+Epoch 25: 23.74524, Time is 1.70s
+[34m[dev set Total] Prec.: 68.07, Rec.: 67.77, F1: 67.92[0m
+[34m[test set Total] Prec.: 67.13, Rec.: 67.92, F1: 67.52[0m
+Epoch 26: 19.61096, Time is 1.78s
+[34m[dev set Total] Prec.: 68.37, Rec.: 67.78, F1: 68.07[0m
+[34m[test set Total] Prec.: 67.34, Rec.: 67.85, F1: 67.59[0m
+saving the best model...
+Epoch 27: 16.49780, Time is 1.69s
+[34m[dev set Total] Prec.: 68.45, Rec.: 67.88, F1: 68.16[0m
+[34m[test set Total] Prec.: 67.40, Rec.: 67.81, F1: 67.60[0m
+saving the best model...
+Epoch 28: 14.82556, Time is 1.70s
+[34m[dev set Total] Prec.: 68.47, Rec.: 67.47, F1: 67.97[0m
+[34m[test set Total] Prec.: 67.21, Rec.: 67.43, F1: 67.32[0m
+Epoch 29: 12.61890, Time is 1.73s
+[34m[dev set Total] Prec.: 68.21, Rec.: 67.71, F1: 67.96[0m
+[34m[test set Total] Prec.: 67.16, Rec.: 67.64, F1: 67.40[0m
+Epoch 30: 11.15002, Time is 1.70s
+[34m[dev set Total] Prec.: 68.22, Rec.: 68.05, F1: 68.13[0m
+[34m[test set Total] Prec.: 67.03, Rec.: 67.98, F1: 67.50[0m
+Epoch 31: 10.42456, Time is 1.71s
+[34m[dev set Total] Prec.: 68.20, Rec.: 68.06, F1: 68.13[0m
+[34m[test set Total] Prec.: 67.22, Rec.: 67.89, F1: 67.55[0m
+Epoch 32: 9.13135, Time is 1.70s
+[34m[dev set Total] Prec.: 68.42, Rec.: 68.00, F1: 68.21[0m
+[34m[test set Total] Prec.: 67.41, Rec.: 67.84, F1: 67.62[0m
+saving the best model...
+Epoch 33: 8.77417, Time is 1.70s
+[34m[dev set Total] Prec.: 68.57, Rec.: 67.93, F1: 68.25[0m
+[34m[test set Total] Prec.: 67.48, Rec.: 67.81, F1: 67.64[0m
+saving the best model...
+Epoch 34: 7.83228, Time is 1.76s
+[34m[dev set Total] Prec.: 68.43, Rec.: 67.98, F1: 68.21[0m
+[34m[test set Total] Prec.: 67.44, Rec.: 67.93, F1: 67.68[0m
+Epoch 35: 7.00537, Time is 1.67s
+[34m[dev set Total] Prec.: 68.37, Rec.: 67.96, F1: 68.16[0m
+[34m[test set Total] Prec.: 67.37, Rec.: 67.93, F1: 67.65[0m
+Epoch 36: 6.37036, Time is 1.70s
+[34m[dev set Total] Prec.: 68.30, Rec.: 67.84, F1: 68.07[0m
+[34m[test set Total] Prec.: 67.25, Rec.: 67.79, F1: 67.52[0m
+Epoch 37: 6.49878, Time is 1.70s
+[34m[dev set Total] Prec.: 68.22, Rec.: 67.79, F1: 68.01[0m
+[34m[test set Total] Prec.: 67.18, Rec.: 67.79, F1: 67.48[0m
+Epoch 38: 5.57910, Time is 1.69s
+[34m[dev set Total] Prec.: 68.37, Rec.: 67.89, F1: 68.13[0m
+[34m[test set Total] Prec.: 67.27, Rec.: 67.82, F1: 67.55[0m
+Epoch 39: 5.30762, Time is 1.68s
+[34m[dev set Total] Prec.: 68.45, Rec.: 67.94, F1: 68.19[0m
+[34m[test set Total] Prec.: 67.28, Rec.: 67.90, F1: 67.58[0m
+Epoch 40: 5.00708, Time is 1.70s
+[34m[dev set Total] Prec.: 68.44, Rec.: 68.01, F1: 68.23[0m
+[34m[test set Total] Prec.: 67.31, Rec.: 67.96, F1: 67.63[0m
+Epoch 41: 4.75256, Time is 1.72s
+[34m[dev set Total] Prec.: 68.37, Rec.: 67.99, F1: 68.18[0m
+[34m[test set Total] Prec.: 67.43, Rec.: 67.99, F1: 67.71[0m
+Epoch 42: 4.55322, Time is 1.74s
+[34m[dev set Total] Prec.: 68.43, Rec.: 67.91, F1: 68.16[0m
+[34m[test set Total] Prec.: 67.49, Rec.: 67.90, F1: 67.69[0m
+Epoch 43: 4.39209, Time is 1.68s
+[34m[dev set Total] Prec.: 68.42, Rec.: 67.83, F1: 68.12[0m
+[34m[test set Total] Prec.: 67.52, Rec.: 67.82, F1: 67.67[0m
+Epoch 44: 4.18213, Time is 1.72s
+[34m[dev set Total] Prec.: 68.44, Rec.: 67.91, F1: 68.17[0m
+[34m[test set Total] Prec.: 67.49, Rec.: 67.94, F1: 67.72[0m
+Epoch 45: 4.09302, Time is 1.74s
+[34m[dev set Total] Prec.: 68.42, Rec.: 67.89, F1: 68.15[0m
+[34m[test set Total] Prec.: 67.46, Rec.: 67.89, F1: 67.67[0m
+Epoch 46: 8.69507, Time is 1.68s
+[34m[dev set Total] Prec.: 68.45, Rec.: 67.84, F1: 68.14[0m
+[34m[test set Total] Prec.: 67.49, Rec.: 67.82, F1: 67.65[0m
+Epoch 47: 4.02075, Time is 1.72s
+[34m[dev set Total] Prec.: 68.44, Rec.: 67.70, F1: 68.07[0m
+[34m[test set Total] Prec.: 67.47, Rec.: 67.76, F1: 67.62[0m
+Epoch 48: 3.91992, Time is 1.71s
+[34m[dev set Total] Prec.: 68.48, Rec.: 67.70, F1: 68.09[0m
+[34m[test set Total] Prec.: 67.50, Rec.: 67.74, F1: 67.62[0m
+Epoch 49: 4.02942, Time is 1.72s
+[34m[dev set Total] Prec.: 68.49, Rec.: 67.68, F1: 68.08[0m
+[34m[test set Total] Prec.: 67.50, Rec.: 67.71, F1: 67.61[0m
+Epoch 50: 3.89478, Time is 1.65s
+[34m[dev set Total] Prec.: 68.49, Rec.: 67.67, F1: 68.08[0m
+[34m[test set Total] Prec.: 67.52, Rec.: 67.72, F1: 67.62[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 68.25
+The corresponding test: 67.64
+Final testing.
+[34m[test set Total] Prec.: 67.48, Rec.: 67.81, F1: 67.64[0m

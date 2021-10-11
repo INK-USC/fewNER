@@ -1,0 +1,386 @@
+device: cuda:0
+seed: 1337
+dataset: bc5cdr
+data_dir: dataset/bc5cdr
+percent_filename_suffix: 100
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 10
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: /home/shared/fewner/conll_all
+model_folder: models/bc5cdr/transformers_continual_trainer_max_basic_all_100_1337
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: max
+template: basic_all
+search_pool: target
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/bc5cdr/train_100.txt
+dataset/bc5cdr/dev.txt
+dataset/bc5cdr/test.txt[0m
+[Data Info] Reading file: dataset/bc5cdr/train_100.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 83
+[Data Info] Using the training set to build label index
+#labels: 12
+label 2idx: {'<PAD>': 0, 'S-Chemical': 1, 'O': 2, 'B-Disease': 3, 'E-Disease': 4, 'I-Disease': 5, 'S-Disease': 6, 'B-Chemical': 7, 'I-Chemical': 8, 'E-Chemical': 9, '<START>': 10, '<STOP>': 11}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Selegiline', '-', 'induced', 'postural', 'hypotension', 'in', 'Parkinson', "'", 's', 'disease', ':', 'a', 'longitudinal', 'study', 'on', 'the', 'effects', 'of', 'drug', 'withdrawal', '.'][0m
+[33mPrompt 0: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 8: ['Stopping', 'selegiline', 'also', 'significantly', 'reduced', 'the', 'supine', 'systolic', 'and', 'diastolic', 'blood', 'pressures', 'consistent', 'with', 'a', 'previously', 'undescribed', 'supine', 'pressor', 'action', '.'][0m
+[33mPrompt 8: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 16: ['The', 'present', 'study', 'was', 'undertaken', 'to', 'investigate', 'the', 'effects', 'of', 'TET', 'and', 'FAN', 'on', 'the', 'experimental', 'thrombosis', 'induced', 'by', 'collagen', 'plus', 'epinephrine', '(', 'EP', ')', 'in', 'mice', ',', 'and', 'platelet', 'aggregation', 'and', 'blood', 'coagulation', 'in', 'vitro', '.'][0m
+[33mPrompt 16: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 24: ['This', 'paper', 'attempts', 'to', 'examine', 'and', 'compare', 'prevalence', 'rates', 'and', 'symptom', 'patterns', 'of', 'DSM', 'substance', '-', 'induced', 'and', 'other', 'mood', 'disorders', '.'][0m
+[33mPrompt 24: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 32: ['Intracerebral', 'hemorrhage', 'is', 'associated', 'with', 'more', 'inflammation', 'than', 'ischemic', 'stroke', '.'][0m
+[33mPrompt 32: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 40: ['Accumulation', 'of', 'atracurium', 'in', 'the', 'intravenous', 'line', 'led', 'to', 'recurarization', 'after', 'flushing', 'the', 'line', 'in', 'the', 'recovery', 'room', '.'][0m
+[33mPrompt 40: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 48: ['However', ',', 'marked', 'tachycardia', 'associated', 'with', 'the', 'use', 'of', 'ephedrine', 'in', 'combination', 'with', 'propofol', 'occurred', 'in', 'the', 'majority', 'of', 'patients', ',', 'occasionally', 'reaching', 'high', 'levels', 'in', 'individual', 'patients', '.'][0m
+[33mPrompt 48: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 56: ['Treatment', 'was', 'comprised', 'of', 'VNB', ',', '25', 'mg', '/', 'm', '(', '2', ')', ',', 'plus', 'GEM', ',', '1000', 'mg', '/', 'm', '(', '2', ')', ',', 'both', 'on', 'Days', '1', ',', '8', ',', 'and', '15', 'every', '28', 'days', '.'][0m
+[33mPrompt 56: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 64: ['A', 'selective', 'dopamine', 'D4', 'receptor', 'antagonist', ',', 'NRA0160', ':', 'a', 'preclinical', 'neuropharmacological', 'profile', '.'][0m
+[33mPrompt 64: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 72: ['NRA0160', 'and', 'clozapine', 'significantly', 'shortened', 'the', 'phencyclidine', '(', 'PCP', ')', '-', 'induced', 'prolonged', 'swimming', 'latency', 'in', 'rats', 'in', 'a', 'water', 'maze', 'task', '.'][0m
+[33mPrompt 72: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 80: ['Concurrent', 'treatment', 'of', 'both', 'dietary', 'groups', 'with', 'Warfarin', 'produced', 'massive', 'focal', 'calcification', 'of', 'the', 'artery', 'media', 'in', 'the', 'ad', 'libitum', '-', 'fed', 'rats', 'but', 'no', 'detectable', 'artery', 'calcification', 'in', 'the', 'restricted', '-', 'diet', ',', 'growth', '-', 'inhibited', 'group', '.'][0m
+[33mPrompt 80: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/train_100.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 83
+[Data Info] Using the training set to build label index
+#labels: 12
+label 2idx: {'<PAD>': 0, 'S-Chemical': 1, 'O': 2, 'B-Disease': 3, 'E-Disease': 4, 'I-Disease': 5, 'S-Disease': 6, 'B-Chemical': 7, 'I-Chemical': 8, 'E-Chemical': 9, '<START>': 10, '<STOP>': 11}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Selegiline', '-', 'induced', 'postural', 'hypotension', 'in', 'Parkinson', "'", 's', 'disease', ':', 'a', 'longitudinal', 'study', 'on', 'the', 'effects', 'of', 'drug', 'withdrawal', '.'][0m
+[33mPrompt 0: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 8: ['Stopping', 'selegiline', 'also', 'significantly', 'reduced', 'the', 'supine', 'systolic', 'and', 'diastolic', 'blood', 'pressures', 'consistent', 'with', 'a', 'previously', 'undescribed', 'supine', 'pressor', 'action', '.'][0m
+[33mPrompt 8: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 16: ['The', 'present', 'study', 'was', 'undertaken', 'to', 'investigate', 'the', 'effects', 'of', 'TET', 'and', 'FAN', 'on', 'the', 'experimental', 'thrombosis', 'induced', 'by', 'collagen', 'plus', 'epinephrine', '(', 'EP', ')', 'in', 'mice', ',', 'and', 'platelet', 'aggregation', 'and', 'blood', 'coagulation', 'in', 'vitro', '.'][0m
+[33mPrompt 16: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 24: ['This', 'paper', 'attempts', 'to', 'examine', 'and', 'compare', 'prevalence', 'rates', 'and', 'symptom', 'patterns', 'of', 'DSM', 'substance', '-', 'induced', 'and', 'other', 'mood', 'disorders', '.'][0m
+[33mPrompt 24: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 32: ['Intracerebral', 'hemorrhage', 'is', 'associated', 'with', 'more', 'inflammation', 'than', 'ischemic', 'stroke', '.'][0m
+[33mPrompt 32: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 40: ['Accumulation', 'of', 'atracurium', 'in', 'the', 'intravenous', 'line', 'led', 'to', 'recurarization', 'after', 'flushing', 'the', 'line', 'in', 'the', 'recovery', 'room', '.'][0m
+[33mPrompt 40: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 48: ['However', ',', 'marked', 'tachycardia', 'associated', 'with', 'the', 'use', 'of', 'ephedrine', 'in', 'combination', 'with', 'propofol', 'occurred', 'in', 'the', 'majority', 'of', 'patients', ',', 'occasionally', 'reaching', 'high', 'levels', 'in', 'individual', 'patients', '.'][0m
+[33mPrompt 48: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 56: ['Treatment', 'was', 'comprised', 'of', 'VNB', ',', '25', 'mg', '/', 'm', '(', '2', ')', ',', 'plus', 'GEM', ',', '1000', 'mg', '/', 'm', '(', '2', ')', ',', 'both', 'on', 'Days', '1', ',', '8', ',', 'and', '15', 'every', '28', 'days', '.'][0m
+[33mPrompt 56: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 64: ['A', 'selective', 'dopamine', 'D4', 'receptor', 'antagonist', ',', 'NRA0160', ':', 'a', 'preclinical', 'neuropharmacological', 'profile', '.'][0m
+[33mPrompt 64: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 72: ['NRA0160', 'and', 'clozapine', 'significantly', 'shortened', 'the', 'phencyclidine', '(', 'PCP', ')', '-', 'induced', 'prolonged', 'swimming', 'latency', 'in', 'rats', 'in', 'a', 'water', 'maze', 'task', '.'][0m
+[33mPrompt 72: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 80: ['Concurrent', 'treatment', 'of', 'both', 'dietary', 'groups', 'with', 'Warfarin', 'produced', 'massive', 'focal', 'calcification', 'of', 'the', 'artery', 'media', 'in', 'the', 'ad', 'libitum', '-', 'fed', 'rats', 'but', 'no', 'detectable', 'artery', 'calcification', 'in', 'the', 'restricted', '-', 'diet', ',', 'growth', '-', 'inhibited', 'group', '.'][0m
+[33mPrompt 80: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 3809
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['22', '-', 'oxacalcitriol', 'suppresses', 'secondary', 'hyperparathyroidism', 'without', 'inducing', 'low', 'bone', 'turnover', 'in', 'dogs', 'with', 'renal', 'failure', '.'][0m
+[33mPrompt 0: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 380: ['The', 'time', 'course', 'of', 'events', 'suggested', 'that', 'amphotericin', 'B', 'was', 'the', 'cause', 'of', 'the', 'seizures', 'in', 'this', 'AIDS', 'patient', '.'][0m
+[33mPrompt 380: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 760: ['VSD', 'also', 'was', 'noted', 'following', 'treatment', 'on', 'GD', '11', '.'][0m
+[33mPrompt 760: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1140: ['A', 'variety', 'of', 'abnormal', 'sensory', '/', 'motor', 'behaviors', 'associated', 'with', 'electrical', 'discharges', 'recorded', 'from', 'the', 'bilateral', 'brainstem', 'were', 'induced', 'in', 'adult', 'WKY', 'rats', 'by', 'mechanical', '(', 'electrode', 'implants', ')', 'and', 'DC', 'electrical', 'current', 'stimulations', 'and', 'by', 'acute', 'and', 'chronic', 'administration', 'of', 'cocaine', '.'][0m
+[33mPrompt 1140: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1520: ['During', 'treatment', 'of', 'chronic', 'hepatitis', 'C', 'patients', 'with', 'interferon', 'and', 'ribavirin', ',', 'a', 'lot', 'of', 'side', 'effects', 'are', 'described', '.'][0m
+[33mPrompt 1520: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1900: ['A', 'biodegradable', 'polymer', 'dextran', 'has', 'been', 'utilized', 'as', 'a', 'carrier', 'for', 'synthesis', 'of', 'etodolac', '-', 'dextran', 'conjugates', '(', 'ED', ')', 'to', 'improve', 'its', 'aqueous', 'solubility', 'and', 'reduce', 'gastrointestinal', 'side', 'effects', '.'][0m
+[33mPrompt 1900: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 2280: ['We', 'conclude', 'that', 'the', 'analgesic', 'action', 'of', 'opioids', 'on', 'the', 'peripheral', 'terminals', 'of', 'primary', 'afferents', 'is', 'via', 'a', 'binding', 'site', 'with', 'characteristics', 'of', 'the', 'mu', '-', 'opioid', 'receptor', 'and', 'that', 'this', 'action', 'is', 'mediated', 'by', 'inhibition', 'of', 'the', 'cyclic', 'adenosine', 'monophosphate', 'second', 'messenger', 'system', '.'][0m
+[33mPrompt 2280: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 2660: ['Tri', '-', 'ortho', '-', 'tolyl', 'phosphate', '(', 'TOTP', ')', ',', '360', 'mg', '/', 'kg', ',', 'po', ',', 'and', '0', ',', '0', "'", '-', 'diisopropyl', 'phosphorofluoridate', '(', 'DFP', ')', ',', '1', 'mg', '/', 'kg', 'sc', ',', 'were', 'administered', 'to', 'adult', 'White', 'Leghorn', 'chickens', '24', 'hr', 'after', 'they', 'were', 'placed', 'on', 'diets', 'containing', '0', 'to', '300', 'ppm', 'corticosterone', '.'][0m
+[33mPrompt 2660: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3040: ['Intraventricular', 'infusion', 'of', 'dopamine', 'sufficient', 'to', 'raise', 'the', 'brain', 'dopamine', 'to', 'the', 'same', 'extent', 'did', 'not', 'prevent', 'the', 'ammonia', 'coma', 'nor', 'affect', 'the', 'blood', 'and', 'brain', 'ammonia', 'concentrations', '.'][0m
+[33mPrompt 3040: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3420: ['These', 'results', 'are', 'consistent', 'with', 'the', 'hypothesis', 'that', 'the', 'rat', 'has', 'a', 'poorer', 'tolerance', 'for', 'deoxycholic', 'acid', 'than', 'do', 'certain', 'other', 'species', '.'][0m
+[33mPrompt 3420: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3800: ['Isoniazid', 'significantly', 'increased', 'bradycardia', 'after', 'propranolol', ',', 'pindolol', ',', 'labetalol', 'and', 'atenolol', ',', 'as', 'well', 'as', 'after', 'clonidine', ',', 'but', 'not', 'after', 'hexamethonium', 'or', 'carbachol', '.'][0m
+[33mPrompt 3800: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 3974
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Torsade', 'de', 'pointes', 'ventricular', 'tachycardia', 'during', 'low', 'dose', 'intermittent', 'dobutamine', 'treatment', 'in', 'a', 'patient', 'with', 'dilated', 'cardiomyopathy', 'and', 'congestive', 'heart', 'failure', '.'][0m
+[33mPrompt 0: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 397: ['Neuroleptic', 'malignant', 'syndrome', 'complicated', 'by', 'massive', 'intestinal', 'bleeding', 'in', 'a', 'patient', 'with', 'chronic', 'renal', 'failure', '.'][0m
+[33mPrompt 397: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 794: ['Apparent', 'risk', 'factors', 'for', 'the', 'development', 'of', 'mania', 'or', 'hypomania', 'during', 'fluoxetine', 'pharmacotherapy', 'in', 'this', 'population', 'were', 'the', 'combination', 'of', 'attention', '-', 'deficit', 'hyperactivity', 'disorder', 'and', 'affective', 'instability', ';', 'major', 'depression', 'with', 'psychotic', 'features', ';', 'a', 'family', 'history', 'of', 'affective', 'disorder', ',', 'especially', 'bipolar', 'disorder', ';', 'and', 'a', 'diagnosis', 'of', 'bipolar', 'disorder', '.'][0m
+[33mPrompt 794: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1191: ['CONCLUSION', ':', 'The', 'data', 'acquired', 'suggest', 'that', 'isolated', 'MAP', 'may', 'have', 'certain', 'benefits', 'on', 'LV', 'dimension', '/', 'function', 'in', 'acute', 'heart', 'failure', ',', 'even', 'in', 'the', 'absence', 'of', 'MR', '.'][0m
+[33mPrompt 1191: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1588: ['Initial', 'evaluation', 'confirmed', 'FHF', 'from', 'acetaminophen', 'and', 'cerebral', 'edema', '.'][0m
+[33mPrompt 1588: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1985: ['CONCLUSIONS', ':', 'The', 'prevalence', 'of', 'levodopa', '-', 'induced', 'dyskinesia', 'in', 'our', 'patients', 'was', '44', '%', '.'][0m
+[33mPrompt 1985: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 2382: ['Bortezomib', 'and', 'high', '-', 'dose', 'dexamethasone', '-', 'containing', 'regimens', 'are', 'considered', 'to', 'be', 'generally', 'tolerable', 'with', 'few', 'severe', 'bacterial', 'infections', 'in', 'patients', 'with', 'B', '-', 'cell', 'malignancies', '.'][0m
+[33mPrompt 2382: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 2779: ['Conditions', 'that', 'will', 'be', 'required', 'for', 'studies', 'of', '1', ',', '3', '-', 'butadiene', 'are', 'discussed', '.'][0m
+[33mPrompt 2779: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3176: ['After', '4', 'weeks', 'the', 'PAN', 'rats', 'were', 'severely', 'proteinuric', '(', '190', '+', '/', '-', '80', 'mg', '/', '24', 'hr', ')', ',', 'and', 'all', 'rats', 'were', 'given', 'colloidal', 'carbon', '(', 'CC', ')', 'intravenously', '.'][0m
+[33mPrompt 3176: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3573: ['This', 'also', 'resulted', 'in', 'an', 'increased', 'incidence', 'of', 'seizures', ',', '90', '%', '(', 'P', '<', 'or', '=', '.', '01', ')', ',', 'and', 'death', ',', '90', '%', '(', 'P', '<', 'or', '=', '.', '05', ')', ',', 'compared', 'with', 'group', '4', '.'][0m
+[33mPrompt 3573: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3970: ['Seven', 'of', 'the', '13', 'patients', 'had', 'exhibited', 'a', 'subclinical', 'hypertensive', 'state', 'before', 'cyclosporin', 'A', 'therapy', '.'][0m
+[33mPrompt 3970: ['A', 'selective', 'do', '##pa', '##mine', 'D', '##4', 'receptor', 'antagonist', ',', 'N', '##RA', '##01', '##60', ':', 'a', 'pre', '##c', '##lini', '##cal', 'ne', '##uro', '##pha', '##rma', '##cological', 'profile', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'N', '##RA', '##01', '##60', 'is', 'Chemical', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 9
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/bc5cdr/transformers_continual_trainer_max_basic_all_100_1337.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 4861.63254, Time is 2.46s
+[34m[dev set Total] Prec.: 21.39, Rec.: 10.65, F1: 14.22[0m
+[34m[test set Total] Prec.: 21.60, Rec.: 12.16, F1: 15.56[0m
+saving the best model...
+Epoch 2: 1850.75638, Time is 2.29s
+[34m[dev set Total] Prec.: 41.42, Rec.: 37.70, F1: 39.48[0m
+[34m[test set Total] Prec.: 39.89, Rec.: 37.73, F1: 38.78[0m
+saving the best model...
+Epoch 3: 1294.80493, Time is 2.22s
+[34m[dev set Total] Prec.: 39.99, Rec.: 39.00, F1: 39.49[0m
+[34m[test set Total] Prec.: 38.88, Rec.: 39.03, F1: 38.95[0m
+saving the best model...
+Epoch 4: 953.16827, Time is 2.16s
+[34m[dev set Total] Prec.: 36.27, Rec.: 41.13, F1: 38.55[0m
+[34m[test set Total] Prec.: 35.83, Rec.: 41.89, F1: 38.62[0m
+Epoch 5: 658.21521, Time is 2.25s
+[34m[dev set Total] Prec.: 43.55, Rec.: 47.04, F1: 45.23[0m
+[34m[test set Total] Prec.: 42.27, Rec.: 47.67, F1: 44.81[0m
+saving the best model...
+Epoch 6: 436.35730, Time is 2.19s
+[34m[dev set Total] Prec.: 49.90, Rec.: 51.95, F1: 50.91[0m
+[34m[test set Total] Prec.: 48.03, Rec.: 52.17, F1: 50.01[0m
+saving the best model...
+Epoch 7: 264.63629, Time is 2.26s
+[34m[dev set Total] Prec.: 53.84, Rec.: 55.21, F1: 54.51[0m
+[34m[test set Total] Prec.: 52.29, Rec.: 55.96, F1: 54.06[0m
+saving the best model...
+Epoch 8: 174.01303, Time is 2.22s
+[34m[dev set Total] Prec.: 54.53, Rec.: 55.98, F1: 55.24[0m
+[34m[test set Total] Prec.: 52.72, Rec.: 56.66, F1: 54.62[0m
+saving the best model...
+Epoch 9: 109.27588, Time is 2.23s
+[34m[dev set Total] Prec.: 54.19, Rec.: 60.97, F1: 57.38[0m
+[34m[test set Total] Prec.: 52.20, Rec.: 61.98, F1: 56.67[0m
+saving the best model...
+Epoch 10: 68.32819, Time is 2.19s
+[34m[dev set Total] Prec.: 57.31, Rec.: 62.12, F1: 59.62[0m
+[34m[test set Total] Prec.: 54.21, Rec.: 62.47, F1: 58.05[0m
+saving the best model...
+Epoch 11: 44.37759, Time is 2.24s
+[34m[dev set Total] Prec.: 55.21, Rec.: 58.13, F1: 56.63[0m
+[34m[test set Total] Prec.: 53.11, Rec.: 58.76, F1: 55.80[0m
+Epoch 12: 23.92596, Time is 2.20s
+[34m[dev set Total] Prec.: 56.98, Rec.: 64.43, F1: 60.48[0m
+[34m[test set Total] Prec.: 54.40, Rec.: 64.59, F1: 59.06[0m
+saving the best model...
+Epoch 13: 19.66418, Time is 2.30s
+[34m[dev set Total] Prec.: 61.04, Rec.: 61.48, F1: 61.26[0m
+[34m[test set Total] Prec.: 58.91, Rec.: 61.91, F1: 60.37[0m
+saving the best model...
+Epoch 14: 7.75891, Time is 2.29s
+[34m[dev set Total] Prec.: 57.18, Rec.: 65.65, F1: 61.12[0m
+[34m[test set Total] Prec.: 54.72, Rec.: 65.68, F1: 59.70[0m
+Epoch 15: 2.90961, Time is 2.26s
+[34m[dev set Total] Prec.: 56.45, Rec.: 65.60, F1: 60.68[0m
+[34m[test set Total] Prec.: 54.22, Rec.: 65.82, F1: 59.46[0m
+Epoch 16: 2.84155, Time is 2.20s
+[34m[dev set Total] Prec.: 56.81, Rec.: 68.02, F1: 61.91[0m
+[34m[test set Total] Prec.: 54.32, Rec.: 67.90, F1: 60.36[0m
+saving the best model...
+Epoch 17: 1.04260, Time is 2.33s
+[34m[dev set Total] Prec.: 56.29, Rec.: 63.24, F1: 59.57[0m
+[34m[test set Total] Prec.: 53.93, Rec.: 63.34, F1: 58.26[0m
+Epoch 18: 0.70251, Time is 2.14s
+[34m[dev set Total] Prec.: 57.46, Rec.: 66.51, F1: 61.65[0m
+[34m[test set Total] Prec.: 55.18, Rec.: 66.66, F1: 60.38[0m
+Epoch 19: 4.03180, Time is 2.20s
+[34m[dev set Total] Prec.: 57.34, Rec.: 66.39, F1: 61.53[0m
+[34m[test set Total] Prec.: 55.05, Rec.: 66.57, F1: 60.26[0m
+Epoch 20: 0.36719, Time is 2.26s
+[34m[dev set Total] Prec.: 57.44, Rec.: 64.97, F1: 60.97[0m
+[34m[test set Total] Prec.: 55.29, Rec.: 65.14, F1: 59.81[0m
+Epoch 21: 0.30579, Time is 2.17s
+[34m[dev set Total] Prec.: 56.32, Rec.: 68.51, F1: 61.82[0m
+[34m[test set Total] Prec.: 53.96, Rec.: 68.54, F1: 60.38[0m
+Epoch 22: 0.26343, Time is 2.18s
+[34m[dev set Total] Prec.: 56.43, Rec.: 65.87, F1: 60.79[0m
+[34m[test set Total] Prec.: 54.34, Rec.: 66.04, F1: 59.62[0m
+Epoch 23: 0.23505, Time is 2.14s
+[34m[dev set Total] Prec.: 56.35, Rec.: 66.76, F1: 61.12[0m
+[34m[test set Total] Prec.: 54.03, Rec.: 66.91, F1: 59.78[0m
+Epoch 24: 0.20428, Time is 2.21s
+[34m[dev set Total] Prec.: 56.55, Rec.: 67.23, F1: 61.43[0m
+[34m[test set Total] Prec.: 54.09, Rec.: 67.42, F1: 60.02[0m
+Epoch 25: 0.18530, Time is 2.24s
+[34m[dev set Total] Prec.: 57.02, Rec.: 66.28, F1: 61.30[0m
+[34m[test set Total] Prec.: 54.42, Rec.: 66.30, F1: 59.78[0m
+Epoch 26: 0.17358, Time is 2.25s
+[34m[dev set Total] Prec.: 57.25, Rec.: 65.53, F1: 61.11[0m
+[34m[test set Total] Prec.: 54.80, Rec.: 65.68, F1: 59.75[0m
+Epoch 27: 0.16748, Time is 2.20s
+[34m[dev set Total] Prec.: 57.23, Rec.: 65.36, F1: 61.03[0m
+[34m[test set Total] Prec.: 54.82, Rec.: 65.52, F1: 59.69[0m
+Epoch 28: 0.31842, Time is 2.16s
+[34m[dev set Total] Prec.: 55.82, Rec.: 69.23, F1: 61.81[0m
+[34m[test set Total] Prec.: 53.21, Rec.: 69.42, F1: 60.24[0m
+Epoch 29: 0.16245, Time is 2.26s
+[34m[dev set Total] Prec.: 56.78, Rec.: 66.26, F1: 61.15[0m
+[34m[test set Total] Prec.: 54.48, Rec.: 66.31, F1: 59.81[0m
+Epoch 30: 0.14697, Time is 2.15s
+[34m[dev set Total] Prec.: 58.05, Rec.: 62.54, F1: 60.21[0m
+[34m[test set Total] Prec.: 56.07, Rec.: 62.59, F1: 59.15[0m
+Epoch 31: 0.16443, Time is 2.25s
+[34m[dev set Total] Prec.: 56.95, Rec.: 65.00, F1: 60.71[0m
+[34m[test set Total] Prec.: 54.76, Rec.: 64.80, F1: 59.36[0m
+Epoch 32: 0.13812, Time is 2.06s
+[34m[dev set Total] Prec.: 56.43, Rec.: 66.33, F1: 60.98[0m
+[34m[test set Total] Prec.: 54.35, Rec.: 66.19, F1: 59.69[0m
+Epoch 33: 0.13342, Time is 2.22s
+[34m[dev set Total] Prec.: 56.41, Rec.: 66.67, F1: 61.11[0m
+[34m[test set Total] Prec.: 54.37, Rec.: 66.54, F1: 59.84[0m
+Epoch 34: 0.15503, Time is 2.21s
+[34m[dev set Total] Prec.: 56.80, Rec.: 66.79, F1: 61.39[0m
+[34m[test set Total] Prec.: 54.64, Rec.: 66.65, F1: 60.05[0m
+Epoch 35: 0.15198, Time is 2.18s
+[34m[dev set Total] Prec.: 57.47, Rec.: 67.98, F1: 62.29[0m
+[34m[test set Total] Prec.: 54.98, Rec.: 67.73, F1: 60.70[0m
+saving the best model...
+Epoch 36: 0.12292, Time is 2.25s
+[34m[dev set Total] Prec.: 57.09, Rec.: 66.63, F1: 61.49[0m
+[34m[test set Total] Prec.: 54.79, Rec.: 66.63, F1: 60.13[0m
+Epoch 37: 0.11841, Time is 2.22s
+[34m[dev set Total] Prec.: 56.70, Rec.: 65.80, F1: 60.91[0m
+[34m[test set Total] Prec.: 54.61, Rec.: 65.98, F1: 59.76[0m
+Epoch 38: 0.11548, Time is 2.20s
+[34m[dev set Total] Prec.: 56.78, Rec.: 66.05, F1: 61.06[0m
+[34m[test set Total] Prec.: 54.65, Rec.: 66.26, F1: 59.90[0m
+Epoch 39: 0.11279, Time is 2.23s
+[34m[dev set Total] Prec.: 56.99, Rec.: 66.31, F1: 61.30[0m
+[34m[test set Total] Prec.: 54.86, Rec.: 66.56, F1: 60.15[0m
+Epoch 40: 0.10760, Time is 2.17s
+[34m[dev set Total] Prec.: 57.13, Rec.: 66.51, F1: 61.46[0m
+[34m[test set Total] Prec.: 54.99, Rec.: 66.77, F1: 60.31[0m
+Epoch 41: 0.10718, Time is 2.23s
+[34m[dev set Total] Prec.: 57.29, Rec.: 66.98, F1: 61.76[0m
+[34m[test set Total] Prec.: 55.03, Rec.: 67.09, F1: 60.46[0m
+Epoch 42: 0.10474, Time is 2.17s
+[34m[dev set Total] Prec.: 57.30, Rec.: 67.09, F1: 61.81[0m
+[34m[test set Total] Prec.: 55.04, Rec.: 67.23, F1: 60.53[0m
+Epoch 43: 0.10486, Time is 2.24s
+[34m[dev set Total] Prec.: 57.42, Rec.: 67.30, F1: 61.97[0m
+[34m[test set Total] Prec.: 55.03, Rec.: 67.29, F1: 60.54[0m
+Epoch 44: 0.10211, Time is 2.22s
+[34m[dev set Total] Prec.: 57.40, Rec.: 67.18, F1: 61.91[0m
+[34m[test set Total] Prec.: 55.05, Rec.: 67.22, F1: 60.53[0m
+Epoch 45: 0.10175, Time is 2.21s
+[34m[dev set Total] Prec.: 57.49, Rec.: 67.29, F1: 62.00[0m
+[34m[test set Total] Prec.: 55.05, Rec.: 67.25, F1: 60.54[0m
+Epoch 46: 0.10229, Time is 2.20s
+[34m[dev set Total] Prec.: 57.52, Rec.: 67.29, F1: 62.02[0m
+[34m[test set Total] Prec.: 55.09, Rec.: 67.25, F1: 60.56[0m
+Epoch 47: 0.10516, Time is 2.20s
+[34m[dev set Total] Prec.: 57.53, Rec.: 67.34, F1: 62.05[0m
+[34m[test set Total] Prec.: 55.12, Rec.: 67.31, F1: 60.61[0m
+Epoch 48: 0.09918, Time is 2.19s
+[34m[dev set Total] Prec.: 57.58, Rec.: 67.54, F1: 62.16[0m
+[34m[test set Total] Prec.: 55.13, Rec.: 67.52, F1: 60.70[0m
+Epoch 49: 0.10022, Time is 2.15s
+[34m[dev set Total] Prec.: 57.61, Rec.: 67.64, F1: 62.23[0m
+[34m[test set Total] Prec.: 55.14, Rec.: 67.56, F1: 60.72[0m
+Epoch 50: 0.10022, Time is 2.16s
+[34m[dev set Total] Prec.: 57.63, Rec.: 67.65, F1: 62.24[0m
+[34m[test set Total] Prec.: 55.16, Rec.: 67.57, F1: 60.73[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 62.29
+The corresponding test: 60.70
+Final testing.
+[34m[test set Total] Prec.: 54.98, Rec.: 67.73, F1: 60.70[0m

@@ -1,0 +1,387 @@
+device: cuda:0
+seed: 1337
+dataset: bc5cdr
+data_dir: dataset/bc5cdr
+percent_filename_suffix: 150_2021
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 10
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: /home/shared/fewner/conll_all
+model_folder: models/bc5cdr/transformers_continual_trainer_max_basic_all_150_2021_1337
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: max
+template: basic_all
+search_pool: target
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/bc5cdr/train_150_2021.txt
+dataset/bc5cdr/dev.txt
+dataset/bc5cdr/test.txt[0m
+[Data Info] Reading file: dataset/bc5cdr/train_150_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 150
+[Data Info] Using the training set to build label index
+#labels: 12
+label 2idx: {'<PAD>': 0, 'O': 1, 'B-Disease': 2, 'E-Disease': 3, 'S-Chemical': 4, 'S-Disease': 5, 'I-Disease': 6, 'B-Chemical': 7, 'E-Chemical': 8, 'I-Chemical': 9, '<START>': 10, '<STOP>': 11}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['This', 'study', 'tested', 'the', 'hypothesis', 'that', 'activation', 'of', 'nociceptive', 'muscle', 'afferent', 'fibers', 'would', 'be', 'linked', 'to', 'an', 'increased', 'excitability', 'of', 'the', 'human', 'jaw', '-', 'stretch', 'reflex', 'and', 'whether', 'this', 'process', 'would', 'be', 'sensitive', 'to', 'length', 'and', 'velocity', 'of', 'the', 'stretch', '.'][0m
+[33mPrompt 0: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 15: ['In', 'contrast', 'with', 'the', 'literature', ',', 'serum', 'levels', 'of', 'angiogenesis', 'factors', 'did', 'not', 'change', 'significantly', 'by', 'pegylated', 'interferon', 'and', 'ribavirin', 'therapy', '.'][0m
+[33mPrompt 15: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 30: ['This', 'study', 'is', 'the', 'first', 'to', 'demonstrate', 'that', 'impairment', 'of', 'hepatocyte', 'TJs', 'occurs', 'heterogenously', 'in', 'the', 'liver', 'lobule', 'after', 'BDL', 'and', 'suggests', 'that', 'BDL', 'and', 'EE', 'treatments', 'produce', 'different', 'lobular', 'distributions', 'of', 'increased', 'paracellular', 'permeability', '.'][0m
+[33mPrompt 30: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 45: ['In', 'independent', 'groups', ',', 'morphine', 'inhibited', 'the', 'intestinal', 'transit', 'in', '48', '+', '/', '-', '4', '%', 'and', '38', '+', '/', '-', '4', '%', 'after', 'acute', 'and', 'chronic', 'treatment', ',', 'respectively', ',', 'suggesting', 'that', 'tolerance', 'did', 'not', 'develop', 'to', 'the', 'constipating', 'effects', '.'][0m
+[33mPrompt 45: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 60: ['We', 'conclude', 'that', 'second', 'and', 'third', 'generation', 'agents', 'are', 'associated', 'with', 'equivalent', 'risks', 'of', 'VTE', 'when', 'the', 'same', 'agent', 'is', 'used', 'repeatedly', 'after', 'interruption', 'periods', 'or', 'when', 'users', 'are', 'switched', 'between', 'the', 'two', 'generations', 'of', 'pills', '.'][0m
+[33mPrompt 60: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 75: ['End', '-', 'stage', 'renal', 'disease', '(', 'ESRD', ')', 'after', 'orthotopic', 'liver', 'transplantation', '(', 'OLTX', ')', 'using', 'calcineurin', '-', 'based', 'immunotherapy', ':', 'risk', 'of', 'development', 'and', 'treatment', '.'][0m
+[33mPrompt 75: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 90: ['Immunohistochemistry', 'displayed', 'significantly', 'increased', 'expressions', 'of', 'MMP', '-', '2', ',', 'MMP', '-', '9', ',', 'ADAM', '-', '10', 'and', 'ADAM', '-', '17', '(', 'all', 'p', '<', '0', '.', '01', ')', 'in', 'intima', 'and', 'media', 'for', 'CaCl', '(', '2', ')', '-', 'treated', 'segments', '.'][0m
+[33mPrompt 90: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 105: ['Here', ',', 'we', 'report', 'two', 'cases', 'of', 'severely', 'immunocompromised', 'HIV', '-', 'infected', 'patients', 'who', 'developed', 'severe', 'intrahepatic', 'cholestasis', ',', 'and', 'in', 'one', 'patient', 'lesions', 'mimicking', 'liver', 'abscess', 'formation', 'on', 'radiologic', 'exams', ',', 'during', 'co', '-', 'trimoxazole', 'treatment', 'for', 'PCP', '.'][0m
+[33mPrompt 105: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 120: ['Patients', 'tapped', 'faster', 'after', 'propranolol', 'than', 'diazepam', 'and', 'they', 'were', 'more', 'sedated', 'after', 'diazepam', 'than', 'propranolol', '.'][0m
+[33mPrompt 120: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 135: ['Interactive', 'effects', 'of', 'variations', 'in', '[', 'Na', ']', 'o', 'and', '[', 'Ca', ']', 'o', 'on', 'rat', 'atrial', 'spontaneous', 'frequency', '.'][0m
+[33mPrompt 135: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/train_150_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 150
+[Data Info] Using the training set to build label index
+#labels: 12
+label 2idx: {'<PAD>': 0, 'O': 1, 'B-Disease': 2, 'E-Disease': 3, 'S-Chemical': 4, 'S-Disease': 5, 'I-Disease': 6, 'B-Chemical': 7, 'E-Chemical': 8, 'I-Chemical': 9, '<START>': 10, '<STOP>': 11}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['This', 'study', 'tested', 'the', 'hypothesis', 'that', 'activation', 'of', 'nociceptive', 'muscle', 'afferent', 'fibers', 'would', 'be', 'linked', 'to', 'an', 'increased', 'excitability', 'of', 'the', 'human', 'jaw', '-', 'stretch', 'reflex', 'and', 'whether', 'this', 'process', 'would', 'be', 'sensitive', 'to', 'length', 'and', 'velocity', 'of', 'the', 'stretch', '.'][0m
+[33mPrompt 0: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 15: ['In', 'contrast', 'with', 'the', 'literature', ',', 'serum', 'levels', 'of', 'angiogenesis', 'factors', 'did', 'not', 'change', 'significantly', 'by', 'pegylated', 'interferon', 'and', 'ribavirin', 'therapy', '.'][0m
+[33mPrompt 15: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 30: ['This', 'study', 'is', 'the', 'first', 'to', 'demonstrate', 'that', 'impairment', 'of', 'hepatocyte', 'TJs', 'occurs', 'heterogenously', 'in', 'the', 'liver', 'lobule', 'after', 'BDL', 'and', 'suggests', 'that', 'BDL', 'and', 'EE', 'treatments', 'produce', 'different', 'lobular', 'distributions', 'of', 'increased', 'paracellular', 'permeability', '.'][0m
+[33mPrompt 30: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 45: ['In', 'independent', 'groups', ',', 'morphine', 'inhibited', 'the', 'intestinal', 'transit', 'in', '48', '+', '/', '-', '4', '%', 'and', '38', '+', '/', '-', '4', '%', 'after', 'acute', 'and', 'chronic', 'treatment', ',', 'respectively', ',', 'suggesting', 'that', 'tolerance', 'did', 'not', 'develop', 'to', 'the', 'constipating', 'effects', '.'][0m
+[33mPrompt 45: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 60: ['We', 'conclude', 'that', 'second', 'and', 'third', 'generation', 'agents', 'are', 'associated', 'with', 'equivalent', 'risks', 'of', 'VTE', 'when', 'the', 'same', 'agent', 'is', 'used', 'repeatedly', 'after', 'interruption', 'periods', 'or', 'when', 'users', 'are', 'switched', 'between', 'the', 'two', 'generations', 'of', 'pills', '.'][0m
+[33mPrompt 60: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 75: ['End', '-', 'stage', 'renal', 'disease', '(', 'ESRD', ')', 'after', 'orthotopic', 'liver', 'transplantation', '(', 'OLTX', ')', 'using', 'calcineurin', '-', 'based', 'immunotherapy', ':', 'risk', 'of', 'development', 'and', 'treatment', '.'][0m
+[33mPrompt 75: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 90: ['Immunohistochemistry', 'displayed', 'significantly', 'increased', 'expressions', 'of', 'MMP', '-', '2', ',', 'MMP', '-', '9', ',', 'ADAM', '-', '10', 'and', 'ADAM', '-', '17', '(', 'all', 'p', '<', '0', '.', '01', ')', 'in', 'intima', 'and', 'media', 'for', 'CaCl', '(', '2', ')', '-', 'treated', 'segments', '.'][0m
+[33mPrompt 90: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 105: ['Here', ',', 'we', 'report', 'two', 'cases', 'of', 'severely', 'immunocompromised', 'HIV', '-', 'infected', 'patients', 'who', 'developed', 'severe', 'intrahepatic', 'cholestasis', ',', 'and', 'in', 'one', 'patient', 'lesions', 'mimicking', 'liver', 'abscess', 'formation', 'on', 'radiologic', 'exams', ',', 'during', 'co', '-', 'trimoxazole', 'treatment', 'for', 'PCP', '.'][0m
+[33mPrompt 105: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 120: ['Patients', 'tapped', 'faster', 'after', 'propranolol', 'than', 'diazepam', 'and', 'they', 'were', 'more', 'sedated', 'after', 'diazepam', 'than', 'propranolol', '.'][0m
+[33mPrompt 120: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 135: ['Interactive', 'effects', 'of', 'variations', 'in', '[', 'Na', ']', 'o', 'and', '[', 'Ca', ']', 'o', 'on', 'rat', 'atrial', 'spontaneous', 'frequency', '.'][0m
+[33mPrompt 135: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 3809
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['22', '-', 'oxacalcitriol', 'suppresses', 'secondary', 'hyperparathyroidism', 'without', 'inducing', 'low', 'bone', 'turnover', 'in', 'dogs', 'with', 'renal', 'failure', '.'][0m
+[33mPrompt 0: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 380: ['The', 'time', 'course', 'of', 'events', 'suggested', 'that', 'amphotericin', 'B', 'was', 'the', 'cause', 'of', 'the', 'seizures', 'in', 'this', 'AIDS', 'patient', '.'][0m
+[33mPrompt 380: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 760: ['VSD', 'also', 'was', 'noted', 'following', 'treatment', 'on', 'GD', '11', '.'][0m
+[33mPrompt 760: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1140: ['A', 'variety', 'of', 'abnormal', 'sensory', '/', 'motor', 'behaviors', 'associated', 'with', 'electrical', 'discharges', 'recorded', 'from', 'the', 'bilateral', 'brainstem', 'were', 'induced', 'in', 'adult', 'WKY', 'rats', 'by', 'mechanical', '(', 'electrode', 'implants', ')', 'and', 'DC', 'electrical', 'current', 'stimulations', 'and', 'by', 'acute', 'and', 'chronic', 'administration', 'of', 'cocaine', '.'][0m
+[33mPrompt 1140: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1520: ['During', 'treatment', 'of', 'chronic', 'hepatitis', 'C', 'patients', 'with', 'interferon', 'and', 'ribavirin', ',', 'a', 'lot', 'of', 'side', 'effects', 'are', 'described', '.'][0m
+[33mPrompt 1520: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1900: ['A', 'biodegradable', 'polymer', 'dextran', 'has', 'been', 'utilized', 'as', 'a', 'carrier', 'for', 'synthesis', 'of', 'etodolac', '-', 'dextran', 'conjugates', '(', 'ED', ')', 'to', 'improve', 'its', 'aqueous', 'solubility', 'and', 'reduce', 'gastrointestinal', 'side', 'effects', '.'][0m
+[33mPrompt 1900: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 2280: ['We', 'conclude', 'that', 'the', 'analgesic', 'action', 'of', 'opioids', 'on', 'the', 'peripheral', 'terminals', 'of', 'primary', 'afferents', 'is', 'via', 'a', 'binding', 'site', 'with', 'characteristics', 'of', 'the', 'mu', '-', 'opioid', 'receptor', 'and', 'that', 'this', 'action', 'is', 'mediated', 'by', 'inhibition', 'of', 'the', 'cyclic', 'adenosine', 'monophosphate', 'second', 'messenger', 'system', '.'][0m
+[33mPrompt 2280: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 2660: ['Tri', '-', 'ortho', '-', 'tolyl', 'phosphate', '(', 'TOTP', ')', ',', '360', 'mg', '/', 'kg', ',', 'po', ',', 'and', '0', ',', '0', "'", '-', 'diisopropyl', 'phosphorofluoridate', '(', 'DFP', ')', ',', '1', 'mg', '/', 'kg', 'sc', ',', 'were', 'administered', 'to', 'adult', 'White', 'Leghorn', 'chickens', '24', 'hr', 'after', 'they', 'were', 'placed', 'on', 'diets', 'containing', '0', 'to', '300', 'ppm', 'corticosterone', '.'][0m
+[33mPrompt 2660: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3040: ['Intraventricular', 'infusion', 'of', 'dopamine', 'sufficient', 'to', 'raise', 'the', 'brain', 'dopamine', 'to', 'the', 'same', 'extent', 'did', 'not', 'prevent', 'the', 'ammonia', 'coma', 'nor', 'affect', 'the', 'blood', 'and', 'brain', 'ammonia', 'concentrations', '.'][0m
+[33mPrompt 3040: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3420: ['These', 'results', 'are', 'consistent', 'with', 'the', 'hypothesis', 'that', 'the', 'rat', 'has', 'a', 'poorer', 'tolerance', 'for', 'deoxycholic', 'acid', 'than', 'do', 'certain', 'other', 'species', '.'][0m
+[33mPrompt 3420: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3800: ['Isoniazid', 'significantly', 'increased', 'bradycardia', 'after', 'propranolol', ',', 'pindolol', ',', 'labetalol', 'and', 'atenolol', ',', 'as', 'well', 'as', 'after', 'clonidine', ',', 'but', 'not', 'after', 'hexamethonium', 'or', 'carbachol', '.'][0m
+[33mPrompt 3800: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 3974
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Torsade', 'de', 'pointes', 'ventricular', 'tachycardia', 'during', 'low', 'dose', 'intermittent', 'dobutamine', 'treatment', 'in', 'a', 'patient', 'with', 'dilated', 'cardiomyopathy', 'and', 'congestive', 'heart', 'failure', '.'][0m
+[33mPrompt 0: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 397: ['Neuroleptic', 'malignant', 'syndrome', 'complicated', 'by', 'massive', 'intestinal', 'bleeding', 'in', 'a', 'patient', 'with', 'chronic', 'renal', 'failure', '.'][0m
+[33mPrompt 397: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 794: ['Apparent', 'risk', 'factors', 'for', 'the', 'development', 'of', 'mania', 'or', 'hypomania', 'during', 'fluoxetine', 'pharmacotherapy', 'in', 'this', 'population', 'were', 'the', 'combination', 'of', 'attention', '-', 'deficit', 'hyperactivity', 'disorder', 'and', 'affective', 'instability', ';', 'major', 'depression', 'with', 'psychotic', 'features', ';', 'a', 'family', 'history', 'of', 'affective', 'disorder', ',', 'especially', 'bipolar', 'disorder', ';', 'and', 'a', 'diagnosis', 'of', 'bipolar', 'disorder', '.'][0m
+[33mPrompt 794: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1191: ['CONCLUSION', ':', 'The', 'data', 'acquired', 'suggest', 'that', 'isolated', 'MAP', 'may', 'have', 'certain', 'benefits', 'on', 'LV', 'dimension', '/', 'function', 'in', 'acute', 'heart', 'failure', ',', 'even', 'in', 'the', 'absence', 'of', 'MR', '.'][0m
+[33mPrompt 1191: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1588: ['Initial', 'evaluation', 'confirmed', 'FHF', 'from', 'acetaminophen', 'and', 'cerebral', 'edema', '.'][0m
+[33mPrompt 1588: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1985: ['CONCLUSIONS', ':', 'The', 'prevalence', 'of', 'levodopa', '-', 'induced', 'dyskinesia', 'in', 'our', 'patients', 'was', '44', '%', '.'][0m
+[33mPrompt 1985: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 2382: ['Bortezomib', 'and', 'high', '-', 'dose', 'dexamethasone', '-', 'containing', 'regimens', 'are', 'considered', 'to', 'be', 'generally', 'tolerable', 'with', 'few', 'severe', 'bacterial', 'infections', 'in', 'patients', 'with', 'B', '-', 'cell', 'malignancies', '.'][0m
+[33mPrompt 2382: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 2779: ['Conditions', 'that', 'will', 'be', 'required', 'for', 'studies', 'of', '1', ',', '3', '-', 'butadiene', 'are', 'discussed', '.'][0m
+[33mPrompt 2779: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3176: ['After', '4', 'weeks', 'the', 'PAN', 'rats', 'were', 'severely', 'proteinuric', '(', '190', '+', '/', '-', '80', 'mg', '/', '24', 'hr', ')', ',', 'and', 'all', 'rats', 'were', 'given', 'colloidal', 'carbon', '(', 'CC', ')', 'intravenously', '.'][0m
+[33mPrompt 3176: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3573: ['This', 'also', 'resulted', 'in', 'an', 'increased', 'incidence', 'of', 'seizures', ',', '90', '%', '(', 'P', '<', 'or', '=', '.', '01', ')', ',', 'and', 'death', ',', '90', '%', '(', 'P', '<', 'or', '=', '.', '05', ')', ',', 'compared', 'with', 'group', '4', '.'][0m
+[33mPrompt 3573: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3970: ['Seven', 'of', 'the', '13', 'patients', 'had', 'exhibited', 'a', 'subclinical', 'hypertensive', 'state', 'before', 'cyclosporin', 'A', 'therapy', '.'][0m
+[33mPrompt 3970: ['J', '##au', '##ndi', '##ce', 'with', 'tender', 'he', '##pa', '##tom', '##eg', '##aly', ',', 'usually', 'preceded', 'by', 'symptoms', 'of', 'ma', '##lai', '##se', ',', 'an', '##ore', '##xia', ',', 'nausea', 'and', 'vomit', '##ing', ',', 'and', 'associated', 'with', 'upper', 'abdominal', 'pain', ',', 'was', 'an', 'in', '##var', '##iable', 'finding', 'in', 'all', 'patients', '.', 'J', '##au', '##ndi', '##ce', 'is', 'Disease', '.', 'he', '##pa', '##tom', '##eg', '##aly', 'is', 'Disease', '.', 'an', '##ore', '##xia', 'is', 'Disease', '.', 'nausea', 'is', 'Disease', '.', 'vomit', '##ing', 'is', 'Disease', '.', 'abdominal', 'pain', 'is', 'Disease', '.', '[SEP]', 'Furthermore', ',', 'the', 'effects', 'are', 'mediated', 'through', 'do', '##pa', '##mine', 'rather', 'than', 'nor', '##ep', '##ine', '##ph', '##rine', 'and', 'do', 'not', 'require', 'the', 'car', '##ot', '##id', 'sin', '##us', 'bar', '##ore', '##ceptor', '##s', '.', 'do', '##pa', '##mine', 'is', 'Chemical', '.', 'nor', '##ep', '##ine', '##ph', '##rine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 15
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/bc5cdr/transformers_continual_trainer_max_basic_all_150_2021_1337.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 7595.73810, Time is 4.44s
+[34m[dev set Total] Prec.: 5.36, Rec.: 0.09, F1: 0.18[0m
+[34m[test set Total] Prec.: 8.04, Rec.: 0.16, F1: 0.32[0m
+saving the best model...
+Epoch 2: 2597.09814, Time is 4.12s
+[34m[dev set Total] Prec.: 61.83, Rec.: 28.55, F1: 39.06[0m
+[34m[test set Total] Prec.: 61.71, Rec.: 27.78, F1: 38.31[0m
+saving the best model...
+Epoch 3: 1945.19153, Time is 4.07s
+[34m[dev set Total] Prec.: 49.87, Rec.: 35.69, F1: 41.61[0m
+[34m[test set Total] Prec.: 49.30, Rec.: 36.49, F1: 41.94[0m
+saving the best model...
+Epoch 4: 1458.04309, Time is 4.07s
+[34m[dev set Total] Prec.: 47.98, Rec.: 53.99, F1: 50.81[0m
+[34m[test set Total] Prec.: 46.87, Rec.: 54.80, F1: 50.52[0m
+saving the best model...
+Epoch 5: 1001.64233, Time is 4.19s
+[34m[dev set Total] Prec.: 57.51, Rec.: 64.60, F1: 60.85[0m
+[34m[test set Total] Prec.: 56.12, Rec.: 65.66, F1: 60.52[0m
+saving the best model...
+Epoch 6: 613.69641, Time is 4.09s
+[34m[dev set Total] Prec.: 62.67, Rec.: 67.49, F1: 64.99[0m
+[34m[test set Total] Prec.: 61.33, Rec.: 68.50, F1: 64.71[0m
+saving the best model...
+Epoch 7: 369.66431, Time is 4.06s
+[34m[dev set Total] Prec.: 69.43, Rec.: 65.10, F1: 67.19[0m
+[34m[test set Total] Prec.: 67.87, Rec.: 66.32, F1: 67.08[0m
+saving the best model...
+Epoch 8: 260.74097, Time is 4.17s
+[34m[dev set Total] Prec.: 70.94, Rec.: 66.41, F1: 68.60[0m
+[34m[test set Total] Prec.: 67.95, Rec.: 66.68, F1: 67.31[0m
+saving the best model...
+Epoch 9: 154.81543, Time is 4.13s
+[34m[dev set Total] Prec.: 68.11, Rec.: 65.69, F1: 66.88[0m
+[34m[test set Total] Prec.: 64.39, Rec.: 65.06, F1: 64.72[0m
+Epoch 10: 126.94800, Time is 4.18s
+[34m[dev set Total] Prec.: 66.79, Rec.: 72.37, F1: 69.47[0m
+[34m[test set Total] Prec.: 65.17, Rec.: 73.79, F1: 69.21[0m
+saving the best model...
+Epoch 11: 78.01172, Time is 4.17s
+[34m[dev set Total] Prec.: 73.31, Rec.: 64.33, F1: 68.52[0m
+[34m[test set Total] Prec.: 70.33, Rec.: 64.49, F1: 67.28[0m
+Epoch 12: 55.76648, Time is 4.18s
+[34m[dev set Total] Prec.: 75.04, Rec.: 65.16, F1: 69.75[0m
+[34m[test set Total] Prec.: 72.21, Rec.: 64.97, F1: 68.40[0m
+saving the best model...
+Epoch 13: 51.58643, Time is 4.19s
+[34m[dev set Total] Prec.: 70.11, Rec.: 70.99, F1: 70.54[0m
+[34m[test set Total] Prec.: 68.58, Rec.: 72.14, F1: 70.31[0m
+saving the best model...
+Epoch 14: 16.64075, Time is 4.09s
+[34m[dev set Total] Prec.: 66.98, Rec.: 70.34, F1: 68.62[0m
+[34m[test set Total] Prec.: 64.87, Rec.: 70.74, F1: 67.68[0m
+Epoch 15: 12.16870, Time is 4.11s
+[34m[dev set Total] Prec.: 69.32, Rec.: 73.26, F1: 71.24[0m
+[34m[test set Total] Prec.: 67.04, Rec.: 73.90, F1: 70.30[0m
+saving the best model...
+Epoch 16: 6.77002, Time is 4.14s
+[34m[dev set Total] Prec.: 72.06, Rec.: 70.34, F1: 71.19[0m
+[34m[test set Total] Prec.: 70.31, Rec.: 71.22, F1: 70.76[0m
+Epoch 17: 7.49646, Time is 4.12s
+[34m[dev set Total] Prec.: 73.55, Rec.: 68.66, F1: 71.02[0m
+[34m[test set Total] Prec.: 71.96, Rec.: 69.76, F1: 70.84[0m
+Epoch 18: 3.38867, Time is 4.11s
+[34m[dev set Total] Prec.: 72.74, Rec.: 67.53, F1: 70.04[0m
+[34m[test set Total] Prec.: 70.97, Rec.: 68.24, F1: 69.58[0m
+Epoch 19: 1.41479, Time is 4.16s
+[34m[dev set Total] Prec.: 69.67, Rec.: 70.55, F1: 70.11[0m
+[34m[test set Total] Prec.: 67.77, Rec.: 71.18, F1: 69.43[0m
+Epoch 20: 8.44629, Time is 4.13s
+[34m[dev set Total] Prec.: 67.68, Rec.: 72.62, F1: 70.06[0m
+[34m[test set Total] Prec.: 66.01, Rec.: 73.47, F1: 69.54[0m
+Epoch 21: 2.46704, Time is 4.19s
+[34m[dev set Total] Prec.: 69.86, Rec.: 71.20, F1: 70.52[0m
+[34m[test set Total] Prec.: 68.17, Rec.: 71.84, F1: 69.96[0m
+Epoch 22: 0.59583, Time is 4.13s
+[34m[dev set Total] Prec.: 68.61, Rec.: 71.03, F1: 69.80[0m
+[34m[test set Total] Prec.: 67.11, Rec.: 71.88, F1: 69.41[0m
+Epoch 23: 1.59082, Time is 4.08s
+[34m[dev set Total] Prec.: 70.75, Rec.: 70.51, F1: 70.63[0m
+[34m[test set Total] Prec.: 69.13, Rec.: 71.11, F1: 70.10[0m
+Epoch 24: 0.44263, Time is 4.11s
+[34m[dev set Total] Prec.: 69.04, Rec.: 72.47, F1: 70.71[0m
+[34m[test set Total] Prec.: 67.88, Rec.: 73.48, F1: 70.57[0m
+Epoch 25: 0.36719, Time is 4.04s
+[34m[dev set Total] Prec.: 69.56, Rec.: 70.63, F1: 70.09[0m
+[34m[test set Total] Prec.: 68.05, Rec.: 71.42, F1: 69.70[0m
+Epoch 26: 0.31372, Time is 4.03s
+[34m[dev set Total] Prec.: 68.70, Rec.: 71.79, F1: 70.21[0m
+[34m[test set Total] Prec.: 67.32, Rec.: 72.44, F1: 69.79[0m
+Epoch 27: 0.28320, Time is 4.07s
+[34m[dev set Total] Prec.: 68.97, Rec.: 71.79, F1: 70.35[0m
+[34m[test set Total] Prec.: 67.51, Rec.: 72.45, F1: 69.89[0m
+Epoch 28: 0.35083, Time is 4.11s
+[34m[dev set Total] Prec.: 73.56, Rec.: 68.47, F1: 70.92[0m
+[34m[test set Total] Prec.: 71.38, Rec.: 68.84, F1: 70.09[0m
+Epoch 29: 0.24927, Time is 4.12s
+[34m[dev set Total] Prec.: 73.74, Rec.: 68.88, F1: 71.23[0m
+[34m[test set Total] Prec.: 71.68, Rec.: 69.29, F1: 70.47[0m
+Epoch 30: 0.23389, Time is 4.13s
+[34m[dev set Total] Prec.: 70.76, Rec.: 72.21, F1: 71.48[0m
+[34m[test set Total] Prec.: 68.83, Rec.: 72.92, F1: 70.81[0m
+saving the best model...
+Epoch 31: 9.36304, Time is 4.16s
+[34m[dev set Total] Prec.: 69.94, Rec.: 73.52, F1: 71.69[0m
+[34m[test set Total] Prec.: 67.96, Rec.: 74.01, F1: 70.86[0m
+saving the best model...
+Epoch 32: 0.20508, Time is 4.07s
+[34m[dev set Total] Prec.: 68.54, Rec.: 74.34, F1: 71.32[0m
+[34m[test set Total] Prec.: 66.57, Rec.: 74.68, F1: 70.39[0m
+Epoch 33: 25.42554, Time is 4.08s
+[34m[dev set Total] Prec.: 72.31, Rec.: 70.80, F1: 71.55[0m
+[34m[test set Total] Prec.: 70.57, Rec.: 71.43, F1: 71.00[0m
+Epoch 34: 11.47388, Time is 4.10s
+[34m[dev set Total] Prec.: 74.07, Rec.: 69.04, F1: 71.47[0m
+[34m[test set Total] Prec.: 72.34, Rec.: 69.51, F1: 70.90[0m
+Epoch 35: 0.17700, Time is 4.10s
+[34m[dev set Total] Prec.: 72.68, Rec.: 70.73, F1: 71.69[0m
+[34m[test set Total] Prec.: 70.83, Rec.: 71.45, F1: 71.14[0m
+saving the best model...
+Epoch 36: 0.18457, Time is 4.09s
+[34m[dev set Total] Prec.: 71.63, Rec.: 72.05, F1: 71.84[0m
+[34m[test set Total] Prec.: 70.11, Rec.: 72.71, F1: 71.39[0m
+saving the best model...
+Epoch 37: 2.58936, Time is 4.03s
+[34m[dev set Total] Prec.: 69.47, Rec.: 73.69, F1: 71.52[0m
+[34m[test set Total] Prec.: 68.12, Rec.: 74.64, F1: 71.23[0m
+Epoch 38: 9.67651, Time is 4.16s
+[34m[dev set Total] Prec.: 68.81, Rec.: 74.37, F1: 71.48[0m
+[34m[test set Total] Prec.: 67.06, Rec.: 75.00, F1: 70.81[0m
+Epoch 39: 0.15771, Time is 4.06s
+[34m[dev set Total] Prec.: 68.95, Rec.: 73.85, F1: 71.31[0m
+[34m[test set Total] Prec.: 67.33, Rec.: 74.58, F1: 70.77[0m
+Epoch 40: 0.18237, Time is 4.07s
+[34m[dev set Total] Prec.: 69.27, Rec.: 73.43, F1: 71.29[0m
+[34m[test set Total] Prec.: 67.63, Rec.: 74.20, F1: 70.76[0m
+Epoch 41: 10.43335, Time is 4.11s
+[34m[dev set Total] Prec.: 71.00, Rec.: 72.91, F1: 71.94[0m
+[34m[test set Total] Prec.: 69.51, Rec.: 73.41, F1: 71.41[0m
+saving the best model...
+Epoch 42: 0.14819, Time is 4.04s
+[34m[dev set Total] Prec.: 70.87, Rec.: 72.98, F1: 71.91[0m
+[34m[test set Total] Prec.: 69.40, Rec.: 73.73, F1: 71.50[0m
+Epoch 43: 4.59619, Time is 4.03s
+[34m[dev set Total] Prec.: 71.82, Rec.: 71.76, F1: 71.79[0m
+[34m[test set Total] Prec.: 70.28, Rec.: 72.40, F1: 71.32[0m
+Epoch 44: 14.11255, Time is 4.07s
+[34m[dev set Total] Prec.: 72.69, Rec.: 70.85, F1: 71.76[0m
+[34m[test set Total] Prec.: 70.91, Rec.: 71.36, F1: 71.14[0m
+Epoch 45: 0.14014, Time is 4.05s
+[34m[dev set Total] Prec.: 71.98, Rec.: 71.73, F1: 71.86[0m
+[34m[test set Total] Prec.: 70.24, Rec.: 72.29, F1: 71.25[0m
+Epoch 46: 5.59985, Time is 4.08s
+[34m[dev set Total] Prec.: 71.35, Rec.: 72.53, F1: 71.94[0m
+[34m[test set Total] Prec.: 69.54, Rec.: 73.02, F1: 71.24[0m
+Epoch 47: 0.13672, Time is 4.23s
+[34m[dev set Total] Prec.: 71.23, Rec.: 72.68, F1: 71.95[0m
+[34m[test set Total] Prec.: 69.41, Rec.: 73.18, F1: 71.25[0m
+saving the best model...
+Epoch 48: 3.12646, Time is 4.02s
+[34m[dev set Total] Prec.: 71.16, Rec.: 72.68, F1: 71.91[0m
+[34m[test set Total] Prec.: 69.37, Rec.: 73.19, F1: 71.23[0m
+Epoch 49: 0.14380, Time is 4.11s
+[34m[dev set Total] Prec.: 71.24, Rec.: 72.68, F1: 71.95[0m
+[34m[test set Total] Prec.: 69.42, Rec.: 73.17, F1: 71.24[0m
+saving the best model...
+Epoch 50: 0.13403, Time is 4.04s
+[34m[dev set Total] Prec.: 71.26, Rec.: 72.67, F1: 71.95[0m
+[34m[test set Total] Prec.: 69.42, Rec.: 73.15, F1: 71.23[0m
+saving the best model...
+Archiving the best Model...
+Finished archiving the models
+The best dev: 71.95
+The corresponding test: 71.23
+Final testing.
+[34m[test set Total] Prec.: 69.42, Rec.: 73.15, F1: 71.23[0m

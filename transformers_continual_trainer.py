@@ -72,7 +72,8 @@ def parse_arguments(parser):
     parser.add_argument('--prompt', type=str, choices=["max", "random", "sbert", "bertscore"], help="prompt mode")
     parser.add_argument('--template', type=str, choices=["no_context", "basic", "basic_all", "structure", "structure_all",'lexical','lexical_all'], help="template mode")
     parser.add_argument('--search_pool', type=str, choices=["source","target","source+target"], help="template mode")
-
+    parser.add_argument('--n_shot', type=str, default='1',choices=["1",'2','3','4','5'], help="N-shot value")
+    
     args = parser.parse_args()
     for k in args.__dict__:
         print(k + ": " + str(args.__dict__[k]))

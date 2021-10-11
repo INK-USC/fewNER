@@ -1,0 +1,390 @@
+device: cuda:0
+seed: 2021
+dataset: bc5cdr
+data_dir: dataset/bc5cdr
+percent_filename_suffix: 100_1337
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 10
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: /home/shared/fewner/conll_all
+model_folder: models/bc5cdr/transformers_continual_trainer_max_basic_100_1337_2021
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: max
+template: basic
+search_pool: target
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/bc5cdr/train_100_1337.txt
+dataset/bc5cdr/dev.txt
+dataset/bc5cdr/test.txt[0m
+[Data Info] Reading file: dataset/bc5cdr/train_100_1337.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 100
+[Data Info] Using the training set to build label index
+#labels: 12
+label 2idx: {'<PAD>': 0, 'O': 1, 'S-Chemical': 2, 'S-Disease': 3, 'B-Disease': 4, 'E-Disease': 5, 'B-Chemical': 6, 'I-Chemical': 7, 'E-Chemical': 8, 'I-Disease': 9, '<START>': 10, '<STOP>': 11}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['We', 'conclude', 'that', 'methylphenidate', 'mediated', 'vasculitis', 'should', 'be', 'considered', 'in', 'patients', 'with', 'neurological', 'symptoms', 'and', 'a', 'history', 'of', 'methylphenidate', 'therapy', '.'][0m
+[33mPrompt 0: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 10: ['Challenge', 'tests', 'with', 'AX', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'allergic', 'reaction', 'to', 'AX', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RAST', 'for', 'AX', 'were', 'negative', '.'][0m
+[33mPrompt 10: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Centrally', 'acting', 'alpha', '-', '2', 'adrenergic', 'agonists', 'are', 'one', 'of', 'several', 'pharmacologic', 'agents', 'used', 'in', 'the', 'treatment', 'of', 'spasticity', 'related', 'to', 'disorders', 'of', 'the', 'central', 'nervous', 'system', '.'][0m
+[33mPrompt 20: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 30: ['BACKGROUND', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', 'human', 'immunodeficiency', 'virus', ',', 'atrial', 'fibrillation', ',', 'coronary', 'artery', 'disease', ',', 'and', 'hyperlipidemia', 'presented', 'with', 'generalized', 'pain', ',', 'fatigue', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.'][0m
+[33mPrompt 30: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 40: ['Therefore', ',', 'DCE', 'may', 'prove', 'to', 'be', 'a', 'useful', 'remedy', 'for', 'the', 'management', 'of', 'cognitive', 'dysfunctions', 'on', 'account', 'of', 'its', 'multifarious', 'beneficial', 'effects', 'such', 'as', ',', 'memory', 'improving', 'property', ',', 'cholesterol', 'lowering', 'property', 'and', 'anticholinesterase', 'activity', '.'][0m
+[33mPrompt 40: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 50: ['From', 'October', '1993', 'to', 'November', '1995', ',', 'we', 'treated', '13', 'patients', 'with', 'previously', 'chemotherapy', '-', 'treated', 'metastatic', 'breast', 'cancer', 'by', 'mitoxantrone', ',', '12', 'mg', '/', 'm2', ',', 'on', 'day', '1', 'and', 'continuous', 'infusion', 'of', '5', '-', 'FU', ',', '3000', 'mg', '/', 'm2', ',', 'together', 'with', 'leucovorin', ',', '300', 'mg', '/', 'm2', ',', 'for', '48', 'h', 'from', 'day', '1', 'to', '2', '.'][0m
+[33mPrompt 50: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 60: ['Offspring', 'of', 'rats', 'administered', 'dexamethasone', 'on', 'days', '15', 'and', '16', 'gestation', 'had', 'a', '20', '%', 'reduction', 'in', 'glomerular', 'number', 'compared', 'with', 'control', 'at', '6', 'to', '9', 'months', 'of', 'age', '(', '22', '527', '+', '/', '-', '509', 'versus', '28', '050', '+', '/', '-', '561', ',', 'P', '<', '0', '.', '05', ')', ',', 'which', 'was', 'comparable', 'to', 'the', 'percent', 'reduction', 'in', 'glomeruli', 'measured', 'at', '3', 'weeks', 'of', 'age', '.'][0m
+[33mPrompt 60: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 70: ['This', 'data', 'suggests', 'that', 'E2', 'modifies', 'the', 'expression', 'of', 'CD36', 'at', 'the', 'level', 'of', 'protein', 'expression', 'in', 'monocyte', '-', 'derived', 'macrophages', 'resulting', 'in', 'reduced', 'cholesteryl', 'ester', 'accumulation', 'following', 'ritonavir', 'treatment', '.'][0m
+[33mPrompt 70: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 80: ['His', 'bundle', 'recordings', 'showed', 'an', 'atrial', 'tachycardia', 'with', 'intermittent', 'exit', 'block', 'and', 'greatly', 'prolonged', 'BH', 'and', 'HV', 'intervals', '(', '40', 'and', '100', 'msec', ',', 'respectively', ')', '.'][0m
+[33mPrompt 80: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 90: ['All', 'these', 'effects', 'of', 'DES', 'were', 'more', 'pronounced', 'among', 'previously', 'ovariectomized', 'animals', '.'][0m
+[33mPrompt 90: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/train_100_1337.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 100
+[Data Info] Using the training set to build label index
+#labels: 12
+label 2idx: {'<PAD>': 0, 'O': 1, 'S-Chemical': 2, 'S-Disease': 3, 'B-Disease': 4, 'E-Disease': 5, 'B-Chemical': 6, 'I-Chemical': 7, 'E-Chemical': 8, 'I-Disease': 9, '<START>': 10, '<STOP>': 11}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['We', 'conclude', 'that', 'methylphenidate', 'mediated', 'vasculitis', 'should', 'be', 'considered', 'in', 'patients', 'with', 'neurological', 'symptoms', 'and', 'a', 'history', 'of', 'methylphenidate', 'therapy', '.'][0m
+[33mPrompt 0: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 10: ['Challenge', 'tests', 'with', 'AX', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'allergic', 'reaction', 'to', 'AX', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RAST', 'for', 'AX', 'were', 'negative', '.'][0m
+[33mPrompt 10: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Centrally', 'acting', 'alpha', '-', '2', 'adrenergic', 'agonists', 'are', 'one', 'of', 'several', 'pharmacologic', 'agents', 'used', 'in', 'the', 'treatment', 'of', 'spasticity', 'related', 'to', 'disorders', 'of', 'the', 'central', 'nervous', 'system', '.'][0m
+[33mPrompt 20: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 30: ['BACKGROUND', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', 'human', 'immunodeficiency', 'virus', ',', 'atrial', 'fibrillation', ',', 'coronary', 'artery', 'disease', ',', 'and', 'hyperlipidemia', 'presented', 'with', 'generalized', 'pain', ',', 'fatigue', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.'][0m
+[33mPrompt 30: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 40: ['Therefore', ',', 'DCE', 'may', 'prove', 'to', 'be', 'a', 'useful', 'remedy', 'for', 'the', 'management', 'of', 'cognitive', 'dysfunctions', 'on', 'account', 'of', 'its', 'multifarious', 'beneficial', 'effects', 'such', 'as', ',', 'memory', 'improving', 'property', ',', 'cholesterol', 'lowering', 'property', 'and', 'anticholinesterase', 'activity', '.'][0m
+[33mPrompt 40: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 50: ['From', 'October', '1993', 'to', 'November', '1995', ',', 'we', 'treated', '13', 'patients', 'with', 'previously', 'chemotherapy', '-', 'treated', 'metastatic', 'breast', 'cancer', 'by', 'mitoxantrone', ',', '12', 'mg', '/', 'm2', ',', 'on', 'day', '1', 'and', 'continuous', 'infusion', 'of', '5', '-', 'FU', ',', '3000', 'mg', '/', 'm2', ',', 'together', 'with', 'leucovorin', ',', '300', 'mg', '/', 'm2', ',', 'for', '48', 'h', 'from', 'day', '1', 'to', '2', '.'][0m
+[33mPrompt 50: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 60: ['Offspring', 'of', 'rats', 'administered', 'dexamethasone', 'on', 'days', '15', 'and', '16', 'gestation', 'had', 'a', '20', '%', 'reduction', 'in', 'glomerular', 'number', 'compared', 'with', 'control', 'at', '6', 'to', '9', 'months', 'of', 'age', '(', '22', '527', '+', '/', '-', '509', 'versus', '28', '050', '+', '/', '-', '561', ',', 'P', '<', '0', '.', '05', ')', ',', 'which', 'was', 'comparable', 'to', 'the', 'percent', 'reduction', 'in', 'glomeruli', 'measured', 'at', '3', 'weeks', 'of', 'age', '.'][0m
+[33mPrompt 60: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 70: ['This', 'data', 'suggests', 'that', 'E2', 'modifies', 'the', 'expression', 'of', 'CD36', 'at', 'the', 'level', 'of', 'protein', 'expression', 'in', 'monocyte', '-', 'derived', 'macrophages', 'resulting', 'in', 'reduced', 'cholesteryl', 'ester', 'accumulation', 'following', 'ritonavir', 'treatment', '.'][0m
+[33mPrompt 70: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 80: ['His', 'bundle', 'recordings', 'showed', 'an', 'atrial', 'tachycardia', 'with', 'intermittent', 'exit', 'block', 'and', 'greatly', 'prolonged', 'BH', 'and', 'HV', 'intervals', '(', '40', 'and', '100', 'msec', ',', 'respectively', ')', '.'][0m
+[33mPrompt 80: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 90: ['All', 'these', 'effects', 'of', 'DES', 'were', 'more', 'pronounced', 'among', 'previously', 'ovariectomized', 'animals', '.'][0m
+[33mPrompt 90: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 3809
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['22', '-', 'oxacalcitriol', 'suppresses', 'secondary', 'hyperparathyroidism', 'without', 'inducing', 'low', 'bone', 'turnover', 'in', 'dogs', 'with', 'renal', 'failure', '.'][0m
+[33mPrompt 0: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 380: ['The', 'time', 'course', 'of', 'events', 'suggested', 'that', 'amphotericin', 'B', 'was', 'the', 'cause', 'of', 'the', 'seizures', 'in', 'this', 'AIDS', 'patient', '.'][0m
+[33mPrompt 380: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 760: ['VSD', 'also', 'was', 'noted', 'following', 'treatment', 'on', 'GD', '11', '.'][0m
+[33mPrompt 760: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1140: ['A', 'variety', 'of', 'abnormal', 'sensory', '/', 'motor', 'behaviors', 'associated', 'with', 'electrical', 'discharges', 'recorded', 'from', 'the', 'bilateral', 'brainstem', 'were', 'induced', 'in', 'adult', 'WKY', 'rats', 'by', 'mechanical', '(', 'electrode', 'implants', ')', 'and', 'DC', 'electrical', 'current', 'stimulations', 'and', 'by', 'acute', 'and', 'chronic', 'administration', 'of', 'cocaine', '.'][0m
+[33mPrompt 1140: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1520: ['During', 'treatment', 'of', 'chronic', 'hepatitis', 'C', 'patients', 'with', 'interferon', 'and', 'ribavirin', ',', 'a', 'lot', 'of', 'side', 'effects', 'are', 'described', '.'][0m
+[33mPrompt 1520: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1900: ['A', 'biodegradable', 'polymer', 'dextran', 'has', 'been', 'utilized', 'as', 'a', 'carrier', 'for', 'synthesis', 'of', 'etodolac', '-', 'dextran', 'conjugates', '(', 'ED', ')', 'to', 'improve', 'its', 'aqueous', 'solubility', 'and', 'reduce', 'gastrointestinal', 'side', 'effects', '.'][0m
+[33mPrompt 1900: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 2280: ['We', 'conclude', 'that', 'the', 'analgesic', 'action', 'of', 'opioids', 'on', 'the', 'peripheral', 'terminals', 'of', 'primary', 'afferents', 'is', 'via', 'a', 'binding', 'site', 'with', 'characteristics', 'of', 'the', 'mu', '-', 'opioid', 'receptor', 'and', 'that', 'this', 'action', 'is', 'mediated', 'by', 'inhibition', 'of', 'the', 'cyclic', 'adenosine', 'monophosphate', 'second', 'messenger', 'system', '.'][0m
+[33mPrompt 2280: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 2660: ['Tri', '-', 'ortho', '-', 'tolyl', 'phosphate', '(', 'TOTP', ')', ',', '360', 'mg', '/', 'kg', ',', 'po', ',', 'and', '0', ',', '0', "'", '-', 'diisopropyl', 'phosphorofluoridate', '(', 'DFP', ')', ',', '1', 'mg', '/', 'kg', 'sc', ',', 'were', 'administered', 'to', 'adult', 'White', 'Leghorn', 'chickens', '24', 'hr', 'after', 'they', 'were', 'placed', 'on', 'diets', 'containing', '0', 'to', '300', 'ppm', 'corticosterone', '.'][0m
+[33mPrompt 2660: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3040: ['Intraventricular', 'infusion', 'of', 'dopamine', 'sufficient', 'to', 'raise', 'the', 'brain', 'dopamine', 'to', 'the', 'same', 'extent', 'did', 'not', 'prevent', 'the', 'ammonia', 'coma', 'nor', 'affect', 'the', 'blood', 'and', 'brain', 'ammonia', 'concentrations', '.'][0m
+[33mPrompt 3040: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3420: ['These', 'results', 'are', 'consistent', 'with', 'the', 'hypothesis', 'that', 'the', 'rat', 'has', 'a', 'poorer', 'tolerance', 'for', 'deoxycholic', 'acid', 'than', 'do', 'certain', 'other', 'species', '.'][0m
+[33mPrompt 3420: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3800: ['Isoniazid', 'significantly', 'increased', 'bradycardia', 'after', 'propranolol', ',', 'pindolol', ',', 'labetalol', 'and', 'atenolol', ',', 'as', 'well', 'as', 'after', 'clonidine', ',', 'but', 'not', 'after', 'hexamethonium', 'or', 'carbachol', '.'][0m
+[33mPrompt 3800: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 3974
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Torsade', 'de', 'pointes', 'ventricular', 'tachycardia', 'during', 'low', 'dose', 'intermittent', 'dobutamine', 'treatment', 'in', 'a', 'patient', 'with', 'dilated', 'cardiomyopathy', 'and', 'congestive', 'heart', 'failure', '.'][0m
+[33mPrompt 0: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 397: ['Neuroleptic', 'malignant', 'syndrome', 'complicated', 'by', 'massive', 'intestinal', 'bleeding', 'in', 'a', 'patient', 'with', 'chronic', 'renal', 'failure', '.'][0m
+[33mPrompt 397: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 794: ['Apparent', 'risk', 'factors', 'for', 'the', 'development', 'of', 'mania', 'or', 'hypomania', 'during', 'fluoxetine', 'pharmacotherapy', 'in', 'this', 'population', 'were', 'the', 'combination', 'of', 'attention', '-', 'deficit', 'hyperactivity', 'disorder', 'and', 'affective', 'instability', ';', 'major', 'depression', 'with', 'psychotic', 'features', ';', 'a', 'family', 'history', 'of', 'affective', 'disorder', ',', 'especially', 'bipolar', 'disorder', ';', 'and', 'a', 'diagnosis', 'of', 'bipolar', 'disorder', '.'][0m
+[33mPrompt 794: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1191: ['CONCLUSION', ':', 'The', 'data', 'acquired', 'suggest', 'that', 'isolated', 'MAP', 'may', 'have', 'certain', 'benefits', 'on', 'LV', 'dimension', '/', 'function', 'in', 'acute', 'heart', 'failure', ',', 'even', 'in', 'the', 'absence', 'of', 'MR', '.'][0m
+[33mPrompt 1191: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1588: ['Initial', 'evaluation', 'confirmed', 'FHF', 'from', 'acetaminophen', 'and', 'cerebral', 'edema', '.'][0m
+[33mPrompt 1588: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1985: ['CONCLUSIONS', ':', 'The', 'prevalence', 'of', 'levodopa', '-', 'induced', 'dyskinesia', 'in', 'our', 'patients', 'was', '44', '%', '.'][0m
+[33mPrompt 1985: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 2382: ['Bortezomib', 'and', 'high', '-', 'dose', 'dexamethasone', '-', 'containing', 'regimens', 'are', 'considered', 'to', 'be', 'generally', 'tolerable', 'with', 'few', 'severe', 'bacterial', 'infections', 'in', 'patients', 'with', 'B', '-', 'cell', 'malignancies', '.'][0m
+[33mPrompt 2382: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 2779: ['Conditions', 'that', 'will', 'be', 'required', 'for', 'studies', 'of', '1', ',', '3', '-', 'butadiene', 'are', 'discussed', '.'][0m
+[33mPrompt 2779: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3176: ['After', '4', 'weeks', 'the', 'PAN', 'rats', 'were', 'severely', 'proteinuric', '(', '190', '+', '/', '-', '80', 'mg', '/', '24', 'hr', ')', ',', 'and', 'all', 'rats', 'were', 'given', 'colloidal', 'carbon', '(', 'CC', ')', 'intravenously', '.'][0m
+[33mPrompt 3176: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3573: ['This', 'also', 'resulted', 'in', 'an', 'increased', 'incidence', 'of', 'seizures', ',', '90', '%', '(', 'P', '<', 'or', '=', '.', '01', ')', ',', 'and', 'death', ',', '90', '%', '(', 'P', '<', 'or', '=', '.', '05', ')', ',', 'compared', 'with', 'group', '4', '.'][0m
+[33mPrompt 3573: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3970: ['Seven', 'of', 'the', '13', 'patients', 'had', 'exhibited', 'a', 'subclinical', 'hypertensive', 'state', 'before', 'cyclosporin', 'A', 'therapy', '.'][0m
+[33mPrompt 3970: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 're', '##nal', 'failure', ',', 'on', 'hem', '##od', '##ial', '##ys', '##is', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dial', '##y', '##zer', ';', 'both', 'had', 'been', 'receiving', 'a', 'car', '##bid', '##op', '##a', '/', 'le', '##vo', '##do', '##pa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hall', '##uc', '##ino', '##sis', 'and', 're', '##current', 'seizure', '##s', ',', 'which', 'were', 're', '##fra', '##ctor', '##y', 'to', 'anti', '##con', '##vu', '##ls', '##ants', '.', 'seizure', '##s', 'is', 'Disease', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 10
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/bc5cdr/transformers_continual_trainer_max_basic_100_1337_2021.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 4418.96460, Time is 4.12s
+[34m[dev set Total] Prec.: 1.05, Rec.: 0.01, F1: 0.02[0m
+[34m[test set Total] Prec.: 2.70, Rec.: 0.03, F1: 0.06[0m
+saving the best model...
+Epoch 2: 1980.41766, Time is 3.76s
+[34m[dev set Total] Prec.: 52.96, Rec.: 28.34, F1: 36.93[0m
+[34m[test set Total] Prec.: 48.97, Rec.: 28.25, F1: 35.83[0m
+saving the best model...
+Epoch 3: 1487.32971, Time is 3.75s
+[34m[dev set Total] Prec.: 54.62, Rec.: 33.83, F1: 41.78[0m
+[34m[test set Total] Prec.: 52.07, Rec.: 33.93, F1: 41.09[0m
+saving the best model...
+Epoch 4: 1116.19495, Time is 3.70s
+[34m[dev set Total] Prec.: 37.20, Rec.: 41.99, F1: 39.45[0m
+[34m[test set Total] Prec.: 36.27, Rec.: 42.73, F1: 39.23[0m
+Epoch 5: 850.95081, Time is 3.74s
+[34m[dev set Total] Prec.: 37.54, Rec.: 47.12, F1: 41.79[0m
+[34m[test set Total] Prec.: 36.91, Rec.: 48.25, F1: 41.82[0m
+saving the best model...
+Epoch 6: 617.08679, Time is 3.72s
+[34m[dev set Total] Prec.: 49.71, Rec.: 52.10, F1: 50.88[0m
+[34m[test set Total] Prec.: 48.50, Rec.: 53.00, F1: 50.65[0m
+saving the best model...
+Epoch 7: 460.87000, Time is 3.67s
+[34m[dev set Total] Prec.: 57.84, Rec.: 55.40, F1: 56.60[0m
+[34m[test set Total] Prec.: 56.42, Rec.: 56.24, F1: 56.33[0m
+saving the best model...
+Epoch 8: 315.13782, Time is 3.72s
+[34m[dev set Total] Prec.: 59.19, Rec.: 57.53, F1: 58.35[0m
+[34m[test set Total] Prec.: 56.72, Rec.: 57.75, F1: 57.23[0m
+saving the best model...
+Epoch 9: 224.84485, Time is 3.69s
+[34m[dev set Total] Prec.: 55.17, Rec.: 67.47, F1: 60.70[0m
+[34m[test set Total] Prec.: 53.50, Rec.: 68.59, F1: 60.11[0m
+saving the best model...
+Epoch 10: 157.37952, Time is 3.73s
+[34m[dev set Total] Prec.: 62.67, Rec.: 63.13, F1: 62.90[0m
+[34m[test set Total] Prec.: 60.92, Rec.: 63.92, F1: 62.38[0m
+saving the best model...
+Epoch 11: 103.66858, Time is 3.68s
+[34m[dev set Total] Prec.: 56.93, Rec.: 70.79, F1: 63.11[0m
+[34m[test set Total] Prec.: 54.39, Rec.: 71.62, F1: 61.83[0m
+saving the best model...
+Epoch 12: 65.60742, Time is 3.71s
+[34m[dev set Total] Prec.: 59.81, Rec.: 69.05, F1: 64.10[0m
+[34m[test set Total] Prec.: 57.81, Rec.: 69.66, F1: 63.18[0m
+saving the best model...
+Epoch 13: 35.51697, Time is 3.67s
+[34m[dev set Total] Prec.: 58.18, Rec.: 69.47, F1: 63.32[0m
+[34m[test set Total] Prec.: 55.62, Rec.: 69.78, F1: 61.90[0m
+Epoch 14: 24.28198, Time is 3.78s
+[34m[dev set Total] Prec.: 62.68, Rec.: 69.22, F1: 65.78[0m
+[34m[test set Total] Prec.: 60.32, Rec.: 69.94, F1: 64.77[0m
+saving the best model...
+Epoch 15: 26.03870, Time is 3.72s
+[34m[dev set Total] Prec.: 60.29, Rec.: 71.68, F1: 65.49[0m
+[34m[test set Total] Prec.: 57.83, Rec.: 72.18, F1: 64.21[0m
+Epoch 16: 9.73267, Time is 3.81s
+[34m[dev set Total] Prec.: 61.96, Rec.: 70.47, F1: 65.94[0m
+[34m[test set Total] Prec.: 59.46, Rec.: 71.03, F1: 64.73[0m
+saving the best model...
+Epoch 17: 13.47742, Time is 3.69s
+[34m[dev set Total] Prec.: 62.92, Rec.: 70.20, F1: 66.36[0m
+[34m[test set Total] Prec.: 60.19, Rec.: 71.01, F1: 65.15[0m
+saving the best model...
+Epoch 18: 3.24048, Time is 3.72s
+[34m[dev set Total] Prec.: 61.28, Rec.: 72.89, F1: 66.58[0m
+[34m[test set Total] Prec.: 58.51, Rec.: 73.51, F1: 65.16[0m
+saving the best model...
+Epoch 19: 3.73218, Time is 3.70s
+[34m[dev set Total] Prec.: 63.43, Rec.: 70.93, F1: 66.97[0m
+[34m[test set Total] Prec.: 60.70, Rec.: 71.43, F1: 65.63[0m
+saving the best model...
+Epoch 20: 0.96631, Time is 3.78s
+[34m[dev set Total] Prec.: 61.54, Rec.: 72.45, F1: 66.55[0m
+[34m[test set Total] Prec.: 58.99, Rec.: 72.88, F1: 65.21[0m
+Epoch 21: 16.11865, Time is 3.65s
+[34m[dev set Total] Prec.: 65.74, Rec.: 68.95, F1: 67.30[0m
+[34m[test set Total] Prec.: 63.50, Rec.: 69.50, F1: 66.36[0m
+saving the best model...
+Epoch 22: 0.92358, Time is 3.73s
+[34m[dev set Total] Prec.: 60.92, Rec.: 72.43, F1: 66.17[0m
+[34m[test set Total] Prec.: 58.50, Rec.: 73.34, F1: 65.08[0m
+Epoch 23: 5.99902, Time is 3.75s
+[34m[dev set Total] Prec.: 62.80, Rec.: 69.59, F1: 66.02[0m
+[34m[test set Total] Prec.: 60.90, Rec.: 70.47, F1: 65.34[0m
+Epoch 24: 0.36011, Time is 3.77s
+[34m[dev set Total] Prec.: 63.76, Rec.: 70.06, F1: 66.76[0m
+[34m[test set Total] Prec.: 61.73, Rec.: 70.67, F1: 65.90[0m
+Epoch 25: 0.31470, Time is 3.60s
+[34m[dev set Total] Prec.: 63.29, Rec.: 70.71, F1: 66.79[0m
+[34m[test set Total] Prec.: 61.09, Rec.: 71.36, F1: 65.83[0m
+Epoch 26: 0.27905, Time is 3.75s
+[34m[dev set Total] Prec.: 63.02, Rec.: 70.83, F1: 66.70[0m
+[34m[test set Total] Prec.: 60.74, Rec.: 71.40, F1: 65.64[0m
+Epoch 27: 0.25073, Time is 3.69s
+[34m[dev set Total] Prec.: 64.42, Rec.: 69.00, F1: 66.63[0m
+[34m[test set Total] Prec.: 62.31, Rec.: 69.38, F1: 65.65[0m
+Epoch 28: 1.28247, Time is 3.69s
+[34m[dev set Total] Prec.: 63.20, Rec.: 71.03, F1: 66.89[0m
+[34m[test set Total] Prec.: 60.64, Rec.: 71.65, F1: 65.69[0m
+Epoch 29: 0.22119, Time is 3.69s
+[34m[dev set Total] Prec.: 62.62, Rec.: 72.01, F1: 66.99[0m
+[34m[test set Total] Prec.: 60.13, Rec.: 72.46, F1: 65.72[0m
+Epoch 30: 0.20630, Time is 3.62s
+[34m[dev set Total] Prec.: 62.62, Rec.: 72.65, F1: 67.26[0m
+[34m[test set Total] Prec.: 60.19, Rec.: 73.12, F1: 66.03[0m
+Epoch 31: 0.50024, Time is 3.79s
+[34m[dev set Total] Prec.: 62.16, Rec.: 72.65, F1: 66.99[0m
+[34m[test set Total] Prec.: 59.32, Rec.: 72.76, F1: 65.35[0m
+Epoch 32: 0.18359, Time is 3.85s
+[34m[dev set Total] Prec.: 62.64, Rec.: 71.91, F1: 66.95[0m
+[34m[test set Total] Prec.: 59.86, Rec.: 72.07, F1: 65.40[0m
+Epoch 33: 0.18115, Time is 3.67s
+[34m[dev set Total] Prec.: 63.20, Rec.: 72.22, F1: 67.41[0m
+[34m[test set Total] Prec.: 60.26, Rec.: 72.11, F1: 65.65[0m
+saving the best model...
+Epoch 34: 0.17310, Time is 3.68s
+[34m[dev set Total] Prec.: 62.76, Rec.: 72.86, F1: 67.43[0m
+[34m[test set Total] Prec.: 60.01, Rec.: 72.78, F1: 65.78[0m
+saving the best model...
+Epoch 35: 0.21777, Time is 3.71s
+[34m[dev set Total] Prec.: 62.55, Rec.: 73.18, F1: 67.45[0m
+[34m[test set Total] Prec.: 60.05, Rec.: 73.44, F1: 66.07[0m
+saving the best model...
+Epoch 36: 1.58105, Time is 3.61s
+[34m[dev set Total] Prec.: 64.41, Rec.: 70.89, F1: 67.49[0m
+[34m[test set Total] Prec.: 61.95, Rec.: 71.45, F1: 66.36[0m
+saving the best model...
+Epoch 37: 0.15430, Time is 3.71s
+[34m[dev set Total] Prec.: 65.84, Rec.: 70.21, F1: 67.95[0m
+[34m[test set Total] Prec.: 63.20, Rec.: 70.43, F1: 66.62[0m
+saving the best model...
+Epoch 38: 0.15063, Time is 3.69s
+[34m[dev set Total] Prec.: 65.57, Rec.: 70.41, F1: 67.90[0m
+[34m[test set Total] Prec.: 62.99, Rec.: 70.72, F1: 66.63[0m
+Epoch 39: 0.14844, Time is 3.65s
+[34m[dev set Total] Prec.: 65.15, Rec.: 71.02, F1: 67.96[0m
+[34m[test set Total] Prec.: 62.42, Rec.: 71.35, F1: 66.59[0m
+saving the best model...
+Epoch 40: 0.14380, Time is 3.64s
+[34m[dev set Total] Prec.: 64.83, Rec.: 71.07, F1: 67.81[0m
+[34m[test set Total] Prec.: 62.08, Rec.: 71.36, F1: 66.40[0m
+Epoch 41: 0.13940, Time is 3.87s
+[34m[dev set Total] Prec.: 64.75, Rec.: 71.15, F1: 67.80[0m
+[34m[test set Total] Prec.: 61.99, Rec.: 71.44, F1: 66.38[0m
+Epoch 42: 0.13599, Time is 3.74s
+[34m[dev set Total] Prec.: 64.65, Rec.: 71.19, F1: 67.76[0m
+[34m[test set Total] Prec.: 61.86, Rec.: 71.45, F1: 66.31[0m
+Epoch 43: 0.13672, Time is 3.69s
+[34m[dev set Total] Prec.: 64.00, Rec.: 71.30, F1: 67.46[0m
+[34m[test set Total] Prec.: 61.47, Rec.: 71.66, F1: 66.18[0m
+Epoch 44: 0.13062, Time is 3.76s
+[34m[dev set Total] Prec.: 63.88, Rec.: 71.30, F1: 67.39[0m
+[34m[test set Total] Prec.: 61.36, Rec.: 71.76, F1: 66.16[0m
+Epoch 45: 0.13135, Time is 3.73s
+[34m[dev set Total] Prec.: 64.04, Rec.: 71.31, F1: 67.48[0m
+[34m[test set Total] Prec.: 61.57, Rec.: 71.79, F1: 66.29[0m
+Epoch 46: 0.12622, Time is 3.72s
+[34m[dev set Total] Prec.: 64.12, Rec.: 71.32, F1: 67.53[0m
+[34m[test set Total] Prec.: 61.71, Rec.: 71.82, F1: 66.38[0m
+Epoch 47: 0.12598, Time is 3.82s
+[34m[dev set Total] Prec.: 64.09, Rec.: 71.31, F1: 67.51[0m
+[34m[test set Total] Prec.: 61.70, Rec.: 71.84, F1: 66.39[0m
+Epoch 48: 0.12451, Time is 3.71s
+[34m[dev set Total] Prec.: 64.12, Rec.: 71.26, F1: 67.50[0m
+[34m[test set Total] Prec.: 61.71, Rec.: 71.84, F1: 66.39[0m
+Epoch 49: 0.12573, Time is 3.80s
+[34m[dev set Total] Prec.: 64.10, Rec.: 71.26, F1: 67.49[0m
+[34m[test set Total] Prec.: 61.70, Rec.: 71.84, F1: 66.39[0m
+Epoch 50: 0.12378, Time is 3.60s
+[34m[dev set Total] Prec.: 64.11, Rec.: 71.31, F1: 67.52[0m
+[34m[test set Total] Prec.: 61.65, Rec.: 71.84, F1: 66.36[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 67.96
+The corresponding test: 66.59
+Final testing.
+[34m[test set Total] Prec.: 62.42, Rec.: 71.35, F1: 66.59[0m

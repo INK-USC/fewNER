@@ -45,7 +45,7 @@ def parse_arguments(parser):
     parser.add_argument('--momentum', type=float, default=0.0)
     parser.add_argument('--l2', type=float, default=1e-8)
     parser.add_argument('--lr_decay', type=float, default=0)
-    parser.add_argument('--batch_size', type=int, default=10, help="default batch size is 10 (works well for normal neural crf), here default 30 for bert-based crf")
+    parser.add_argument('--batch_size', type=int, default=5, help="default batch size is 10 (works well for normal neural crf), here default 30 for bert-based crf")
     parser.add_argument('--num_epochs', type=int, default=20, help="Usually we set to 10.")
     parser.add_argument('--train_num', type=int, default=-1, help="-1 means all the data")
     parser.add_argument('--dev_num', type=int, default=-1, help="-1 means all the data")
@@ -74,6 +74,7 @@ def parse_arguments(parser):
     parser.add_argument('--prompt', type=str, choices=["max", "random", "sbert", "bertscore"], help="prompt mode")
     parser.add_argument('--template', type=str, choices=["no_context", "basic", "basic_all", "structure", "structure_all","lexical","lexical_all"], help="template mode")
     parser.add_argument('--search_pool', type=str, choices=["source","target","source+target"], help="template mode")
+    parser.add_argument('--n_shot', type=str, default='1',choices=["1",'2','3','4','5'], help="N-shot value")
 
     args = parser.parse_args()
     for k in args.__dict__:
@@ -230,10 +231,10 @@ def main():
         else:
             prompt_candidate_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num,
                                                               is_train=True, percentage=conf.percentage,
-                                                              prompt=conf.prompt, template=conf.template)
+                                                              prompt=conf.prompt, template=conf.template,n_shot=opt.n_shot)
             train_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True,
                                                    percentage=conf.percentage, prompt=conf.prompt, template=conf.template,
-                                                   prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
+                                                   prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates,n_shot=opt.n_shot)
 
         conf.label2idx = train_dataset.label2idx
         conf.idx2labels = train_dataset.idx2labels
@@ -244,10 +245,10 @@ def main():
         else:
             dev_dataset = TransformersNERDataset(conf.dev_file, tokenizer, number=conf.dev_num,
                                                  label2idx=train_dataset.label2idx, is_train=False, prompt=conf.prompt, template=conf.template,
-                                                 prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
+                                                 prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates,n_shot=opt.n_shot)
             test_dataset = TransformersNERDataset(conf.test_file, tokenizer, number=conf.test_num,
                                                   label2idx=train_dataset.label2idx, is_train=False, prompt=conf.prompt, template=conf.template,
-                                                  prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
+                                                  prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates,n_shot=opt.n_shot)
 
 
         num_workers = 8

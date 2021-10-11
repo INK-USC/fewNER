@@ -1,0 +1,391 @@
+device: cuda:0
+seed: 1337
+dataset: ontonotes_conll
+data_dir: dataset/ontonotes_conll
+percent_filename_suffix: 100_2021
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 10
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: /home/shared/fewner/conll_all
+model_folder: models/ontonotes_conll/transformers_continual_trainer_max_basic_100_2021_1337
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: max
+template: basic
+search_pool: target
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/ontonotes_conll/train_100_2021.txt
+dataset/ontonotes_conll/dev.txt
+dataset/ontonotes_conll/test.txt[0m
+[Data Info] Reading file: dataset/ontonotes_conll/train_100_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 100
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'S-MISC': 2, 'S-PER': 3, 'S-LOC': 4, 'B-ORG': 5, 'I-ORG': 6, 'E-ORG': 7, 'S-ORG': 8, 'B-PER': 9, 'I-PER': 10, 'E-PER': 11, 'B-MISC': 12, 'E-MISC': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-MISC': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['This', 'master', 'turned', 'out', 'to', 'be', 'corrupt', 'and', 'was', 'put', 'into', 'a', 'well', 'for', 'punishment', ',', 'where', 'he', 'became', 'a', 'three', '-', 'legged', 'toad', '.'][0m
+[33mPrompt 0: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 10: ['A', 'Foreign', 'Ministry', 'spokesperson', 'said', 'today', 'that', ',', 'at', 'the', 'invitation', 'of', 'China', "'s", 'Red', 'Cross', ',', 'Gedinage', ',', 'the', 'head', 'of', 'the', 'Red', 'Cross', "'s", 'International', 'Committee', 'and', 'his', 'delegation', 'of', 'four', 'people', ',', 'visited', 'China', 'from', 'April', '18th', 'to', 'the', '23rd', '.'][0m
+[33mPrompt 10: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Senior', 'Israeli', 'and', 'Palestinian', 'peace', 'negotiators', 'are', 'both', 'expected', 'in', 'Washington', 'this', 'week', 'to', 'discuss', 'the', 'situation', 'in', 'the', 'Middle', 'East', '.'][0m
+[33mPrompt 20: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 30: ['Analysts', 'say', 'because', 'car', 'owners', 'simply', 'are', "n't", 'buying', 'enough', 'Firestone', 'tires', '.'][0m
+[33mPrompt 30: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 40: ['I', 'can', 'be', 'like', ',', 'where', 'that', "'s", 'good', 'in', 'the', 'world', 'is', 'Carmen', 'Sandiego'][0m
+[33mPrompt 40: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 50: ['Strange', 'story', 'coming', 'out', 'of', 'Syracuse', ',', 'New', 'York', ',', 'where', 'a', 'retired', 'handyman', 'admitted', 'he', 'held', 'five', 'women', 'as', 'sex', 'slaves', 'in', 'an', 'underground', 'bunker', 'over', '15', 'years', '.'][0m
+[33mPrompt 50: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 60: ['Great', 'American', 'Bank', 'said', 'its', 'board', 'approved', 'the', 'formation', 'of', 'a', 'holding', 'company', 'enabling', 'the', 'savings', 'bank', 'to', 'pursue', 'nontraditional', 'banking', 'activities', 'under', 'a', 'new', 'federal', 'law', '.'][0m
+[33mPrompt 60: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 70: ['The', 'reasons', 'are', 'complex', ',', 'but', 'one', 'simple', 'reason', 'ought', 'not', 'to', 'be', 'underestimated', '.'][0m
+[33mPrompt 70: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 80: ['Well', 'then', ',', 'when', 'did', 'Taipei', 'really', 'start', 'to', 'pull', 'ahead', '?'][0m
+[33mPrompt 80: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 90: ['``', 'It', "'s", 'not', 'a', 'crop', 'that', 'ca', "n't", 'be', 'doubled', 'or', 'tripled', ',', "''", 'says', 'Mr.', 'Krishnamurthy', '.'][0m
+[33mPrompt 90: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/ontonotes_conll/train_100_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 100
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'S-MISC': 2, 'S-PER': 3, 'S-LOC': 4, 'B-ORG': 5, 'I-ORG': 6, 'E-ORG': 7, 'S-ORG': 8, 'B-PER': 9, 'I-PER': 10, 'E-PER': 11, 'B-MISC': 12, 'E-MISC': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-MISC': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['This', 'master', 'turned', 'out', 'to', 'be', 'corrupt', 'and', 'was', 'put', 'into', 'a', 'well', 'for', 'punishment', ',', 'where', 'he', 'became', 'a', 'three', '-', 'legged', 'toad', '.'][0m
+[33mPrompt 0: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 10: ['A', 'Foreign', 'Ministry', 'spokesperson', 'said', 'today', 'that', ',', 'at', 'the', 'invitation', 'of', 'China', "'s", 'Red', 'Cross', ',', 'Gedinage', ',', 'the', 'head', 'of', 'the', 'Red', 'Cross', "'s", 'International', 'Committee', 'and', 'his', 'delegation', 'of', 'four', 'people', ',', 'visited', 'China', 'from', 'April', '18th', 'to', 'the', '23rd', '.'][0m
+[33mPrompt 10: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Senior', 'Israeli', 'and', 'Palestinian', 'peace', 'negotiators', 'are', 'both', 'expected', 'in', 'Washington', 'this', 'week', 'to', 'discuss', 'the', 'situation', 'in', 'the', 'Middle', 'East', '.'][0m
+[33mPrompt 20: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 30: ['Analysts', 'say', 'because', 'car', 'owners', 'simply', 'are', "n't", 'buying', 'enough', 'Firestone', 'tires', '.'][0m
+[33mPrompt 30: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 40: ['I', 'can', 'be', 'like', ',', 'where', 'that', "'s", 'good', 'in', 'the', 'world', 'is', 'Carmen', 'Sandiego'][0m
+[33mPrompt 40: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 50: ['Strange', 'story', 'coming', 'out', 'of', 'Syracuse', ',', 'New', 'York', ',', 'where', 'a', 'retired', 'handyman', 'admitted', 'he', 'held', 'five', 'women', 'as', 'sex', 'slaves', 'in', 'an', 'underground', 'bunker', 'over', '15', 'years', '.'][0m
+[33mPrompt 50: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 60: ['Great', 'American', 'Bank', 'said', 'its', 'board', 'approved', 'the', 'formation', 'of', 'a', 'holding', 'company', 'enabling', 'the', 'savings', 'bank', 'to', 'pursue', 'nontraditional', 'banking', 'activities', 'under', 'a', 'new', 'federal', 'law', '.'][0m
+[33mPrompt 60: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 70: ['The', 'reasons', 'are', 'complex', ',', 'but', 'one', 'simple', 'reason', 'ought', 'not', 'to', 'be', 'underestimated', '.'][0m
+[33mPrompt 70: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 80: ['Well', 'then', ',', 'when', 'did', 'Taipei', 'really', 'start', 'to', 'pull', 'ahead', '?'][0m
+[33mPrompt 80: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 90: ['``', 'It', "'s", 'not', 'a', 'crop', 'that', 'ca', "n't", 'be', 'doubled', 'or', 'tripled', ',', "''", 'says', 'Mr.', 'Krishnamurthy', '.'][0m
+[33mPrompt 90: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/ontonotes_conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 7602
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['President', 'Chen', 'Travels', 'Abroad'][0m
+[33mPrompt 0: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 760: ['First', 'of', 'all', 'here', "'s", 'a', 'quick', 'track', 'of', 'some', 'of', 'the', 'stories', 'we', "'re", 'following', 'tonight', '/.'][0m
+[33mPrompt 760: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1520: ['Yes', ',', 'there', 'is', 'a', '100', 'year', '-', 'old', 'Israeli', '-', 'Arab', 'conflict', ','][0m
+[33mPrompt 1520: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2280: ['The', 'stressful', ',', 'monumental', 'task', 'for', 'the', 'crew', 'on', 'the', 'U.S.', 'carrier', 'suffered', 'a', 'setback', '.'][0m
+[33mPrompt 2280: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 3040: ['For', 'the', 'first', 'time', ',', 'with', 'the', '``', 'Cole', "''", 'out', 'of', 'the', 'water', ',', 'the', 'full', 'impact', 'of', 'the', 'catastrophic', 'blast', 'clearly', 'visible', '.'][0m
+[33mPrompt 3040: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 3800: ['The', 'total', 'marks', 'the', 'sixth', 'consecutive', 'monthly', 'decline', '.'][0m
+[33mPrompt 3800: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 4560: ['In', 'an', 'interview', ',', 'Mr.', 'Bernstein', 'said', 'his', 'departure', '``', 'evolved', 'out', 'of', 'discussions', 'with', 'Si', 'Newhouse', 'and', 'that', "'s", 'the', 'decision', 'I', 'reached', '.', "''"][0m
+[33mPrompt 4560: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 5320: ['Thursday', "'s", 'report', 'on', 'the', 'September', 'consumer', 'price', 'index', 'is', 'expected', 'to', 'rise', ',', 'although', 'not', 'as', 'sharply', 'as', 'the', '0.9', '%', 'gain', 'reported', 'Friday', 'in', 'the', 'producer', 'price', 'index', '.'][0m
+[33mPrompt 5320: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 6080: ['Well', 'before', 'Campeau', ',', 'though', ',', 'there', 'were', 'signs', 'that', 'the', 'junk', 'market', 'was', 'stumbling', 'through', 'one', 'of', 'its', 'worst', 'years', 'ever', '.'][0m
+[33mPrompt 6080: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 6840: ['Fidelity', ',', 'for', 'example', ',', 'prepared', 'ads', 'several', 'months', 'ago', 'in', 'case', 'of', 'a', 'market', 'plunge', '.'][0m
+[33mPrompt 6840: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 7600: ['Henceforth', ',', 'the', 'focus', 'of', 'national', 'economic', 'construction', 'will', 'be', 'gradually', 'transferred', 'to', 'the', 'Mid-west', 'in', 'steps', ',', 'and', 'has', 'reinforced', 'support', 'for', 'foreign', 'investment', 'utilization', 'in', 'the', 'Mid-west', 'areas', ',', 'and', 'fundamental', 'industries', 'such', 'as', 'agriculture', ',', 'transportation', ',', 'raw', 'materials', ',', 'etc.', 'are', 'still', 'the', 'focus', 'of', 'investments', '.'][0m
+[33mPrompt 7600: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/ontonotes_conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 5091
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Powerful', 'Tools', 'for', 'Biotechnology', '-', 'Biochips'][0m
+[33mPrompt 0: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 509: ['would', "n't", 'it', 'also', 'contribute', 'to', 'completely', 'connect', 'the', 'Palestinian', 'and', 'Jordanian', 'economy', 'to', 'the', 'Israeli', 'I', 'mean', ',', 'what', 'generates', 'from', 'it', ',', 'may', 'be', ',', 'of', 'demographic', ',', 'economic', 'and', 'development', 'projects', '.'][0m
+[33mPrompt 509: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1018: ['Um', 'you', 'were', 'recently', 'profiled', 'about', 'this', 'in', 'Fortune', 'magazine', '/.'][0m
+[33mPrompt 1018: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1527: ['Taylor', ',', 'who', 'is', 'now', 'in', 'exile', 'in', 'Nigeria', ',', 'was', 'a', 'business', 'partner', 'with', 'Christian', 'Coalition', 'founder', 'Pat', 'Robertson', '...', 'in', 'a', 'Cayman', 'Islands', 'front', 'company', 'called', 'Freedom', 'Gold', ',', 'Ltd', '.'][0m
+[33mPrompt 1527: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2036: ['Saddam', 'Hussein', ':', 'I', 'have', 'only', 'honor', 'left', 'and', 'honor', 'can', 'not', 'be', 'sold', 'or', 'bought', '.'][0m
+[33mPrompt 2036: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2545: ['The', 'FBI', 'says', 'when', 'they', 'questioned', 'him', ',', 'he', 'told', 'them', 'of', 'another', 'plot', 'to', 'bomb', 'an', 'American', 'ship', 'in', 'Yemen', ',', 'where', 'the', '``', 'USS', 'Cole', "''", 'was', 'ultimately', 'attacked', '.'][0m
+[33mPrompt 2545: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 3054: ['If', 'the', 'workers', 'do', "n't", 'approve', 'the', 'steep', 'cutbacks', 'American', 'says', 'it', 'will', 'file', 'for', 'bankruptcy', '.'][0m
+[33mPrompt 3054: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 3563: ['However', ',', 'Time', 'executives', 'used', 'the', 'same', 'explanation', 'when', 'in', 'October', '1988', 'the', 'magazine', 'cut', 'its', 'guaranteed', 'circulation', 'from', '4.6', 'million', 'to', '4.3', 'million', '.'][0m
+[33mPrompt 3563: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 4072: ['CNN', 'executives', 'hope', 'the', 'headlines', 'created', 'by', 'such', 'scoops', 'will', 'generate', 'excitement', 'for', 'its', '``', 'branded', "''", 'programs', ',', 'in', 'the', 'way', '``', '60', 'Minutes', "''", 'did', 'so', 'well', 'for', 'CBS', '.'][0m
+[33mPrompt 4072: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 4581: ['He', 'has', 'said', 'that', 'he', 'now', 'knows', 'how', 'Justice', 'John', 'Harlan', 'felt', ',', 'a', 'reference', 'to', 'the', 'late', 'conservative', 'justice', 'who', 'was', 'the', 'most', 'frequent', 'dissenter', 'from', 'the', 'Warren', 'Court', "'s", 'opinions', '.'][0m
+[33mPrompt 4581: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 5090: ['Picture', 'taken', 'by', 'Xinhua', 'News', 'Agency', 'reporter', 'Shengnan', 'Li'][0m
+[33mPrompt 5090: ['A', 'second', 'round', 'of', 'Israeli', '-', 'Palestinian', 'talks', 'ended', 'Saturday', 'night', 'with', 'no', 'breakthrough', 'but', 'the', 'two', 'sides', 'have', 'agreed', 'to', 'keep', 'talking', '.', 'Israeli', 'is', 'MISC', '.', '[SEP]', 'Bush', 'declared', 'the', 'region', 'a', 'major', 'disaster', 'area', 'and', 'the', 'military', 'was', 'mob', '##ilized', 'to', 'prevent', 'lo', '##oting', '.', 'Bush', 'is', 'PER', '.', '[SEP]', 'S', '##ham', '##J', '##ie', 'also', 'suggested', ',', 'after', 'China', 'joins', 'the', 'World', 'Trade', 'Organization', ',', 'the', 'US', 'Congress', 'should', 'cancel', 'annual', 'discussions', 'regarding', 'the', 'issue', 'of', 'China', 'treatment', 'as', 'a', 'most', 'favored', 'trade', 'nation', ',', 'and', 'grant', 'China', 'treatment', 'as', 'a', 'permanent', 'most', 'favored', 'nation', '.', 'China', 'is', 'LOC', '.', '[SEP]', 'Speaking', 'to', 'reporters', 'after', 'a', 'meeting', 'with', 'UN', 'Secretary', 'General', 'Ko', '##fi', 'Anna', '##n', ',', 'Mr', '.', 'al', '-', 'Kid', '##wa', 'disputed', 'reports', 'that', 'the', 'Palestinians', 'would', 'accept', 'an', 'observer', 'force', 'that', 'was', 'not', 'under', 'UN', 'control', '.', 'UN', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 10
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/ontonotes_conll/transformers_continual_trainer_max_basic_100_2021_1337.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 3900.96741, Time is 3.19s
+[34m[dev set Total] Prec.: 0.58, Rec.: 0.15, F1: 0.24[0m
+[34m[test set Total] Prec.: 0.72, Rec.: 0.18, F1: 0.29[0m
+saving the best model...
+Epoch 2: 2630.70367, Time is 3.12s
+[34m[dev set Total] Prec.: 28.23, Rec.: 14.62, F1: 19.26[0m
+[34m[test set Total] Prec.: 29.98, Rec.: 15.75, F1: 20.65[0m
+saving the best model...
+Epoch 3: 2175.00586, Time is 3.09s
+[34m[dev set Total] Prec.: 43.33, Rec.: 25.46, F1: 32.08[0m
+[34m[test set Total] Prec.: 46.21, Rec.: 27.32, F1: 34.34[0m
+saving the best model...
+Epoch 4: 1819.44409, Time is 3.34s
+[34m[dev set Total] Prec.: 53.31, Rec.: 31.41, F1: 39.53[0m
+[34m[test set Total] Prec.: 54.37, Rec.: 32.80, F1: 40.92[0m
+saving the best model...
+Epoch 5: 1433.57336, Time is 3.12s
+[34m[dev set Total] Prec.: 50.50, Rec.: 41.33, F1: 45.46[0m
+[34m[test set Total] Prec.: 52.36, Rec.: 43.93, F1: 47.78[0m
+saving the best model...
+Epoch 6: 1098.88318, Time is 3.07s
+[34m[dev set Total] Prec.: 50.72, Rec.: 50.02, F1: 50.37[0m
+[34m[test set Total] Prec.: 51.55, Rec.: 52.08, F1: 51.81[0m
+saving the best model...
+Epoch 7: 806.72290, Time is 3.24s
+[34m[dev set Total] Prec.: 56.96, Rec.: 57.11, F1: 57.04[0m
+[34m[test set Total] Prec.: 56.63, Rec.: 58.04, F1: 57.33[0m
+saving the best model...
+Epoch 8: 592.42212, Time is 3.18s
+[34m[dev set Total] Prec.: 64.09, Rec.: 66.60, F1: 65.32[0m
+[34m[test set Total] Prec.: 62.42, Rec.: 65.79, F1: 64.06[0m
+saving the best model...
+Epoch 9: 419.98169, Time is 3.33s
+[34m[dev set Total] Prec.: 68.03, Rec.: 67.21, F1: 67.62[0m
+[34m[test set Total] Prec.: 66.15, Rec.: 66.47, F1: 66.31[0m
+saving the best model...
+Epoch 10: 291.46411, Time is 3.16s
+[34m[dev set Total] Prec.: 69.90, Rec.: 70.27, F1: 70.09[0m
+[34m[test set Total] Prec.: 68.48, Rec.: 69.68, F1: 69.08[0m
+saving the best model...
+Epoch 11: 194.04053, Time is 3.10s
+[34m[dev set Total] Prec.: 70.81, Rec.: 72.17, F1: 71.48[0m
+[34m[test set Total] Prec.: 69.49, Rec.: 71.29, F1: 70.38[0m
+saving the best model...
+Epoch 12: 137.43909, Time is 3.11s
+[34m[dev set Total] Prec.: 71.89, Rec.: 72.44, F1: 72.16[0m
+[34m[test set Total] Prec.: 70.46, Rec.: 71.77, F1: 71.11[0m
+saving the best model...
+Epoch 13: 100.23547, Time is 3.09s
+[34m[dev set Total] Prec.: 72.21, Rec.: 73.65, F1: 72.92[0m
+[34m[test set Total] Prec.: 71.03, Rec.: 72.81, F1: 71.91[0m
+saving the best model...
+Epoch 14: 71.98108, Time is 3.09s
+[34m[dev set Total] Prec.: 72.53, Rec.: 74.55, F1: 73.53[0m
+[34m[test set Total] Prec.: 71.43, Rec.: 73.76, F1: 72.58[0m
+saving the best model...
+Epoch 15: 56.30859, Time is 3.12s
+[34m[dev set Total] Prec.: 72.96, Rec.: 75.14, F1: 74.03[0m
+[34m[test set Total] Prec.: 71.84, Rec.: 74.19, F1: 73.00[0m
+saving the best model...
+Epoch 16: 40.45947, Time is 3.12s
+[34m[dev set Total] Prec.: 73.12, Rec.: 75.39, F1: 74.24[0m
+[34m[test set Total] Prec.: 72.26, Rec.: 74.84, F1: 73.52[0m
+saving the best model...
+Epoch 17: 31.62500, Time is 3.22s
+[34m[dev set Total] Prec.: 72.77, Rec.: 75.70, F1: 74.20[0m
+[34m[test set Total] Prec.: 71.94, Rec.: 75.00, F1: 73.43[0m
+Epoch 18: 18.30090, Time is 3.19s
+[34m[dev set Total] Prec.: 72.89, Rec.: 75.24, F1: 74.05[0m
+[34m[test set Total] Prec.: 72.31, Rec.: 74.85, F1: 73.56[0m
+Epoch 19: 19.81824, Time is 3.14s
+[34m[dev set Total] Prec.: 72.99, Rec.: 75.44, F1: 74.20[0m
+[34m[test set Total] Prec.: 72.46, Rec.: 75.12, F1: 73.76[0m
+Epoch 20: 15.01318, Time is 3.22s
+[34m[dev set Total] Prec.: 72.87, Rec.: 75.63, F1: 74.22[0m
+[34m[test set Total] Prec.: 72.50, Rec.: 75.44, F1: 73.94[0m
+Epoch 21: 11.73438, Time is 3.16s
+[34m[dev set Total] Prec.: 73.66, Rec.: 74.17, F1: 73.91[0m
+[34m[test set Total] Prec.: 73.29, Rec.: 74.16, F1: 73.72[0m
+Epoch 22: 5.90271, Time is 3.14s
+[34m[dev set Total] Prec.: 72.87, Rec.: 75.36, F1: 74.09[0m
+[34m[test set Total] Prec.: 72.39, Rec.: 75.23, F1: 73.78[0m
+Epoch 23: 14.99109, Time is 3.05s
+[34m[dev set Total] Prec.: 73.49, Rec.: 75.45, F1: 74.46[0m
+[34m[test set Total] Prec.: 73.04, Rec.: 75.16, F1: 74.08[0m
+saving the best model...
+Epoch 24: 3.86084, Time is 3.16s
+[34m[dev set Total] Prec.: 74.02, Rec.: 75.51, F1: 74.76[0m
+[34m[test set Total] Prec.: 73.98, Rec.: 75.71, F1: 74.83[0m
+saving the best model...
+Epoch 25: 2.77686, Time is 3.16s
+[34m[dev set Total] Prec.: 73.91, Rec.: 75.64, F1: 74.76[0m
+[34m[test set Total] Prec.: 73.72, Rec.: 75.68, F1: 74.69[0m
+saving the best model...
+Epoch 26: 2.32764, Time is 3.24s
+[34m[dev set Total] Prec.: 73.68, Rec.: 75.25, F1: 74.46[0m
+[34m[test set Total] Prec.: 73.51, Rec.: 75.24, F1: 74.36[0m
+Epoch 27: 1.92285, Time is 3.12s
+[34m[dev set Total] Prec.: 73.27, Rec.: 75.89, F1: 74.56[0m
+[34m[test set Total] Prec.: 73.20, Rec.: 75.93, F1: 74.54[0m
+Epoch 28: 1.52539, Time is 3.10s
+[34m[dev set Total] Prec.: 73.03, Rec.: 75.97, F1: 74.47[0m
+[34m[test set Total] Prec.: 73.27, Rec.: 76.32, F1: 74.76[0m
+Epoch 29: 8.55908, Time is 3.07s
+[34m[dev set Total] Prec.: 73.24, Rec.: 75.89, F1: 74.54[0m
+[34m[test set Total] Prec.: 73.40, Rec.: 76.19, F1: 74.77[0m
+Epoch 30: 1.61414, Time is 3.13s
+[34m[dev set Total] Prec.: 73.06, Rec.: 76.15, F1: 74.57[0m
+[34m[test set Total] Prec.: 73.19, Rec.: 76.36, F1: 74.74[0m
+Epoch 31: 1.13330, Time is 3.04s
+[34m[dev set Total] Prec.: 73.03, Rec.: 76.21, F1: 74.59[0m
+[34m[test set Total] Prec.: 73.30, Rec.: 76.57, F1: 74.90[0m
+Epoch 32: 0.88354, Time is 3.18s
+[34m[dev set Total] Prec.: 73.28, Rec.: 76.18, F1: 74.70[0m
+[34m[test set Total] Prec.: 73.35, Rec.: 76.32, F1: 74.80[0m
+Epoch 33: 0.79639, Time is 3.07s
+[34m[dev set Total] Prec.: 73.20, Rec.: 76.26, F1: 74.70[0m
+[34m[test set Total] Prec.: 73.19, Rec.: 76.30, F1: 74.71[0m
+Epoch 34: 0.76855, Time is 3.05s
+[34m[dev set Total] Prec.: 73.43, Rec.: 76.19, F1: 74.78[0m
+[34m[test set Total] Prec.: 73.39, Rec.: 76.31, F1: 74.82[0m
+saving the best model...
+Epoch 35: 0.68359, Time is 3.16s
+[34m[dev set Total] Prec.: 73.65, Rec.: 75.92, F1: 74.77[0m
+[34m[test set Total] Prec.: 73.52, Rec.: 75.96, F1: 74.72[0m
+Epoch 36: 8.87573, Time is 3.13s
+[34m[dev set Total] Prec.: 73.50, Rec.: 75.43, F1: 74.45[0m
+[34m[test set Total] Prec.: 73.37, Rec.: 75.55, F1: 74.44[0m
+Epoch 37: 0.62524, Time is 3.16s
+[34m[dev set Total] Prec.: 73.63, Rec.: 75.92, F1: 74.76[0m
+[34m[test set Total] Prec.: 73.68, Rec.: 76.20, F1: 74.92[0m
+Epoch 38: 0.58252, Time is 3.13s
+[34m[dev set Total] Prec.: 73.70, Rec.: 76.12, F1: 74.89[0m
+[34m[test set Total] Prec.: 73.79, Rec.: 76.42, F1: 75.08[0m
+saving the best model...
+Epoch 39: 0.55371, Time is 3.13s
+[34m[dev set Total] Prec.: 73.78, Rec.: 76.13, F1: 74.94[0m
+[34m[test set Total] Prec.: 73.81, Rec.: 76.37, F1: 75.07[0m
+saving the best model...
+Epoch 40: 2.26831, Time is 3.15s
+[34m[dev set Total] Prec.: 73.74, Rec.: 76.13, F1: 74.92[0m
+[34m[test set Total] Prec.: 73.65, Rec.: 76.28, F1: 74.94[0m
+Epoch 41: 0.52051, Time is 3.07s
+[34m[dev set Total] Prec.: 73.85, Rec.: 76.01, F1: 74.91[0m
+[34m[test set Total] Prec.: 73.69, Rec.: 76.09, F1: 74.87[0m
+Epoch 42: 0.50684, Time is 3.12s
+[34m[dev set Total] Prec.: 73.86, Rec.: 75.94, F1: 74.89[0m
+[34m[test set Total] Prec.: 73.72, Rec.: 76.05, F1: 74.87[0m
+Epoch 43: 0.49536, Time is 3.11s
+[34m[dev set Total] Prec.: 73.96, Rec.: 75.92, F1: 74.93[0m
+[34m[test set Total] Prec.: 73.87, Rec.: 76.09, F1: 74.96[0m
+Epoch 44: 0.48267, Time is 3.06s
+[34m[dev set Total] Prec.: 73.95, Rec.: 75.92, F1: 74.92[0m
+[34m[test set Total] Prec.: 73.88, Rec.: 76.12, F1: 74.98[0m
+Epoch 45: 0.47070, Time is 3.14s
+[34m[dev set Total] Prec.: 73.96, Rec.: 75.92, F1: 74.93[0m
+[34m[test set Total] Prec.: 73.89, Rec.: 76.12, F1: 74.99[0m
+Epoch 46: 0.46509, Time is 3.00s
+[34m[dev set Total] Prec.: 73.96, Rec.: 75.95, F1: 74.94[0m
+[34m[test set Total] Prec.: 73.85, Rec.: 76.10, F1: 74.96[0m
+saving the best model...
+Epoch 47: 0.45898, Time is 3.13s
+[34m[dev set Total] Prec.: 73.99, Rec.: 75.98, F1: 74.97[0m
+[34m[test set Total] Prec.: 73.86, Rec.: 76.11, F1: 74.97[0m
+saving the best model...
+Epoch 48: 0.45654, Time is 3.12s
+[34m[dev set Total] Prec.: 74.00, Rec.: 75.95, F1: 74.96[0m
+[34m[test set Total] Prec.: 73.83, Rec.: 76.09, F1: 74.94[0m
+Epoch 49: 0.45508, Time is 3.18s
+[34m[dev set Total] Prec.: 74.00, Rec.: 75.94, F1: 74.96[0m
+[34m[test set Total] Prec.: 73.87, Rec.: 76.13, F1: 74.98[0m
+Epoch 50: 0.44775, Time is 3.00s
+[34m[dev set Total] Prec.: 74.00, Rec.: 75.93, F1: 74.95[0m
+[34m[test set Total] Prec.: 73.87, Rec.: 76.15, F1: 74.99[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 74.97
+The corresponding test: 74.97
+Final testing.
+[34m[test set Total] Prec.: 73.86, Rec.: 76.11, F1: 74.97[0m

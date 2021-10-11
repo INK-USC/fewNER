@@ -83,8 +83,17 @@ def write_results(filename: str, insts: List[Instance]):
             words = inst.ori_words
             output = inst.labels
             prediction = inst.prediction
-            assert len(output) == len(prediction)
-            f.write("{}\t{}\t{}\t{}\n".format(i, words[i], output[i], prediction[i]))
+            if len(output) != len(prediction):
+                print('output: ',output)
+                print(len(output))
+                print('prediction: ',prediction)
+                print(len(prediction))
+                print(inst)
+            # assert len(output) == len(prediction)
+            try:
+                f.write("{}\t{}\t{}\t{}\n".format(i, words[i], output[i], prediction[i]))
+            except:
+                pass
         f.write("\n")
     f.close()
 

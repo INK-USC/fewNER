@@ -1,0 +1,367 @@
+device: cuda:0
+seed: 1337
+dataset: bc5cdr
+data_dir: dataset/bc5cdr
+percent_filename_suffix: 50_1337
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 10
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: /home/shared/fewner/conll_all
+model_folder: models/bc5cdr/transformers_continual_trainer_max_basic_50_1337_1337
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: max
+template: basic
+search_pool: target
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/bc5cdr/train_50_1337.txt
+dataset/bc5cdr/dev.txt
+dataset/bc5cdr/test.txt[0m
+[Data Info] Reading file: dataset/bc5cdr/train_50_1337.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 12
+label 2idx: {'<PAD>': 0, 'O': 1, 'S-Chemical': 2, 'S-Disease': 3, 'B-Disease': 4, 'E-Disease': 5, 'B-Chemical': 6, 'I-Chemical': 7, 'E-Chemical': 8, 'I-Disease': 9, '<START>': 10, '<STOP>': 11}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['We', 'conclude', 'that', 'methylphenidate', 'mediated', 'vasculitis', 'should', 'be', 'considered', 'in', 'patients', 'with', 'neurological', 'symptoms', 'and', 'a', 'history', 'of', 'methylphenidate', 'therapy', '.'][0m
+[33mPrompt 0: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 5: ['Medical', 'records', 'were', 'studied', 'retrospectively', 'to', 'evaluate', 'whether', 'warfarin', 'and', 'warfarin', '-', 'drug', 'interactions', 'could', 'have', 'caused', 'the', 'cerebral', 'haemorrhage', '.'][0m
+[33mPrompt 5: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 10: ['Challenge', 'tests', 'with', 'AX', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'allergic', 'reaction', 'to', 'AX', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RAST', 'for', 'AX', 'were', 'negative', '.'][0m
+[33mPrompt 10: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 15: ['CONCLUSION', ':', 'A', '50', '%', 'reduction', 'in', 'the', 'incidence', 'of', 'akathisia', 'when', 'prochlorperazine', 'was', 'administered', 'by', 'means', 'of', '15', '-', 'minute', 'intravenous', 'infusion', 'versus', 'a', '2', '-', 'minute', 'intravenous', 'push', 'was', 'not', 'detected', '.'][0m
+[33mPrompt 15: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Centrally', 'acting', 'alpha', '-', '2', 'adrenergic', 'agonists', 'are', 'one', 'of', 'several', 'pharmacologic', 'agents', 'used', 'in', 'the', 'treatment', 'of', 'spasticity', 'related', 'to', 'disorders', 'of', 'the', 'central', 'nervous', 'system', '.'][0m
+[33mPrompt 20: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 25: ['Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 'renal', 'failure', ',', 'on', 'hemodialysis', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dialyzer', ';', 'both', 'had', 'been', 'receiving', 'a', 'carbidopa', '/', 'levodopa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hallucinosis', 'and', 'recurrent', 'seizures', ',', 'which', 'were', 'refractory', 'to', 'anticonvulsants', '.'][0m
+[33mPrompt 25: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 30: ['BACKGROUND', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', 'human', 'immunodeficiency', 'virus', ',', 'atrial', 'fibrillation', ',', 'coronary', 'artery', 'disease', ',', 'and', 'hyperlipidemia', 'presented', 'with', 'generalized', 'pain', ',', 'fatigue', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.'][0m
+[33mPrompt 30: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 35: ['Severe', 'toxicity', 'was', 'correlated', 'with', 'the', 'higher', 'cumulative', 'dose', 'of', '60', 'g', '/', 'm2', 'of', 'ifosfamide', ',', 'a', 'younger', 'age', '(', 'less', 'than', '2', '1', '/', '2', 'years', 'old', ')', ',', 'and', 'a', 'predominance', 'of', 'vesicoprostatic', 'tumor', 'involvement', '.'][0m
+[33mPrompt 35: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 40: ['Therefore', ',', 'DCE', 'may', 'prove', 'to', 'be', 'a', 'useful', 'remedy', 'for', 'the', 'management', 'of', 'cognitive', 'dysfunctions', 'on', 'account', 'of', 'its', 'multifarious', 'beneficial', 'effects', 'such', 'as', ',', 'memory', 'improving', 'property', ',', 'cholesterol', 'lowering', 'property', 'and', 'anticholinesterase', 'activity', '.'][0m
+[33mPrompt 40: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 45: ['The', 'use', 'and', 'toxicity', 'of', 'didanosine', '(', 'ddI', ')', 'in', 'HIV', 'antibody', '-', 'positive', 'individuals', 'intolerant', 'to', 'zidovudine', '(', 'AZT', ')'][0m
+[33mPrompt 45: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/train_50_1337.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 12
+label 2idx: {'<PAD>': 0, 'O': 1, 'S-Chemical': 2, 'S-Disease': 3, 'B-Disease': 4, 'E-Disease': 5, 'B-Chemical': 6, 'I-Chemical': 7, 'E-Chemical': 8, 'I-Disease': 9, '<START>': 10, '<STOP>': 11}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['We', 'conclude', 'that', 'methylphenidate', 'mediated', 'vasculitis', 'should', 'be', 'considered', 'in', 'patients', 'with', 'neurological', 'symptoms', 'and', 'a', 'history', 'of', 'methylphenidate', 'therapy', '.'][0m
+[33mPrompt 0: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 5: ['Medical', 'records', 'were', 'studied', 'retrospectively', 'to', 'evaluate', 'whether', 'warfarin', 'and', 'warfarin', '-', 'drug', 'interactions', 'could', 'have', 'caused', 'the', 'cerebral', 'haemorrhage', '.'][0m
+[33mPrompt 5: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 10: ['Challenge', 'tests', 'with', 'AX', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'allergic', 'reaction', 'to', 'AX', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RAST', 'for', 'AX', 'were', 'negative', '.'][0m
+[33mPrompt 10: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 15: ['CONCLUSION', ':', 'A', '50', '%', 'reduction', 'in', 'the', 'incidence', 'of', 'akathisia', 'when', 'prochlorperazine', 'was', 'administered', 'by', 'means', 'of', '15', '-', 'minute', 'intravenous', 'infusion', 'versus', 'a', '2', '-', 'minute', 'intravenous', 'push', 'was', 'not', 'detected', '.'][0m
+[33mPrompt 15: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Centrally', 'acting', 'alpha', '-', '2', 'adrenergic', 'agonists', 'are', 'one', 'of', 'several', 'pharmacologic', 'agents', 'used', 'in', 'the', 'treatment', 'of', 'spasticity', 'related', 'to', 'disorders', 'of', 'the', 'central', 'nervous', 'system', '.'][0m
+[33mPrompt 20: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 25: ['Two', 'patients', 'with', 'similar', 'clinical', 'features', 'are', 'presented', ':', 'both', 'patients', 'had', 'chronic', 'renal', 'failure', ',', 'on', 'hemodialysis', 'for', 'many', 'years', 'but', 'recently', 'begun', 'on', 'a', 'high', '-', 'flux', 'dialyzer', ';', 'both', 'had', 'been', 'receiving', 'a', 'carbidopa', '/', 'levodopa', 'preparation', ';', 'and', 'both', 'had', 'the', 'onset', 'of', 'hallucinosis', 'and', 'recurrent', 'seizures', ',', 'which', 'were', 'refractory', 'to', 'anticonvulsants', '.'][0m
+[33mPrompt 25: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 30: ['BACKGROUND', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', 'human', 'immunodeficiency', 'virus', ',', 'atrial', 'fibrillation', ',', 'coronary', 'artery', 'disease', ',', 'and', 'hyperlipidemia', 'presented', 'with', 'generalized', 'pain', ',', 'fatigue', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.'][0m
+[33mPrompt 30: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 35: ['Severe', 'toxicity', 'was', 'correlated', 'with', 'the', 'higher', 'cumulative', 'dose', 'of', '60', 'g', '/', 'm2', 'of', 'ifosfamide', ',', 'a', 'younger', 'age', '(', 'less', 'than', '2', '1', '/', '2', 'years', 'old', ')', ',', 'and', 'a', 'predominance', 'of', 'vesicoprostatic', 'tumor', 'involvement', '.'][0m
+[33mPrompt 35: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 40: ['Therefore', ',', 'DCE', 'may', 'prove', 'to', 'be', 'a', 'useful', 'remedy', 'for', 'the', 'management', 'of', 'cognitive', 'dysfunctions', 'on', 'account', 'of', 'its', 'multifarious', 'beneficial', 'effects', 'such', 'as', ',', 'memory', 'improving', 'property', ',', 'cholesterol', 'lowering', 'property', 'and', 'anticholinesterase', 'activity', '.'][0m
+[33mPrompt 40: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 45: ['The', 'use', 'and', 'toxicity', 'of', 'didanosine', '(', 'ddI', ')', 'in', 'HIV', 'antibody', '-', 'positive', 'individuals', 'intolerant', 'to', 'zidovudine', '(', 'AZT', ')'][0m
+[33mPrompt 45: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 3809
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['22', '-', 'oxacalcitriol', 'suppresses', 'secondary', 'hyperparathyroidism', 'without', 'inducing', 'low', 'bone', 'turnover', 'in', 'dogs', 'with', 'renal', 'failure', '.'][0m
+[33mPrompt 0: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 380: ['The', 'time', 'course', 'of', 'events', 'suggested', 'that', 'amphotericin', 'B', 'was', 'the', 'cause', 'of', 'the', 'seizures', 'in', 'this', 'AIDS', 'patient', '.'][0m
+[33mPrompt 380: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 760: ['VSD', 'also', 'was', 'noted', 'following', 'treatment', 'on', 'GD', '11', '.'][0m
+[33mPrompt 760: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1140: ['A', 'variety', 'of', 'abnormal', 'sensory', '/', 'motor', 'behaviors', 'associated', 'with', 'electrical', 'discharges', 'recorded', 'from', 'the', 'bilateral', 'brainstem', 'were', 'induced', 'in', 'adult', 'WKY', 'rats', 'by', 'mechanical', '(', 'electrode', 'implants', ')', 'and', 'DC', 'electrical', 'current', 'stimulations', 'and', 'by', 'acute', 'and', 'chronic', 'administration', 'of', 'cocaine', '.'][0m
+[33mPrompt 1140: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1520: ['During', 'treatment', 'of', 'chronic', 'hepatitis', 'C', 'patients', 'with', 'interferon', 'and', 'ribavirin', ',', 'a', 'lot', 'of', 'side', 'effects', 'are', 'described', '.'][0m
+[33mPrompt 1520: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1900: ['A', 'biodegradable', 'polymer', 'dextran', 'has', 'been', 'utilized', 'as', 'a', 'carrier', 'for', 'synthesis', 'of', 'etodolac', '-', 'dextran', 'conjugates', '(', 'ED', ')', 'to', 'improve', 'its', 'aqueous', 'solubility', 'and', 'reduce', 'gastrointestinal', 'side', 'effects', '.'][0m
+[33mPrompt 1900: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 2280: ['We', 'conclude', 'that', 'the', 'analgesic', 'action', 'of', 'opioids', 'on', 'the', 'peripheral', 'terminals', 'of', 'primary', 'afferents', 'is', 'via', 'a', 'binding', 'site', 'with', 'characteristics', 'of', 'the', 'mu', '-', 'opioid', 'receptor', 'and', 'that', 'this', 'action', 'is', 'mediated', 'by', 'inhibition', 'of', 'the', 'cyclic', 'adenosine', 'monophosphate', 'second', 'messenger', 'system', '.'][0m
+[33mPrompt 2280: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 2660: ['Tri', '-', 'ortho', '-', 'tolyl', 'phosphate', '(', 'TOTP', ')', ',', '360', 'mg', '/', 'kg', ',', 'po', ',', 'and', '0', ',', '0', "'", '-', 'diisopropyl', 'phosphorofluoridate', '(', 'DFP', ')', ',', '1', 'mg', '/', 'kg', 'sc', ',', 'were', 'administered', 'to', 'adult', 'White', 'Leghorn', 'chickens', '24', 'hr', 'after', 'they', 'were', 'placed', 'on', 'diets', 'containing', '0', 'to', '300', 'ppm', 'corticosterone', '.'][0m
+[33mPrompt 2660: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3040: ['Intraventricular', 'infusion', 'of', 'dopamine', 'sufficient', 'to', 'raise', 'the', 'brain', 'dopamine', 'to', 'the', 'same', 'extent', 'did', 'not', 'prevent', 'the', 'ammonia', 'coma', 'nor', 'affect', 'the', 'blood', 'and', 'brain', 'ammonia', 'concentrations', '.'][0m
+[33mPrompt 3040: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3420: ['These', 'results', 'are', 'consistent', 'with', 'the', 'hypothesis', 'that', 'the', 'rat', 'has', 'a', 'poorer', 'tolerance', 'for', 'deoxycholic', 'acid', 'than', 'do', 'certain', 'other', 'species', '.'][0m
+[33mPrompt 3420: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3800: ['Isoniazid', 'significantly', 'increased', 'bradycardia', 'after', 'propranolol', ',', 'pindolol', ',', 'labetalol', 'and', 'atenolol', ',', 'as', 'well', 'as', 'after', 'clonidine', ',', 'but', 'not', 'after', 'hexamethonium', 'or', 'carbachol', '.'][0m
+[33mPrompt 3800: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 3974
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Torsade', 'de', 'pointes', 'ventricular', 'tachycardia', 'during', 'low', 'dose', 'intermittent', 'dobutamine', 'treatment', 'in', 'a', 'patient', 'with', 'dilated', 'cardiomyopathy', 'and', 'congestive', 'heart', 'failure', '.'][0m
+[33mPrompt 0: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 397: ['Neuroleptic', 'malignant', 'syndrome', 'complicated', 'by', 'massive', 'intestinal', 'bleeding', 'in', 'a', 'patient', 'with', 'chronic', 'renal', 'failure', '.'][0m
+[33mPrompt 397: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 794: ['Apparent', 'risk', 'factors', 'for', 'the', 'development', 'of', 'mania', 'or', 'hypomania', 'during', 'fluoxetine', 'pharmacotherapy', 'in', 'this', 'population', 'were', 'the', 'combination', 'of', 'attention', '-', 'deficit', 'hyperactivity', 'disorder', 'and', 'affective', 'instability', ';', 'major', 'depression', 'with', 'psychotic', 'features', ';', 'a', 'family', 'history', 'of', 'affective', 'disorder', ',', 'especially', 'bipolar', 'disorder', ';', 'and', 'a', 'diagnosis', 'of', 'bipolar', 'disorder', '.'][0m
+[33mPrompt 794: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1191: ['CONCLUSION', ':', 'The', 'data', 'acquired', 'suggest', 'that', 'isolated', 'MAP', 'may', 'have', 'certain', 'benefits', 'on', 'LV', 'dimension', '/', 'function', 'in', 'acute', 'heart', 'failure', ',', 'even', 'in', 'the', 'absence', 'of', 'MR', '.'][0m
+[33mPrompt 1191: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1588: ['Initial', 'evaluation', 'confirmed', 'FHF', 'from', 'acetaminophen', 'and', 'cerebral', 'edema', '.'][0m
+[33mPrompt 1588: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1985: ['CONCLUSIONS', ':', 'The', 'prevalence', 'of', 'levodopa', '-', 'induced', 'dyskinesia', 'in', 'our', 'patients', 'was', '44', '%', '.'][0m
+[33mPrompt 1985: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 2382: ['Bortezomib', 'and', 'high', '-', 'dose', 'dexamethasone', '-', 'containing', 'regimens', 'are', 'considered', 'to', 'be', 'generally', 'tolerable', 'with', 'few', 'severe', 'bacterial', 'infections', 'in', 'patients', 'with', 'B', '-', 'cell', 'malignancies', '.'][0m
+[33mPrompt 2382: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 2779: ['Conditions', 'that', 'will', 'be', 'required', 'for', 'studies', 'of', '1', ',', '3', '-', 'butadiene', 'are', 'discussed', '.'][0m
+[33mPrompt 2779: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3176: ['After', '4', 'weeks', 'the', 'PAN', 'rats', 'were', 'severely', 'proteinuric', '(', '190', '+', '/', '-', '80', 'mg', '/', '24', 'hr', ')', ',', 'and', 'all', 'rats', 'were', 'given', 'colloidal', 'carbon', '(', 'CC', ')', 'intravenously', '.'][0m
+[33mPrompt 3176: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3573: ['This', 'also', 'resulted', 'in', 'an', 'increased', 'incidence', 'of', 'seizures', ',', '90', '%', '(', 'P', '<', 'or', '=', '.', '01', ')', ',', 'and', 'death', ',', '90', '%', '(', 'P', '<', 'or', '=', '.', '05', ')', ',', 'compared', 'with', 'group', '4', '.'][0m
+[33mPrompt 3573: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3970: ['Seven', 'of', 'the', '13', 'patients', 'had', 'exhibited', 'a', 'subclinical', 'hypertensive', 'state', 'before', 'cyclosporin', 'A', 'therapy', '.'][0m
+[33mPrompt 3970: ['Challenge', 'tests', 'with', 'A', '##X', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', 'all', '##ergic', 'reaction', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', 'A', '##X', 'is', 'Chemical', '.', '[SEP]', 'R', '##ES', '##U', '##LT', '##S', ':', 'Minutes', 'after', 'oral', 'administration', ',', 'the', 'patient', 'developed', 'nausea', ',', 'sweating', 'and', 'h', '##y', '##pot', '##ens', '##ion', ',', 'and', 'finally', 'collapsed', '.', 'nausea', 'is', 'Disease', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 5
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/bc5cdr/transformers_continual_trainer_max_basic_50_1337_1337.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 4336.29773, Time is 2.60s
+[34m[dev set Total] Prec.: 5.23, Rec.: 28.21, F1: 8.83[0m
+[34m[test set Total] Prec.: 5.23, Rec.: 29.21, F1: 8.87[0m
+saving the best model...
+Epoch 2: 2569.45392, Time is 2.15s
+[34m[dev set Total] Prec.: 8.44, Rec.: 36.88, F1: 13.74[0m
+[34m[test set Total] Prec.: 8.11, Rec.: 36.97, F1: 13.30[0m
+saving the best model...
+Epoch 3: 1354.99261, Time is 2.17s
+[34m[dev set Total] Prec.: 23.09, Rec.: 1.57, F1: 2.95[0m
+[34m[test set Total] Prec.: 30.18, Rec.: 2.67, F1: 4.91[0m
+Epoch 4: 958.99658, Time is 2.21s
+[34m[dev set Total] Prec.: 49.66, Rec.: 35.38, F1: 41.32[0m
+[34m[test set Total] Prec.: 46.20, Rec.: 35.13, F1: 39.91[0m
+saving the best model...
+Epoch 5: 793.22473, Time is 2.12s
+[34m[dev set Total] Prec.: 50.33, Rec.: 38.59, F1: 43.69[0m
+[34m[test set Total] Prec.: 48.52, Rec.: 38.84, F1: 43.14[0m
+saving the best model...
+Epoch 6: 645.02148, Time is 2.18s
+[34m[dev set Total] Prec.: 37.89, Rec.: 45.96, F1: 41.54[0m
+[34m[test set Total] Prec.: 36.73, Rec.: 46.20, F1: 40.92[0m
+Epoch 7: 529.66846, Time is 2.18s
+[34m[dev set Total] Prec.: 47.20, Rec.: 42.58, F1: 44.77[0m
+[34m[test set Total] Prec.: 46.12, Rec.: 43.77, F1: 44.91[0m
+saving the best model...
+Epoch 8: 433.61963, Time is 2.13s
+[34m[dev set Total] Prec.: 39.39, Rec.: 55.79, F1: 46.18[0m
+[34m[test set Total] Prec.: 38.76, Rec.: 57.11, F1: 46.18[0m
+saving the best model...
+Epoch 9: 366.05005, Time is 2.09s
+[34m[dev set Total] Prec.: 50.13, Rec.: 52.98, F1: 51.52[0m
+[34m[test set Total] Prec.: 49.06, Rec.: 54.30, F1: 51.55[0m
+saving the best model...
+Epoch 10: 289.27625, Time is 2.13s
+[34m[dev set Total] Prec.: 50.46, Rec.: 59.15, F1: 54.46[0m
+[34m[test set Total] Prec.: 49.08, Rec.: 60.65, F1: 54.26[0m
+saving the best model...
+Epoch 11: 234.49243, Time is 2.14s
+[34m[dev set Total] Prec.: 53.05, Rec.: 60.27, F1: 56.43[0m
+[34m[test set Total] Prec.: 51.83, Rec.: 62.14, F1: 56.52[0m
+saving the best model...
+Epoch 12: 197.74597, Time is 2.15s
+[34m[dev set Total] Prec.: 53.99, Rec.: 61.68, F1: 57.58[0m
+[34m[test set Total] Prec.: 52.56, Rec.: 63.34, F1: 57.45[0m
+saving the best model...
+Epoch 13: 153.41028, Time is 2.17s
+[34m[dev set Total] Prec.: 56.37, Rec.: 60.87, F1: 58.53[0m
+[34m[test set Total] Prec.: 54.66, Rec.: 62.43, F1: 58.29[0m
+saving the best model...
+Epoch 14: 115.61890, Time is 2.18s
+[34m[dev set Total] Prec.: 52.40, Rec.: 66.09, F1: 58.45[0m
+[34m[test set Total] Prec.: 51.06, Rec.: 67.98, F1: 58.32[0m
+Epoch 15: 85.40161, Time is 2.24s
+[34m[dev set Total] Prec.: 53.72, Rec.: 65.04, F1: 58.84[0m
+[34m[test set Total] Prec.: 51.95, Rec.: 66.07, F1: 58.16[0m
+saving the best model...
+Epoch 16: 65.59937, Time is 2.18s
+[34m[dev set Total] Prec.: 57.49, Rec.: 62.26, F1: 59.78[0m
+[34m[test set Total] Prec.: 56.00, Rec.: 63.77, F1: 59.63[0m
+saving the best model...
+Epoch 17: 46.72131, Time is 2.19s
+[34m[dev set Total] Prec.: 57.34, Rec.: 64.98, F1: 60.92[0m
+[34m[test set Total] Prec.: 56.24, Rec.: 66.64, F1: 61.00[0m
+saving the best model...
+Epoch 18: 33.56836, Time is 2.21s
+[34m[dev set Total] Prec.: 54.78, Rec.: 66.12, F1: 59.92[0m
+[34m[test set Total] Prec.: 53.46, Rec.: 67.34, F1: 59.60[0m
+Epoch 19: 25.76929, Time is 2.18s
+[34m[dev set Total] Prec.: 54.10, Rec.: 65.45, F1: 59.24[0m
+[34m[test set Total] Prec.: 52.42, Rec.: 66.35, F1: 58.56[0m
+Epoch 20: 19.88257, Time is 2.13s
+[34m[dev set Total] Prec.: 53.00, Rec.: 68.47, F1: 59.75[0m
+[34m[test set Total] Prec.: 51.20, Rec.: 68.90, F1: 58.74[0m
+Epoch 21: 16.57544, Time is 2.20s
+[34m[dev set Total] Prec.: 56.48, Rec.: 66.53, F1: 61.09[0m
+[34m[test set Total] Prec.: 54.71, Rec.: 67.64, F1: 60.49[0m
+saving the best model...
+Epoch 22: 17.52441, Time is 2.15s
+[34m[dev set Total] Prec.: 57.52, Rec.: 64.13, F1: 60.64[0m
+[34m[test set Total] Prec.: 55.85, Rec.: 65.25, F1: 60.18[0m
+Epoch 23: 9.45923, Time is 2.21s
+[34m[dev set Total] Prec.: 55.72, Rec.: 68.54, F1: 61.47[0m
+[34m[test set Total] Prec.: 53.89, Rec.: 69.18, F1: 60.59[0m
+saving the best model...
+Epoch 24: 7.20532, Time is 2.26s
+[34m[dev set Total] Prec.: 55.39, Rec.: 69.53, F1: 61.66[0m
+[34m[test set Total] Prec.: 53.60, Rec.: 70.27, F1: 60.81[0m
+saving the best model...
+Epoch 25: 5.83057, Time is 2.18s
+[34m[dev set Total] Prec.: 56.58, Rec.: 66.27, F1: 61.04[0m
+[34m[test set Total] Prec.: 54.76, Rec.: 67.18, F1: 60.34[0m
+Epoch 26: 6.07886, Time is 2.16s
+[34m[dev set Total] Prec.: 54.50, Rec.: 68.36, F1: 60.65[0m
+[34m[test set Total] Prec.: 52.69, Rec.: 69.07, F1: 59.78[0m
+Epoch 27: 3.78760, Time is 2.17s
+[34m[dev set Total] Prec.: 54.48, Rec.: 69.37, F1: 61.03[0m
+[34m[test set Total] Prec.: 52.76, Rec.: 70.24, F1: 60.26[0m
+Epoch 28: 3.17114, Time is 2.13s
+[34m[dev set Total] Prec.: 55.71, Rec.: 68.17, F1: 61.31[0m
+[34m[test set Total] Prec.: 53.75, Rec.: 69.03, F1: 60.44[0m
+Epoch 29: 4.19263, Time is 2.45s
+[34m[dev set Total] Prec.: 57.21, Rec.: 65.03, F1: 60.87[0m
+[34m[test set Total] Prec.: 55.45, Rec.: 66.00, F1: 60.27[0m
+Epoch 30: 2.67676, Time is 2.15s
+[34m[dev set Total] Prec.: 57.06, Rec.: 64.60, F1: 60.59[0m
+[34m[test set Total] Prec.: 54.84, Rec.: 65.37, F1: 59.64[0m
+Epoch 31: 2.45251, Time is 2.15s
+[34m[dev set Total] Prec.: 55.26, Rec.: 65.77, F1: 60.06[0m
+[34m[test set Total] Prec.: 53.38, Rec.: 66.91, F1: 59.39[0m
+Epoch 32: 2.34155, Time is 2.12s
+[34m[dev set Total] Prec.: 54.26, Rec.: 68.71, F1: 60.64[0m
+[34m[test set Total] Prec.: 52.49, Rec.: 69.85, F1: 59.94[0m
+Epoch 33: 1.82910, Time is 2.22s
+[34m[dev set Total] Prec.: 53.68, Rec.: 69.37, F1: 60.53[0m
+[34m[test set Total] Prec.: 51.96, Rec.: 70.38, F1: 59.79[0m
+Epoch 34: 1.63062, Time is 2.22s
+[34m[dev set Total] Prec.: 54.18, Rec.: 68.54, F1: 60.52[0m
+[34m[test set Total] Prec.: 52.38, Rec.: 69.28, F1: 59.66[0m
+Epoch 35: 1.49390, Time is 2.19s
+[34m[dev set Total] Prec.: 54.84, Rec.: 67.38, F1: 60.46[0m
+[34m[test set Total] Prec.: 53.08, Rec.: 68.22, F1: 59.71[0m
+Epoch 36: 7.34888, Time is 2.21s
+[34m[dev set Total] Prec.: 55.08, Rec.: 66.78, F1: 60.37[0m
+[34m[test set Total] Prec.: 53.22, Rec.: 67.83, F1: 59.64[0m
+Epoch 37: 1.34741, Time is 2.14s
+[34m[dev set Total] Prec.: 54.92, Rec.: 67.04, F1: 60.38[0m
+[34m[test set Total] Prec.: 53.01, Rec.: 67.98, F1: 59.57[0m
+Epoch 38: 1.29077, Time is 2.17s
+[34m[dev set Total] Prec.: 55.29, Rec.: 67.74, F1: 60.89[0m
+[34m[test set Total] Prec.: 53.39, Rec.: 68.55, F1: 60.03[0m
+Epoch 39: 1.39819, Time is 2.15s
+[34m[dev set Total] Prec.: 56.13, Rec.: 67.79, F1: 61.41[0m
+[34m[test set Total] Prec.: 54.11, Rec.: 68.53, F1: 60.47[0m
+Epoch 40: 1.13696, Time is 2.17s
+[34m[dev set Total] Prec.: 56.99, Rec.: 66.53, F1: 61.39[0m
+[34m[test set Total] Prec.: 55.00, Rec.: 67.52, F1: 60.62[0m
+Epoch 41: 1.36182, Time is 2.18s
+[34m[dev set Total] Prec.: 56.92, Rec.: 66.01, F1: 61.13[0m
+[34m[test set Total] Prec.: 55.14, Rec.: 67.24, F1: 60.59[0m
+Epoch 42: 1.04590, Time is 2.17s
+[34m[dev set Total] Prec.: 56.43, Rec.: 65.53, F1: 60.64[0m
+[34m[test set Total] Prec.: 54.67, Rec.: 66.95, F1: 60.19[0m
+Epoch 43: 1.00879, Time is 2.20s
+[34m[dev set Total] Prec.: 56.28, Rec.: 65.21, F1: 60.42[0m
+[34m[test set Total] Prec.: 54.52, Rec.: 66.63, F1: 59.97[0m
+Epoch 44: 0.97827, Time is 2.22s
+[34m[dev set Total] Prec.: 56.27, Rec.: 65.36, F1: 60.48[0m
+[34m[test set Total] Prec.: 54.30, Rec.: 66.55, F1: 59.80[0m
+early stop because there are 20 epochs not increasing f1 on dev
+Archiving the best Model...
+Finished archiving the models
+The best dev: 61.66
+The corresponding test: 60.81
+Final testing.
+[34m[test set Total] Prec.: 53.60, Rec.: 70.27, F1: 60.81[0m

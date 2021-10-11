@@ -1,0 +1,386 @@
+device: cuda:0
+seed: 2021
+dataset: ontonotes_conll
+data_dir: dataset/ontonotes_conll
+percent_filename_suffix: 150_1337
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 10
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: /home/shared/fewner/conll_all
+model_folder: models/ontonotes_conll/transformers_continual_trainer_max_basic_150_1337_2021
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: max
+template: basic
+search_pool: target
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/ontonotes_conll/train_150_1337.txt
+dataset/ontonotes_conll/dev.txt
+dataset/ontonotes_conll/test.txt[0m
+[Data Info] Reading file: dataset/ontonotes_conll/train_150_1337.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 150
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'B-MISC': 2, 'E-MISC': 3, 'S-MISC': 4, 'S-ORG': 5, 'B-PER': 6, 'I-PER': 7, 'E-PER': 8, 'S-PER': 9, 'S-LOC': 10, 'B-ORG': 11, 'E-ORG': 12, 'I-MISC': 13, 'I-ORG': 14, 'B-LOC': 15, 'E-LOC': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Sales', 'were', 'higher', 'in', 'all', 'of', 'the', 'company', "'s", 'business', 'categories', ',', 'with', 'the', 'biggest', 'growth', 'coming', 'in', 'sales', 'of', 'foodstuffs', 'such', 'as', 'margarine', ',', 'coffee', 'and', 'frozen', 'food', ',', 'which', 'rose', '6.3', '%', '.'][0m
+[33mPrompt 0: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 15: ['Perhaps', 'the', 'most', 'disturbing', 'finding', 'is', 'that', 'the', 'bowling', 'alley', 'may', 'be', 'an', 'endangered', 'American', 'institution', '.'][0m
+[33mPrompt 15: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 30: ['She', 'died', 'last', 'week', 'at', 'the', 'age', 'of', 'ninety', '-', 'two', '/.'][0m
+[33mPrompt 30: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 45: ['"', 'If', 'you', 'really', 'want', 'to', 'help', 'those', 'cities', 'and', 'counties', ',', 'then', 'you', "'ve", 'got', 'to', 'implement', "'", 'local', 'self', '-', 'rule', ',', "'", 'so', 'that', 'the', 'local', 'governments', '-LRB-', 'which', 'are', 'now', 'only', 'tertiary', 'government', 'units', '-RRB-', 'really', 'acquire', 'sufficient', 'power', 'and', 'money', ',', '"', 'argues', 'Hsia', 'Chu', '-', 'joe', '.'][0m
+[33mPrompt 45: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 60: ['Because', 'of', 'the', 'size', 'of', 'the', 'California', 'market', ',', 'few', 'relocation', 'specialists', 'expect', 'a', 'widespread', 'corporate', 'flight', 'in', 'the', 'quake', "'s", 'aftermath', '.'][0m
+[33mPrompt 60: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 75: ['This', 'compares', 'with', 'a', '1.6', '%', 'rise', 'in', 'the', 'second', 'from', 'the', 'first', 'quarter', 'and', 'a', '5.4', '%', 'increase', 'from', 'the', 'second', 'quarter', 'of', '1988', '.'][0m
+[33mPrompt 75: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 90: ['The', 'group', 'has', 'forecast', '1989', 'revenue', 'of', '56.9', 'billion', 'francs', '.'][0m
+[33mPrompt 90: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 105: ['the', 'Japanese', 'they', 'turn', 'out', '.'][0m
+[33mPrompt 105: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 120: ['The', 'Securities', 'and', 'Futures', 'Commission', ',', 'a', 'government', 'watchdog', 'set', 'up', 'after', 'the', '1987', 'crash', 'to', 'try', 'to', 'restore', 'confidence', 'and', 'order', 'to', 'Hong', 'Kong', "'s", 'markets', ',', 'had', 'been', 'expected', 'to', 'give', 'the', 'contract', 'conditional', 'approval', 'last', 'week', '.'][0m
+[33mPrompt 120: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 135: ['Staffers', 'at', 'Thompson', ',', 'whose', 'offices', 'are', 'in', 'the', 'ultramodern', 'Embarcadero', 'Center', ',', 'watched', 'pictures', 'drop', 'from', 'the', 'walls', 'and', 'then', 'felt', 'the', 'skyscraper', 'sway', 'seven', 'to', 'eight', 'feet', ',', 'according', 'to', 'a', 'spokeswoman', '.'][0m
+[33mPrompt 135: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/ontonotes_conll/train_150_1337.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 150
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'B-MISC': 2, 'E-MISC': 3, 'S-MISC': 4, 'S-ORG': 5, 'B-PER': 6, 'I-PER': 7, 'E-PER': 8, 'S-PER': 9, 'S-LOC': 10, 'B-ORG': 11, 'E-ORG': 12, 'I-MISC': 13, 'I-ORG': 14, 'B-LOC': 15, 'E-LOC': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Sales', 'were', 'higher', 'in', 'all', 'of', 'the', 'company', "'s", 'business', 'categories', ',', 'with', 'the', 'biggest', 'growth', 'coming', 'in', 'sales', 'of', 'foodstuffs', 'such', 'as', 'margarine', ',', 'coffee', 'and', 'frozen', 'food', ',', 'which', 'rose', '6.3', '%', '.'][0m
+[33mPrompt 0: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 15: ['Perhaps', 'the', 'most', 'disturbing', 'finding', 'is', 'that', 'the', 'bowling', 'alley', 'may', 'be', 'an', 'endangered', 'American', 'institution', '.'][0m
+[33mPrompt 15: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 30: ['She', 'died', 'last', 'week', 'at', 'the', 'age', 'of', 'ninety', '-', 'two', '/.'][0m
+[33mPrompt 30: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 45: ['"', 'If', 'you', 'really', 'want', 'to', 'help', 'those', 'cities', 'and', 'counties', ',', 'then', 'you', "'ve", 'got', 'to', 'implement', "'", 'local', 'self', '-', 'rule', ',', "'", 'so', 'that', 'the', 'local', 'governments', '-LRB-', 'which', 'are', 'now', 'only', 'tertiary', 'government', 'units', '-RRB-', 'really', 'acquire', 'sufficient', 'power', 'and', 'money', ',', '"', 'argues', 'Hsia', 'Chu', '-', 'joe', '.'][0m
+[33mPrompt 45: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 60: ['Because', 'of', 'the', 'size', 'of', 'the', 'California', 'market', ',', 'few', 'relocation', 'specialists', 'expect', 'a', 'widespread', 'corporate', 'flight', 'in', 'the', 'quake', "'s", 'aftermath', '.'][0m
+[33mPrompt 60: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 75: ['This', 'compares', 'with', 'a', '1.6', '%', 'rise', 'in', 'the', 'second', 'from', 'the', 'first', 'quarter', 'and', 'a', '5.4', '%', 'increase', 'from', 'the', 'second', 'quarter', 'of', '1988', '.'][0m
+[33mPrompt 75: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 90: ['The', 'group', 'has', 'forecast', '1989', 'revenue', 'of', '56.9', 'billion', 'francs', '.'][0m
+[33mPrompt 90: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 105: ['the', 'Japanese', 'they', 'turn', 'out', '.'][0m
+[33mPrompt 105: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 120: ['The', 'Securities', 'and', 'Futures', 'Commission', ',', 'a', 'government', 'watchdog', 'set', 'up', 'after', 'the', '1987', 'crash', 'to', 'try', 'to', 'restore', 'confidence', 'and', 'order', 'to', 'Hong', 'Kong', "'s", 'markets', ',', 'had', 'been', 'expected', 'to', 'give', 'the', 'contract', 'conditional', 'approval', 'last', 'week', '.'][0m
+[33mPrompt 120: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 135: ['Staffers', 'at', 'Thompson', ',', 'whose', 'offices', 'are', 'in', 'the', 'ultramodern', 'Embarcadero', 'Center', ',', 'watched', 'pictures', 'drop', 'from', 'the', 'walls', 'and', 'then', 'felt', 'the', 'skyscraper', 'sway', 'seven', 'to', 'eight', 'feet', ',', 'according', 'to', 'a', 'spokeswoman', '.'][0m
+[33mPrompt 135: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/ontonotes_conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 7602
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['President', 'Chen', 'Travels', 'Abroad'][0m
+[33mPrompt 0: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 760: ['First', 'of', 'all', 'here', "'s", 'a', 'quick', 'track', 'of', 'some', 'of', 'the', 'stories', 'we', "'re", 'following', 'tonight', '/.'][0m
+[33mPrompt 760: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 1520: ['Yes', ',', 'there', 'is', 'a', '100', 'year', '-', 'old', 'Israeli', '-', 'Arab', 'conflict', ','][0m
+[33mPrompt 1520: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 2280: ['The', 'stressful', ',', 'monumental', 'task', 'for', 'the', 'crew', 'on', 'the', 'U.S.', 'carrier', 'suffered', 'a', 'setback', '.'][0m
+[33mPrompt 2280: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 3040: ['For', 'the', 'first', 'time', ',', 'with', 'the', '``', 'Cole', "''", 'out', 'of', 'the', 'water', ',', 'the', 'full', 'impact', 'of', 'the', 'catastrophic', 'blast', 'clearly', 'visible', '.'][0m
+[33mPrompt 3040: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 3800: ['The', 'total', 'marks', 'the', 'sixth', 'consecutive', 'monthly', 'decline', '.'][0m
+[33mPrompt 3800: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 4560: ['In', 'an', 'interview', ',', 'Mr.', 'Bernstein', 'said', 'his', 'departure', '``', 'evolved', 'out', 'of', 'discussions', 'with', 'Si', 'Newhouse', 'and', 'that', "'s", 'the', 'decision', 'I', 'reached', '.', "''"][0m
+[33mPrompt 4560: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 5320: ['Thursday', "'s", 'report', 'on', 'the', 'September', 'consumer', 'price', 'index', 'is', 'expected', 'to', 'rise', ',', 'although', 'not', 'as', 'sharply', 'as', 'the', '0.9', '%', 'gain', 'reported', 'Friday', 'in', 'the', 'producer', 'price', 'index', '.'][0m
+[33mPrompt 5320: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 6080: ['Well', 'before', 'Campeau', ',', 'though', ',', 'there', 'were', 'signs', 'that', 'the', 'junk', 'market', 'was', 'stumbling', 'through', 'one', 'of', 'its', 'worst', 'years', 'ever', '.'][0m
+[33mPrompt 6080: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 6840: ['Fidelity', ',', 'for', 'example', ',', 'prepared', 'ads', 'several', 'months', 'ago', 'in', 'case', 'of', 'a', 'market', 'plunge', '.'][0m
+[33mPrompt 6840: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 7600: ['Henceforth', ',', 'the', 'focus', 'of', 'national', 'economic', 'construction', 'will', 'be', 'gradually', 'transferred', 'to', 'the', 'Mid-west', 'in', 'steps', ',', 'and', 'has', 'reinforced', 'support', 'for', 'foreign', 'investment', 'utilization', 'in', 'the', 'Mid-west', 'areas', ',', 'and', 'fundamental', 'industries', 'such', 'as', 'agriculture', ',', 'transportation', ',', 'raw', 'materials', ',', 'etc.', 'are', 'still', 'the', 'focus', 'of', 'investments', '.'][0m
+[33mPrompt 7600: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/ontonotes_conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 5091
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Powerful', 'Tools', 'for', 'Biotechnology', '-', 'Biochips'][0m
+[33mPrompt 0: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 509: ['would', "n't", 'it', 'also', 'contribute', 'to', 'completely', 'connect', 'the', 'Palestinian', 'and', 'Jordanian', 'economy', 'to', 'the', 'Israeli', 'I', 'mean', ',', 'what', 'generates', 'from', 'it', ',', 'may', 'be', ',', 'of', 'demographic', ',', 'economic', 'and', 'development', 'projects', '.'][0m
+[33mPrompt 509: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 1018: ['Um', 'you', 'were', 'recently', 'profiled', 'about', 'this', 'in', 'Fortune', 'magazine', '/.'][0m
+[33mPrompt 1018: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 1527: ['Taylor', ',', 'who', 'is', 'now', 'in', 'exile', 'in', 'Nigeria', ',', 'was', 'a', 'business', 'partner', 'with', 'Christian', 'Coalition', 'founder', 'Pat', 'Robertson', '...', 'in', 'a', 'Cayman', 'Islands', 'front', 'company', 'called', 'Freedom', 'Gold', ',', 'Ltd', '.'][0m
+[33mPrompt 1527: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 2036: ['Saddam', 'Hussein', ':', 'I', 'have', 'only', 'honor', 'left', 'and', 'honor', 'can', 'not', 'be', 'sold', 'or', 'bought', '.'][0m
+[33mPrompt 2036: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 2545: ['The', 'FBI', 'says', 'when', 'they', 'questioned', 'him', ',', 'he', 'told', 'them', 'of', 'another', 'plot', 'to', 'bomb', 'an', 'American', 'ship', 'in', 'Yemen', ',', 'where', 'the', '``', 'USS', 'Cole', "''", 'was', 'ultimately', 'attacked', '.'][0m
+[33mPrompt 2545: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 3054: ['If', 'the', 'workers', 'do', "n't", 'approve', 'the', 'steep', 'cutbacks', 'American', 'says', 'it', 'will', 'file', 'for', 'bankruptcy', '.'][0m
+[33mPrompt 3054: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 3563: ['However', ',', 'Time', 'executives', 'used', 'the', 'same', 'explanation', 'when', 'in', 'October', '1988', 'the', 'magazine', 'cut', 'its', 'guaranteed', 'circulation', 'from', '4.6', 'million', 'to', '4.3', 'million', '.'][0m
+[33mPrompt 3563: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 4072: ['CNN', 'executives', 'hope', 'the', 'headlines', 'created', 'by', 'such', 'scoops', 'will', 'generate', 'excitement', 'for', 'its', '``', 'branded', "''", 'programs', ',', 'in', 'the', 'way', '``', '60', 'Minutes', "''", 'did', 'so', 'well', 'for', 'CBS', '.'][0m
+[33mPrompt 4072: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 4581: ['He', 'has', 'said', 'that', 'he', 'now', 'knows', 'how', 'Justice', 'John', 'Harlan', 'felt', ',', 'a', 'reference', 'to', 'the', 'late', 'conservative', 'justice', 'who', 'was', 'the', 'most', 'frequent', 'dissenter', 'from', 'the', 'Warren', 'Court', "'s", 'opinions', '.'][0m
+[33mPrompt 4581: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 5090: ['Picture', 'taken', 'by', 'Xinhua', 'News', 'Agency', 'reporter', 'Shengnan', 'Li'][0m
+[33mPrompt 5090: ['After', 'that', ',', 'the', 'military', 'and', 'the', 'local', 'police', 'jointly', 'established', 'a', 'case', 'and', 'jointly', 'adopted', 'measures', 'to', 'directly', 'hit', 'and', 'en', '##ci', '##rcle', 'the', 'two', 'points', ',', 'thereby', 'realizing', 'a', 'pin', '##point', 'strike', 'against', 'them', '.', 'two', 'is', 'MISC', '.', '[SEP]', 'So', 'the', 'brothers', 'in', 'Hamas', 'put', 'forth', 'the', 'issue', 'that', ',', 'uh', ',', 'the', 'essential', 'portfolio', '##s', 'must', 'not', 'be', 'in', 'the', 'hands', 'of', 'independent', '##s', ',', 'and', 'that', 'this', 'would', 'be', 'an', 'insult', 'to', 'the', 'leaders', 'of', 'the', 'factions', '.', 'Hamas', 'is', 'ORG', '.', '[SEP]', 'Will', 'US', 'President', 'Bush', 'have', 'any', 'occasion', 'or', 'opportunity', 'to', 'have', 'this', 'matter', 'clarified', '?', 'Bush', 'is', 'PER', '.', '[SEP]', 'US', 'authorities', 'insist', 'the', 'blast', 'was', 'a', 'deliberate', 'act', 'but', 'the', 'Yemen', '##is', 'initially', 'called', 'it', 'an', 'accident', '.', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 15
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/ontonotes_conll/transformers_continual_trainer_max_basic_150_1337_2021.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 10125.89612, Time is 3.97s
+[34m[dev set Total] Prec.: 10.02, Rec.: 6.41, F1: 7.82[0m
+[34m[test set Total] Prec.: 8.09, Rec.: 5.35, F1: 6.44[0m
+saving the best model...
+Epoch 2: 3655.39819, Time is 3.72s
+[34m[dev set Total] Prec.: 34.65, Rec.: 22.86, F1: 27.55[0m
+[34m[test set Total] Prec.: 34.31, Rec.: 23.84, F1: 28.14[0m
+saving the best model...
+Epoch 3: 2767.43481, Time is 3.92s
+[34m[dev set Total] Prec.: 51.25, Rec.: 37.82, F1: 43.52[0m
+[34m[test set Total] Prec.: 52.20, Rec.: 39.92, F1: 45.24[0m
+saving the best model...
+Epoch 4: 1872.87256, Time is 3.86s
+[34m[dev set Total] Prec.: 52.19, Rec.: 43.60, F1: 47.51[0m
+[34m[test set Total] Prec.: 54.46, Rec.: 46.04, F1: 49.90[0m
+saving the best model...
+Epoch 5: 1297.61865, Time is 3.86s
+[34m[dev set Total] Prec.: 53.99, Rec.: 53.02, F1: 53.50[0m
+[34m[test set Total] Prec.: 55.42, Rec.: 54.74, F1: 55.08[0m
+saving the best model...
+Epoch 6: 867.16467, Time is 3.81s
+[34m[dev set Total] Prec.: 63.37, Rec.: 63.24, F1: 63.30[0m
+[34m[test set Total] Prec.: 63.27, Rec.: 63.78, F1: 63.53[0m
+saving the best model...
+Epoch 7: 625.69690, Time is 3.81s
+[34m[dev set Total] Prec.: 70.53, Rec.: 67.80, F1: 69.14[0m
+[34m[test set Total] Prec.: 69.43, Rec.: 68.07, F1: 68.74[0m
+saving the best model...
+Epoch 8: 429.27234, Time is 3.83s
+[34m[dev set Total] Prec.: 69.83, Rec.: 71.44, F1: 70.63[0m
+[34m[test set Total] Prec.: 68.99, Rec.: 71.27, F1: 70.11[0m
+saving the best model...
+Epoch 9: 302.97913, Time is 3.84s
+[34m[dev set Total] Prec.: 72.62, Rec.: 72.70, F1: 72.66[0m
+[34m[test set Total] Prec.: 71.82, Rec.: 72.67, F1: 72.24[0m
+saving the best model...
+Epoch 10: 195.43506, Time is 3.82s
+[34m[dev set Total] Prec.: 72.09, Rec.: 74.09, F1: 73.08[0m
+[34m[test set Total] Prec.: 71.81, Rec.: 74.15, F1: 72.96[0m
+saving the best model...
+Epoch 11: 138.83826, Time is 3.73s
+[34m[dev set Total] Prec.: 73.55, Rec.: 75.42, F1: 74.47[0m
+[34m[test set Total] Prec.: 73.31, Rec.: 75.67, F1: 74.47[0m
+saving the best model...
+Epoch 12: 93.61975, Time is 3.87s
+[34m[dev set Total] Prec.: 73.11, Rec.: 74.96, F1: 74.02[0m
+[34m[test set Total] Prec.: 72.73, Rec.: 75.13, F1: 73.91[0m
+Epoch 13: 67.46899, Time is 3.75s
+[34m[dev set Total] Prec.: 74.04, Rec.: 75.00, F1: 74.52[0m
+[34m[test set Total] Prec.: 73.52, Rec.: 75.34, F1: 74.42[0m
+saving the best model...
+Epoch 14: 53.87134, Time is 3.81s
+[34m[dev set Total] Prec.: 74.20, Rec.: 74.46, F1: 74.33[0m
+[34m[test set Total] Prec.: 73.29, Rec.: 74.31, F1: 73.80[0m
+Epoch 15: 46.69592, Time is 3.86s
+[34m[dev set Total] Prec.: 72.41, Rec.: 76.02, F1: 74.17[0m
+[34m[test set Total] Prec.: 71.88, Rec.: 76.44, F1: 74.08[0m
+Epoch 16: 30.91357, Time is 3.82s
+[34m[dev set Total] Prec.: 73.98, Rec.: 76.09, F1: 75.02[0m
+[34m[test set Total] Prec.: 73.09, Rec.: 75.80, F1: 74.42[0m
+saving the best model...
+Epoch 17: 23.64453, Time is 3.83s
+[34m[dev set Total] Prec.: 73.24, Rec.: 76.46, F1: 74.81[0m
+[34m[test set Total] Prec.: 72.97, Rec.: 76.75, F1: 74.81[0m
+Epoch 18: 14.57837, Time is 3.75s
+[34m[dev set Total] Prec.: 72.65, Rec.: 76.69, F1: 74.62[0m
+[34m[test set Total] Prec.: 72.06, Rec.: 76.84, F1: 74.37[0m
+Epoch 19: 9.08643, Time is 3.83s
+[34m[dev set Total] Prec.: 74.94, Rec.: 74.96, F1: 74.95[0m
+[34m[test set Total] Prec.: 74.13, Rec.: 74.77, F1: 74.45[0m
+Epoch 20: 14.31543, Time is 3.82s
+[34m[dev set Total] Prec.: 71.84, Rec.: 76.43, F1: 74.06[0m
+[34m[test set Total] Prec.: 71.22, Rec.: 76.71, F1: 73.86[0m
+Epoch 21: 8.41699, Time is 3.87s
+[34m[dev set Total] Prec.: 72.95, Rec.: 76.04, F1: 74.46[0m
+[34m[test set Total] Prec.: 72.47, Rec.: 76.25, F1: 74.31[0m
+Epoch 22: 2.92664, Time is 3.83s
+[34m[dev set Total] Prec.: 73.94, Rec.: 75.57, F1: 74.75[0m
+[34m[test set Total] Prec.: 73.21, Rec.: 75.74, F1: 74.45[0m
+Epoch 23: 2.17188, Time is 3.90s
+[34m[dev set Total] Prec.: 74.18, Rec.: 75.54, F1: 74.85[0m
+[34m[test set Total] Prec.: 73.35, Rec.: 75.75, F1: 74.53[0m
+Epoch 24: 1.85986, Time is 3.90s
+[34m[dev set Total] Prec.: 73.42, Rec.: 76.12, F1: 74.75[0m
+[34m[test set Total] Prec.: 72.82, Rec.: 76.44, F1: 74.59[0m
+Epoch 25: 1.39648, Time is 3.84s
+[34m[dev set Total] Prec.: 74.14, Rec.: 75.90, F1: 75.01[0m
+[34m[test set Total] Prec.: 73.51, Rec.: 76.25, F1: 74.85[0m
+Epoch 26: 1.14526, Time is 3.81s
+[34m[dev set Total] Prec.: 74.51, Rec.: 75.62, F1: 75.06[0m
+[34m[test set Total] Prec.: 73.78, Rec.: 75.95, F1: 74.85[0m
+saving the best model...
+Epoch 27: 0.96118, Time is 3.80s
+[34m[dev set Total] Prec.: 74.87, Rec.: 75.09, F1: 74.98[0m
+[34m[test set Total] Prec.: 74.25, Rec.: 75.57, F1: 74.90[0m
+Epoch 28: 0.83594, Time is 3.92s
+[34m[dev set Total] Prec.: 74.51, Rec.: 75.31, F1: 74.90[0m
+[34m[test set Total] Prec.: 74.08, Rec.: 75.95, F1: 75.00[0m
+Epoch 29: 18.22119, Time is 3.82s
+[34m[dev set Total] Prec.: 74.65, Rec.: 75.48, F1: 75.06[0m
+[34m[test set Total] Prec.: 73.98, Rec.: 75.87, F1: 74.91[0m
+saving the best model...
+Epoch 30: 0.79517, Time is 4.01s
+[34m[dev set Total] Prec.: 74.33, Rec.: 75.79, F1: 75.05[0m
+[34m[test set Total] Prec.: 73.68, Rec.: 76.15, F1: 74.89[0m
+Epoch 31: 0.61572, Time is 3.92s
+[34m[dev set Total] Prec.: 73.40, Rec.: 76.32, F1: 74.83[0m
+[34m[test set Total] Prec.: 72.91, Rec.: 76.86, F1: 74.83[0m
+Epoch 32: 0.56567, Time is 3.84s
+[34m[dev set Total] Prec.: 73.51, Rec.: 76.16, F1: 74.81[0m
+[34m[test set Total] Prec.: 73.05, Rec.: 76.74, F1: 74.85[0m
+Epoch 33: 0.53491, Time is 3.78s
+[34m[dev set Total] Prec.: 74.02, Rec.: 76.22, F1: 75.10[0m
+[34m[test set Total] Prec.: 73.44, Rec.: 76.71, F1: 75.04[0m
+saving the best model...
+Epoch 34: 0.50415, Time is 3.90s
+[34m[dev set Total] Prec.: 74.08, Rec.: 76.18, F1: 75.12[0m
+[34m[test set Total] Prec.: 73.58, Rec.: 76.69, F1: 75.10[0m
+saving the best model...
+Epoch 35: 18.29883, Time is 3.86s
+[34m[dev set Total] Prec.: 74.03, Rec.: 76.22, F1: 75.11[0m
+[34m[test set Total] Prec.: 73.46, Rec.: 76.67, F1: 75.03[0m
+Epoch 36: 0.55884, Time is 3.86s
+[34m[dev set Total] Prec.: 74.78, Rec.: 76.03, F1: 75.40[0m
+[34m[test set Total] Prec.: 73.99, Rec.: 76.40, F1: 75.17[0m
+saving the best model...
+Epoch 37: 0.43945, Time is 3.83s
+[34m[dev set Total] Prec.: 74.93, Rec.: 75.89, F1: 75.41[0m
+[34m[test set Total] Prec.: 74.25, Rec.: 76.40, F1: 75.31[0m
+saving the best model...
+Epoch 38: 0.42261, Time is 3.83s
+[34m[dev set Total] Prec.: 74.49, Rec.: 76.08, F1: 75.28[0m
+[34m[test set Total] Prec.: 73.87, Rec.: 76.68, F1: 75.25[0m
+Epoch 39: 0.45508, Time is 3.83s
+[34m[dev set Total] Prec.: 74.63, Rec.: 76.06, F1: 75.34[0m
+[34m[test set Total] Prec.: 73.97, Rec.: 76.63, F1: 75.28[0m
+Epoch 40: 0.39526, Time is 3.91s
+[34m[dev set Total] Prec.: 74.75, Rec.: 76.04, F1: 75.39[0m
+[34m[test set Total] Prec.: 74.07, Rec.: 76.59, F1: 75.31[0m
+Epoch 41: 0.38818, Time is 3.87s
+[34m[dev set Total] Prec.: 74.76, Rec.: 76.03, F1: 75.39[0m
+[34m[test set Total] Prec.: 74.09, Rec.: 76.59, F1: 75.32[0m
+Epoch 42: 0.37744, Time is 3.88s
+[34m[dev set Total] Prec.: 74.94, Rec.: 75.85, F1: 75.40[0m
+[34m[test set Total] Prec.: 74.32, Rec.: 76.43, F1: 75.36[0m
+Epoch 43: 0.36450, Time is 3.87s
+[34m[dev set Total] Prec.: 74.90, Rec.: 75.78, F1: 75.34[0m
+[34m[test set Total] Prec.: 74.36, Rec.: 76.40, F1: 75.37[0m
+Epoch 44: 0.35376, Time is 3.92s
+[34m[dev set Total] Prec.: 74.93, Rec.: 75.78, F1: 75.35[0m
+[34m[test set Total] Prec.: 74.38, Rec.: 76.38, F1: 75.37[0m
+Epoch 45: 0.35229, Time is 3.90s
+[34m[dev set Total] Prec.: 74.94, Rec.: 75.79, F1: 75.36[0m
+[34m[test set Total] Prec.: 74.41, Rec.: 76.40, F1: 75.39[0m
+Epoch 46: 0.34668, Time is 3.86s
+[34m[dev set Total] Prec.: 74.94, Rec.: 75.80, F1: 75.37[0m
+[34m[test set Total] Prec.: 74.37, Rec.: 76.40, F1: 75.37[0m
+Epoch 47: 0.34692, Time is 3.93s
+[34m[dev set Total] Prec.: 75.11, Rec.: 75.66, F1: 75.38[0m
+[34m[test set Total] Prec.: 74.57, Rec.: 76.28, F1: 75.42[0m
+Epoch 48: 0.34277, Time is 3.95s
+[34m[dev set Total] Prec.: 75.09, Rec.: 75.66, F1: 75.37[0m
+[34m[test set Total] Prec.: 74.58, Rec.: 76.28, F1: 75.42[0m
+Epoch 49: 0.34375, Time is 3.91s
+[34m[dev set Total] Prec.: 75.09, Rec.: 75.69, F1: 75.39[0m
+[34m[test set Total] Prec.: 74.55, Rec.: 76.30, F1: 75.41[0m
+Epoch 50: 0.33911, Time is 3.93s
+[34m[dev set Total] Prec.: 75.09, Rec.: 75.69, F1: 75.39[0m
+[34m[test set Total] Prec.: 74.55, Rec.: 76.32, F1: 75.42[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 75.41
+The corresponding test: 75.31
+Final testing.
+[34m[test set Total] Prec.: 74.25, Rec.: 76.40, F1: 75.31[0m

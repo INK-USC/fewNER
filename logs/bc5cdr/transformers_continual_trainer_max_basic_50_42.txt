@@ -1,0 +1,350 @@
+device: cuda:0
+seed: 42
+dataset: bc5cdr
+data_dir: dataset/bc5cdr
+percent_filename_suffix: 50
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 10
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: /home/shared/fewner/conll_all
+model_folder: models/bc5cdr/transformers_continual_trainer_max_basic_50_42
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: max
+template: basic
+search_pool: target
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/bc5cdr/train_50.txt
+dataset/bc5cdr/dev.txt
+dataset/bc5cdr/test.txt[0m
+[Data Info] Reading file: dataset/bc5cdr/train_50.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 42
+[Data Info] Using the training set to build label index
+#labels: 12
+label 2idx: {'<PAD>': 0, 'S-Chemical': 1, 'O': 2, 'B-Disease': 3, 'E-Disease': 4, 'I-Disease': 5, 'S-Disease': 6, 'B-Chemical': 7, 'I-Chemical': 8, 'E-Chemical': 9, '<START>': 10, '<STOP>': 11}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Selegiline', '-', 'induced', 'postural', 'hypotension', 'in', 'Parkinson', "'", 's', 'disease', ':', 'a', 'longitudinal', 'study', 'on', 'the', 'effects', 'of', 'drug', 'withdrawal', '.'][0m
+[33mPrompt 0: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 4: ['METHODS', ':', 'The', 'cardiovascular', 'responses', 'to', 'standing', 'and', 'head', '-', 'up', 'tilt', 'were', 'studied', 'repeatedly', 'in', 'PD', 'patients', 'receiving', 'selegiline', 'and', 'as', 'the', 'drug', 'was', 'withdrawn', '.'][0m
+[33mPrompt 4: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 8: ['Stopping', 'selegiline', 'also', 'significantly', 'reduced', 'the', 'supine', 'systolic', 'and', 'diastolic', 'blood', 'pressures', 'consistent', 'with', 'a', 'previously', 'undescribed', 'supine', 'pressor', 'action', '.'][0m
+[33mPrompt 8: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 12: ['A', 'high', 'percentage', 'of', 'kanamycin', '-', 'colistin', 'and', 'povidone', '-', 'iodine', 'irrigations', 'were', 'associated', 'with', 'erosive', 'cystitis', 'and', 'suggested', 'a', 'possible', 'complication', 'with', 'human', 'usage', '.'][0m
+[33mPrompt 12: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 16: ['The', 'present', 'study', 'was', 'undertaken', 'to', 'investigate', 'the', 'effects', 'of', 'TET', 'and', 'FAN', 'on', 'the', 'experimental', 'thrombosis', 'induced', 'by', 'collagen', 'plus', 'epinephrine', '(', 'EP', ')', 'in', 'mice', ',', 'and', 'platelet', 'aggregation', 'and', 'blood', 'coagulation', 'in', 'vitro', '.'][0m
+[33mPrompt 16: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 20: ['These', 'results', 'suggest', 'that', 'antithrombosis', 'of', 'TET', 'and', 'FAN', 'in', 'mice', 'may', 'be', 'mainly', 'related', 'to', 'the', 'antiplatelet', 'aggregation', 'activities', '.'][0m
+[33mPrompt 20: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 24: ['This', 'paper', 'attempts', 'to', 'examine', 'and', 'compare', 'prevalence', 'rates', 'and', 'symptom', 'patterns', 'of', 'DSM', 'substance', '-', 'induced', 'and', 'other', 'mood', 'disorders', '.'][0m
+[33mPrompt 24: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 28: ['Patients', 'with', 'CIMD', 'had', 'symptom', 'severity', 'levels', 'between', 'those', 'of', 'patients', 'with', 'and', 'without', 'a', 'mood', 'disorder', '.'][0m
+[33mPrompt 28: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 32: ['Intracerebral', 'hemorrhage', 'is', 'associated', 'with', 'more', 'inflammation', 'than', 'ischemic', 'stroke', '.'][0m
+[33mPrompt 32: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 36: ['Fucoidan', '-', 'treated', 'rats', 'exhibited', 'evidence', 'of', 'impaired', 'blood', 'clotting', 'and', 'hemodilution', ',', 'had', 'larger', 'hematomas', ',', 'and', 'tended', 'to', 'have', 'less', 'inflammation', 'in', 'the', 'vicinity', 'of', 'the', 'hematoma', 'after', 'three', 'days', '.'][0m
+[33mPrompt 36: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 40: ['Accumulation', 'of', 'atracurium', 'in', 'the', 'intravenous', 'line', 'led', 'to', 'recurarization', 'after', 'flushing', 'the', 'line', 'in', 'the', 'recovery', 'room', '.'][0m
+[33mPrompt 40: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/train_50.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 42
+[Data Info] Using the training set to build label index
+#labels: 12
+label 2idx: {'<PAD>': 0, 'S-Chemical': 1, 'O': 2, 'B-Disease': 3, 'E-Disease': 4, 'I-Disease': 5, 'S-Disease': 6, 'B-Chemical': 7, 'I-Chemical': 8, 'E-Chemical': 9, '<START>': 10, '<STOP>': 11}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Selegiline', '-', 'induced', 'postural', 'hypotension', 'in', 'Parkinson', "'", 's', 'disease', ':', 'a', 'longitudinal', 'study', 'on', 'the', 'effects', 'of', 'drug', 'withdrawal', '.'][0m
+[33mPrompt 0: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 4: ['METHODS', ':', 'The', 'cardiovascular', 'responses', 'to', 'standing', 'and', 'head', '-', 'up', 'tilt', 'were', 'studied', 'repeatedly', 'in', 'PD', 'patients', 'receiving', 'selegiline', 'and', 'as', 'the', 'drug', 'was', 'withdrawn', '.'][0m
+[33mPrompt 4: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 8: ['Stopping', 'selegiline', 'also', 'significantly', 'reduced', 'the', 'supine', 'systolic', 'and', 'diastolic', 'blood', 'pressures', 'consistent', 'with', 'a', 'previously', 'undescribed', 'supine', 'pressor', 'action', '.'][0m
+[33mPrompt 8: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 12: ['A', 'high', 'percentage', 'of', 'kanamycin', '-', 'colistin', 'and', 'povidone', '-', 'iodine', 'irrigations', 'were', 'associated', 'with', 'erosive', 'cystitis', 'and', 'suggested', 'a', 'possible', 'complication', 'with', 'human', 'usage', '.'][0m
+[33mPrompt 12: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 16: ['The', 'present', 'study', 'was', 'undertaken', 'to', 'investigate', 'the', 'effects', 'of', 'TET', 'and', 'FAN', 'on', 'the', 'experimental', 'thrombosis', 'induced', 'by', 'collagen', 'plus', 'epinephrine', '(', 'EP', ')', 'in', 'mice', ',', 'and', 'platelet', 'aggregation', 'and', 'blood', 'coagulation', 'in', 'vitro', '.'][0m
+[33mPrompt 16: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 20: ['These', 'results', 'suggest', 'that', 'antithrombosis', 'of', 'TET', 'and', 'FAN', 'in', 'mice', 'may', 'be', 'mainly', 'related', 'to', 'the', 'antiplatelet', 'aggregation', 'activities', '.'][0m
+[33mPrompt 20: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 24: ['This', 'paper', 'attempts', 'to', 'examine', 'and', 'compare', 'prevalence', 'rates', 'and', 'symptom', 'patterns', 'of', 'DSM', 'substance', '-', 'induced', 'and', 'other', 'mood', 'disorders', '.'][0m
+[33mPrompt 24: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 28: ['Patients', 'with', 'CIMD', 'had', 'symptom', 'severity', 'levels', 'between', 'those', 'of', 'patients', 'with', 'and', 'without', 'a', 'mood', 'disorder', '.'][0m
+[33mPrompt 28: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 32: ['Intracerebral', 'hemorrhage', 'is', 'associated', 'with', 'more', 'inflammation', 'than', 'ischemic', 'stroke', '.'][0m
+[33mPrompt 32: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 36: ['Fucoidan', '-', 'treated', 'rats', 'exhibited', 'evidence', 'of', 'impaired', 'blood', 'clotting', 'and', 'hemodilution', ',', 'had', 'larger', 'hematomas', ',', 'and', 'tended', 'to', 'have', 'less', 'inflammation', 'in', 'the', 'vicinity', 'of', 'the', 'hematoma', 'after', 'three', 'days', '.'][0m
+[33mPrompt 36: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 40: ['Accumulation', 'of', 'atracurium', 'in', 'the', 'intravenous', 'line', 'led', 'to', 'recurarization', 'after', 'flushing', 'the', 'line', 'in', 'the', 'recovery', 'room', '.'][0m
+[33mPrompt 40: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 3809
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['22', '-', 'oxacalcitriol', 'suppresses', 'secondary', 'hyperparathyroidism', 'without', 'inducing', 'low', 'bone', 'turnover', 'in', 'dogs', 'with', 'renal', 'failure', '.'][0m
+[33mPrompt 0: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 380: ['The', 'time', 'course', 'of', 'events', 'suggested', 'that', 'amphotericin', 'B', 'was', 'the', 'cause', 'of', 'the', 'seizures', 'in', 'this', 'AIDS', 'patient', '.'][0m
+[33mPrompt 380: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 760: ['VSD', 'also', 'was', 'noted', 'following', 'treatment', 'on', 'GD', '11', '.'][0m
+[33mPrompt 760: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1140: ['A', 'variety', 'of', 'abnormal', 'sensory', '/', 'motor', 'behaviors', 'associated', 'with', 'electrical', 'discharges', 'recorded', 'from', 'the', 'bilateral', 'brainstem', 'were', 'induced', 'in', 'adult', 'WKY', 'rats', 'by', 'mechanical', '(', 'electrode', 'implants', ')', 'and', 'DC', 'electrical', 'current', 'stimulations', 'and', 'by', 'acute', 'and', 'chronic', 'administration', 'of', 'cocaine', '.'][0m
+[33mPrompt 1140: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1520: ['During', 'treatment', 'of', 'chronic', 'hepatitis', 'C', 'patients', 'with', 'interferon', 'and', 'ribavirin', ',', 'a', 'lot', 'of', 'side', 'effects', 'are', 'described', '.'][0m
+[33mPrompt 1520: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1900: ['A', 'biodegradable', 'polymer', 'dextran', 'has', 'been', 'utilized', 'as', 'a', 'carrier', 'for', 'synthesis', 'of', 'etodolac', '-', 'dextran', 'conjugates', '(', 'ED', ')', 'to', 'improve', 'its', 'aqueous', 'solubility', 'and', 'reduce', 'gastrointestinal', 'side', 'effects', '.'][0m
+[33mPrompt 1900: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 2280: ['We', 'conclude', 'that', 'the', 'analgesic', 'action', 'of', 'opioids', 'on', 'the', 'peripheral', 'terminals', 'of', 'primary', 'afferents', 'is', 'via', 'a', 'binding', 'site', 'with', 'characteristics', 'of', 'the', 'mu', '-', 'opioid', 'receptor', 'and', 'that', 'this', 'action', 'is', 'mediated', 'by', 'inhibition', 'of', 'the', 'cyclic', 'adenosine', 'monophosphate', 'second', 'messenger', 'system', '.'][0m
+[33mPrompt 2280: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 2660: ['Tri', '-', 'ortho', '-', 'tolyl', 'phosphate', '(', 'TOTP', ')', ',', '360', 'mg', '/', 'kg', ',', 'po', ',', 'and', '0', ',', '0', "'", '-', 'diisopropyl', 'phosphorofluoridate', '(', 'DFP', ')', ',', '1', 'mg', '/', 'kg', 'sc', ',', 'were', 'administered', 'to', 'adult', 'White', 'Leghorn', 'chickens', '24', 'hr', 'after', 'they', 'were', 'placed', 'on', 'diets', 'containing', '0', 'to', '300', 'ppm', 'corticosterone', '.'][0m
+[33mPrompt 2660: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3040: ['Intraventricular', 'infusion', 'of', 'dopamine', 'sufficient', 'to', 'raise', 'the', 'brain', 'dopamine', 'to', 'the', 'same', 'extent', 'did', 'not', 'prevent', 'the', 'ammonia', 'coma', 'nor', 'affect', 'the', 'blood', 'and', 'brain', 'ammonia', 'concentrations', '.'][0m
+[33mPrompt 3040: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3420: ['These', 'results', 'are', 'consistent', 'with', 'the', 'hypothesis', 'that', 'the', 'rat', 'has', 'a', 'poorer', 'tolerance', 'for', 'deoxycholic', 'acid', 'than', 'do', 'certain', 'other', 'species', '.'][0m
+[33mPrompt 3420: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3800: ['Isoniazid', 'significantly', 'increased', 'bradycardia', 'after', 'propranolol', ',', 'pindolol', ',', 'labetalol', 'and', 'atenolol', ',', 'as', 'well', 'as', 'after', 'clonidine', ',', 'but', 'not', 'after', 'hexamethonium', 'or', 'carbachol', '.'][0m
+[33mPrompt 3800: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 3974
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Torsade', 'de', 'pointes', 'ventricular', 'tachycardia', 'during', 'low', 'dose', 'intermittent', 'dobutamine', 'treatment', 'in', 'a', 'patient', 'with', 'dilated', 'cardiomyopathy', 'and', 'congestive', 'heart', 'failure', '.'][0m
+[33mPrompt 0: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 397: ['Neuroleptic', 'malignant', 'syndrome', 'complicated', 'by', 'massive', 'intestinal', 'bleeding', 'in', 'a', 'patient', 'with', 'chronic', 'renal', 'failure', '.'][0m
+[33mPrompt 397: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 794: ['Apparent', 'risk', 'factors', 'for', 'the', 'development', 'of', 'mania', 'or', 'hypomania', 'during', 'fluoxetine', 'pharmacotherapy', 'in', 'this', 'population', 'were', 'the', 'combination', 'of', 'attention', '-', 'deficit', 'hyperactivity', 'disorder', 'and', 'affective', 'instability', ';', 'major', 'depression', 'with', 'psychotic', 'features', ';', 'a', 'family', 'history', 'of', 'affective', 'disorder', ',', 'especially', 'bipolar', 'disorder', ';', 'and', 'a', 'diagnosis', 'of', 'bipolar', 'disorder', '.'][0m
+[33mPrompt 794: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1191: ['CONCLUSION', ':', 'The', 'data', 'acquired', 'suggest', 'that', 'isolated', 'MAP', 'may', 'have', 'certain', 'benefits', 'on', 'LV', 'dimension', '/', 'function', 'in', 'acute', 'heart', 'failure', ',', 'even', 'in', 'the', 'absence', 'of', 'MR', '.'][0m
+[33mPrompt 1191: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1588: ['Initial', 'evaluation', 'confirmed', 'FHF', 'from', 'acetaminophen', 'and', 'cerebral', 'edema', '.'][0m
+[33mPrompt 1588: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1985: ['CONCLUSIONS', ':', 'The', 'prevalence', 'of', 'levodopa', '-', 'induced', 'dyskinesia', 'in', 'our', 'patients', 'was', '44', '%', '.'][0m
+[33mPrompt 1985: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 2382: ['Bortezomib', 'and', 'high', '-', 'dose', 'dexamethasone', '-', 'containing', 'regimens', 'are', 'considered', 'to', 'be', 'generally', 'tolerable', 'with', 'few', 'severe', 'bacterial', 'infections', 'in', 'patients', 'with', 'B', '-', 'cell', 'malignancies', '.'][0m
+[33mPrompt 2382: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 2779: ['Conditions', 'that', 'will', 'be', 'required', 'for', 'studies', 'of', '1', ',', '3', '-', 'butadiene', 'are', 'discussed', '.'][0m
+[33mPrompt 2779: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3176: ['After', '4', 'weeks', 'the', 'PAN', 'rats', 'were', 'severely', 'proteinuric', '(', '190', '+', '/', '-', '80', 'mg', '/', '24', 'hr', ')', ',', 'and', 'all', 'rats', 'were', 'given', 'colloidal', 'carbon', '(', 'CC', ')', 'intravenously', '.'][0m
+[33mPrompt 3176: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3573: ['This', 'also', 'resulted', 'in', 'an', 'increased', 'incidence', 'of', 'seizures', ',', '90', '%', '(', 'P', '<', 'or', '=', '.', '01', ')', ',', 'and', 'death', ',', '90', '%', '(', 'P', '<', 'or', '=', '.', '05', ')', ',', 'compared', 'with', 'group', '4', '.'][0m
+[33mPrompt 3573: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3970: ['Seven', 'of', 'the', '13', 'patients', 'had', 'exhibited', 'a', 'subclinical', 'hypertensive', 'state', 'before', 'cyclosporin', 'A', 'therapy', '.'][0m
+[33mPrompt 3970: ['O', '##B', '##J', '##EC', '##TI', '##VE', '##S', ':', 'The', 'United', 'Kingdom', 'Parkinson', "'", 's', 'Disease', 'Research', 'Group', '(', 'UK', '##PD', '##R', '##G', ')', 'trial', 'found', 'an', 'increased', 'mortality', 'in', 'patients', 'with', 'Parkinson', "'", 's', 'disease', '(', 'PD', ')', 'random', '##ized', 'to', 'receive', '10', 'mg', 'se', '##leg', '##ili', '##ne', 'per', 'day', 'and', 'L', '-', 'do', '##pa', 'compared', 'with', 'those', 'taking', 'L', '-', 'do', '##pa', 'alone', '.', 'se', '##leg', '##ili', '##ne', 'is', 'Chemical', '.', '[SEP]', '243', 'cocaine', '-', 'dependent', 'out', '##patient', '##s', 'with', 'cocaine', '-', 'induced', 'mood', 'disorder', '(', 'C', '##IM', '##D', ')', ',', 'other', 'mood', 'disorders', ',', 'or', 'no', 'mood', 'disorder', 'were', 'compared', 'on', 'measures', 'of', 'psychiatric', 'symptoms', '.', 'C', '##IM', '##D', 'is', 'Disease', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 5
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/bc5cdr/transformers_continual_trainer_max_basic_50_42.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 2767.38387, Time is 3.89s
+[34m[dev set Total] Prec.: 0.04, Rec.: 0.01, F1: 0.02[0m
+[34m[test set Total] Prec.: 0.11, Rec.: 0.03, F1: 0.05[0m
+saving the best model...
+Epoch 2: 1616.47864, Time is 2.17s
+[34m[dev set Total] Prec.: 1.89, Rec.: 0.04, F1: 0.08[0m
+[34m[test set Total] Prec.: 1.22, Rec.: 0.03, F1: 0.06[0m
+saving the best model...
+Epoch 3: 1061.01757, Time is 2.12s
+[34m[dev set Total] Prec.: 4.27, Rec.: 0.13, F1: 0.24[0m
+[34m[test set Total] Prec.: 2.94, Rec.: 0.09, F1: 0.18[0m
+saving the best model...
+Epoch 4: 878.90218, Time is 2.12s
+[34m[dev set Total] Prec.: 45.13, Rec.: 11.39, F1: 18.19[0m
+[34m[test set Total] Prec.: 39.67, Rec.: 10.40, F1: 16.48[0m
+saving the best model...
+Epoch 5: 730.69402, Time is 2.11s
+[34m[dev set Total] Prec.: 37.11, Rec.: 40.25, F1: 38.62[0m
+[34m[test set Total] Prec.: 35.64, Rec.: 39.58, F1: 37.50[0m
+saving the best model...
+Epoch 6: 615.63000, Time is 2.07s
+[34m[dev set Total] Prec.: 40.74, Rec.: 39.25, F1: 39.98[0m
+[34m[test set Total] Prec.: 39.82, Rec.: 39.39, F1: 39.61[0m
+saving the best model...
+Epoch 7: 499.46387, Time is 2.11s
+[34m[dev set Total] Prec.: 36.24, Rec.: 39.50, F1: 37.80[0m
+[34m[test set Total] Prec.: 34.40, Rec.: 39.23, F1: 36.66[0m
+Epoch 8: 413.81458, Time is 2.14s
+[34m[dev set Total] Prec.: 39.56, Rec.: 42.05, F1: 40.77[0m
+[34m[test set Total] Prec.: 37.36, Rec.: 42.00, F1: 39.55[0m
+saving the best model...
+Epoch 9: 332.58020, Time is 2.12s
+[34m[dev set Total] Prec.: 41.69, Rec.: 43.81, F1: 42.72[0m
+[34m[test set Total] Prec.: 39.63, Rec.: 44.19, F1: 41.79[0m
+saving the best model...
+Epoch 10: 270.64435, Time is 2.09s
+[34m[dev set Total] Prec.: 44.32, Rec.: 45.38, F1: 44.84[0m
+[34m[test set Total] Prec.: 41.99, Rec.: 45.38, F1: 43.62[0m
+saving the best model...
+Epoch 11: 212.79388, Time is 2.12s
+[34m[dev set Total] Prec.: 50.78, Rec.: 50.65, F1: 50.71[0m
+[34m[test set Total] Prec.: 47.68, Rec.: 50.07, F1: 48.84[0m
+saving the best model...
+Epoch 12: 170.04021, Time is 2.11s
+[34m[dev set Total] Prec.: 53.82, Rec.: 49.69, F1: 51.67[0m
+[34m[test set Total] Prec.: 50.40, Rec.: 49.49, F1: 49.94[0m
+saving the best model...
+Epoch 13: 142.20877, Time is 2.07s
+[34m[dev set Total] Prec.: 51.79, Rec.: 55.02, F1: 53.36[0m
+[34m[test set Total] Prec.: 48.53, Rec.: 54.32, F1: 51.26[0m
+saving the best model...
+Epoch 14: 109.77484, Time is 2.11s
+[34m[dev set Total] Prec.: 51.17, Rec.: 54.66, F1: 52.86[0m
+[34m[test set Total] Prec.: 48.17, Rec.: 54.23, F1: 51.02[0m
+Epoch 15: 87.16321, Time is 2.18s
+[34m[dev set Total] Prec.: 54.99, Rec.: 54.59, F1: 54.79[0m
+[34m[test set Total] Prec.: 51.46, Rec.: 54.36, F1: 52.87[0m
+saving the best model...
+Epoch 16: 64.47058, Time is 2.12s
+[34m[dev set Total] Prec.: 55.08, Rec.: 61.66, F1: 58.18[0m
+[34m[test set Total] Prec.: 51.77, Rec.: 61.33, F1: 56.15[0m
+saving the best model...
+Epoch 17: 46.91254, Time is 2.14s
+[34m[dev set Total] Prec.: 55.05, Rec.: 62.88, F1: 58.70[0m
+[34m[test set Total] Prec.: 51.89, Rec.: 62.70, F1: 56.78[0m
+saving the best model...
+Epoch 18: 37.01913, Time is 2.12s
+[34m[dev set Total] Prec.: 54.10, Rec.: 56.76, F1: 55.40[0m
+[34m[test set Total] Prec.: 51.24, Rec.: 56.65, F1: 53.81[0m
+Epoch 19: 23.69171, Time is 2.18s
+[34m[dev set Total] Prec.: 54.46, Rec.: 61.01, F1: 57.55[0m
+[34m[test set Total] Prec.: 52.05, Rec.: 61.23, F1: 56.27[0m
+Epoch 20: 17.93497, Time is 2.13s
+[34m[dev set Total] Prec.: 54.13, Rec.: 61.84, F1: 57.73[0m
+[34m[test set Total] Prec.: 51.59, Rec.: 61.78, F1: 56.23[0m
+Epoch 21: 11.91083, Time is 2.14s
+[34m[dev set Total] Prec.: 53.02, Rec.: 59.18, F1: 55.93[0m
+[34m[test set Total] Prec.: 50.33, Rec.: 59.08, F1: 54.35[0m
+Epoch 22: 5.90436, Time is 2.11s
+[34m[dev set Total] Prec.: 52.98, Rec.: 58.47, F1: 55.59[0m
+[34m[test set Total] Prec.: 50.43, Rec.: 58.55, F1: 54.19[0m
+Epoch 23: 4.32834, Time is 2.13s
+[34m[dev set Total] Prec.: 53.92, Rec.: 63.69, F1: 58.40[0m
+[34m[test set Total] Prec.: 51.14, Rec.: 63.56, F1: 56.68[0m
+Epoch 24: 2.81787, Time is 2.14s
+[34m[dev set Total] Prec.: 54.47, Rec.: 61.53, F1: 57.79[0m
+[34m[test set Total] Prec.: 51.52, Rec.: 61.40, F1: 56.03[0m
+Epoch 25: 2.18686, Time is 2.13s
+[34m[dev set Total] Prec.: 53.35, Rec.: 62.60, F1: 57.60[0m
+[34m[test set Total] Prec.: 50.78, Rec.: 62.59, F1: 56.07[0m
+Epoch 26: 1.77585, Time is 2.10s
+[34m[dev set Total] Prec.: 51.73, Rec.: 65.93, F1: 57.97[0m
+[34m[test set Total] Prec.: 49.29, Rec.: 65.68, F1: 56.32[0m
+Epoch 27: 1.25064, Time is 2.15s
+[34m[dev set Total] Prec.: 52.16, Rec.: 63.43, F1: 57.25[0m
+[34m[test set Total] Prec.: 49.50, Rec.: 63.08, F1: 55.48[0m
+Epoch 28: 0.98434, Time is 2.17s
+[34m[dev set Total] Prec.: 54.11, Rec.: 60.00, F1: 56.90[0m
+[34m[test set Total] Prec.: 51.30, Rec.: 60.08, F1: 55.34[0m
+Epoch 29: 0.83270, Time is 2.12s
+[34m[dev set Total] Prec.: 54.75, Rec.: 60.54, F1: 57.50[0m
+[34m[test set Total] Prec.: 51.84, Rec.: 60.57, F1: 55.87[0m
+Epoch 30: 0.68875, Time is 2.11s
+[34m[dev set Total] Prec.: 54.57, Rec.: 61.19, F1: 57.69[0m
+[34m[test set Total] Prec.: 51.63, Rec.: 61.18, F1: 56.00[0m
+Epoch 31: 0.57806, Time is 2.14s
+[34m[dev set Total] Prec.: 53.83, Rec.: 62.61, F1: 57.89[0m
+[34m[test set Total] Prec.: 51.01, Rec.: 62.53, F1: 56.19[0m
+Epoch 32: 0.49396, Time is 2.18s
+[34m[dev set Total] Prec.: 53.07, Rec.: 63.77, F1: 57.93[0m
+[34m[test set Total] Prec.: 50.33, Rec.: 63.65, F1: 56.21[0m
+Epoch 33: 0.42462, Time is 2.16s
+[34m[dev set Total] Prec.: 52.82, Rec.: 63.04, F1: 57.48[0m
+[34m[test set Total] Prec.: 50.11, Rec.: 62.90, F1: 55.78[0m
+Epoch 34: 0.38257, Time is 2.13s
+[34m[dev set Total] Prec.: 52.19, Rec.: 62.39, F1: 56.83[0m
+[34m[test set Total] Prec.: 49.69, Rec.: 62.44, F1: 55.34[0m
+Epoch 35: 0.34882, Time is 2.13s
+[34m[dev set Total] Prec.: 52.19, Rec.: 61.89, F1: 56.63[0m
+[34m[test set Total] Prec.: 49.53, Rec.: 61.86, F1: 55.01[0m
+Epoch 36: 0.33533, Time is 2.12s
+[34m[dev set Total] Prec.: 52.20, Rec.: 61.31, F1: 56.39[0m
+[34m[test set Total] Prec.: 49.69, Rec.: 61.43, F1: 54.94[0m
+Epoch 37: 0.29831, Time is 2.07s
+[34m[dev set Total] Prec.: 52.54, Rec.: 61.67, F1: 56.74[0m
+[34m[test set Total] Prec.: 49.82, Rec.: 61.63, F1: 55.10[0m
+early stop because there are 20 epochs not increasing f1 on dev
+Archiving the best Model...
+Finished archiving the models
+The best dev: 58.70
+The corresponding test: 56.78
+Final testing.
+[34m[test set Total] Prec.: 51.89, Rec.: 62.70, F1: 56.78[0m

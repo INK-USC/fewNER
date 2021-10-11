@@ -10,6 +10,7 @@ parser.add_argument('--data_dir', type=str, required=True, help='Data Directory'
 parser.add_argument('--suffix', type=str, required=True, help='Data Directory')
 parser.add_argument('--prompt', type=str, required=True, help='Data Directory')
 parser.add_argument('--template', type=str, required=True, help='Data Directory')
+parser.add_argument('--n_shot', type=str, default='1', required=False, help='N-shot value')
 
 args = parser.parse_known_args()[0]
 
@@ -25,8 +26,8 @@ log_files = []
 model_folders = []
 for suffix in suffices:
     for seed in seeds:
-        log_file = "logs/" + args.dataset + "/" + args.train_file.split('.')[0] + "_" + args.prompt + "_" + args.template + "_" + suffix + "_" + seed + ".txt"
-        model_folder = "models/" + args.dataset + "/" + args.train_file.split('.')[0] + "_" + args.prompt + "_" + args.template + "_"  + suffix + "_" + seed
+        log_file = "logs/" + args.dataset + "/" + args.train_file.split('.')[0] + "_" + args.prompt + "_" + args.template + "_" + suffix + "_" + seed + "_"+args.n_shot+".txt"
+        model_folder = "models/" + args.dataset + "/" + args.train_file.split('.')[0] + "_" + args.prompt + "_" + args.template + "_"  + suffix + "_" + seed +"_"+args.n_shot
         predict_cmd = \
             " python3 " + args.train_file + \
             " --dataset " + args.dataset + \
@@ -37,7 +38,9 @@ for suffix in suffices:
             " --num_epochs 50" + \
             " --prompt " + args.prompt + \
             " --template " + args.template + \
+            " --n_shot " + args.n_shot + \
             " --seed " + seed + " > " + log_file
+            
         log_files.append(log_file)
         model_folders.append(model_folder)
         print(predict_cmd, "\n")
@@ -62,6 +65,6 @@ std = numpy.std(arr, axis=0)
 print("average: ", numpy.mean(arr, axis=0))
 print("std: ", numpy.std(arr, axis=0))
 
-with open(args.dataset + "_" + args.train_file.split('.')[0] + "_" + args.prompt + "_" + args.template + "_" + args.suffix + ".txt", 'w') as file:
+with open(args.dataset + "_" + args.train_file.split('.')[0] + "_" + args.prompt + "_" + args.template + "_" + args.suffix +"_" +args.n_shot+".txt", 'w') as file:
     file.write("average: " + str(mean))
     file.write("std: " + str(std))

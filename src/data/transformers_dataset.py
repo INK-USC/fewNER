@@ -27,13 +27,15 @@ def maybe_show_prompt(id, word, prompt, mod):
     if id % mod == 0:
         print(colored(f"Instance {id}: {word}", "blue"))
         print(colored(f"Prompt {id}: {prompt}\n", "yellow"))
+        print(len(prompt))
 
 def convert_instances_to_feature_tensors(instances: List[Instance],
                                          tokenizer: PreTrainedTokenizer,
                                          label2idx: Dict[str, int],
                                          prompt: str = None, # "max", "random", "sbert", "bertscore"
-                                         template: str = None, # "no_context", "basic", "basic_all", "structure", "structure_all"
-                                         prompt_candidates_from_outside: List[str] = None):
+                                         template: str = None, # "no_context", "basic", "basic_all", "structure", "structure_all","lexical","lexical_all"
+                                         prompt_candidates_from_outside: List[str] = None,
+                                         n_shot: str = None):
     
     
     features = []
@@ -56,17 +58,19 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                 entity_dict[label][entity].append(inst)
 
     ## Popular Entity
-    if prompt == "max":
+    if prompt == "max" and int(n_shot)==1:
         max_entities = {}
         for label in entity_dict:
             for x in sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True)[0:1]:
                 max_entities[label] = [x[0], tuple(x[1])[0]]
-                # print('label and its frequency',label,' ',len(tuple(x[1])))
-        # print(max_entities)
-        # print('xxxxxxxxxxxxxxxxx',sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True)[0:1])
-        # sys.exit(0)
-
-    # print('xxxxxxxxxxxxxxxxx',sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True))
+    
+    if prompt == 'max' and int(n_shot)>1:
+        max_entities_n = {}
+        for label in entity_dict:
+            temp=[]
+            for x in sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True)[0:int(n_shot)]:
+                temp.append([x[0], tuple(x[1])[0]])
+            max_entities_n[label] = temp               
 
     if prompt == "sbert" or prompt == "bertscore":
         search_space = []
@@ -199,7 +203,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
             input_ids = tokenizer.convert_tokens_to_ids(
                 [tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
 
-        elif prompt == "max":
+        elif prompt == "max" and int(n_shot)==1:
             prompt_tokens = []
             for entity_label in max_entities:
                 if template in ["no_context", "basic", "basic_all"]:
@@ -274,6 +278,28 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                                 instance_prompt_tokens[i] = entity[1]
 
                     prompt_tokens.extend(instance_prompt_tokens)
+                    prompt_tokens.append(tokenizer.sep_token)
+
+            maybe_show_prompt(idx, words, prompt_tokens, step_sz)
+            input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens)
+
+        elif prompt == "max" and int(n_shot)>1:
+            prompt_tokens = []
+            for entity_label in max_entities_n:
+                for n in range(len(max_entities_n[entity_label])):
+                    instance_words = max_entities_n[entity_label][n][1].ori_words
+                    for i, word in enumerate(instance_words):
+                        instance_tokens = tokenizer.tokenize(" " + word)
+                        for sub_token in instance_tokens:
+                            prompt_tokens.append(sub_token)
+
+                    entity_tokens = tokenizer.tokenize(" " + max_entities_n[entity_label][n][0])
+                    for sub_token in entity_tokens:
+                        prompt_tokens.append(sub_token)
+
+                    prompt_tokens.append("is")
+                    prompt_tokens.append(entity_label)
+                    prompt_tokens.append(".")
                     prompt_tokens.append(tokenizer.sep_token)
 
             maybe_show_prompt(idx, words, prompt_tokens, step_sz)
@@ -397,7 +423,8 @@ class TransformersNERDataset(Dataset):
                  percentage: int = 100,
                  prompt: str = None,
                  template: str = None,
-                 prompt_candidates_from_outside: List[str] = None):
+                 prompt_candidates_from_outside: List[str] = None,
+                 n_shot: str = None):
         """
         sents: we use sentences if we want to build dataset from sentences directly instead of file
         """
@@ -418,9 +445,9 @@ class TransformersNERDataset(Dataset):
             # check_all_labels_in_dict(insts=insts, label2idx=self.label2idx)
 
         if is_train and prompt is not None:
-            self.insts_ids, self.prompt_candidates = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt, template=template)
+            self.insts_ids, self.prompt_candidates = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt, template=template,n_shot=n_shot)
         else:
-            self.insts_ids = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt, template=template, prompt_candidates_from_outside=prompt_candidates_from_outside)
+            self.insts_ids = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt, template=template, prompt_candidates_from_outside=prompt_candidates_from_outside,n_shot=n_shot)
             self.prompt_candidates = None
         self.tokenizer = tokenizer
 

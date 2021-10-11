@@ -1,0 +1,350 @@
+device: cuda:0
+seed: 1337
+dataset: bc5cdr
+data_dir: dataset/bc5cdr
+percent_filename_suffix: 200
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 10
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: /home/shared/fewner/conll_all
+model_folder: models/bc5cdr/transformers_continual_trainer_max_basic_all_200_1337
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: max
+template: basic_all
+search_pool: target
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/bc5cdr/train_200.txt
+dataset/bc5cdr/dev.txt
+dataset/bc5cdr/test.txt[0m
+[Data Info] Reading file: dataset/bc5cdr/train_200.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 173
+[Data Info] Using the training set to build label index
+#labels: 12
+label 2idx: {'<PAD>': 0, 'S-Chemical': 1, 'O': 2, 'B-Disease': 3, 'E-Disease': 4, 'I-Disease': 5, 'S-Disease': 6, 'B-Chemical': 7, 'I-Chemical': 8, 'E-Chemical': 9, '<START>': 10, '<STOP>': 11}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Selegiline', '-', 'induced', 'postural', 'hypotension', 'in', 'Parkinson', "'", 's', 'disease', ':', 'a', 'longitudinal', 'study', 'on', 'the', 'effects', 'of', 'drug', 'withdrawal', '.'][0m
+[33mPrompt 0: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 17: ['In', 'the', 'in', 'vivo', 'study', ',', 'the', 'administration', '(', '50', 'mg', '/', 'kg', ',', 'i', '.', 'p', '.', ')', 'of', 'TET', 'and', 'FAN', 'in', 'mice', 'showed', 'the', 'inhibition', 'of', 'thrombosis', 'by', '55', '%', 'and', '35', '%', ',', 'respectively', ',', 'while', 'acetylsalicylic', 'acid', '(', 'ASA', ',', '50', 'mg', '/', 'kg', ',', 'i', '.', 'p', '.', ')', ',', 'a', 'positive', 'control', ',', 'showed', 'only', '30', '%', 'inhibition', '.'][0m
+[33mPrompt 17: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 34: ['Rats', 'were', 'treated', 'with', 'seven', 'day', 'intravenous', 'infusion', 'of', 'fucoidan', '(', '30', 'micrograms', 'h', '-', '1', ')', 'or', 'vehicle', '.'][0m
+[33mPrompt 34: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 51: ['BACKGROUND', ':', 'Although', 'the', 'prevalence', 'of', 'nonsmall', 'cell', 'lung', 'carcinoma', '(', 'NSCLC', ')', 'is', 'high', 'among', 'elderly', 'patients', ',', 'few', 'data', 'are', 'available', 'regarding', 'the', 'efficacy', 'and', 'toxicity', 'of', 'chemotherapy', 'in', 'this', 'group', 'of', 'patients', '.'][0m
+[33mPrompt 51: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 68: ['NRA0160', 'and', 'clozapine', 'antagonized', 'locomotor', 'hyperactivity', 'induced', 'by', 'methamphetamine', '(', 'MAP', ')', 'in', 'mice', '.'][0m
+[33mPrompt 68: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 85: ['High', 'doses', 'of', 'the', 'vitamin', 'K', 'antagonist', 'Warfarin', 'are', 'also', 'known', 'to', 'cause', 'calcification', 'of', 'the', 'artery', 'media', ',', 'but', 'at', 'treatment', 'times', 'of', '2', 'weeks', 'or', 'longer', 'yet', 'not', 'at', '1', 'week', '.'][0m
+[33mPrompt 85: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 102: ['TAM', 'induces', 'hemolysis', 'of', 'erythrocytes', 'as', 'a', 'function', 'of', 'concentration', '.'][0m
+[33mPrompt 102: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 119: ['To', 'assess', 'the', 'molecular', 'basis', 'of', 'disturbances', 'in', 'transmembraneous', 'transport', 'of', 'Na', '+', ',', 'we', 'studied', 'the', 'response', 'of', 'cardiac', '(', 'Na', ',', 'K', ')', '-', 'ATPase', 'to', 'NO', '-', 'deficient', 'hypertension', 'induced', 'in', 'rats', 'by', 'NO', '-', 'synthase', 'inhibition', 'with', '40', 'mg', '/', 'kg', '/', 'day', 'N', '(', 'G', ')', '-', 'nitro', '-', 'L', '-', 'arginine', 'methyl', 'ester', '(', 'L', '-', 'NAME', ')', 'for', '4', 'four', 'weeks', '.'][0m
+[33mPrompt 119: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 136: ['They', 'suggest', 'that', ',', 'in', 'normal', 'conscious', 'rats', ',', 'the', 'central', 'tachycardia', 'of', 'bromocriptine', 'appears', 'to', 'predominate', 'and', 'to', 'mask', 'the', 'bradycardia', 'of', 'this', 'agonist', 'at', 'peripheral', 'dopamine', 'D2', 'receptors', '.'][0m
+[33mPrompt 136: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 153: ['Capsaicin', '100', 'micrograms', 'was', 'injected', 'intradermally', 'on', 'the', 'volar', 'forearm', 'followed', 'by', 'an', 'i', '.', 'v', '.', 'infusion', 'of', 'ketamine', '(', 'bolus', '0', '.', '1', 'mg', 'kg', '-', '1', 'over', '10', 'min', 'followed', 'by', 'infusion', 'of', '7', 'micrograms', 'kg', '-', '1', 'min', '-', '1', ')', ',', 'lidocaine', '5', 'mg', 'kg', '-', '1', 'or', 'saline', 'for', '50', 'min', '.'][0m
+[33mPrompt 153: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 170: ['In', 'patients', 'in', 'the', 'study', 'group', ',', 'all', 'aneurysms', 'were', 'located', 'in', 'the', 'anterior', 'circulation', '.'][0m
+[33mPrompt 170: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/train_200.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 173
+[Data Info] Using the training set to build label index
+#labels: 12
+label 2idx: {'<PAD>': 0, 'S-Chemical': 1, 'O': 2, 'B-Disease': 3, 'E-Disease': 4, 'I-Disease': 5, 'S-Disease': 6, 'B-Chemical': 7, 'I-Chemical': 8, 'E-Chemical': 9, '<START>': 10, '<STOP>': 11}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Selegiline', '-', 'induced', 'postural', 'hypotension', 'in', 'Parkinson', "'", 's', 'disease', ':', 'a', 'longitudinal', 'study', 'on', 'the', 'effects', 'of', 'drug', 'withdrawal', '.'][0m
+[33mPrompt 0: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 17: ['In', 'the', 'in', 'vivo', 'study', ',', 'the', 'administration', '(', '50', 'mg', '/', 'kg', ',', 'i', '.', 'p', '.', ')', 'of', 'TET', 'and', 'FAN', 'in', 'mice', 'showed', 'the', 'inhibition', 'of', 'thrombosis', 'by', '55', '%', 'and', '35', '%', ',', 'respectively', ',', 'while', 'acetylsalicylic', 'acid', '(', 'ASA', ',', '50', 'mg', '/', 'kg', ',', 'i', '.', 'p', '.', ')', ',', 'a', 'positive', 'control', ',', 'showed', 'only', '30', '%', 'inhibition', '.'][0m
+[33mPrompt 17: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 34: ['Rats', 'were', 'treated', 'with', 'seven', 'day', 'intravenous', 'infusion', 'of', 'fucoidan', '(', '30', 'micrograms', 'h', '-', '1', ')', 'or', 'vehicle', '.'][0m
+[33mPrompt 34: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 51: ['BACKGROUND', ':', 'Although', 'the', 'prevalence', 'of', 'nonsmall', 'cell', 'lung', 'carcinoma', '(', 'NSCLC', ')', 'is', 'high', 'among', 'elderly', 'patients', ',', 'few', 'data', 'are', 'available', 'regarding', 'the', 'efficacy', 'and', 'toxicity', 'of', 'chemotherapy', 'in', 'this', 'group', 'of', 'patients', '.'][0m
+[33mPrompt 51: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 68: ['NRA0160', 'and', 'clozapine', 'antagonized', 'locomotor', 'hyperactivity', 'induced', 'by', 'methamphetamine', '(', 'MAP', ')', 'in', 'mice', '.'][0m
+[33mPrompt 68: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 85: ['High', 'doses', 'of', 'the', 'vitamin', 'K', 'antagonist', 'Warfarin', 'are', 'also', 'known', 'to', 'cause', 'calcification', 'of', 'the', 'artery', 'media', ',', 'but', 'at', 'treatment', 'times', 'of', '2', 'weeks', 'or', 'longer', 'yet', 'not', 'at', '1', 'week', '.'][0m
+[33mPrompt 85: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 102: ['TAM', 'induces', 'hemolysis', 'of', 'erythrocytes', 'as', 'a', 'function', 'of', 'concentration', '.'][0m
+[33mPrompt 102: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 119: ['To', 'assess', 'the', 'molecular', 'basis', 'of', 'disturbances', 'in', 'transmembraneous', 'transport', 'of', 'Na', '+', ',', 'we', 'studied', 'the', 'response', 'of', 'cardiac', '(', 'Na', ',', 'K', ')', '-', 'ATPase', 'to', 'NO', '-', 'deficient', 'hypertension', 'induced', 'in', 'rats', 'by', 'NO', '-', 'synthase', 'inhibition', 'with', '40', 'mg', '/', 'kg', '/', 'day', 'N', '(', 'G', ')', '-', 'nitro', '-', 'L', '-', 'arginine', 'methyl', 'ester', '(', 'L', '-', 'NAME', ')', 'for', '4', 'four', 'weeks', '.'][0m
+[33mPrompt 119: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 136: ['They', 'suggest', 'that', ',', 'in', 'normal', 'conscious', 'rats', ',', 'the', 'central', 'tachycardia', 'of', 'bromocriptine', 'appears', 'to', 'predominate', 'and', 'to', 'mask', 'the', 'bradycardia', 'of', 'this', 'agonist', 'at', 'peripheral', 'dopamine', 'D2', 'receptors', '.'][0m
+[33mPrompt 136: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 153: ['Capsaicin', '100', 'micrograms', 'was', 'injected', 'intradermally', 'on', 'the', 'volar', 'forearm', 'followed', 'by', 'an', 'i', '.', 'v', '.', 'infusion', 'of', 'ketamine', '(', 'bolus', '0', '.', '1', 'mg', 'kg', '-', '1', 'over', '10', 'min', 'followed', 'by', 'infusion', 'of', '7', 'micrograms', 'kg', '-', '1', 'min', '-', '1', ')', ',', 'lidocaine', '5', 'mg', 'kg', '-', '1', 'or', 'saline', 'for', '50', 'min', '.'][0m
+[33mPrompt 153: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 170: ['In', 'patients', 'in', 'the', 'study', 'group', ',', 'all', 'aneurysms', 'were', 'located', 'in', 'the', 'anterior', 'circulation', '.'][0m
+[33mPrompt 170: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 3809
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['22', '-', 'oxacalcitriol', 'suppresses', 'secondary', 'hyperparathyroidism', 'without', 'inducing', 'low', 'bone', 'turnover', 'in', 'dogs', 'with', 'renal', 'failure', '.'][0m
+[33mPrompt 0: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 380: ['The', 'time', 'course', 'of', 'events', 'suggested', 'that', 'amphotericin', 'B', 'was', 'the', 'cause', 'of', 'the', 'seizures', 'in', 'this', 'AIDS', 'patient', '.'][0m
+[33mPrompt 380: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 760: ['VSD', 'also', 'was', 'noted', 'following', 'treatment', 'on', 'GD', '11', '.'][0m
+[33mPrompt 760: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1140: ['A', 'variety', 'of', 'abnormal', 'sensory', '/', 'motor', 'behaviors', 'associated', 'with', 'electrical', 'discharges', 'recorded', 'from', 'the', 'bilateral', 'brainstem', 'were', 'induced', 'in', 'adult', 'WKY', 'rats', 'by', 'mechanical', '(', 'electrode', 'implants', ')', 'and', 'DC', 'electrical', 'current', 'stimulations', 'and', 'by', 'acute', 'and', 'chronic', 'administration', 'of', 'cocaine', '.'][0m
+[33mPrompt 1140: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1520: ['During', 'treatment', 'of', 'chronic', 'hepatitis', 'C', 'patients', 'with', 'interferon', 'and', 'ribavirin', ',', 'a', 'lot', 'of', 'side', 'effects', 'are', 'described', '.'][0m
+[33mPrompt 1520: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1900: ['A', 'biodegradable', 'polymer', 'dextran', 'has', 'been', 'utilized', 'as', 'a', 'carrier', 'for', 'synthesis', 'of', 'etodolac', '-', 'dextran', 'conjugates', '(', 'ED', ')', 'to', 'improve', 'its', 'aqueous', 'solubility', 'and', 'reduce', 'gastrointestinal', 'side', 'effects', '.'][0m
+[33mPrompt 1900: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 2280: ['We', 'conclude', 'that', 'the', 'analgesic', 'action', 'of', 'opioids', 'on', 'the', 'peripheral', 'terminals', 'of', 'primary', 'afferents', 'is', 'via', 'a', 'binding', 'site', 'with', 'characteristics', 'of', 'the', 'mu', '-', 'opioid', 'receptor', 'and', 'that', 'this', 'action', 'is', 'mediated', 'by', 'inhibition', 'of', 'the', 'cyclic', 'adenosine', 'monophosphate', 'second', 'messenger', 'system', '.'][0m
+[33mPrompt 2280: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 2660: ['Tri', '-', 'ortho', '-', 'tolyl', 'phosphate', '(', 'TOTP', ')', ',', '360', 'mg', '/', 'kg', ',', 'po', ',', 'and', '0', ',', '0', "'", '-', 'diisopropyl', 'phosphorofluoridate', '(', 'DFP', ')', ',', '1', 'mg', '/', 'kg', 'sc', ',', 'were', 'administered', 'to', 'adult', 'White', 'Leghorn', 'chickens', '24', 'hr', 'after', 'they', 'were', 'placed', 'on', 'diets', 'containing', '0', 'to', '300', 'ppm', 'corticosterone', '.'][0m
+[33mPrompt 2660: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3040: ['Intraventricular', 'infusion', 'of', 'dopamine', 'sufficient', 'to', 'raise', 'the', 'brain', 'dopamine', 'to', 'the', 'same', 'extent', 'did', 'not', 'prevent', 'the', 'ammonia', 'coma', 'nor', 'affect', 'the', 'blood', 'and', 'brain', 'ammonia', 'concentrations', '.'][0m
+[33mPrompt 3040: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3420: ['These', 'results', 'are', 'consistent', 'with', 'the', 'hypothesis', 'that', 'the', 'rat', 'has', 'a', 'poorer', 'tolerance', 'for', 'deoxycholic', 'acid', 'than', 'do', 'certain', 'other', 'species', '.'][0m
+[33mPrompt 3420: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3800: ['Isoniazid', 'significantly', 'increased', 'bradycardia', 'after', 'propranolol', ',', 'pindolol', ',', 'labetalol', 'and', 'atenolol', ',', 'as', 'well', 'as', 'after', 'clonidine', ',', 'but', 'not', 'after', 'hexamethonium', 'or', 'carbachol', '.'][0m
+[33mPrompt 3800: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 3974
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Torsade', 'de', 'pointes', 'ventricular', 'tachycardia', 'during', 'low', 'dose', 'intermittent', 'dobutamine', 'treatment', 'in', 'a', 'patient', 'with', 'dilated', 'cardiomyopathy', 'and', 'congestive', 'heart', 'failure', '.'][0m
+[33mPrompt 0: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 397: ['Neuroleptic', 'malignant', 'syndrome', 'complicated', 'by', 'massive', 'intestinal', 'bleeding', 'in', 'a', 'patient', 'with', 'chronic', 'renal', 'failure', '.'][0m
+[33mPrompt 397: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 794: ['Apparent', 'risk', 'factors', 'for', 'the', 'development', 'of', 'mania', 'or', 'hypomania', 'during', 'fluoxetine', 'pharmacotherapy', 'in', 'this', 'population', 'were', 'the', 'combination', 'of', 'attention', '-', 'deficit', 'hyperactivity', 'disorder', 'and', 'affective', 'instability', ';', 'major', 'depression', 'with', 'psychotic', 'features', ';', 'a', 'family', 'history', 'of', 'affective', 'disorder', ',', 'especially', 'bipolar', 'disorder', ';', 'and', 'a', 'diagnosis', 'of', 'bipolar', 'disorder', '.'][0m
+[33mPrompt 794: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1191: ['CONCLUSION', ':', 'The', 'data', 'acquired', 'suggest', 'that', 'isolated', 'MAP', 'may', 'have', 'certain', 'benefits', 'on', 'LV', 'dimension', '/', 'function', 'in', 'acute', 'heart', 'failure', ',', 'even', 'in', 'the', 'absence', 'of', 'MR', '.'][0m
+[33mPrompt 1191: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1588: ['Initial', 'evaluation', 'confirmed', 'FHF', 'from', 'acetaminophen', 'and', 'cerebral', 'edema', '.'][0m
+[33mPrompt 1588: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1985: ['CONCLUSIONS', ':', 'The', 'prevalence', 'of', 'levodopa', '-', 'induced', 'dyskinesia', 'in', 'our', 'patients', 'was', '44', '%', '.'][0m
+[33mPrompt 1985: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 2382: ['Bortezomib', 'and', 'high', '-', 'dose', 'dexamethasone', '-', 'containing', 'regimens', 'are', 'considered', 'to', 'be', 'generally', 'tolerable', 'with', 'few', 'severe', 'bacterial', 'infections', 'in', 'patients', 'with', 'B', '-', 'cell', 'malignancies', '.'][0m
+[33mPrompt 2382: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 2779: ['Conditions', 'that', 'will', 'be', 'required', 'for', 'studies', 'of', '1', ',', '3', '-', 'butadiene', 'are', 'discussed', '.'][0m
+[33mPrompt 2779: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3176: ['After', '4', 'weeks', 'the', 'PAN', 'rats', 'were', 'severely', 'proteinuric', '(', '190', '+', '/', '-', '80', 'mg', '/', '24', 'hr', ')', ',', 'and', 'all', 'rats', 'were', 'given', 'colloidal', 'carbon', '(', 'CC', ')', 'intravenously', '.'][0m
+[33mPrompt 3176: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3573: ['This', 'also', 'resulted', 'in', 'an', 'increased', 'incidence', 'of', 'seizures', ',', '90', '%', '(', 'P', '<', 'or', '=', '.', '01', ')', ',', 'and', 'death', ',', '90', '%', '(', 'P', '<', 'or', '=', '.', '05', ')', ',', 'compared', 'with', 'group', '4', '.'][0m
+[33mPrompt 3573: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3970: ['Seven', 'of', 'the', '13', 'patients', 'had', 'exhibited', 'a', 'subclinical', 'hypertensive', 'state', 'before', 'cyclosporin', 'A', 'therapy', '.'][0m
+[33mPrompt 3970: ['Tam', '##ox', '##ife', '##n', '(', 'T', '##AM', ')', ',', 'the', 'anti', '##est', '##rogen', '##ic', 'drug', 'most', 'widely', 'prescribed', 'in', 'the', 'ch', '##em', '##otherapy', 'of', 'breast', 'cancer', ',', 'induce', '##s', 'changes', 'in', 'normal', 'disco', '##id', 'shape', 'of', 'er', '##yt', '##hr', '##ocytes', 'and', 'hem', '##oly', '##tic', 'an', '##emia', '.', 'Tam', '##ox', '##ife', '##n', 'is', 'Chemical', '.', 'T', '##AM', 'is', 'Chemical', '.', 'breast', 'cancer', 'is', 'Disease', '.', 'hem', '##oly', '##tic', 'an', '##emia', 'is', 'Disease', '.', '[SEP]', 'War', '##fari', '##n', '-', 'induced', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'accelerated', 'by', 'growth', 'and', 'vitamin', 'D', '.', 'War', '##fari', '##n', 'is', 'Chemical', '.', 'artery', 'ca', '##l', '##ci', '##fication', 'is', 'Disease', '.', 'vitamin', 'D', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 18
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/bc5cdr/transformers_continual_trainer_max_basic_all_200_1337.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 6592.57275, Time is 4.71s
+[34m[dev set Total] Prec.: 42.28, Rec.: 38.62, F1: 40.37[0m
+[34m[test set Total] Prec.: 40.30, Rec.: 38.49, F1: 39.37[0m
+saving the best model...
+Epoch 2: 2221.12512, Time is 4.40s
+[34m[dev set Total] Prec.: 38.27, Rec.: 43.69, F1: 40.80[0m
+[34m[test set Total] Prec.: 37.43, Rec.: 44.10, F1: 40.49[0m
+saving the best model...
+Epoch 3: 1228.51474, Time is 4.31s
+[34m[dev set Total] Prec.: 45.19, Rec.: 58.27, F1: 50.90[0m
+[34m[test set Total] Prec.: 44.04, Rec.: 58.67, F1: 50.31[0m
+saving the best model...
+Epoch 4: 708.62408, Time is 4.29s
+[34m[dev set Total] Prec.: 55.37, Rec.: 63.87, F1: 59.32[0m
+[34m[test set Total] Prec.: 53.70, Rec.: 64.22, F1: 58.49[0m
+saving the best model...
+Epoch 5: 379.59204, Time is 4.35s
+[34m[dev set Total] Prec.: 62.90, Rec.: 64.16, F1: 63.53[0m
+[34m[test set Total] Prec.: 60.59, Rec.: 63.85, F1: 62.18[0m
+saving the best model...
+Epoch 6: 201.77856, Time is 4.41s
+[34m[dev set Total] Prec.: 65.64, Rec.: 68.85, F1: 67.21[0m
+[34m[test set Total] Prec.: 62.94, Rec.: 67.97, F1: 65.36[0m
+saving the best model...
+Epoch 7: 113.56750, Time is 4.30s
+[34m[dev set Total] Prec.: 66.08, Rec.: 69.08, F1: 67.55[0m
+[34m[test set Total] Prec.: 63.65, Rec.: 68.07, F1: 65.78[0m
+saving the best model...
+Epoch 8: 61.60944, Time is 4.36s
+[34m[dev set Total] Prec.: 62.41, Rec.: 73.86, F1: 67.65[0m
+[34m[test set Total] Prec.: 59.35, Rec.: 72.59, F1: 65.31[0m
+saving the best model...
+Epoch 9: 39.61407, Time is 4.37s
+[34m[dev set Total] Prec.: 67.20, Rec.: 69.91, F1: 68.53[0m
+[34m[test set Total] Prec.: 64.06, Rec.: 68.66, F1: 66.28[0m
+saving the best model...
+Epoch 10: 27.41724, Time is 4.31s
+[34m[dev set Total] Prec.: 66.13, Rec.: 72.54, F1: 69.19[0m
+[34m[test set Total] Prec.: 63.03, Rec.: 71.11, F1: 66.83[0m
+saving the best model...
+Epoch 11: 21.98444, Time is 4.36s
+[34m[dev set Total] Prec.: 67.57, Rec.: 67.10, F1: 67.33[0m
+[34m[test set Total] Prec.: 64.62, Rec.: 65.87, F1: 65.24[0m
+Epoch 12: 18.11151, Time is 4.26s
+[34m[dev set Total] Prec.: 65.51, Rec.: 73.65, F1: 69.34[0m
+[34m[test set Total] Prec.: 63.16, Rec.: 72.58, F1: 67.54[0m
+saving the best model...
+Epoch 13: 10.99164, Time is 4.34s
+[34m[dev set Total] Prec.: 65.18, Rec.: 73.19, F1: 68.96[0m
+[34m[test set Total] Prec.: 62.28, Rec.: 72.20, F1: 66.87[0m
+Epoch 14: 1.26678, Time is 4.35s
+[34m[dev set Total] Prec.: 67.96, Rec.: 69.78, F1: 68.86[0m
+[34m[test set Total] Prec.: 65.14, Rec.: 68.62, F1: 66.84[0m
+Epoch 15: 2.70581, Time is 4.37s
+[34m[dev set Total] Prec.: 61.27, Rec.: 74.67, F1: 67.31[0m
+[34m[test set Total] Prec.: 58.99, Rec.: 73.49, F1: 65.45[0m
+Epoch 16: 9.37921, Time is 4.38s
+[34m[dev set Total] Prec.: 65.97, Rec.: 71.21, F1: 68.49[0m
+[34m[test set Total] Prec.: 63.18, Rec.: 69.78, F1: 66.32[0m
+Epoch 17: 12.67224, Time is 4.34s
+[34m[dev set Total] Prec.: 65.66, Rec.: 72.79, F1: 69.04[0m
+[34m[test set Total] Prec.: 63.08, Rec.: 71.38, F1: 66.98[0m
+Epoch 18: 0.49072, Time is 4.30s
+[34m[dev set Total] Prec.: 68.26, Rec.: 72.12, F1: 70.13[0m
+[34m[test set Total] Prec.: 66.00, Rec.: 71.15, F1: 68.48[0m
+saving the best model...
+Epoch 19: 0.21143, Time is 4.22s
+[34m[dev set Total] Prec.: 68.92, Rec.: 69.95, F1: 69.43[0m
+[34m[test set Total] Prec.: 66.44, Rec.: 68.73, F1: 67.57[0m
+Epoch 20: 0.18652, Time is 4.33s
+[34m[dev set Total] Prec.: 65.76, Rec.: 73.73, F1: 69.52[0m
+[34m[test set Total] Prec.: 63.27, Rec.: 72.96, F1: 67.77[0m
+Epoch 21: 0.17218, Time is 4.30s
+[34m[dev set Total] Prec.: 66.04, Rec.: 72.91, F1: 69.31[0m
+[34m[test set Total] Prec.: 63.26, Rec.: 71.90, F1: 67.31[0m
+Epoch 22: 4.88141, Time is 4.36s
+[34m[dev set Total] Prec.: 68.12, Rec.: 70.69, F1: 69.38[0m
+[34m[test set Total] Prec.: 65.07, Rec.: 69.35, F1: 67.14[0m
+Epoch 23: 2.66199, Time is 4.18s
+[34m[dev set Total] Prec.: 67.41, Rec.: 72.07, F1: 69.67[0m
+[34m[test set Total] Prec.: 64.83, Rec.: 70.98, F1: 67.76[0m
+Epoch 24: 8.04639, Time is 4.27s
+[34m[dev set Total] Prec.: 66.82, Rec.: 71.86, F1: 69.25[0m
+[34m[test set Total] Prec.: 64.24, Rec.: 70.98, F1: 67.44[0m
+Epoch 25: 0.12756, Time is 4.32s
+[34m[dev set Total] Prec.: 67.69, Rec.: 70.23, F1: 68.93[0m
+[34m[test set Total] Prec.: 64.97, Rec.: 69.28, F1: 67.06[0m
+Epoch 26: 0.12109, Time is 4.30s
+[34m[dev set Total] Prec.: 68.06, Rec.: 69.55, F1: 68.80[0m
+[34m[test set Total] Prec.: 65.27, Rec.: 68.53, F1: 66.86[0m
+Epoch 27: 0.11829, Time is 4.39s
+[34m[dev set Total] Prec.: 67.56, Rec.: 70.76, F1: 69.12[0m
+[34m[test set Total] Prec.: 64.83, Rec.: 69.74, F1: 67.19[0m
+Epoch 28: 0.11481, Time is 4.24s
+[34m[dev set Total] Prec.: 66.65, Rec.: 71.92, F1: 69.18[0m
+[34m[test set Total] Prec.: 64.07, Rec.: 71.08, F1: 67.39[0m
+Epoch 29: 0.10632, Time is 4.37s
+[34m[dev set Total] Prec.: 65.99, Rec.: 72.44, F1: 69.07[0m
+[34m[test set Total] Prec.: 63.51, Rec.: 71.73, F1: 67.37[0m
+Epoch 30: 0.11816, Time is 4.39s
+[34m[dev set Total] Prec.: 67.94, Rec.: 69.12, F1: 68.53[0m
+[34m[test set Total] Prec.: 65.13, Rec.: 67.94, F1: 66.50[0m
+Epoch 31: 0.09448, Time is 4.30s
+[34m[dev set Total] Prec.: 67.23, Rec.: 70.29, F1: 68.73[0m
+[34m[test set Total] Prec.: 64.63, Rec.: 69.28, F1: 66.88[0m
+Epoch 32: 0.08600, Time is 4.35s
+[34m[dev set Total] Prec.: 66.31, Rec.: 72.46, F1: 69.25[0m
+[34m[test set Total] Prec.: 63.49, Rec.: 71.48, F1: 67.25[0m
+Epoch 33: 12.51270, Time is 4.35s
+[34m[dev set Total] Prec.: 66.68, Rec.: 71.77, F1: 69.13[0m
+[34m[test set Total] Prec.: 63.97, Rec.: 70.64, F1: 67.14[0m
+Epoch 34: 10.76794, Time is 4.31s
+[34m[dev set Total] Prec.: 66.84, Rec.: 71.68, F1: 69.17[0m
+[34m[test set Total] Prec.: 64.20, Rec.: 70.54, F1: 67.22[0m
+Epoch 35: 4.18506, Time is 4.24s
+[34m[dev set Total] Prec.: 66.40, Rec.: 71.91, F1: 69.04[0m
+[34m[test set Total] Prec.: 63.55, Rec.: 70.74, F1: 66.95[0m
+Epoch 36: 0.07086, Time is 4.29s
+[34m[dev set Total] Prec.: 66.31, Rec.: 71.79, F1: 68.94[0m
+[34m[test set Total] Prec.: 63.51, Rec.: 70.71, F1: 66.92[0m
+Epoch 37: 0.06836, Time is 4.30s
+[34m[dev set Total] Prec.: 66.37, Rec.: 71.76, F1: 68.96[0m
+[34m[test set Total] Prec.: 63.51, Rec.: 70.61, F1: 66.87[0m
+Epoch 38: 0.06610, Time is 4.28s
+[34m[dev set Total] Prec.: 66.44, Rec.: 71.70, F1: 68.97[0m
+[34m[test set Total] Prec.: 63.62, Rec.: 70.58, F1: 66.92[0m
+early stop because there are 20 epochs not increasing f1 on dev
+Archiving the best Model...
+Finished archiving the models
+The best dev: 70.13
+The corresponding test: 68.48
+Final testing.
+[34m[test set Total] Prec.: 66.00, Rec.: 71.15, F1: 68.48[0m

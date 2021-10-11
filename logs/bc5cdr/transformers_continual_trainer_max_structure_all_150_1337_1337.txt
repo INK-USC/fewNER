@@ -1,0 +1,362 @@
+device: cuda:0
+seed: 1337
+dataset: bc5cdr
+data_dir: dataset/bc5cdr
+percent_filename_suffix: 150_1337
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 10
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: /home/shared/fewner/conll_all
+model_folder: models/bc5cdr/transformers_continual_trainer_max_structure_all_150_1337_1337
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: max
+template: structure_all
+search_pool: target
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/bc5cdr/train_150_1337.txt
+dataset/bc5cdr/dev.txt
+dataset/bc5cdr/test.txt[0m
+[Data Info] Reading file: dataset/bc5cdr/train_150_1337.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 150
+[Data Info] Using the training set to build label index
+#labels: 12
+label 2idx: {'<PAD>': 0, 'O': 1, 'S-Chemical': 2, 'S-Disease': 3, 'B-Disease': 4, 'E-Disease': 5, 'B-Chemical': 6, 'I-Chemical': 7, 'E-Chemical': 8, 'I-Disease': 9, '<START>': 10, '<STOP>': 11}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['We', 'conclude', 'that', 'methylphenidate', 'mediated', 'vasculitis', 'should', 'be', 'considered', 'in', 'patients', 'with', 'neurological', 'symptoms', 'and', 'a', 'history', 'of', 'methylphenidate', 'therapy', '.'][0m
+[33mPrompt 0: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 15: ['CONCLUSION', ':', 'A', '50', '%', 'reduction', 'in', 'the', 'incidence', 'of', 'akathisia', 'when', 'prochlorperazine', 'was', 'administered', 'by', 'means', 'of', '15', '-', 'minute', 'intravenous', 'infusion', 'versus', 'a', '2', '-', 'minute', 'intravenous', 'push', 'was', 'not', 'detected', '.'][0m
+[33mPrompt 15: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 30: ['BACKGROUND', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', 'human', 'immunodeficiency', 'virus', ',', 'atrial', 'fibrillation', ',', 'coronary', 'artery', 'disease', ',', 'and', 'hyperlipidemia', 'presented', 'with', 'generalized', 'pain', ',', 'fatigue', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.'][0m
+[33mPrompt 30: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 45: ['The', 'use', 'and', 'toxicity', 'of', 'didanosine', '(', 'ddI', ')', 'in', 'HIV', 'antibody', '-', 'positive', 'individuals', 'intolerant', 'to', 'zidovudine', '(', 'AZT', ')'][0m
+[33mPrompt 45: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 60: ['Offspring', 'of', 'rats', 'administered', 'dexamethasone', 'on', 'days', '15', 'and', '16', 'gestation', 'had', 'a', '20', '%', 'reduction', 'in', 'glomerular', 'number', 'compared', 'with', 'control', 'at', '6', 'to', '9', 'months', 'of', 'age', '(', '22', '527', '+', '/', '-', '509', 'versus', '28', '050', '+', '/', '-', '561', ',', 'P', '<', '0', '.', '05', ')', ',', 'which', 'was', 'comparable', 'to', 'the', 'percent', 'reduction', 'in', 'glomeruli', 'measured', 'at', '3', 'weeks', 'of', 'age', '.'][0m
+[33mPrompt 60: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 75: ['However', ',', 'studies', 'into', 'the', 'dose', 'necessary', 'to', 'combating', 'scopolamine', 'intoxication', 'are', 'indicated', '.'][0m
+[33mPrompt 75: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 90: ['All', 'these', 'effects', 'of', 'DES', 'were', 'more', 'pronounced', 'among', 'previously', 'ovariectomized', 'animals', '.'][0m
+[33mPrompt 90: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 105: ['In', 'four', 'subacute', 'toxicity', 'studies', ',', 'the', 'intravenous', 'administration', 'of', 'cefonicid', 'or', 'cefazedone', 'to', 'beagle', 'dogs', 'caused', 'a', 'dose', '-', 'dependent', 'incidence', 'of', 'anemia', ',', 'neutropenia', ',', 'and', 'thrombocytopenia', 'after', '1', '-', '3', 'months', 'of', 'treatment', '.'][0m
+[33mPrompt 105: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 120: ['We', 'found', 'that', 'maltolyl', 'p', '-', 'coumarate', 'significantly', 'decreased', 'apoptotic', 'cell', 'death', 'and', 'reduced', 'reactive', 'oxygen', 'species', ',', 'cytochrome', 'c', 'release', ',', 'and', 'caspase', '3', 'activation', '.'][0m
+[33mPrompt 120: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 135: ['These', 'data', 'underline', 'the', 'need', 'to', 'maximize', 'the', 'therapeutic', 'ratio', 'with', 'respect', 'to', 'TDP', 'in', 'potential', 'development', 'candidates', 'and', 'the', 'importance', 'of', 'using', 'free', 'drug', 'concentrations', 'in', 'pharmacokinetic', '/', 'pharmacodynamic', 'studies', '.'][0m
+[33mPrompt 135: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/train_150_1337.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 150
+[Data Info] Using the training set to build label index
+#labels: 12
+label 2idx: {'<PAD>': 0, 'O': 1, 'S-Chemical': 2, 'S-Disease': 3, 'B-Disease': 4, 'E-Disease': 5, 'B-Chemical': 6, 'I-Chemical': 7, 'E-Chemical': 8, 'I-Disease': 9, '<START>': 10, '<STOP>': 11}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['We', 'conclude', 'that', 'methylphenidate', 'mediated', 'vasculitis', 'should', 'be', 'considered', 'in', 'patients', 'with', 'neurological', 'symptoms', 'and', 'a', 'history', 'of', 'methylphenidate', 'therapy', '.'][0m
+[33mPrompt 0: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 15: ['CONCLUSION', ':', 'A', '50', '%', 'reduction', 'in', 'the', 'incidence', 'of', 'akathisia', 'when', 'prochlorperazine', 'was', 'administered', 'by', 'means', 'of', '15', '-', 'minute', 'intravenous', 'infusion', 'versus', 'a', '2', '-', 'minute', 'intravenous', 'push', 'was', 'not', 'detected', '.'][0m
+[33mPrompt 15: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 30: ['BACKGROUND', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', 'human', 'immunodeficiency', 'virus', ',', 'atrial', 'fibrillation', ',', 'coronary', 'artery', 'disease', ',', 'and', 'hyperlipidemia', 'presented', 'with', 'generalized', 'pain', ',', 'fatigue', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.'][0m
+[33mPrompt 30: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 45: ['The', 'use', 'and', 'toxicity', 'of', 'didanosine', '(', 'ddI', ')', 'in', 'HIV', 'antibody', '-', 'positive', 'individuals', 'intolerant', 'to', 'zidovudine', '(', 'AZT', ')'][0m
+[33mPrompt 45: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 60: ['Offspring', 'of', 'rats', 'administered', 'dexamethasone', 'on', 'days', '15', 'and', '16', 'gestation', 'had', 'a', '20', '%', 'reduction', 'in', 'glomerular', 'number', 'compared', 'with', 'control', 'at', '6', 'to', '9', 'months', 'of', 'age', '(', '22', '527', '+', '/', '-', '509', 'versus', '28', '050', '+', '/', '-', '561', ',', 'P', '<', '0', '.', '05', ')', ',', 'which', 'was', 'comparable', 'to', 'the', 'percent', 'reduction', 'in', 'glomeruli', 'measured', 'at', '3', 'weeks', 'of', 'age', '.'][0m
+[33mPrompt 60: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 75: ['However', ',', 'studies', 'into', 'the', 'dose', 'necessary', 'to', 'combating', 'scopolamine', 'intoxication', 'are', 'indicated', '.'][0m
+[33mPrompt 75: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 90: ['All', 'these', 'effects', 'of', 'DES', 'were', 'more', 'pronounced', 'among', 'previously', 'ovariectomized', 'animals', '.'][0m
+[33mPrompt 90: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 105: ['In', 'four', 'subacute', 'toxicity', 'studies', ',', 'the', 'intravenous', 'administration', 'of', 'cefonicid', 'or', 'cefazedone', 'to', 'beagle', 'dogs', 'caused', 'a', 'dose', '-', 'dependent', 'incidence', 'of', 'anemia', ',', 'neutropenia', ',', 'and', 'thrombocytopenia', 'after', '1', '-', '3', 'months', 'of', 'treatment', '.'][0m
+[33mPrompt 105: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 120: ['We', 'found', 'that', 'maltolyl', 'p', '-', 'coumarate', 'significantly', 'decreased', 'apoptotic', 'cell', 'death', 'and', 'reduced', 'reactive', 'oxygen', 'species', ',', 'cytochrome', 'c', 'release', ',', 'and', 'caspase', '3', 'activation', '.'][0m
+[33mPrompt 120: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 135: ['These', 'data', 'underline', 'the', 'need', 'to', 'maximize', 'the', 'therapeutic', 'ratio', 'with', 'respect', 'to', 'TDP', 'in', 'potential', 'development', 'candidates', 'and', 'the', 'importance', 'of', 'using', 'free', 'drug', 'concentrations', 'in', 'pharmacokinetic', '/', 'pharmacodynamic', 'studies', '.'][0m
+[33mPrompt 135: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 3809
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['22', '-', 'oxacalcitriol', 'suppresses', 'secondary', 'hyperparathyroidism', 'without', 'inducing', 'low', 'bone', 'turnover', 'in', 'dogs', 'with', 'renal', 'failure', '.'][0m
+[33mPrompt 0: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 380: ['The', 'time', 'course', 'of', 'events', 'suggested', 'that', 'amphotericin', 'B', 'was', 'the', 'cause', 'of', 'the', 'seizures', 'in', 'this', 'AIDS', 'patient', '.'][0m
+[33mPrompt 380: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 760: ['VSD', 'also', 'was', 'noted', 'following', 'treatment', 'on', 'GD', '11', '.'][0m
+[33mPrompt 760: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 1140: ['A', 'variety', 'of', 'abnormal', 'sensory', '/', 'motor', 'behaviors', 'associated', 'with', 'electrical', 'discharges', 'recorded', 'from', 'the', 'bilateral', 'brainstem', 'were', 'induced', 'in', 'adult', 'WKY', 'rats', 'by', 'mechanical', '(', 'electrode', 'implants', ')', 'and', 'DC', 'electrical', 'current', 'stimulations', 'and', 'by', 'acute', 'and', 'chronic', 'administration', 'of', 'cocaine', '.'][0m
+[33mPrompt 1140: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 1520: ['During', 'treatment', 'of', 'chronic', 'hepatitis', 'C', 'patients', 'with', 'interferon', 'and', 'ribavirin', ',', 'a', 'lot', 'of', 'side', 'effects', 'are', 'described', '.'][0m
+[33mPrompt 1520: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 1900: ['A', 'biodegradable', 'polymer', 'dextran', 'has', 'been', 'utilized', 'as', 'a', 'carrier', 'for', 'synthesis', 'of', 'etodolac', '-', 'dextran', 'conjugates', '(', 'ED', ')', 'to', 'improve', 'its', 'aqueous', 'solubility', 'and', 'reduce', 'gastrointestinal', 'side', 'effects', '.'][0m
+[33mPrompt 1900: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 2280: ['We', 'conclude', 'that', 'the', 'analgesic', 'action', 'of', 'opioids', 'on', 'the', 'peripheral', 'terminals', 'of', 'primary', 'afferents', 'is', 'via', 'a', 'binding', 'site', 'with', 'characteristics', 'of', 'the', 'mu', '-', 'opioid', 'receptor', 'and', 'that', 'this', 'action', 'is', 'mediated', 'by', 'inhibition', 'of', 'the', 'cyclic', 'adenosine', 'monophosphate', 'second', 'messenger', 'system', '.'][0m
+[33mPrompt 2280: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 2660: ['Tri', '-', 'ortho', '-', 'tolyl', 'phosphate', '(', 'TOTP', ')', ',', '360', 'mg', '/', 'kg', ',', 'po', ',', 'and', '0', ',', '0', "'", '-', 'diisopropyl', 'phosphorofluoridate', '(', 'DFP', ')', ',', '1', 'mg', '/', 'kg', 'sc', ',', 'were', 'administered', 'to', 'adult', 'White', 'Leghorn', 'chickens', '24', 'hr', 'after', 'they', 'were', 'placed', 'on', 'diets', 'containing', '0', 'to', '300', 'ppm', 'corticosterone', '.'][0m
+[33mPrompt 2660: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 3040: ['Intraventricular', 'infusion', 'of', 'dopamine', 'sufficient', 'to', 'raise', 'the', 'brain', 'dopamine', 'to', 'the', 'same', 'extent', 'did', 'not', 'prevent', 'the', 'ammonia', 'coma', 'nor', 'affect', 'the', 'blood', 'and', 'brain', 'ammonia', 'concentrations', '.'][0m
+[33mPrompt 3040: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 3420: ['These', 'results', 'are', 'consistent', 'with', 'the', 'hypothesis', 'that', 'the', 'rat', 'has', 'a', 'poorer', 'tolerance', 'for', 'deoxycholic', 'acid', 'than', 'do', 'certain', 'other', 'species', '.'][0m
+[33mPrompt 3420: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 3800: ['Isoniazid', 'significantly', 'increased', 'bradycardia', 'after', 'propranolol', ',', 'pindolol', ',', 'labetalol', 'and', 'atenolol', ',', 'as', 'well', 'as', 'after', 'clonidine', ',', 'but', 'not', 'after', 'hexamethonium', 'or', 'carbachol', '.'][0m
+[33mPrompt 3800: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 3974
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Torsade', 'de', 'pointes', 'ventricular', 'tachycardia', 'during', 'low', 'dose', 'intermittent', 'dobutamine', 'treatment', 'in', 'a', 'patient', 'with', 'dilated', 'cardiomyopathy', 'and', 'congestive', 'heart', 'failure', '.'][0m
+[33mPrompt 0: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 397: ['Neuroleptic', 'malignant', 'syndrome', 'complicated', 'by', 'massive', 'intestinal', 'bleeding', 'in', 'a', 'patient', 'with', 'chronic', 'renal', 'failure', '.'][0m
+[33mPrompt 397: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 794: ['Apparent', 'risk', 'factors', 'for', 'the', 'development', 'of', 'mania', 'or', 'hypomania', 'during', 'fluoxetine', 'pharmacotherapy', 'in', 'this', 'population', 'were', 'the', 'combination', 'of', 'attention', '-', 'deficit', 'hyperactivity', 'disorder', 'and', 'affective', 'instability', ';', 'major', 'depression', 'with', 'psychotic', 'features', ';', 'a', 'family', 'history', 'of', 'affective', 'disorder', ',', 'especially', 'bipolar', 'disorder', ';', 'and', 'a', 'diagnosis', 'of', 'bipolar', 'disorder', '.'][0m
+[33mPrompt 794: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 1191: ['CONCLUSION', ':', 'The', 'data', 'acquired', 'suggest', 'that', 'isolated', 'MAP', 'may', 'have', 'certain', 'benefits', 'on', 'LV', 'dimension', '/', 'function', 'in', 'acute', 'heart', 'failure', ',', 'even', 'in', 'the', 'absence', 'of', 'MR', '.'][0m
+[33mPrompt 1191: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 1588: ['Initial', 'evaluation', 'confirmed', 'FHF', 'from', 'acetaminophen', 'and', 'cerebral', 'edema', '.'][0m
+[33mPrompt 1588: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 1985: ['CONCLUSIONS', ':', 'The', 'prevalence', 'of', 'levodopa', '-', 'induced', 'dyskinesia', 'in', 'our', 'patients', 'was', '44', '%', '.'][0m
+[33mPrompt 1985: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 2382: ['Bortezomib', 'and', 'high', '-', 'dose', 'dexamethasone', '-', 'containing', 'regimens', 'are', 'considered', 'to', 'be', 'generally', 'tolerable', 'with', 'few', 'severe', 'bacterial', 'infections', 'in', 'patients', 'with', 'B', '-', 'cell', 'malignancies', '.'][0m
+[33mPrompt 2382: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 2779: ['Conditions', 'that', 'will', 'be', 'required', 'for', 'studies', 'of', '1', ',', '3', '-', 'butadiene', 'are', 'discussed', '.'][0m
+[33mPrompt 2779: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 3176: ['After', '4', 'weeks', 'the', 'PAN', 'rats', 'were', 'severely', 'proteinuric', '(', '190', '+', '/', '-', '80', 'mg', '/', '24', 'hr', ')', ',', 'and', 'all', 'rats', 'were', 'given', 'colloidal', 'carbon', '(', 'CC', ')', 'intravenously', '.'][0m
+[33mPrompt 3176: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 3573: ['This', 'also', 'resulted', 'in', 'an', 'increased', 'incidence', 'of', 'seizures', ',', '90', '%', '(', 'P', '<', 'or', '=', '.', '01', ')', ',', 'and', 'death', ',', '90', '%', '(', 'P', '<', 'or', '=', '.', '05', ')', ',', 'compared', 'with', 'group', '4', '.'][0m
+[33mPrompt 3573: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[34mInstance 3970: ['Seven', 'of', 'the', '13', 'patients', 'had', 'exhibited', 'a', 'subclinical', 'hypertensive', 'state', 'before', 'cyclosporin', 'A', 'therapy', '.'][0m
+[33mPrompt 3970: ['Challenge', 'tests', 'with', '[', '[', '[', 'A', '##X', '|', 'Chemical', ']', '|', 'Chemical', ']', '|', 'Chemical', ']', 'were', 'performed', 'in', '23', 'subjects', '(', '43', '%', ')', 'to', 'establish', 'the', 'diagnosis', 'of', 'immediate', '[', 'all', '##ergic', 'reaction', '|', 'Disease', ']', 'to', 'A', '##X', ',', 'and', 'in', '15', 'cases', '(', '28', '%', ')', 'both', 'skin', 'test', 'and', 'RA', '##ST', 'for', 'A', '##X', 'were', 'negative', '.', '[SEP]', 'BA', '##C', '##K', '##GR', '##O', '##UN', '##D', ':', 'A', '72', '-', 'year', '-', 'old', 'white', 'man', 'with', 'underlying', '[', 'human', 'im', '##mu', '##no', '##de', '##ficiency', 'virus', '|', 'Disease', ']', ',', '[', 'at', '##rial', 'fi', '##bri', '##lla', '##tion', '|', 'Disease', ']', ',', '[', 'co', '##rona', '##ry', 'artery', 'disease', '|', 'Disease', ']', ',', 'and', '[', 'h', '##yper', '##lip', '##ide', '##mia', '|', 'Disease', ']', 'presented', 'with', 'generalized', '[', 'pain', '|', 'Disease', ']', ',', '[', 'fatigue', '|', 'Disease', ']', ',', 'and', 'dark', 'orange', 'urine', 'for', '3', 'days', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 15
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/bc5cdr/transformers_continual_trainer_max_structure_all_150_1337_1337.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 7699.67889, Time is 4.31s
+[34m[dev set Total] Prec.: 22.71, Rec.: 1.52, F1: 2.85[0m
+[34m[test set Total] Prec.: 29.36, Rec.: 2.54, F1: 4.67[0m
+saving the best model...
+Epoch 2: 2413.89954, Time is 4.09s
+[34m[dev set Total] Prec.: 39.65, Rec.: 43.23, F1: 41.36[0m
+[34m[test set Total] Prec.: 38.41, Rec.: 43.47, F1: 40.79[0m
+saving the best model...
+Epoch 3: 1705.40808, Time is 4.13s
+[34m[dev set Total] Prec.: 49.27, Rec.: 51.63, F1: 50.43[0m
+[34m[test set Total] Prec.: 48.28, Rec.: 52.04, F1: 50.09[0m
+saving the best model...
+Epoch 4: 1196.48242, Time is 4.14s
+[34m[dev set Total] Prec.: 54.40, Rec.: 54.86, F1: 54.63[0m
+[34m[test set Total] Prec.: 53.07, Rec.: 55.05, F1: 54.04[0m
+saving the best model...
+Epoch 5: 834.05432, Time is 4.13s
+[34m[dev set Total] Prec.: 62.79, Rec.: 61.40, F1: 62.09[0m
+[34m[test set Total] Prec.: 61.22, Rec.: 62.21, F1: 61.71[0m
+saving the best model...
+Epoch 6: 557.94971, Time is 4.11s
+[34m[dev set Total] Prec.: 62.83, Rec.: 70.03, F1: 66.24[0m
+[34m[test set Total] Prec.: 60.87, Rec.: 70.50, F1: 65.33[0m
+saving the best model...
+Epoch 7: 351.86060, Time is 4.09s
+[34m[dev set Total] Prec.: 61.71, Rec.: 72.31, F1: 66.59[0m
+[34m[test set Total] Prec.: 60.42, Rec.: 73.09, F1: 66.15[0m
+saving the best model...
+Epoch 8: 172.18677, Time is 4.11s
+[34m[dev set Total] Prec.: 68.98, Rec.: 71.15, F1: 70.05[0m
+[34m[test set Total] Prec.: 67.13, Rec.: 71.76, F1: 69.37[0m
+saving the best model...
+Epoch 9: 108.24084, Time is 4.10s
+[34m[dev set Total] Prec.: 65.96, Rec.: 74.74, F1: 70.07[0m
+[34m[test set Total] Prec.: 63.89, Rec.: 74.71, F1: 68.88[0m
+saving the best model...
+Epoch 10: 74.00037, Time is 4.15s
+[34m[dev set Total] Prec.: 64.63, Rec.: 76.06, F1: 69.88[0m
+[34m[test set Total] Prec.: 63.07, Rec.: 76.69, F1: 69.22[0m
+Epoch 11: 33.65515, Time is 4.03s
+[34m[dev set Total] Prec.: 69.64, Rec.: 71.63, F1: 70.62[0m
+[34m[test set Total] Prec.: 68.30, Rec.: 72.38, F1: 70.28[0m
+saving the best model...
+Epoch 12: 26.75098, Time is 4.07s
+[34m[dev set Total] Prec.: 68.30, Rec.: 73.69, F1: 70.89[0m
+[34m[test set Total] Prec.: 67.87, Rec.: 74.78, F1: 71.16[0m
+saving the best model...
+Epoch 13: 32.97778, Time is 4.08s
+[34m[dev set Total] Prec.: 72.74, Rec.: 72.20, F1: 72.47[0m
+[34m[test set Total] Prec.: 70.88, Rec.: 72.22, F1: 71.54[0m
+saving the best model...
+Epoch 14: 15.42969, Time is 4.16s
+[34m[dev set Total] Prec.: 66.16, Rec.: 77.25, F1: 71.28[0m
+[34m[test set Total] Prec.: 64.50, Rec.: 77.56, F1: 70.43[0m
+Epoch 15: 16.64600, Time is 4.06s
+[34m[dev set Total] Prec.: 70.03, Rec.: 74.43, F1: 72.16[0m
+[34m[test set Total] Prec.: 67.41, Rec.: 73.96, F1: 70.53[0m
+Epoch 16: 15.32861, Time is 4.03s
+[34m[dev set Total] Prec.: 69.68, Rec.: 75.66, F1: 72.55[0m
+[34m[test set Total] Prec.: 68.11, Rec.: 76.59, F1: 72.11[0m
+saving the best model...
+Epoch 17: 3.00391, Time is 4.12s
+[34m[dev set Total] Prec.: 71.33, Rec.: 74.14, F1: 72.70[0m
+[34m[test set Total] Prec.: 69.66, Rec.: 74.72, F1: 72.10[0m
+saving the best model...
+Epoch 18: 1.66956, Time is 4.06s
+[34m[dev set Total] Prec.: 69.45, Rec.: 75.90, F1: 72.53[0m
+[34m[test set Total] Prec.: 67.63, Rec.: 76.39, F1: 71.74[0m
+Epoch 19: 8.29541, Time is 4.03s
+[34m[dev set Total] Prec.: 72.25, Rec.: 72.04, F1: 72.15[0m
+[34m[test set Total] Prec.: 70.40, Rec.: 72.33, F1: 71.35[0m
+Epoch 20: 0.99365, Time is 4.04s
+[34m[dev set Total] Prec.: 70.76, Rec.: 73.58, F1: 72.14[0m
+[34m[test set Total] Prec.: 68.59, Rec.: 73.74, F1: 71.07[0m
+Epoch 21: 1.91187, Time is 4.03s
+[34m[dev set Total] Prec.: 69.38, Rec.: 76.11, F1: 72.59[0m
+[34m[test set Total] Prec.: 67.04, Rec.: 76.07, F1: 71.27[0m
+Epoch 22: 0.52441, Time is 3.97s
+[34m[dev set Total] Prec.: 71.57, Rec.: 73.63, F1: 72.58[0m
+[34m[test set Total] Prec.: 69.26, Rec.: 73.44, F1: 71.29[0m
+Epoch 23: 10.14380, Time is 4.00s
+[34m[dev set Total] Prec.: 70.12, Rec.: 76.43, F1: 73.14[0m
+[34m[test set Total] Prec.: 67.74, Rec.: 76.11, F1: 71.69[0m
+saving the best model...
+Epoch 24: 2.14429, Time is 4.13s
+[34m[dev set Total] Prec.: 70.40, Rec.: 75.23, F1: 72.74[0m
+[34m[test set Total] Prec.: 68.62, Rec.: 75.39, F1: 71.84[0m
+Epoch 25: 1.41943, Time is 4.02s
+[34m[dev set Total] Prec.: 70.52, Rec.: 75.00, F1: 72.69[0m
+[34m[test set Total] Prec.: 68.78, Rec.: 75.19, F1: 71.84[0m
+Epoch 26: 4.43213, Time is 4.03s
+[34m[dev set Total] Prec.: 71.93, Rec.: 74.20, F1: 73.05[0m
+[34m[test set Total] Prec.: 70.25, Rec.: 74.63, F1: 72.37[0m
+Epoch 27: 0.52637, Time is 3.96s
+[34m[dev set Total] Prec.: 70.98, Rec.: 75.28, F1: 73.07[0m
+[34m[test set Total] Prec.: 69.19, Rec.: 75.52, F1: 72.22[0m
+Epoch 28: 0.27893, Time is 3.95s
+[34m[dev set Total] Prec.: 69.69, Rec.: 76.31, F1: 72.85[0m
+[34m[test set Total] Prec.: 67.94, Rec.: 76.75, F1: 72.07[0m
+Epoch 29: 9.09827, Time is 3.99s
+[34m[dev set Total] Prec.: 71.91, Rec.: 74.17, F1: 73.02[0m
+[34m[test set Total] Prec.: 70.24, Rec.: 74.59, F1: 72.35[0m
+Epoch 30: 0.22339, Time is 4.04s
+[34m[dev set Total] Prec.: 70.48, Rec.: 75.42, F1: 72.86[0m
+[34m[test set Total] Prec.: 68.69, Rec.: 75.62, F1: 71.99[0m
+Epoch 31: 0.20483, Time is 4.09s
+[34m[dev set Total] Prec.: 68.40, Rec.: 77.09, F1: 72.49[0m
+[34m[test set Total] Prec.: 66.73, Rec.: 77.36, F1: 71.65[0m
+Epoch 32: 0.19092, Time is 4.04s
+[34m[dev set Total] Prec.: 68.82, Rec.: 76.79, F1: 72.58[0m
+[34m[test set Total] Prec.: 67.12, Rec.: 77.06, F1: 71.75[0m
+Epoch 33: 0.17798, Time is 3.99s
+[34m[dev set Total] Prec.: 69.13, Rec.: 76.56, F1: 72.65[0m
+[34m[test set Total] Prec.: 67.28, Rec.: 76.80, F1: 71.72[0m
+Epoch 34: 0.17969, Time is 4.02s
+[34m[dev set Total] Prec.: 68.87, Rec.: 76.81, F1: 72.62[0m
+[34m[test set Total] Prec.: 66.99, Rec.: 76.89, F1: 71.60[0m
+Epoch 35: 0.17456, Time is 4.06s
+[34m[dev set Total] Prec.: 71.01, Rec.: 74.92, F1: 72.91[0m
+[34m[test set Total] Prec.: 68.96, Rec.: 75.14, F1: 71.92[0m
+Epoch 36: 0.15942, Time is 4.02s
+[34m[dev set Total] Prec.: 71.96, Rec.: 73.61, F1: 72.77[0m
+[34m[test set Total] Prec.: 69.65, Rec.: 73.49, F1: 71.52[0m
+Epoch 37: 11.36621, Time is 4.02s
+[34m[dev set Total] Prec.: 70.88, Rec.: 74.89, F1: 72.83[0m
+[34m[test set Total] Prec.: 69.01, Rec.: 75.06, F1: 71.91[0m
+Epoch 38: 0.14697, Time is 4.06s
+[34m[dev set Total] Prec.: 70.27, Rec.: 75.81, F1: 72.94[0m
+[34m[test set Total] Prec.: 68.11, Rec.: 75.85, F1: 71.77[0m
+Epoch 39: 0.14624, Time is 4.03s
+[34m[dev set Total] Prec.: 69.57, Rec.: 76.35, F1: 72.80[0m
+[34m[test set Total] Prec.: 67.49, Rec.: 76.31, F1: 71.63[0m
+Epoch 40: 0.14429, Time is 4.14s
+[34m[dev set Total] Prec.: 69.71, Rec.: 76.17, F1: 72.80[0m
+[34m[test set Total] Prec.: 67.79, Rec.: 76.36, F1: 71.82[0m
+Epoch 41: 0.13867, Time is 3.99s
+[34m[dev set Total] Prec.: 70.04, Rec.: 76.01, F1: 72.91[0m
+[34m[test set Total] Prec.: 68.00, Rec.: 76.15, F1: 71.85[0m
+Epoch 42: 0.13721, Time is 4.12s
+[34m[dev set Total] Prec.: 70.21, Rec.: 75.98, F1: 72.98[0m
+[34m[test set Total] Prec.: 68.16, Rec.: 76.06, F1: 71.90[0m
+Epoch 43: 0.13477, Time is 4.09s
+[34m[dev set Total] Prec.: 70.36, Rec.: 75.88, F1: 73.01[0m
+[34m[test set Total] Prec.: 68.45, Rec.: 75.99, F1: 72.02[0m
+early stop because there are 20 epochs not increasing f1 on dev
+Archiving the best Model...
+Finished archiving the models
+The best dev: 73.14
+The corresponding test: 71.69
+Final testing.
+[34m[test set Total] Prec.: 67.74, Rec.: 76.11, F1: 71.69[0m
