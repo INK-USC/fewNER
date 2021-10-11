@@ -138,14 +138,14 @@ def train_model(config: Config, epoch: int, train_loader: DataLoader, dev_loader
 
         model.eval()
         dev_metrics = evaluate_model(config, model, dev_loader, "dev", dev_loader.dataset.insts)
-        test_metrics = evaluate_model(config, model, test_loader, "test", test_loader.dataset.insts)
+        #test_metrics = evaluate_model(config, model, test_loader, "test", test_loader.dataset.insts)
         if dev_metrics[2] > best_dev[0]:
             print("saving the best model...")
             no_incre_dev = 0
             best_dev[0] = dev_metrics[2]
             best_dev[1] = i
-            best_test[0] = test_metrics[2]
-            best_test[1] = i
+            #best_test[0] = test_metrics[2]
+            #best_test[1] = i
             torch.save(model.state_dict(), model_path)
             # Save the corresponding config as well.
             f = open(config_path, 'wb')
@@ -166,7 +166,7 @@ def train_model(config: Config, epoch: int, train_loader: DataLoader, dev_loader
     print("Finished archiving the models")
 
     print("The best dev: %.2f" % (best_dev[0]))
-    print("The corresponding test: %.2f" % (best_test[0]))
+    #print("The corresponding test: %.2f" % (best_test[0]))
     print("Final testing.")
     model.load_state_dict(torch.load(model_path))
     model.eval()
