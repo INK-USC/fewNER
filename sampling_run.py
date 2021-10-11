@@ -14,7 +14,7 @@ parser.add_argument('--gpu', type=str, default="0", help='GPU ids separated by "
 
 args = parser.parse_known_args()[0]
 
-suffices = [args.suffix, args.suffix + "_1337", args.suffix + "_2021"]
+suffices = [args.suffix, args.suffix + "_1337", args.suffix + "_2021", args.suffix + "_5555", args.suffix + "_42"]
 seeds = ['42', '1337', '2021']
 
 log_files = []
