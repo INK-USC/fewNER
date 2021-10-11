@@ -69,7 +69,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
             search_space.append(" ".join(inst.ori_words))
             search_space_dict[" ".join(inst.ori_words)] = inst
         if prompt == "sbert":
-            search_model = SentenceTransformer('all-MiniLM-L6-v2')
+            search_model = SentenceTransformer('all-roberta-large-v1')
             corpus_embeddings = search_model.encode(search_space, convert_to_tensor=True)
         if prompt == "bertscore":
             bert_score_model_type = bert_score.lang2model["en"]
@@ -142,6 +142,23 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                         instance_prompt_tokens.insert(start_ind, '[')
                     prompt_tokens.extend(instance_prompt_tokens)
 
+                elif template == 'lexical_all':
+                    instance_prompt_tokens = []
+                    for i, word in enumerate(prompt_words):
+                        instance_tokens = tokenizer.tokenize(" " + word)
+                        for sub_token in instance_tokens:
+                            instance_prompt_tokens.append(sub_token)
+
+                    for entity in prompt_entities:
+                        entity_tokens = tokenizer.tokenize(" " + entity[0])
+
+                        start_ind = instance_prompt_tokens.index(entity_tokens[0])
+                        end_ind = instance_prompt_tokens.index(entity_tokens[-1])
+
+                        instance_prompt_tokens[start_ind] = entity[1]
+                        del instance_prompt_tokens[start_ind + 1:end_ind + 1]
+                    prompt_tokens.extend(instance_prompt_tokens)
+
             maybe_show_prompt(idx, words, prompt_tokens, step_sz)
             input_ids = tokenizer.convert_tokens_to_ids([tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
 
@@ -187,6 +204,23 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                         instance_prompt_tokens.insert(end_ind + 1, entity[1])
                         instance_prompt_tokens.insert(end_ind + 1, '|')
                         instance_prompt_tokens.insert(start_ind, '[')
+                    prompt_tokens.extend(instance_prompt_tokens)
+
+                elif template == 'lexical_all':
+                    instance_prompt_tokens = []
+                    for i, word in enumerate(prompt_words):
+                        instance_tokens = tokenizer.tokenize(" " + word)
+                        for sub_token in instance_tokens:
+                            instance_prompt_tokens.append(sub_token)
+
+                    for entity in prompt_entities:
+                        entity_tokens = tokenizer.tokenize(" " + entity[0])
+
+                        start_ind = instance_prompt_tokens.index(entity_tokens[0])
+                        end_ind = instance_prompt_tokens.index(entity_tokens[-1])
+
+                        instance_prompt_tokens[start_ind] = entity[1]
+                        del instance_prompt_tokens[start_ind + 1:end_ind + 1]
                     prompt_tokens.extend(instance_prompt_tokens)
 
             maybe_show_prompt(idx, words, prompt_tokens, step_sz)
@@ -266,7 +300,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                             entity_tokens = tokenizer.tokenize(" " + entity[0])
                             start_ind = instance_prompt_tokens.index(entity_tokens[0])
                             end_ind = instance_prompt_tokens.index(entity_tokens[-1])
-                            instance_prompt_tokens[start_ind] = entity_label
+                            instance_prompt_tokens[start_ind] = entity[1]
                             del instance_prompt_tokens[start_ind + 1:end_ind + 1]
 
                     prompt_tokens.extend(instance_prompt_tokens)
@@ -355,7 +389,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                             entity_tokens = tokenizer.tokenize(" " + entity[0])
                             start_ind = instance_prompt_tokens.index(entity_tokens[0])
                             end_ind = instance_prompt_tokens.index(entity_tokens[-1])
-                            instance_prompt_tokens[start_ind] = entity_label
+                            instance_prompt_tokens[start_ind] = entity[1]
                             del instance_prompt_tokens[start_ind + 1:end_ind + 1]
 
                     prompt_tokens.extend(instance_prompt_tokens)
