@@ -3,10 +3,10 @@ import argparse
 import numpy
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--data', type=str, default='conll/train_all.txt', help="text file - dataset")
+parser.add_argument('--data', type=str, default='bc5cdr/train.txt', help="text file - dataset")
 parser.add_argument('--target_data', type=str, default='conll/train_50_5555.txt', help="text file - dataset")
 parser.add_argument('--number', type=int, default=50, help="number of sentences in dataset")
-parser.add_argument('--seed', type=int, default=5555, help="number of sentences in dataset")
+parser.add_argument('--seed', type=int, help="number of sentences in dataset")
 
 args = parser.parse_known_args()[0]
 
@@ -43,7 +43,7 @@ def labels_from_sents(sents):
     for sent in sents:
         sent_label = []
         for i in sent:
-            label = i.split(' ')[-1]
+            label = i.split('\t')[-1]
             sent_label.append(label)
         sent_label = convert_iobes(sent_label)
         for s_label in sent_label:
@@ -78,7 +78,7 @@ def dataset_slice(number, sents, label_space):
 
         sent_labels = []
         for s in sents[sent_index]:
-            sent_labels.append(s.split(' ')[-1])
+            sent_labels.append(s.split('\t')[-1])
         sent_labels = convert_iobes(sent_labels)
         if len(list(set(sent_labels))) > 1:
             labels = labels.union(set(sent_labels))
