@@ -1,0 +1,350 @@
+device: cuda:0
+seed: 2021
+dataset: ontonotes_conll
+data_dir: dataset/ontonotes_conll
+percent_filename_suffix: 50
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 10
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/ontonotes_conll/transformers_trainer_random_no_context_50_2021
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: random
+template: no_context
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/ontonotes_conll/train_50.txt
+dataset/ontonotes_conll/dev.txt
+dataset/ontonotes_conll/test.txt[0m
+[Data Info] Reading file: dataset/ontonotes_conll/train_50.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'B-MISC': 2, 'E-MISC': 3, 'I-MISC': 4, 'S-MISC': 5, 'B-ORG': 6, 'I-ORG': 7, 'E-ORG': 8, 'S-ORG': 9, 'B-PER': 10, 'E-PER': 11, 'S-LOC': 12, 'S-PER': 13, 'I-PER': 14, 'B-LOC': 15, 'E-LOC': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['In', 'recent', 'years', ',', 'advanced', 'education', 'for', 'professionals', 'has', 'become', 'a', 'hot', 'topic', 'in', 'the', 'business', 'community', '.'][0m
+[33mPrompt 0: ['the', 'past', 'two', 'years', 'is', 'MISC', '.', '[SEP]', 'Ke', '##llo', '##gg', "'", 's', 'is', 'ORG', '.', '[SEP]', 'Lia', '##o', 'Ching', '-', 'j', '##ong', 'is', 'PER', '.', '[SEP]', 'Japan', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 5: ['Two', 'years', 'ago', ',', 'National', 'Chiaotung', 'University', 'invited', 'Chang', ',', 'one', 'of', 'the', 'Taiwan', 'IT', 'sector', "'s", 'most', 'prominent', 'success', 'stories', ',', 'to', 'lecture', 'to', 'students', 'in', 'its', 'MBA', 'program', 'for', 'top', 'managers', ',', 'single', '-', 'handedly', 'raising', 'awareness', 'of', 'executive', 'MBA', '-LRB-', 'EMBA', '-RRB-', 'programs', '.'][0m
+[33mPrompt 5: ['500', 'is', 'MISC', '.', '[SEP]', 'National', 'Sun', 'Ya', '##t', '-', 'se', '##n', 'University', 'is', 'ORG', '.', '[SEP]', 'Chang', 'Chin', '-', 't', '##sun', '##g', 'is', 'PER', '.', '[SEP]', 'Japan', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 10: ['In', 'addition', ',', 'the', 'MOE', 'allowed', 'universities', 'to', 'determine', 'entrance', 'examination', 'topics', ',', 'testing', 'dates', 'and', 'times', ',', 'and', 'fee', 'structures', 'individually', 'to', 'help', 'them', 'find', 'and', 'obtain', 'the', 'best', 'students', '.'][0m
+[33mPrompt 10: ['Taiwanese', 'is', 'MISC', '.', '[SEP]', 'National', 'Taiwan', 'University', 'of', 'Science', 'and', 'Technology', 'is', 'ORG', '.', '[SEP]', 'Wu', 'is', 'PER', '.', '[SEP]', 'Japan', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 15: ['Similarly', ',', 'nine', 'graduate', 'institutes', 'at', 'NTU', ',', 'including', 'mechanical', 'engineering', ',', 'Three', 'Principles', 'of', 'the', 'People', ',', 'and', 'biology', ',', 'opened', 'degree', 'programs', 'to', 'professionals', 'last', 'year', '.'][0m
+[33mPrompt 15: ['last', 'year', 'is', 'MISC', '.', '[SEP]', 'N', '##TU', 'is', 'ORG', '.', '[SEP]', 'Lee', 'is', 'PER', '.', '[SEP]', 'Hong', 'Kong', 'early', 'one', 'Friday', 'morning', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Currently', ',', 'around', 'a', 'dozen', 'public', 'and', 'private', 'universities', 'in', 'Taiwan', ',', 'including', 'NTU', ',', 'National', 'Chiaotung', 'University', ',', 'National', 'Sun', 'Yat', '-', 'sen', 'University', ',', 'Da', '-', 'Yeh', 'Institute', 'of', 'Technology', ',', 'and', 'Yuan', '-', 'Ze', 'Institute', 'of', 'Technology', ',', 'offer', 'advanced', 'degree', 'programs', 'for', 'executive', 'management', 'personnel', '.'][0m
+[33mPrompt 20: ['30', 'is', 'MISC', '.', '[SEP]', 'N', '##TU', 'is', 'ORG', '.', '[SEP]', 'Tang', 'Ming', '-', 'j', '##e', 'is', 'PER', '.', '[SEP]', 'H', '##sin', '##chu', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 25: ['Other', 'management', 'experts', 'note', 'that', 'once', 'Taiwan', 'joins', 'the', 'World', 'Trade', 'Organization', '-LRB-', 'WTO', '-RRB-', ',', 'foreign', 'universities', 'will', 'be', 'able', 'to', 'recruit', 'students', 'directly', 'in', 'Taiwan', ',', 'and', 'that', 'with', 'the', 'Ministry', 'of', 'Education', 'asking', 'national', 'universities', 'to', 'come', 'up', 'with', 'a', 'portion', 'of', 'their', 'own', 'funding', ',', 'universities', 'are', 'doubly', 'motivated', 'to', 'establish', 'programs', 'of', 'this', 'sort', '.'][0m
+[33mPrompt 25: ['This', 'year', 'is', 'MISC', '.', '[SEP]', 'Yuan', '-', 'Z', '##e', 'Institute', 'of', 'Technology', 'is', 'ORG', '.', '[SEP]', 'Wu', 'Se', '-', 'h', '##wa', 'is', 'PER', '.', '[SEP]', 'H', '##sin', '##chu', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 30: ['Lee', ',', 'who', 'has', 'also', 'taken', 'short', '-', 'term', 'management', 'courses', ',', 'says', ',', '"', 'Degree', 'programs', 'are', 'better', ',', 'since', 'the', 'pressure', 'makes', 'you', 'grow', '.', '"'][0m
+[33mPrompt 30: ['that', 'day', 'of', 'the', 'week', 'is', 'MISC', '.', '[SEP]', 'Ace', '##r', 'Group', 'is', 'ORG', '.', '[SEP]', 'Wu', 'is', 'PER', '.', '[SEP]', 'Lu', '##ng', '##tan', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 35: ['Chang', 'Chin', '-', 'tsung', ',', 'a', 'researcher', 'at', 'the', 'Chung', '-', 'Shan', 'Institute', 'of', 'Science', '&', 'Technology', 'with', 'a', 'Ph.D.', 'in', 'mechanical', 'engineering', 'from', 'a', 'US', 'university', ',', 'shuttles', 'between', 'his', 'office', 'in', 'Taoyuan', 's', 'Lungtan', 'and', 'the', 'NTU', 'campus', 'three', 'days', 'each', 'week', '.'][0m
+[33mPrompt 35: ['MBA', 'is', 'MISC', '.', '[SEP]', 'National', 'Chi', '##ao', '##tun', '##g', 'University', 'is', 'ORG', '.', '[SEP]', 'H', '##sie', '##h', 'Sun', '-', 'ch', '##i', 'is', 'PER', '.', '[SEP]', 'Taiwan', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 40: ['Advanced', 'training', 'for', 'professionals', 'has', 'become', 'a', 'hot', 'topic', 'among', 'executives', 'over', 'the', 'past', 'two', 'years', ',', 'but', 'continuing', 'education', 'is', 'nothing', 'new', 'among', 'Taiwan', "'s", 'universities', '.'][0m
+[33mPrompt 40: ['10', 'is', 'MISC', '.', '[SEP]', 'W', '##TO', 'is', 'ORG', '.', '[SEP]', 'Stan', 'Shi', '##h', 'is', 'PER', '.', '[SEP]', 'H', '##sin', '##chu', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 45: ['Meanwhile', ',', 'some', 'become', 'highway', 'speeders', ',', 'rushing', 'from', 'Taoyuan', 'or', 'Hsinchu', 'to', 'attend', 'class', '.'][0m
+[33mPrompt 45: ['34', 'is', 'MISC', '.', '[SEP]', 'AB', '##BA', 'Line', '##ar', 'Tech', 'Co', '.', ',', 'Ltd', '.', 'is', 'ORG', '.', '[SEP]', 'Morris', 'Chang', 'is', 'PER', '.', '[SEP]', 'Taiwan', 'is', 'LOC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/ontonotes_conll/train_50.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'B-MISC': 2, 'E-MISC': 3, 'I-MISC': 4, 'S-MISC': 5, 'B-ORG': 6, 'I-ORG': 7, 'E-ORG': 8, 'S-ORG': 9, 'B-PER': 10, 'E-PER': 11, 'S-LOC': 12, 'S-PER': 13, 'I-PER': 14, 'B-LOC': 15, 'E-LOC': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['In', 'recent', 'years', ',', 'advanced', 'education', 'for', 'professionals', 'has', 'become', 'a', 'hot', 'topic', 'in', 'the', 'business', 'community', '.'][0m
+[33mPrompt 0: ['Twelve', 'is', 'MISC', '.', '[SEP]', 'N', '##TU', '##ST', 'Graduate', 'School', 'of', 'Management', 'is', 'ORG', '.', '[SEP]', 'Wu', 'is', 'PER', '.', '[SEP]', 'Hong', 'Kong', 'early', 'one', 'Friday', 'morning', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 5: ['Two', 'years', 'ago', ',', 'National', 'Chiaotung', 'University', 'invited', 'Chang', ',', 'one', 'of', 'the', 'Taiwan', 'IT', 'sector', "'s", 'most', 'prominent', 'success', 'stories', ',', 'to', 'lecture', 'to', 'students', 'in', 'its', 'MBA', 'program', 'for', 'top', 'managers', ',', 'single', '-', 'handedly', 'raising', 'awareness', 'of', 'executive', 'MBA', '-LRB-', 'EMBA', '-RRB-', 'programs', '.'][0m
+[33mPrompt 5: ['10', 'is', 'MISC', '.', '[SEP]', 'Da', '-', 'Ye', '##h', 'Institute', 'of', 'Technology', 'is', 'ORG', '.', '[SEP]', 'Lee', 'is', 'PER', '.', '[SEP]', 'the', 'United', 'States', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 10: ['In', 'addition', ',', 'the', 'MOE', 'allowed', 'universities', 'to', 'determine', 'entrance', 'examination', 'topics', ',', 'testing', 'dates', 'and', 'times', ',', 'and', 'fee', 'structures', 'individually', 'to', 'help', 'them', 'find', 'and', 'obtain', 'the', 'best', 'students', '.'][0m
+[33mPrompt 10: ['167', 'is', 'MISC', '.', '[SEP]', 'National', 'Cheng', '##chi', 'University', 'is', 'ORG', '.', '[SEP]', 'Lia', '##o', 'Ching', '-', 'j', '##ong', 'is', 'PER', '.', '[SEP]', 'the', 'United', 'States', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 15: ['Similarly', ',', 'nine', 'graduate', 'institutes', 'at', 'NTU', ',', 'including', 'mechanical', 'engineering', ',', 'Three', 'Principles', 'of', 'the', 'People', ',', 'and', 'biology', ',', 'opened', 'degree', 'programs', 'to', 'professionals', 'last', 'year', '.'][0m
+[33mPrompt 15: ['Two', 'years', 'ago', 'is', 'MISC', '.', '[SEP]', 'National', 'Chi', '##ao', '##tun', '##g', 'University', 'is', 'ORG', '.', '[SEP]', 'Mo', '##uto', '##n', 'Lee', 'is', 'PER', '.', '[SEP]', 'the', 'United', 'States', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Currently', ',', 'around', 'a', 'dozen', 'public', 'and', 'private', 'universities', 'in', 'Taiwan', ',', 'including', 'NTU', ',', 'National', 'Chiaotung', 'University', ',', 'National', 'Sun', 'Yat', '-', 'sen', 'University', ',', 'Da', '-', 'Yeh', 'Institute', 'of', 'Technology', ',', 'and', 'Yuan', '-', 'Ze', 'Institute', 'of', 'Technology', ',', 'offer', 'advanced', 'degree', 'programs', 'for', 'executive', 'management', 'personnel', '.'][0m
+[33mPrompt 20: ['the', 'start', 'of', 'the', 'semester', 'is', 'MISC', '.', '[SEP]', 'Ace', '##r', 'Group', 'is', 'ORG', '.', '[SEP]', 'Lia', '##o', 'Ching', '-', 'j', '##ong', 'is', 'PER', '.', '[SEP]', 'Hong', 'Kong', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 25: ['Other', 'management', 'experts', 'note', 'that', 'once', 'Taiwan', 'joins', 'the', 'World', 'Trade', 'Organization', '-LRB-', 'WTO', '-RRB-', ',', 'foreign', 'universities', 'will', 'be', 'able', 'to', 'recruit', 'students', 'directly', 'in', 'Taiwan', ',', 'and', 'that', 'with', 'the', 'Ministry', 'of', 'Education', 'asking', 'national', 'universities', 'to', 'come', 'up', 'with', 'a', 'portion', 'of', 'their', 'own', 'funding', ',', 'universities', 'are', 'doubly', 'motivated', 'to', 'establish', 'programs', 'of', 'this', 'sort', '.'][0m
+[33mPrompt 25: ['around', 'a', 'dozen', 'is', 'MISC', '.', '[SEP]', 'Yuan', '-', 'Z', '##e', 'Institute', 'of', 'Technology', 'is', 'ORG', '.', '[SEP]', 'Mo', '##rna', 'Lee', 'is', 'PER', '.', '[SEP]', 'Tao', '##yuan', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 30: ['Lee', ',', 'who', 'has', 'also', 'taken', 'short', '-', 'term', 'management', 'courses', ',', 'says', ',', '"', 'Degree', 'programs', 'are', 'better', ',', 'since', 'the', 'pressure', 'makes', 'you', 'grow', '.', '"'][0m
+[33mPrompt 30: ['First', 'is', 'MISC', '.', '[SEP]', 'National', 'Cheng', '##chi', 'University', "'", 's', 'College', 'of', 'Commerce', 'is', 'ORG', '.', '[SEP]', 'Chang', 'is', 'PER', '.', '[SEP]', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 35: ['Chang', 'Chin', '-', 'tsung', ',', 'a', 'researcher', 'at', 'the', 'Chung', '-', 'Shan', 'Institute', 'of', 'Science', '&', 'Technology', 'with', 'a', 'Ph.D.', 'in', 'mechanical', 'engineering', 'from', 'a', 'US', 'university', ',', 'shuttles', 'between', 'his', 'office', 'in', 'Taoyuan', 's', 'Lungtan', 'and', 'the', 'NTU', 'campus', 'three', 'days', 'each', 'week', '.'][0m
+[33mPrompt 35: ['Chinese', 'is', 'MISC', '.', '[SEP]', 'the', 'Institute', 'of', 'Mechanical', 'Engineering', 'is', 'ORG', '.', '[SEP]', 'Chang', 'is', 'PER', '.', '[SEP]', 'Taiwan', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 40: ['Advanced', 'training', 'for', 'professionals', 'has', 'become', 'a', 'hot', 'topic', 'among', 'executives', 'over', 'the', 'past', 'two', 'years', ',', 'but', 'continuing', 'education', 'is', 'nothing', 'new', 'among', 'Taiwan', "'s", 'universities', '.'][0m
+[33mPrompt 40: ['first', 'is', 'MISC', '.', '[SEP]', 'Ace', '##r', 'Group', 'is', 'ORG', '.', '[SEP]', 'Lia', '##o', 'Ching', '-', 'j', '##ong', 'is', 'PER', '.', '[SEP]', 'Hong', 'Kong', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 45: ['Meanwhile', ',', 'some', 'become', 'highway', 'speeders', ',', 'rushing', 'from', 'Taoyuan', 'or', 'Hsinchu', 'to', 'attend', 'class', '.'][0m
+[33mPrompt 45: ['around', 'a', 'dozen', 'is', 'MISC', '.', '[SEP]', 'Ke', '##llo', '##gg', "'", 's', 'is', 'ORG', '.', '[SEP]', 'Stan', 'Shi', '##h', 'is', 'PER', '.', '[SEP]', 'Taiwan', 'is', 'LOC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/ontonotes_conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 7602
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['President', 'Chen', 'Travels', 'Abroad'][0m
+[33mPrompt 0: ['50', 'is', 'MISC', '.', '[SEP]', 'National', 'Cheng', '##chi', 'University', "'", 's', 'College', 'of', 'Commerce', 'is', 'ORG', '.', '[SEP]', 'Mo', '##uto', '##n', 'Lee', 'is', 'PER', '.', '[SEP]', 'Hong', 'Kong', 'early', 'one', 'Friday', 'morning', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 760: ['First', 'of', 'all', 'here', "'s", 'a', 'quick', 'track', 'of', 'some', 'of', 'the', 'stories', 'we', "'re", 'following', 'tonight', '/.'][0m
+[33mPrompt 760: ['1', 'is', 'MISC', '.', '[SEP]', 'Ministry', 'of', 'Education', 'is', 'ORG', '.', '[SEP]', 'Lia', '##o', 'Ching', '-', 'j', '##ong', 'is', 'PER', '.', '[SEP]', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 1520: ['Yes', ',', 'there', 'is', 'a', '100', 'year', '-', 'old', 'Israeli', '-', 'Arab', 'conflict', ','][0m
+[33mPrompt 1520: ['Twelve', 'is', 'MISC', '.', '[SEP]', 'N', '##TU', '##ST', 'Graduate', 'School', 'of', 'Management', 'is', 'ORG', '.', '[SEP]', 'Wu', 'is', 'PER', '.', '[SEP]', 'Hong', 'Kong', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 2280: ['The', 'stressful', ',', 'monumental', 'task', 'for', 'the', 'crew', 'on', 'the', 'U.S.', 'carrier', 'suffered', 'a', 'setback', '.'][0m
+[33mPrompt 2280: ['Twelve', 'is', 'MISC', '.', '[SEP]', 'N', '##TU', '##ST', 'Graduate', 'School', 'of', 'Management', 'is', 'ORG', '.', '[SEP]', 'Chang', 'is', 'PER', '.', '[SEP]', 'Taiwan', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 3040: ['For', 'the', 'first', 'time', ',', 'with', 'the', '``', 'Cole', "''", 'out', 'of', 'the', 'water', ',', 'the', 'full', 'impact', 'of', 'the', 'catastrophic', 'blast', 'clearly', 'visible', '.'][0m
+[33mPrompt 3040: ['Silicon', 'Valley', 'is', 'MISC', '.', '[SEP]', 'College', 'of', 'Management', 'is', 'ORG', '.', '[SEP]', 'Lia', '##o', 'Ching', '-', 'j', '##ong', 'is', 'PER', '.', '[SEP]', 'the', 'United', 'States', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 3800: ['The', 'total', 'marks', 'the', 'sixth', 'consecutive', 'monthly', 'decline', '.'][0m
+[33mPrompt 3800: ['Thursday', 'is', 'MISC', '.', '[SEP]', 'National', 'Cheng', '##chi', 'University', 'is', 'ORG', '.', '[SEP]', 'H', '##sie', '##h', 'Sun', '-', 'ch', '##i', 'is', 'PER', '.', '[SEP]', 'Hong', 'Kong', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 4560: ['In', 'an', 'interview', ',', 'Mr.', 'Bernstein', 'said', 'his', 'departure', '``', 'evolved', 'out', 'of', 'discussions', 'with', 'Si', 'Newhouse', 'and', 'that', "'s", 'the', 'decision', 'I', 'reached', '.', "''"][0m
+[33mPrompt 4560: ['around', 'a', 'dozen', 'is', 'MISC', '.', '[SEP]', 'National', 'Taiwan', 'University', 'is', 'ORG', '.', '[SEP]', 'Tang', 'Ming', '-', 'j', '##e', 'is', 'PER', '.', '[SEP]', 'H', '##sin', '##chu', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 5320: ['Thursday', "'s", 'report', 'on', 'the', 'September', 'consumer', 'price', 'index', 'is', 'expected', 'to', 'rise', ',', 'although', 'not', 'as', 'sharply', 'as', 'the', '0.9', '%', 'gain', 'reported', 'Friday', 'in', 'the', 'producer', 'price', 'index', '.'][0m
+[33mPrompt 5320: ['ten', 'years', 'is', 'MISC', '.', '[SEP]', '-', 'National', 'Taiwan', 'University', '-', 'is', 'ORG', '.', '[SEP]', 'Mo', '##rna', 'Lee', 'is', 'PER', '.', '[SEP]', 'Tao', '##yuan', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 6080: ['Well', 'before', 'Campeau', ',', 'though', ',', 'there', 'were', 'signs', 'that', 'the', 'junk', 'market', 'was', 'stumbling', 'through', 'one', 'of', 'its', 'worst', 'years', 'ever', '.'][0m
+[33mPrompt 6080: ['the', 'past', 'two', 'years', 'is', 'MISC', '.', '[SEP]', 'N', '##TU', '##ST', 'College', 'of', 'Management', 'is', 'ORG', '.', '[SEP]', 'Chang', 'Chin', '-', 't', '##sun', '##g', 'is', 'PER', '.', '[SEP]', 'the', 'United', 'States', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 6840: ['Fidelity', ',', 'for', 'example', ',', 'prepared', 'ads', 'several', 'months', 'ago', 'in', 'case', 'of', 'a', 'market', 'plunge', '.'][0m
+[33mPrompt 6840: ['N', '##T', '$', '1', 'million', 'is', 'MISC', '.', '[SEP]', 'the', 'Institute', 'of', 'Fi', '##ber', 'is', 'ORG', '.', '[SEP]', 'Stan', 'Shi', '##h', 'is', 'PER', '.', '[SEP]', 'Lu', '##ng', '##tan', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 7600: ['Henceforth', ',', 'the', 'focus', 'of', 'national', 'economic', 'construction', 'will', 'be', 'gradually', 'transferred', 'to', 'the', 'Mid-west', 'in', 'steps', ',', 'and', 'has', 'reinforced', 'support', 'for', 'foreign', 'investment', 'utilization', 'in', 'the', 'Mid-west', 'areas', ',', 'and', 'fundamental', 'industries', 'such', 'as', 'agriculture', ',', 'transportation', ',', 'raw', 'materials', ',', 'etc.', 'are', 'still', 'the', 'focus', 'of', 'investments', '.'][0m
+[33mPrompt 7600: ['This', 'year', 'is', 'MISC', '.', '[SEP]', 'AB', '##BA', 'Line', '##ar', 'Tech', 'Co', '.', ',', 'Ltd', '.', 'is', 'ORG', '.', '[SEP]', 'Mo', '##uto', '##n', 'Lee', 'is', 'PER', '.', '[SEP]', 'the', 'United', 'States', 'is', 'LOC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/ontonotes_conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 5091
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Powerful', 'Tools', 'for', 'Biotechnology', '-', 'Biochips'][0m
+[33mPrompt 0: ['recent', 'years', 'is', 'MISC', '.', '[SEP]', 'the', 'Institute', 'of', 'Mechanical', 'Engineering', 'is', 'ORG', '.', '[SEP]', 'Mo', '##uto', '##n', 'Lee', 'is', 'PER', '.', '[SEP]', 'H', '##sin', '##chu', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 509: ['would', "n't", 'it', 'also', 'contribute', 'to', 'completely', 'connect', 'the', 'Palestinian', 'and', 'Jordanian', 'economy', 'to', 'the', 'Israeli', 'I', 'mean', ',', 'what', 'generates', 'from', 'it', ',', 'may', 'be', ',', 'of', 'demographic', ',', 'economic', 'and', 'development', 'projects', '.'][0m
+[33mPrompt 509: ['recent', 'years', 'is', 'MISC', '.', '[SEP]', 'the', 'Institute', 'of', 'Fi', '##ber', 'is', 'ORG', '.', '[SEP]', 'Lee', 'is', 'PER', '.', '[SEP]', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 1018: ['Um', 'you', 'were', 'recently', 'profiled', 'about', 'this', 'in', 'Fortune', 'magazine', '/.'][0m
+[33mPrompt 1018: ['34', 'is', 'MISC', '.', '[SEP]', 'N', '##TU', '##ST', 'College', 'of', 'Management', 'is', 'ORG', '.', '[SEP]', 'Chang', 'Chin', '-', 't', '##sun', '##g', 'is', 'PER', '.', '[SEP]', 'Hong', 'Kong', 'early', 'one', 'Friday', 'morning', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 1527: ['Taylor', ',', 'who', 'is', 'now', 'in', 'exile', 'in', 'Nigeria', ',', 'was', 'a', 'business', 'partner', 'with', 'Christian', 'Coalition', 'founder', 'Pat', 'Robertson', '...', 'in', 'a', 'Cayman', 'Islands', 'front', 'company', 'called', 'Freedom', 'Gold', ',', 'Ltd', '.'][0m
+[33mPrompt 1527: ['Taiwanese', 'is', 'MISC', '.', '[SEP]', 'Ace', '##r', 'Group', 'is', 'ORG', '.', '[SEP]', 'Chang', 'is', 'PER', '.', '[SEP]', 'Japan', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 2036: ['Saddam', 'Hussein', ':', 'I', 'have', 'only', 'honor', 'left', 'and', 'honor', 'can', 'not', 'be', 'sold', 'or', 'bought', '.'][0m
+[33mPrompt 2036: ['30', 'is', 'MISC', '.', '[SEP]', '-', 'National', 'Taiwan', 'University', '-', 'is', 'ORG', '.', '[SEP]', 'Wu', 'Se', '-', 'h', '##wa', 'is', 'PER', '.', '[SEP]', 'Tao', '##yuan', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 2545: ['The', 'FBI', 'says', 'when', 'they', 'questioned', 'him', ',', 'he', 'told', 'them', 'of', 'another', 'plot', 'to', 'bomb', 'an', 'American', 'ship', 'in', 'Yemen', ',', 'where', 'the', '``', 'USS', 'Cole', "''", 'was', 'ultimately', 'attacked', '.'][0m
+[33mPrompt 2545: ['second', '-', 'year', 'is', 'MISC', '.', '[SEP]', 'N', '##TU', '##ST', 'College', 'of', 'Management', 'is', 'ORG', '.', '[SEP]', 'Stan', 'Shi', '##h', 'is', 'PER', '.', '[SEP]', 'the', 'United', 'States', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 3054: ['If', 'the', 'workers', 'do', "n't", 'approve', 'the', 'steep', 'cutbacks', 'American', 'says', 'it', 'will', 'file', 'for', 'bankruptcy', '.'][0m
+[33mPrompt 3054: ['Two', 'years', 'ago', 'is', 'MISC', '.', '[SEP]', 'N', '##TU', '##ST', 'Graduate', 'School', 'of', 'Management', 'is', 'ORG', '.', '[SEP]', 'Chang', 'Chin', '-', 't', '##sun', '##g', 'is', 'PER', '.', '[SEP]', 'Hong', 'Kong', 'early', 'one', 'Friday', 'morning', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 3563: ['However', ',', 'Time', 'executives', 'used', 'the', 'same', 'explanation', 'when', 'in', 'October', '1988', 'the', 'magazine', 'cut', 'its', 'guaranteed', 'circulation', 'from', '4.6', 'million', 'to', '4.3', 'million', '.'][0m
+[33mPrompt 3563: ['the', 'start', 'of', 'the', 'semester', 'is', 'MISC', '.', '[SEP]', 'National', 'Sun', 'Ya', '##t', '-', 'se', '##n', 'University', 'is', 'ORG', '.', '[SEP]', 'Wu', 'Se', '-', 'h', '##wa', 'is', 'PER', '.', '[SEP]', 'Japan', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 4072: ['CNN', 'executives', 'hope', 'the', 'headlines', 'created', 'by', 'such', 'scoops', 'will', 'generate', 'excitement', 'for', 'its', '``', 'branded', "''", 'programs', ',', 'in', 'the', 'way', '``', '60', 'Minutes', "''", 'did', 'so', 'well', 'for', 'CBS', '.'][0m
+[33mPrompt 4072: ['Twelve', 'is', 'MISC', '.', '[SEP]', 'Ace', '##r', 'Group', 'is', 'ORG', '.', '[SEP]', 'Wu', 'is', 'PER', '.', '[SEP]', 'Taiwan', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 4581: ['He', 'has', 'said', 'that', 'he', 'now', 'knows', 'how', 'Justice', 'John', 'Harlan', 'felt', ',', 'a', 'reference', 'to', 'the', 'late', 'conservative', 'justice', 'who', 'was', 'the', 'most', 'frequent', 'dissenter', 'from', 'the', 'Warren', 'Court', "'s", 'opinions', '.'][0m
+[33mPrompt 4581: ['three', 'is', 'MISC', '.', '[SEP]', 'AB', '##BA', 'Line', '##ar', 'Tech', 'Co', '.', ',', 'Ltd', '.', 'is', 'ORG', '.', '[SEP]', 'Lia', '##o', 'Ching', '-', 'j', '##ong', 'is', 'PER', '.', '[SEP]', 'US', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 5090: ['Picture', 'taken', 'by', 'Xinhua', 'News', 'Agency', 'reporter', 'Shengnan', 'Li'][0m
+[33mPrompt 5090: ['80', 'is', 'MISC', '.', '[SEP]', 'the', 'Institute', 'of', 'Fi', '##ber', 'is', 'ORG', '.', '[SEP]', 'Lee', 'is', 'PER', '.', '[SEP]', 'Japan', 'is', 'LOC', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 5
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/ontonotes_conll/transformers_trainer_random_no_context_50_2021.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 4655.49585, Time is 1.25s
+[34m[dev set Total] Prec.: 0.08, Rec.: 0.75, F1: 0.15[0m
+saving the best model...
+Epoch 2: 2615.26349, Time is 1.15s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 3: 1794.50122, Time is 1.11s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 4: 1557.19141, Time is 1.11s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 5: 1340.41541, Time is 1.07s
+[34m[dev set Total] Prec.: 0.22, Rec.: 0.01, F1: 0.02[0m
+Epoch 6: 1130.92249, Time is 1.09s
+[34m[dev set Total] Prec.: 0.65, Rec.: 0.08, F1: 0.15[0m
+Epoch 7: 925.59814, Time is 1.10s
+[34m[dev set Total] Prec.: 2.40, Rec.: 0.70, F1: 1.09[0m
+saving the best model...
+Epoch 8: 749.99548, Time is 1.12s
+[34m[dev set Total] Prec.: 6.94, Rec.: 2.33, F1: 3.49[0m
+saving the best model...
+Epoch 9: 608.73145, Time is 1.22s
+[34m[dev set Total] Prec.: 11.05, Rec.: 7.07, F1: 8.63[0m
+saving the best model...
+Epoch 10: 496.66553, Time is 1.14s
+[34m[dev set Total] Prec.: 14.65, Rec.: 10.16, F1: 12.00[0m
+saving the best model...
+Epoch 11: 388.22253, Time is 1.15s
+[34m[dev set Total] Prec.: 18.52, Rec.: 11.35, F1: 14.08[0m
+saving the best model...
+Epoch 12: 299.36316, Time is 1.17s
+[34m[dev set Total] Prec.: 21.24, Rec.: 14.47, F1: 17.22[0m
+saving the best model...
+Epoch 13: 231.96631, Time is 1.16s
+[34m[dev set Total] Prec.: 23.91, Rec.: 16.45, F1: 19.49[0m
+saving the best model...
+Epoch 14: 174.85913, Time is 1.16s
+[34m[dev set Total] Prec.: 26.26, Rec.: 19.77, F1: 22.56[0m
+saving the best model...
+Epoch 15: 136.31006, Time is 1.16s
+[34m[dev set Total] Prec.: 27.91, Rec.: 22.88, F1: 25.15[0m
+saving the best model...
+Epoch 16: 100.73193, Time is 1.14s
+[34m[dev set Total] Prec.: 30.32, Rec.: 24.04, F1: 26.82[0m
+saving the best model...
+Epoch 17: 72.72876, Time is 1.15s
+[34m[dev set Total] Prec.: 32.26, Rec.: 26.39, F1: 29.03[0m
+saving the best model...
+Epoch 18: 51.68970, Time is 1.14s
+[34m[dev set Total] Prec.: 33.54, Rec.: 29.48, F1: 31.37[0m
+saving the best model...
+Epoch 19: 39.22461, Time is 1.13s
+[34m[dev set Total] Prec.: 34.25, Rec.: 32.53, F1: 33.37[0m
+saving the best model...
+Epoch 20: 28.30005, Time is 1.15s
+[34m[dev set Total] Prec.: 35.57, Rec.: 34.15, F1: 34.84[0m
+saving the best model...
+Epoch 21: 21.64185, Time is 1.12s
+[34m[dev set Total] Prec.: 36.99, Rec.: 34.74, F1: 35.83[0m
+saving the best model...
+Epoch 22: 15.66382, Time is 1.16s
+[34m[dev set Total] Prec.: 38.66, Rec.: 35.69, F1: 37.12[0m
+saving the best model...
+Epoch 23: 11.61694, Time is 1.27s
+[34m[dev set Total] Prec.: 39.64, Rec.: 35.61, F1: 37.52[0m
+saving the best model...
+Epoch 24: 8.82520, Time is 1.13s
+[34m[dev set Total] Prec.: 40.44, Rec.: 37.92, F1: 39.14[0m
+saving the best model...
+Epoch 25: 6.93359, Time is 1.14s
+[34m[dev set Total] Prec.: 41.22, Rec.: 38.36, F1: 39.74[0m
+saving the best model...
+Epoch 26: 5.45654, Time is 1.16s
+[34m[dev set Total] Prec.: 42.41, Rec.: 37.43, F1: 39.77[0m
+saving the best model...
+Epoch 27: 4.52759, Time is 1.15s
+[34m[dev set Total] Prec.: 42.62, Rec.: 38.65, F1: 40.54[0m
+saving the best model...
+Epoch 28: 4.47681, Time is 1.15s
+[34m[dev set Total] Prec.: 42.36, Rec.: 40.25, F1: 41.28[0m
+saving the best model...
+Epoch 29: 3.03418, Time is 1.14s
+[34m[dev set Total] Prec.: 42.66, Rec.: 40.73, F1: 41.67[0m
+saving the best model...
+Epoch 30: 2.56665, Time is 1.14s
+[34m[dev set Total] Prec.: 42.85, Rec.: 40.21, F1: 41.49[0m
+Epoch 31: 5.60571, Time is 1.09s
+[34m[dev set Total] Prec.: 43.29, Rec.: 39.73, F1: 41.44[0m
+Epoch 32: 1.96484, Time is 1.11s
+[34m[dev set Total] Prec.: 43.81, Rec.: 41.43, F1: 42.58[0m
+saving the best model...
+Epoch 33: 1.74194, Time is 1.12s
+[34m[dev set Total] Prec.: 43.54, Rec.: 43.00, F1: 43.27[0m
+saving the best model...
+Epoch 34: 1.53491, Time is 1.14s
+[34m[dev set Total] Prec.: 43.30, Rec.: 42.50, F1: 42.90[0m
+Epoch 35: 1.35913, Time is 1.11s
+[34m[dev set Total] Prec.: 43.14, Rec.: 42.66, F1: 42.90[0m
+Epoch 36: 1.30273, Time is 1.11s
+[34m[dev set Total] Prec.: 43.95, Rec.: 42.96, F1: 43.45[0m
+saving the best model...
+Epoch 37: 1.11304, Time is 1.15s
+[34m[dev set Total] Prec.: 44.38, Rec.: 43.28, F1: 43.82[0m
+saving the best model...
+Epoch 38: 1.04688, Time is 1.13s
+[34m[dev set Total] Prec.: 44.66, Rec.: 43.61, F1: 44.13[0m
+saving the best model...
+Epoch 39: 0.96851, Time is 1.13s
+[34m[dev set Total] Prec.: 44.72, Rec.: 43.03, F1: 43.85[0m
+Epoch 40: 0.85645, Time is 1.08s
+[34m[dev set Total] Prec.: 44.90, Rec.: 42.84, F1: 43.84[0m
+Epoch 41: 0.82764, Time is 1.12s
+[34m[dev set Total] Prec.: 44.77, Rec.: 42.62, F1: 43.67[0m
+Epoch 42: 0.76123, Time is 1.15s
+[34m[dev set Total] Prec.: 44.81, Rec.: 42.66, F1: 43.71[0m
+Epoch 43: 0.73291, Time is 1.10s
+[34m[dev set Total] Prec.: 44.71, Rec.: 43.09, F1: 43.89[0m
+Epoch 44: 0.71094, Time is 1.08s
+[34m[dev set Total] Prec.: 44.34, Rec.: 43.78, F1: 44.06[0m
+Epoch 45: 0.68164, Time is 1.09s
+[34m[dev set Total] Prec.: 44.26, Rec.: 44.22, F1: 44.24[0m
+saving the best model...
+Epoch 46: 0.66064, Time is 1.15s
+[34m[dev set Total] Prec.: 44.41, Rec.: 44.33, F1: 44.37[0m
+saving the best model...
+Epoch 47: 0.63965, Time is 1.13s
+[34m[dev set Total] Prec.: 44.73, Rec.: 44.12, F1: 44.42[0m
+saving the best model...
+Epoch 48: 0.61206, Time is 1.12s
+[34m[dev set Total] Prec.: 44.88, Rec.: 43.98, F1: 44.42[0m
+saving the best model...
+Epoch 49: 0.62622, Time is 1.14s
+[34m[dev set Total] Prec.: 45.02, Rec.: 43.94, F1: 44.47[0m
+saving the best model...
+Epoch 50: 0.62720, Time is 1.13s
+[34m[dev set Total] Prec.: 45.05, Rec.: 43.93, F1: 44.49[0m
+saving the best model...
+Archiving the best Model...
+Finished archiving the models
+The best dev: 44.49
+Final testing.
+[34m[test set Total] Prec.: 43.42, Rec.: 43.35, F1: 43.38[0m

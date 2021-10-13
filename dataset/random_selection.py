@@ -4,9 +4,9 @@ import numpy
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--data', type=str, default='conll/train_all.txt', help="text file - dataset")
-parser.add_argument('--target_data', type=str, default='conll/train_25_1337.txt', help="text file - dataset")
-parser.add_argument('--number', type=int, default=25, help="number of sentences in dataset")
-parser.add_argument('--seed', type=int, default=1337, help="number of sentences in dataset")
+parser.add_argument('--target_data', type=str, default='conll/train_50_5555.txt', help="text file - dataset")
+parser.add_argument('--number', type=int, default=50, help="number of sentences in dataset")
+parser.add_argument('--seed', type=int, default=5555, help="number of sentences in dataset")
 
 args = parser.parse_known_args()[0]
 

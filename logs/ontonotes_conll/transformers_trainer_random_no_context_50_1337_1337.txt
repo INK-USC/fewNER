@@ -1,0 +1,351 @@
+device: cuda:0
+seed: 1337
+dataset: ontonotes_conll
+data_dir: dataset/ontonotes_conll
+percent_filename_suffix: 50_1337
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 10
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/ontonotes_conll/transformers_trainer_random_no_context_50_1337_1337
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: random
+template: no_context
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/ontonotes_conll/train_50_1337.txt
+dataset/ontonotes_conll/dev.txt
+dataset/ontonotes_conll/test.txt[0m
+[Data Info] Reading file: dataset/ontonotes_conll/train_50_1337.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'S-ORG': 2, 'B-ORG': 3, 'E-ORG': 4, 'S-MISC': 5, 'B-MISC': 6, 'E-MISC': 7, 'S-LOC': 8, 'I-MISC': 9, 'B-LOC': 10, 'E-LOC': 11, 'I-ORG': 12, 'B-PER': 13, 'E-PER': 14, 'S-PER': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['but', 'if', 'VDOT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', "n't", 'know', 'what', 'would', 'happen', '.'][0m
+[33mPrompt 0: ['A', '##EG', 'is', 'ORG', '.', '[SEP]', 'a', 'generation', 'later', 'is', 'MISC', '.', '[SEP]', 'Turkish', 'is', 'LOC', '.', '[SEP]', 'Richard', 'Clarke', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 5: ['The', 'implicit', 'price', 'deflator', ',', 'a', 'measure', 'of', 'inflation', ',', 'was', 'down', 'to', 'a', '2.9', '%', 'annual', 'rate', 'of', 'increase', 'in', 'the', 'quarter', 'from', 'a', '4.6', '%', 'rate', 'of', 'gain', 'in', 'the', 'second', 'quarter', '.'][0m
+[33mPrompt 5: ['V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', '$', '11', '.', '8', 'million', 'is', 'MISC', '.', '[SEP]', 'Rama', '##llah', 'is', 'LOC', '.', '[SEP]', 'Ji', '##an', 'Song', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 10: ['``', 'People', 'think', 'of', 'the', 'steel', 'business', 'as', 'an', 'old', 'and', 'mundane', 'smokestack', 'business', ',', "''", 'says', 'Mr.', 'Iverson', '.'][0m
+[33mPrompt 10: ['G', '##run', '##tal', 'is', 'ORG', '.', '[SEP]', '2', '.', '9', '%', 'is', 'MISC', '.', '[SEP]', 'Rama', '##llah', 'is', 'LOC', '.', '[SEP]', 'I', '##vers', '##on', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 15: ['The', 'first', 'is', 'to', 'point', 'out', 'that', 'Letting', 'Them', 'Go', '-', 'in', 'which', 'the', 'protagonist', 'of', 'every', 'story', 'is', 'an', 'elderly', 'person', '-', 'is', 'entirely', 'of', 'a', 'piece', 'with', 'his', 'other', 'work', '.'][0m
+[33mPrompt 15: ['House', 'is', 'ORG', '.', '[SEP]', 'One', 'is', 'MISC', '.', '[SEP]', 'Turkish', 'is', 'LOC', '.', '[SEP]', 'Zach', '##aria', '##s', 'Le', '##wala', 'first', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Uh', ',', 'there', 'are', 'still', 'more', 'than', 'just', 'over', 'ten', 'years', 'for', 'us', 'to', 'forecast', '.'][0m
+[33mPrompt 20: ['The', 'Securities', 'and', 'Future', '##s', 'Commission', 'is', 'ORG', '.', '[SEP]', 'American', 'is', 'MISC', '.', '[SEP]', 'China', 'seven', 'is', 'LOC', '.', '[SEP]', 'Violet', '##a', 'Cha', '##mor', '##ro', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 25: ['For', 'example', ',', 'this', 'Hu', 'San', 'Niang', ',', 'with', 'all', 'her', 'loved', 'ones', 'recklessly', 'slaughtered', 'by', 'Li', 'Kui', ',', 'if', 'she', 'had', 'any', 'guts', 'at', 'all', ',', 'she', 'should', 'have', 'fought', 'it', 'out', 'with', 'that', 'guy', '.'][0m
+[33mPrompt 25: ['Pet', '##rie', 'Stores', 'is', 'ORG', '.', '[SEP]', 'Middle', 'East', 'is', 'MISC', '.', '[SEP]', 'California', 'is', 'LOC', '.', '[SEP]', 'His', '##s', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 30: ['Hayao', 'Tada', ',', 'commander', 'of', 'the', 'Japanese', 'North', 'China', 'Area', 'Army', ',', 'adopted', 'a', 'strategy', 'of', 'siege', 'warfare', 'to', 'deal', 'with', 'the', 'Eighth', 'Route', 'Army', '.'][0m
+[33mPrompt 30: ['A', '##EG', 'is', 'ORG', '.', '[SEP]', '50', '%', 'is', 'MISC', '.', '[SEP]', 'Fort', 'Worth', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 35: ['the', 'Japanese', 'they', 'turn', 'out', '.'][0m
+[33mPrompt 35: ['Pet', '##rie', 'Stores', 'is', 'ORG', '.', '[SEP]', 'less', 'than', '8', '%', 'is', 'MISC', '.', '[SEP]', 'China', 'is', 'LOC', '.', '[SEP]', 'Mike', 'Hanna', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 40: ['The', '2000', 'race', ',', 'with', 'so', 'many', 'tickets', 'contending', ',', 'reflects', 'this', 'aspiration', '.'][0m
+[33mPrompt 40: ['Islam', 'is', 'ORG', '.', '[SEP]', 'Two', 'Navy', 'is', 'MISC', '.', '[SEP]', 'Jiang', '##xi', 'Province', 'is', 'LOC', '.', '[SEP]', 'Phil', 'Gram', '##m', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 45: ['because', 'I', "'ve", 'been', 'trying', 'to', 'get', 'it', 'around', 'into', 'other', '%um', 'archives'][0m
+[33mPrompt 45: ['G', '##run', '##tal', 'is', 'ORG', '.', '[SEP]', 'the', 'Cold', 'War', 'is', 'MISC', '.', '[SEP]', 'Turkish', 'is', 'LOC', '.', '[SEP]', 'Hay', '##ao', 'Tad', '##a', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/ontonotes_conll/train_50_1337.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'S-ORG': 2, 'B-ORG': 3, 'E-ORG': 4, 'S-MISC': 5, 'B-MISC': 6, 'E-MISC': 7, 'S-LOC': 8, 'I-MISC': 9, 'B-LOC': 10, 'E-LOC': 11, 'I-ORG': 12, 'B-PER': 13, 'E-PER': 14, 'S-PER': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['but', 'if', 'VDOT', 'ever', 'checked', 'the', 'serial', 'numbers', ',', 'I', 'do', "n't", 'know', 'what', 'would', 'happen', '.'][0m
+[33mPrompt 0: ['Gene', '##tics', 'Institute', 'is', 'ORG', '.', '[SEP]', '99', '.', '75', 'is', 'MISC', '.', '[SEP]', 'US', 'is', 'LOC', '.', '[SEP]', 'Wang', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 5: ['The', 'implicit', 'price', 'deflator', ',', 'a', 'measure', 'of', 'inflation', ',', 'was', 'down', 'to', 'a', '2.9', '%', 'annual', 'rate', 'of', 'increase', 'in', 'the', 'quarter', 'from', 'a', '4.6', '%', 'rate', 'of', 'gain', 'in', 'the', 'second', 'quarter', '.'][0m
+[33mPrompt 5: ['Gene', '##tics', 'Institute', 'is', 'ORG', '.', '[SEP]', 'ten', 'years', 'is', 'MISC', '.', '[SEP]', 'Egypt', 'is', 'LOC', '.', '[SEP]', 'Lee', 'Hamilton', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 10: ['``', 'People', 'think', 'of', 'the', 'steel', 'business', 'as', 'an', 'old', 'and', 'mundane', 'smokestack', 'business', ',', "''", 'says', 'Mr.', 'Iverson', '.'][0m
+[33mPrompt 10: ['The', 'Securities', 'and', 'Future', '##s', 'Commission', 'is', 'ORG', '.', '[SEP]', 'Defense', 'Policy', 'White', 'Paper', 'is', 'MISC', '.', '[SEP]', 'China', 'is', 'LOC', '.', '[SEP]', 'Clinton', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 15: ['The', 'first', 'is', 'to', 'point', 'out', 'that', 'Letting', 'Them', 'Go', '-', 'in', 'which', 'the', 'protagonist', 'of', 'every', 'story', 'is', 'an', 'elderly', 'person', '-', 'is', 'entirely', 'of', 'a', 'piece', 'with', 'his', 'other', 'work', '.'][0m
+[33mPrompt 15: ['the', '"', 'Du', '##an', '&', 'Du', '##an', 'Law', 'Fi', '##rm', '"', 'is', 'ORG', '.', '[SEP]', 'the', 'Cold', 'War', 'is', 'MISC', '.', '[SEP]', 'West', 'Germany', 'is', 'LOC', '.', '[SEP]', 'Clinton', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Uh', ',', 'there', 'are', 'still', 'more', 'than', 'just', 'over', 'ten', 'years', 'for', 'us', 'to', 'forecast', '.'][0m
+[33mPrompt 20: ['Gene', '##tics', 'Institute', 'is', 'ORG', '.', '[SEP]', '1987', 'is', 'MISC', '.', '[SEP]', 'California', 'is', 'LOC', '.', '[SEP]', 'Rey', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 25: ['For', 'example', ',', 'this', 'Hu', 'San', 'Niang', ',', 'with', 'all', 'her', 'loved', 'ones', 'recklessly', 'slaughtered', 'by', 'Li', 'Kui', ',', 'if', 'she', 'had', 'any', 'guts', 'at', 'all', ',', 'she', 'should', 'have', 'fought', 'it', 'out', 'with', 'that', 'guy', '.'][0m
+[33mPrompt 25: ['the', 'Eighth', 'Route', 'Army', 'is', 'ORG', '.', '[SEP]', 'Japanese', 'is', 'MISC', '.', '[SEP]', 'Egypt', 'is', 'LOC', '.', '[SEP]', 'James', 'Wright', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 30: ['Hayao', 'Tada', ',', 'commander', 'of', 'the', 'Japanese', 'North', 'China', 'Area', 'Army', ',', 'adopted', 'a', 'strategy', 'of', 'siege', 'warfare', 'to', 'deal', 'with', 'the', 'Eighth', 'Route', 'Army', '.'][0m
+[33mPrompt 30: ['Congress', 'is', 'ORG', '.', '[SEP]', 'three', 'hours', 'is', 'MISC', '.', '[SEP]', 'China', 'seven', 'is', 'LOC', '.', '[SEP]', 'Tom', 'Ke', '##an', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 35: ['the', 'Japanese', 'they', 'turn', 'out', '.'][0m
+[33mPrompt 35: ['Bo', '##eh', '##ring', '##er', 'Mann', '##heim', 'is', 'ORG', '.', '[SEP]', 'a', 'generation', 'later', 'is', 'MISC', '.', '[SEP]', 'Jiang', '##xi', 'Province', 'is', 'LOC', '.', '[SEP]', 'Or', '##te', '##ga', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 40: ['The', '2000', 'race', ',', 'with', 'so', 'many', 'tickets', 'contending', ',', 'reflects', 'this', 'aspiration', '.'][0m
+[33mPrompt 40: ['Brooks', 'Armored', 'Car', 'Service', 'Inc', '.', 'is', 'ORG', '.', '[SEP]', 'two', 'month', "'", 's', 'is', 'MISC', '.', '[SEP]', 'US', 'is', 'LOC', '.', '[SEP]', 'Wang', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 45: ['because', 'I', "'ve", 'been', 'trying', 'to', 'get', 'it', 'around', 'into', 'other', '%um', 'archives'][0m
+[33mPrompt 45: ['V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', 'Wednesday', 'is', 'MISC', '.', '[SEP]', 'Taipei', 'City', 'Department', 'of', 'Urban', 'Development', 'is', 'LOC', '.', '[SEP]', 'Hay', '##ao', 'Tad', '##a', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/ontonotes_conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 7602
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['President', 'Chen', 'Travels', 'Abroad'][0m
+[33mPrompt 0: ['Congress', 'is', 'ORG', '.', '[SEP]', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'Namibia', 'is', 'LOC', '.', '[SEP]', 'Violet', '##a', 'Cha', '##mor', '##ro', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 760: ['First', 'of', 'all', 'here', "'s", 'a', 'quick', 'track', 'of', 'some', 'of', 'the', 'stories', 'we', "'re", 'following', 'tonight', '/.'][0m
+[33mPrompt 760: ['Congress', 'is', 'ORG', '.', '[SEP]', 'this', 'week', 'is', 'MISC', '.', '[SEP]', 'China', 'seven', 'is', 'LOC', '.', '[SEP]', 'Ko', '##eni', '##g', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1520: ['Yes', ',', 'there', 'is', 'a', '100', 'year', '-', 'old', 'Israeli', '-', 'Arab', 'conflict', ','][0m
+[33mPrompt 1520: ['the', 'Eighth', 'Route', 'Army', 'is', 'ORG', '.', '[SEP]', 'Defense', 'Policy', 'White', 'Paper', 'is', 'MISC', '.', '[SEP]', 'Namibia', 'is', 'LOC', '.', '[SEP]', 'Li', 'Ku', '##i', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2280: ['The', 'stressful', ',', 'monumental', 'task', 'for', 'the', 'crew', 'on', 'the', 'U.S.', 'carrier', 'suffered', 'a', 'setback', '.'][0m
+[33mPrompt 2280: ['the', '"', 'Du', '##an', '&', 'Du', '##an', 'Law', 'Fi', '##rm', '"', 'is', 'ORG', '.', '[SEP]', 'Month', '##s', 'is', 'MISC', '.', '[SEP]', 'Texas', 'is', 'LOC', '.', '[SEP]', 'Ko', '##eni', '##g', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 3040: ['For', 'the', 'first', 'time', ',', 'with', 'the', '``', 'Cole', "''", 'out', 'of', 'the', 'water', ',', 'the', 'full', 'impact', 'of', 'the', 'catastrophic', 'blast', 'clearly', 'visible', '.'][0m
+[33mPrompt 3040: ['V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', '4', '.', '25', 'is', 'MISC', '.', '[SEP]', 'Jiang', '##xi', 'Province', 'is', 'LOC', '.', '[SEP]', 'Al', '##ger', 'His', '##s', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 3800: ['The', 'total', 'marks', 'the', 'sixth', 'consecutive', 'monthly', 'decline', '.'][0m
+[33mPrompt 3800: ['De', '##b', 'Stores', 'is', 'ORG', '.', '[SEP]', 'Two', 'Navy', 'is', 'MISC', '.', '[SEP]', 'Rama', '##llah', 'is', 'LOC', '.', '[SEP]', 'Wang', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 4560: ['In', 'an', 'interview', ',', 'Mr.', 'Bernstein', 'said', 'his', 'departure', '``', 'evolved', 'out', 'of', 'discussions', 'with', 'Si', 'Newhouse', 'and', 'that', "'s", 'the', 'decision', 'I', 'reached', '.', "''"][0m
+[33mPrompt 4560: ['G', '##run', '##tal', 'is', 'ORG', '.', '[SEP]', 'three', 'is', 'MISC', '.', '[SEP]', 'China', 'seven', 'is', 'LOC', '.', '[SEP]', 'Hay', '##ao', 'Tad', '##a', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 5320: ['Thursday', "'s", 'report', 'on', 'the', 'September', 'consumer', 'price', 'index', 'is', 'expected', 'to', 'rise', ',', 'although', 'not', 'as', 'sharply', 'as', 'the', '0.9', '%', 'gain', 'reported', 'Friday', 'in', 'the', 'producer', 'price', 'index', '.'][0m
+[33mPrompt 5320: ['Washington', 'is', 'ORG', '.', '[SEP]', '7', '.', '71', '%', 'to', '7', '.', '73', '%', 'is', 'MISC', '.', '[SEP]', 'Rama', '##llah', 'is', 'LOC', '.', '[SEP]', 'Rey', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 6080: ['Well', 'before', 'Campeau', ',', 'though', ',', 'there', 'were', 'signs', 'that', 'the', 'junk', 'market', 'was', 'stumbling', 'through', 'one', 'of', 'its', 'worst', 'years', 'ever', '.'][0m
+[33mPrompt 6080: ['A', '##EG', 'is', 'ORG', '.', '[SEP]', 'three', 'hours', 'is', 'MISC', '.', '[SEP]', 'Fort', 'Worth', 'is', 'LOC', '.', '[SEP]', 'this', 'Hu', 'San', 'Ni', '##ang', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 6840: ['Fidelity', ',', 'for', 'example', ',', 'prepared', 'ads', 'several', 'months', 'ago', 'in', 'case', 'of', 'a', 'market', 'plunge', '.'][0m
+[33mPrompt 6840: ['the', 'Eighth', 'Route', 'Army', 'is', 'ORG', '.', '[SEP]', 'each', 'morning', 'is', 'MISC', '.', '[SEP]', 'West', 'Germany', 'is', 'LOC', '.', '[SEP]', 'Al', '##ger', 'His', '##s', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 7600: ['Henceforth', ',', 'the', 'focus', 'of', 'national', 'economic', 'construction', 'will', 'be', 'gradually', 'transferred', 'to', 'the', 'Mid-west', 'in', 'steps', ',', 'and', 'has', 'reinforced', 'support', 'for', 'foreign', 'investment', 'utilization', 'in', 'the', 'Mid-west', 'areas', ',', 'and', 'fundamental', 'industries', 'such', 'as', 'agriculture', ',', 'transportation', ',', 'raw', 'materials', ',', 'etc.', 'are', 'still', 'the', 'focus', 'of', 'investments', '.'][0m
+[33mPrompt 7600: ['the', '"', 'Du', '##an', '&', 'Du', '##an', 'Law', 'Fi', '##rm', '"', 'is', 'ORG', '.', '[SEP]', 'the', 'second', 'quarter', 'is', 'MISC', '.', '[SEP]', 'Texas', 'is', 'LOC', '.', '[SEP]', 'Zach', '##aria', '##s', 'Le', '##wala', 'first', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/ontonotes_conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 5091
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Powerful', 'Tools', 'for', 'Biotechnology', '-', 'Biochips'][0m
+[33mPrompt 0: ['Siemens', 'is', 'ORG', '.', '[SEP]', 'next', 'April', 'is', 'MISC', '.', '[SEP]', 'Jiang', '##xi', 'Province', 'is', 'LOC', '.', '[SEP]', 'Hay', '##ao', 'Tad', '##a', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 509: ['would', "n't", 'it', 'also', 'contribute', 'to', 'completely', 'connect', 'the', 'Palestinian', 'and', 'Jordanian', 'economy', 'to', 'the', 'Israeli', 'I', 'mean', ',', 'what', 'generates', 'from', 'it', ',', 'may', 'be', ',', 'of', 'demographic', ',', 'economic', 'and', 'development', 'projects', '.'][0m
+[33mPrompt 509: ['Brooks', 'Armored', 'Car', 'Service', 'Inc', '.', 'is', 'ORG', '.', '[SEP]', '$', '11', '.', '8', 'million', 'is', 'MISC', '.', '[SEP]', 'Texas', 'is', 'LOC', '.', '[SEP]', 'I', '##vers', '##on', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1018: ['Um', 'you', 'were', 'recently', 'profiled', 'about', 'this', 'in', 'Fortune', 'magazine', '/.'][0m
+[33mPrompt 1018: ['Islam', 'is', 'ORG', '.', '[SEP]', 'two', 'month', "'", 's', 'is', 'MISC', '.', '[SEP]', 'US', 'is', 'LOC', '.', '[SEP]', 'Tom', 'Ke', '##an', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1527: ['Taylor', ',', 'who', 'is', 'now', 'in', 'exile', 'in', 'Nigeria', ',', 'was', 'a', 'business', 'partner', 'with', 'Christian', 'Coalition', 'founder', 'Pat', 'Robertson', '...', 'in', 'a', 'Cayman', 'Islands', 'front', 'company', 'called', 'Freedom', 'Gold', ',', 'Ltd', '.'][0m
+[33mPrompt 1527: ['Washington', 'is', 'ORG', '.', '[SEP]', 'the', 'second', 'quarter', 'is', 'MISC', '.', '[SEP]', 'Fort', 'Worth', 'is', 'LOC', '.', '[SEP]', 'Hay', '##ao', 'Tad', '##a', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2036: ['Saddam', 'Hussein', ':', 'I', 'have', 'only', 'honor', 'left', 'and', 'honor', 'can', 'not', 'be', 'sold', 'or', 'bought', '.'][0m
+[33mPrompt 2036: ['the', 'Eighth', 'Route', 'Army', 'is', 'ORG', '.', '[SEP]', 'Democrats', 'is', 'MISC', '.', '[SEP]', 'Poland', 'is', 'LOC', '.', '[SEP]', 'Lee', 'Hamilton', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2545: ['The', 'FBI', 'says', 'when', 'they', 'questioned', 'him', ',', 'he', 'told', 'them', 'of', 'another', 'plot', 'to', 'bomb', 'an', 'American', 'ship', 'in', 'Yemen', ',', 'where', 'the', '``', 'USS', 'Cole', "''", 'was', 'ultimately', 'attacked', '.'][0m
+[33mPrompt 2545: ['The', 'Securities', 'and', 'Future', '##s', 'Commission', 'is', 'ORG', '.', '[SEP]', '10', '-', 'year', 'Treasury', 'is', 'MISC', '.', '[SEP]', 'Hong', 'Kong', "'", 's', 'is', 'LOC', '.', '[SEP]', 'Violet', '##a', 'Cha', '##mor', '##ro', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 3054: ['If', 'the', 'workers', 'do', "n't", 'approve', 'the', 'steep', 'cutbacks', 'American', 'says', 'it', 'will', 'file', 'for', 'bankruptcy', '.'][0m
+[33mPrompt 3054: ['Siemens', 'is', 'ORG', '.', '[SEP]', 'half', 'is', 'MISC', '.', '[SEP]', 'China', 'seven', 'is', 'LOC', '.', '[SEP]', 'I', '##vers', '##on', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 3563: ['However', ',', 'Time', 'executives', 'used', 'the', 'same', 'explanation', 'when', 'in', 'October', '1988', 'the', 'magazine', 'cut', 'its', 'guaranteed', 'circulation', 'from', '4.6', 'million', 'to', '4.3', 'million', '.'][0m
+[33mPrompt 3563: ['House', 'is', 'ORG', '.', '[SEP]', 'two', 'month', "'", 's', 'is', 'MISC', '.', '[SEP]', 'US', 'is', 'LOC', '.', '[SEP]', 'Li', 'Ku', '##i', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 4072: ['CNN', 'executives', 'hope', 'the', 'headlines', 'created', 'by', 'such', 'scoops', 'will', 'generate', 'excitement', 'for', 'its', '``', 'branded', "''", 'programs', ',', 'in', 'the', 'way', '``', '60', 'Minutes', "''", 'did', 'so', 'well', 'for', 'CBS', '.'][0m
+[33mPrompt 4072: ['the', 'Eighth', 'Route', 'Army', 'is', 'ORG', '.', '[SEP]', '7', '.', '71', '%', 'to', '7', '.', '73', '%', 'is', 'MISC', '.', '[SEP]', 'Namibia', 'is', 'LOC', '.', '[SEP]', 'Lee', 'Hamilton', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 4581: ['He', 'has', 'said', 'that', 'he', 'now', 'knows', 'how', 'Justice', 'John', 'Harlan', 'felt', ',', 'a', 'reference', 'to', 'the', 'late', 'conservative', 'justice', 'who', 'was', 'the', 'most', 'frequent', 'dissenter', 'from', 'the', 'Warren', 'Court', "'s", 'opinions', '.'][0m
+[33mPrompt 4581: ['V', '##D', '##OT', 'is', 'ORG', '.', '[SEP]', '3', '.', '9', '%', 'is', 'MISC', '.', '[SEP]', 'China', 'seven', 'is', 'LOC', '.', '[SEP]', 'Al', '##ger', 'His', '##s', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 5090: ['Picture', 'taken', 'by', 'Xinhua', 'News', 'Agency', 'reporter', 'Shengnan', 'Li'][0m
+[33mPrompt 5090: ['Islam', 'is', 'ORG', '.', '[SEP]', 'a', 'generation', 'later', 'is', 'MISC', '.', '[SEP]', 'Namibia', 'is', 'LOC', '.', '[SEP]', 'Al', '##ger', 'His', '##s', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 5
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/ontonotes_conll/transformers_trainer_random_no_context_50_1337_1337.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 4774.29486, Time is 1.17s
+[34m[dev set Total] Prec.: 2.43, Rec.: 11.72, F1: 4.02[0m
+saving the best model...
+Epoch 2: 3527.50983, Time is 1.10s
+[34m[dev set Total] Prec.: 0.38, Rec.: 0.03, F1: 0.06[0m
+Epoch 3: 2273.20947, Time is 1.06s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 4: 1556.62695, Time is 1.08s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 5: 1318.29657, Time is 1.04s
+[34m[dev set Total] Prec.: 0.37, Rec.: 0.00, F1: 0.01[0m
+Epoch 6: 1139.13953, Time is 1.05s
+[34m[dev set Total] Prec.: 7.14, Rec.: 0.36, F1: 0.68[0m
+Epoch 7: 978.53577, Time is 1.05s
+[34m[dev set Total] Prec.: 15.92, Rec.: 2.24, F1: 3.93[0m
+Epoch 8: 806.08643, Time is 1.03s
+[34m[dev set Total] Prec.: 21.40, Rec.: 5.80, F1: 9.13[0m
+saving the best model...
+Epoch 9: 685.64294, Time is 1.07s
+[34m[dev set Total] Prec.: 22.97, Rec.: 9.25, F1: 13.19[0m
+saving the best model...
+Epoch 10: 570.39294, Time is 1.09s
+[34m[dev set Total] Prec.: 23.81, Rec.: 14.23, F1: 17.81[0m
+saving the best model...
+Epoch 11: 483.20483, Time is 1.11s
+[34m[dev set Total] Prec.: 24.58, Rec.: 18.88, F1: 21.35[0m
+saving the best model...
+Epoch 12: 411.33484, Time is 1.06s
+[34m[dev set Total] Prec.: 28.02, Rec.: 21.34, F1: 24.22[0m
+saving the best model...
+Epoch 13: 353.03088, Time is 1.03s
+[34m[dev set Total] Prec.: 30.63, Rec.: 24.99, F1: 27.52[0m
+saving the best model...
+Epoch 14: 303.81506, Time is 1.08s
+[34m[dev set Total] Prec.: 34.47, Rec.: 28.21, F1: 31.03[0m
+saving the best model...
+Epoch 15: 254.34314, Time is 1.11s
+[34m[dev set Total] Prec.: 37.97, Rec.: 33.66, F1: 35.69[0m
+saving the best model...
+Epoch 16: 212.99133, Time is 1.10s
+[34m[dev set Total] Prec.: 40.89, Rec.: 37.26, F1: 38.99[0m
+saving the best model...
+Epoch 17: 176.40332, Time is 1.07s
+[34m[dev set Total] Prec.: 42.67, Rec.: 39.11, F1: 40.81[0m
+saving the best model...
+Epoch 18: 145.91101, Time is 1.09s
+[34m[dev set Total] Prec.: 43.80, Rec.: 40.76, F1: 42.23[0m
+saving the best model...
+Epoch 19: 121.68909, Time is 1.08s
+[34m[dev set Total] Prec.: 44.66, Rec.: 42.23, F1: 43.41[0m
+saving the best model...
+Epoch 20: 104.51550, Time is 1.07s
+[34m[dev set Total] Prec.: 45.42, Rec.: 43.90, F1: 44.64[0m
+saving the best model...
+Epoch 21: 78.18176, Time is 1.08s
+[34m[dev set Total] Prec.: 46.29, Rec.: 45.41, F1: 45.84[0m
+saving the best model...
+Epoch 22: 64.17224, Time is 1.05s
+[34m[dev set Total] Prec.: 48.26, Rec.: 46.69, F1: 47.46[0m
+saving the best model...
+Epoch 23: 54.55933, Time is 1.11s
+[34m[dev set Total] Prec.: 49.54, Rec.: 47.65, F1: 48.57[0m
+saving the best model...
+Epoch 24: 44.30627, Time is 1.08s
+[34m[dev set Total] Prec.: 49.18, Rec.: 50.10, F1: 49.64[0m
+saving the best model...
+Epoch 25: 37.42578, Time is 1.09s
+[34m[dev set Total] Prec.: 49.44, Rec.: 51.24, F1: 50.32[0m
+saving the best model...
+Epoch 26: 28.77649, Time is 1.10s
+[34m[dev set Total] Prec.: 50.66, Rec.: 51.44, F1: 51.05[0m
+saving the best model...
+Epoch 27: 25.81067, Time is 1.20s
+[34m[dev set Total] Prec.: 51.13, Rec.: 51.86, F1: 51.49[0m
+saving the best model...
+Epoch 28: 21.61108, Time is 1.10s
+[34m[dev set Total] Prec.: 51.29, Rec.: 52.41, F1: 51.84[0m
+saving the best model...
+Epoch 29: 18.20605, Time is 1.07s
+[34m[dev set Total] Prec.: 51.66, Rec.: 52.09, F1: 51.87[0m
+saving the best model...
+Epoch 30: 16.98413, Time is 1.07s
+[34m[dev set Total] Prec.: 51.47, Rec.: 53.42, F1: 52.43[0m
+saving the best model...
+Epoch 31: 13.31421, Time is 1.07s
+[34m[dev set Total] Prec.: 52.39, Rec.: 53.69, F1: 53.03[0m
+saving the best model...
+Epoch 32: 12.43994, Time is 1.07s
+[34m[dev set Total] Prec.: 52.49, Rec.: 53.85, F1: 53.16[0m
+saving the best model...
+Epoch 33: 11.04517, Time is 1.10s
+[34m[dev set Total] Prec.: 52.65, Rec.: 54.24, F1: 53.43[0m
+saving the best model...
+Epoch 34: 9.57202, Time is 1.06s
+[34m[dev set Total] Prec.: 52.84, Rec.: 53.83, F1: 53.33[0m
+Epoch 35: 8.41748, Time is 1.02s
+[34m[dev set Total] Prec.: 53.52, Rec.: 53.65, F1: 53.58[0m
+saving the best model...
+Epoch 36: 7.73560, Time is 1.06s
+[34m[dev set Total] Prec.: 53.52, Rec.: 53.36, F1: 53.44[0m
+Epoch 37: 7.22925, Time is 1.05s
+[34m[dev set Total] Prec.: 53.90, Rec.: 53.85, F1: 53.88[0m
+saving the best model...
+Epoch 38: 6.33179, Time is 1.06s
+[34m[dev set Total] Prec.: 54.24, Rec.: 54.62, F1: 54.43[0m
+saving the best model...
+Epoch 39: 6.08667, Time is 1.08s
+[34m[dev set Total] Prec.: 54.56, Rec.: 54.97, F1: 54.76[0m
+saving the best model...
+Epoch 40: 5.90515, Time is 1.03s
+[34m[dev set Total] Prec.: 54.76, Rec.: 55.06, F1: 54.91[0m
+saving the best model...
+Epoch 41: 5.35437, Time is 1.03s
+[34m[dev set Total] Prec.: 54.78, Rec.: 54.75, F1: 54.77[0m
+Epoch 42: 5.18530, Time is 1.05s
+[34m[dev set Total] Prec.: 54.82, Rec.: 54.58, F1: 54.70[0m
+Epoch 43: 4.79919, Time is 1.04s
+[34m[dev set Total] Prec.: 55.06, Rec.: 54.70, F1: 54.88[0m
+Epoch 44: 4.65454, Time is 1.04s
+[34m[dev set Total] Prec.: 55.02, Rec.: 54.86, F1: 54.94[0m
+saving the best model...
+Epoch 45: 4.57520, Time is 1.06s
+[34m[dev set Total] Prec.: 55.03, Rec.: 54.81, F1: 54.92[0m
+Epoch 46: 4.27612, Time is 1.05s
+[34m[dev set Total] Prec.: 55.12, Rec.: 54.74, F1: 54.93[0m
+Epoch 47: 4.15576, Time is 1.06s
+[34m[dev set Total] Prec.: 55.17, Rec.: 54.77, F1: 54.97[0m
+saving the best model...
+Epoch 48: 5.27808, Time is 1.08s
+[34m[dev set Total] Prec.: 55.09, Rec.: 54.85, F1: 54.97[0m
+Epoch 49: 4.18750, Time is 1.06s
+[34m[dev set Total] Prec.: 55.00, Rec.: 55.02, F1: 55.01[0m
+saving the best model...
+Epoch 50: 4.17432, Time is 1.06s
+[34m[dev set Total] Prec.: 55.00, Rec.: 55.05, F1: 55.03[0m
+saving the best model...
+Archiving the best Model...
+Finished archiving the models
+The best dev: 55.03
+Final testing.
+[34m[test set Total] Prec.: 53.76, Rec.: 53.82, F1: 53.79[0m

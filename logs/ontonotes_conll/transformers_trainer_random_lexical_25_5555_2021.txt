@@ -1,0 +1,366 @@
+device: cuda:0
+seed: 2021
+dataset: ontonotes_conll
+data_dir: dataset/ontonotes_conll
+percent_filename_suffix: 25_5555
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 10
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/ontonotes_conll/transformers_trainer_random_lexical_25_5555_2021
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: random
+template: lexical
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/ontonotes_conll/train_25_5555.txt
+dataset/ontonotes_conll/dev.txt
+dataset/ontonotes_conll/test.txt[0m
+[Data Info] Reading file: dataset/ontonotes_conll/train_25_5555.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 25
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'S-ORG': 1, 'O': 2, 'B-MISC': 3, 'E-MISC': 4, 'B-ORG': 5, 'E-ORG': 6, 'B-PER': 7, 'I-PER': 8, 'E-PER': 9, 'S-MISC': 10, 'S-PER': 11, 'I-ORG': 12, 'S-LOC': 13, 'B-LOC': 14, 'I-LOC': 15, 'E-LOC': 16, 'I-MISC': 17, '<START>': 18, '<STOP>': 19}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Delmed', 'also', 'would', 'receive', 'the', 'North', 'American', 'rights', 'to', 'certain', 'Fresenius', 'AG', 'products', '.'][0m
+[33mPrompt 0: ['ORG', 'magazine', '.', '[SEP]', 'His', 'grip', 'began', 'to', 'slip', 'on', 'MISC', ',', 'when', 'as', 'even', 'he', 'admitted', 'opposition', 'candidate', 'V', '##o', '##ji', '##slav', 'Ko', '##st', '##uni', '##ca', 'won', 'more', 'votes', 'in', 'a', 'nation', '-', 'wide', 'election', '.', '[SEP]', 'While', 'No', '##S', '##pra', '##wl', '##T', '##ax', 'rails', 'against', 'PER', "'", 's', 'developments', 'on', 'the', 'basis', 'they', 'are', 'not', 'wanted', 'and', 'they', 'are', 'bad', 'for', 'tax', '##payers', ',', 'the', 'fact', 're', '##ami', '##ns', 'that', 'they', 'are', 'all', 'sold', 'to', 'tax', '##payers', '.', '[SEP]', 'LOC', 'and', 'Palestine', 'went', 'to', 'Britain', ',', 'and', 'Syria', 'and', 'Lebanon', 'went', 'to', 'France', '.', '.', '[SEP]']
+[0m
+[34mInstance 2: ['Lahoud', 'has', 'condemned', 'the', 'killings', 'insisting', 'he', "'s", 'not', 'responsible', 'for', 'them', '/.'][0m
+[33mPrompt 2: ['On', 'December', '18', ',', 'ORG', 'Vice', '-', 'Chairman', 'Ten', '##g', 'Chen', '-', 'ch', '##ung', 'stated', 'that', 'the', 'government', 'has', 'already', 'begun', 'planning', 'for', 'the', 'full', 'three', 'links', '.', '[SEP]', 'You', 'mentioned', 'you', "'", 're', 'MISC', '/', '.', '[SEP]', 'On', 'December', '18', ',', 'MAC', 'Vice', '-', 'Chairman', 'PER', 'stated', 'that', 'the', 'government', 'has', 'already', 'begun', 'planning', 'for', 'the', 'full', 'three', 'links', '.', '[SEP]', '`', '`', 'Obviously', ',', 'pride', 'sells', 'in', 'Texas', ',', "'", "'", 'says', 'a', 'spoke', '##s', '##woman', 'for', 'Bo', '##zel', '##l', 'Inc', '.', ',', 'Omaha', ',', 'LOC', '##eb', '.', ',', 'which', 'represents', '[SEP]']
+[0m
+[34mInstance 4: ['You', 'mentioned', 'you', "'re", 'fifty', 'one', '/.'][0m
+[33mPrompt 4: ['Here', "'", 's', 'ORG', "'", 's', 'Robert', 'Ha', '##ger', ',', '`', '`', 'in', 'depth', '.', "'", "'", '[SEP]', 'The', 'cost', 'of', 'his', 'MISC', '-', 'way', 'ticket', 'was', 'borne', 'by', 'his', 'colleague', 'at', 'Air', 'Force', 'HQ', 'Chang', 'Chu', '##an', '-', 'j', '##en', ',', 'who', 'generous', '##ly', 'put', 'his', 'entire', 'savings', 'of', 'N', '##T', '$', '5', ',', '000', 'at', 'H', '##sia', "'", 's', 'disposal', '.', '[SEP]', 'Animal', 'expert', 'PER', 'takes', 'us', 'to', 'a', 'place', 'where', 'people', 'and', 'wildlife', 'try', 'to', 'co', '-', 'exist', 'a', 'place', 'where', 'both', 'share', 'a', 'horrific', 'past', '/', '.', '[SEP]', 'Iraq', 'and', 'LOC', 'went', 'to', 'Britain', ',', 'and', 'Syria', 'and', 'Lebanon', 'went', 'to', 'France', '.', '.', '[SEP]']
+[0m
+[34mInstance 6: ['The', 'West', 'German', 'paper', 'company', 'entered', 'the', 'venture', 'in', 'April', '1988', 'by', 'acquiring', 'a', '50', '%', 'stake', ',', 'also', 'from', 'Beghin', '-', 'Say', '.'][0m
+[33mPrompt 6: ['ORG', 'also', 'would', 'receive', 'the', 'North', 'American', 'rights', 'to', 'certain', 'Fr', '##ese', '##nius', 'AG', 'products', '.', '[SEP]', 'The', 'West', 'German', 'paper', 'company', 'entered', 'the', 'venture', 'in', 'April', '1988', 'by', 'acquiring', 'a', 'MISC', 'stake', ',', 'also', 'from', 'Be', '##gh', '##in', '-', 'Say', '.', '[SEP]', 'B', '##iki', '##ng', 'groups', 'in', 'Montana', ',', 'Idaho', ',', 'Michigan', 'and', 'Massachusetts', 'have', 'won', 'similar', 'concessions', ',', 'says', 'PER', ',', 'mountain', 'bike', 'editor', 'of', 'B', '##ic', '##y', '##c', '##ling', 'magazine', '.', '[SEP]', 'B', '##iki', '##ng', 'groups', 'in', 'Montana', ',', 'Idaho', ',', 'LOC', 'and', 'Massachusetts', 'have', 'won', 'similar', 'concessions', ',', 'says', 'Tim', 'Blu', '##ment', '##hal', ',', 'mountain', 'bike', 'editor', 'of', 'B', '##ic', '##y', '##c', '##ling', 'magazine', '.', '[SEP]']
+[0m
+[34mInstance 8: ['Xinhua', 'News', 'Agency', ',', 'Beijing', ',', 'March', '21st'][0m
+[33mPrompt 8: ['Tide', '##water', 'Inc', '.', '-', '-', '4', ',', '63', '##1', ',', '400', 'common', 'shares', ',', 'via', 'ORG', '##omo', '##n', 'Brothers', 'Inc', '.', '[SEP]', 'The', 'cost', 'of', 'his', 'MISC', '-', 'way', 'ticket', 'was', 'borne', 'by', 'his', 'colleague', 'at', 'Air', 'Force', 'HQ', 'Chang', 'Chu', '##an', '-', 'j', '##en', ',', 'who', 'generous', '##ly', 'put', 'his', 'entire', 'savings', 'of', 'N', '##T', '$', '5', ',', '000', 'at', 'H', '##sia', "'", 's', 'disposal', '.', '[SEP]', 'His', 'grip', 'began', 'to', 'slip', 'on', 'September', '24th', ',', 'when', 'as', 'even', 'he', 'admitted', 'opposition', 'candidate', 'PER', 'won', 'more', 'votes', 'in', 'a', 'nation', '-', 'wide', 'election', '.', '[SEP]', 'B', '##iki', '##ng', 'groups', 'in', 'Montana', ',', 'Idaho', ',', 'LOC', 'and', 'Massachusetts', 'have', 'won', 'similar', 'concessions', ',', 'says', 'Tim', 'Blu', '##ment', '##hal', ',', 'mountain', 'bike', 'editor', 'of', 'B', '##ic', '##y', '##c', '##ling', 'magazine', '.', '[SEP]']
+[0m
+[34mInstance 10: ['Tidewater', 'Inc.', '--', '4,631,400', 'common', 'shares', ',', 'via', 'Salomon', 'Brothers', 'Inc', '.'][0m
+[33mPrompt 10: ['The', 'West', 'German', 'paper', 'company', 'entered', 'the', 'venture', 'in', 'April', '1988', 'by', 'acquiring', 'a', '50', '%', 'stake', ',', 'also', 'from', 'ORG', '.', '[SEP]', 'MISC', ',', 'China', "'", 's', 'imports', 'of', 'primary', 'products', 'increased', 'rapidly', ',', 'and', 'the', 'structure', 'of', 'exported', 'commodities', 'was', 'further', 'op', '##ti', '##mized', '.', '[SEP]', 'Doctor', 'PER', ',', 'I', 'mean', ',', 'until', 'when', 'do', 'you', 'expect', ',', 'I', 'mean', ',', 'I', 'mean', ',', 'the', 'lack', 'of', 'stability', 'in', 'the', 'Palestinian', 'matter', '?', '[SEP]', '`', '`', 'Obviously', ',', 'pride', 'sells', 'in', 'Texas', ',', "'", "'", 'says', 'a', 'spoke', '##s', '##woman', 'for', 'Bo', '##zel', '##l', 'Inc', '.', ',', 'LOC', ',', 'N', '##eb', '.', ',', 'which', 'represents', '[SEP]']
+[0m
+[34mInstance 12: ['This', 'is', 'the', 'fourth', 'source', '.'][0m
+[33mPrompt 12: ['On', 'December', '18', ',', 'ORG', 'Vice', '-', 'Chairman', 'Ten', '##g', 'Chen', '-', 'ch', '##ung', 'stated', 'that', 'the', 'government', 'has', 'already', 'begun', 'planning', 'for', 'the', 'full', 'three', 'links', '.', '[SEP]', 'The', 'West', 'German', 'paper', 'company', 'entered', 'the', 'venture', 'in', 'April', '1988', 'by', 'acquiring', 'a', 'MISC', 'stake', ',', 'also', 'from', 'Be', '##gh', '##in', '-', 'Say', '.', '[SEP]', 'PER', 'has', 'condemned', 'the', 'killings', 'insisting', 'he', "'", 's', 'not', 'responsible', 'for', 'them', '/', '.', '[SEP]', 'Xi', '##nh', '##ua', 'News', 'Agency', ',', 'LOC', ',', 'March', '21st', '[SEP]']
+[0m
+[34mInstance 14: ['Animal', 'expert', 'Jack', 'Hannah', 'takes', 'us', 'to', 'a', 'place', 'where', 'people', 'and', 'wildlife', 'try', 'to', 'co-exist', 'a', 'place', 'where', 'both', 'share', 'a', 'horrific', 'past', '/.'][0m
+[33mPrompt 14: ['On', 'December', '18', ',', 'ORG', 'Vice', '-', 'Chairman', 'Ten', '##g', 'Chen', '-', 'ch', '##ung', 'stated', 'that', 'the', 'government', 'has', 'already', 'begun', 'planning', 'for', 'the', 'full', 'three', 'links', '.', '[SEP]', 'On', 'MISC', ',', 'MAC', 'Vice', '-', 'Chairman', 'Ten', '##g', 'Chen', '-', 'ch', '##ung', 'stated', 'that', 'the', 'government', 'has', 'already', 'begun', 'planning', 'for', 'the', 'full', 'three', 'links', '.', '[SEP]', 'Here', "'", 's', 'NBC', "'", 's', 'PER', ',', '`', '`', 'in', 'depth', '.', "'", "'", '[SEP]', '`', '`', 'Obviously', ',', 'pride', 'sells', 'in', 'LOC', ',', "'", "'", 'says', 'a', 'spoke', '##s', '##woman', 'for', 'Bo', '##zel', '##l', 'Inc', '.', ',', 'Omaha', ',', 'N', '##eb', '.', ',', 'which', 'represents', '[SEP]']
+[0m
+[34mInstance 16: ['Israel', 'says', 'it', 'wants', 'security', '.'][0m
+[33mPrompt 16: ['West', 'Germany', "'", 's', 'cost', '-', 'of', '-', 'living', 'index', 'rose', 'a', 'preliminary', '0', '.', '3', '%', 'in', 'October', 'from', 'September', 'and', 'was', 'up', '3', '.', '3', '%', 'from', 'a', 'year', 'earlier', ',', 'ORG', 'in', 'W', '##ies', '##bad', '##en', 'said', '.', '[SEP]', 'West', 'Germany', "'", 's', 'cost', '-', 'of', '-', 'living', 'index', 'rose', 'a', 'preliminary', '0', '.', 'MISC', 'in', 'October', 'from', 'September', 'and', 'was', 'up', '3', '.', '3', '%', 'from', 'a', 'year', 'earlier', ',', 'the', 'Federal', 'Statistics', 'Office', 'in', 'W', '##ies', '##bad', '##en', 'said', '.', '[SEP]', 'PER', 'points', 'to', 'other', 'countries', 'that', 'have', 'a', 'doctrine', 'of', 'extending', 'the', 'battlefield', 'outside', 'national', 'territory', '.', '[SEP]', 'LOC', 'says', 'it', 'wants', 'security', '.', '[SEP]']
+[0m
+[34mInstance 18: ['West', 'Germany', "'s", 'cost', '-', 'of', '-', 'living', 'index', 'rose', 'a', 'preliminary', '0.3', '%', 'in', 'October', 'from', 'September', 'and', 'was', 'up', '3.3', '%', 'from', 'a', 'year', 'earlier', ',', 'the', 'Federal', 'Statistics', 'Office', 'in', 'Wiesbaden', 'said', '.'][0m
+[33mPrompt 18: ['Tide', '##water', 'Inc', '.', '-', '-', '4', ',', '63', '##1', ',', '400', 'common', 'shares', ',', 'via', 'ORG', '##omo', '##n', 'Brothers', 'Inc', '.', '[SEP]', 'But', 'when', 'the', 'high', 'court', 'ruled', 'in', 'the', 'Webster', 'case', 'in', 'MISC', ',', 'the', 'president', 'began', 'to', 'lower', 'the', 'volume', '.', '[SEP]', 'Doctor', 'PER', ',', 'I', 'mean', ',', 'until', 'when', 'do', 'you', 'expect', ',', 'I', 'mean', ',', 'I', 'mean', ',', 'the', 'lack', 'of', 'stability', 'in', 'the', 'Palestinian', 'matter', '?', '[SEP]', '`', '`', 'Obviously', ',', 'pride', 'sells', 'in', 'LOC', ',', "'", "'", 'says', 'a', 'spoke', '##s', '##woman', 'for', 'Bo', '##zel', '##l', 'Inc', '.', ',', 'Omaha', ',', 'N', '##eb', '.', ',', 'which', 'represents', '[SEP]']
+[0m
+[34mInstance 20: ['His', 'grip', 'began', 'to', 'slip', 'on', 'September', '24th', ',', 'when', 'as', 'even', 'he', 'admitted', 'opposition', 'candidate', 'Vojislav', 'Kostunica', 'won', 'more', 'votes', 'in', 'a', 'nation', '-', 'wide', 'election', '.'][0m
+[33mPrompt 20: ['The', 'West', 'German', 'paper', 'company', 'entered', 'the', 'venture', 'in', 'April', '1988', 'by', 'acquiring', 'a', '50', '%', 'stake', ',', 'also', 'from', 'ORG', '.', '[SEP]', 'On', 'MISC', ',', 'MAC', 'Vice', '-', 'Chairman', 'Ten', '##g', 'Chen', '-', 'ch', '##ung', 'stated', 'that', 'the', 'government', 'has', 'already', 'begun', 'planning', 'for', 'the', 'full', 'three', 'links', '.', '[SEP]', 'Here', "'", 's', 'NBC', "'", 's', 'PER', ',', '`', '`', 'in', 'depth', '.', "'", "'", '[SEP]', 'President', 'Putin', 'acknowledged', 'that', 'Russia', 'is', 'still', 'violating', 'its', 'commitment', 'in', 'LOC', ',', 'but', 'he', 'said', 'it', 'is', 'only', 'a', 'temporary', 'situation', 'which', 'has', 'the', 'ultimate', 'aim', 'of', 'cutting', 'armament', '##s', 'in', 'the', 'region', '.', '[SEP]']
+[0m
+[34mInstance 22: ['Biking', 'groups', 'in', 'Montana', ',', 'Idaho', ',', 'Michigan', 'and', 'Massachusetts', 'have', 'won', 'similar', 'concessions', ',', 'says', 'Tim', 'Blumenthal', ',', 'mountain', 'bike', 'editor', 'of', 'Bicycling', 'magazine', '.'][0m
+[33mPrompt 22: ['Here', "'", 's', 'ORG', "'", 's', 'Robert', 'Ha', '##ger', ',', '`', '`', 'in', 'depth', '.', "'", "'", '[SEP]', 'The', 'cost', 'of', 'his', 'one', '-', 'way', 'ticket', 'was', 'borne', 'by', 'his', 'colleague', 'at', 'Air', 'Force', 'HQ', 'Chang', 'Chu', '##an', '-', 'j', '##en', ',', 'who', 'generous', '##ly', 'put', 'his', 'entire', 'savings', 'of', 'MISC', 'at', 'H', '##sia', "'", 's', 'disposal', '.', '[SEP]', 'PER', 'has', 'condemned', 'the', 'killings', 'insisting', 'he', "'", 's', 'not', 'responsible', 'for', 'them', '/', '.', '[SEP]', 'President', 'Putin', 'acknowledged', 'that', 'LOC', 'is', 'still', 'violating', 'its', 'commitment', 'in', 'Ch', '##ech', '##nya', ',', 'but', 'he', 'said', 'it', 'is', 'only', 'a', 'temporary', 'situation', 'which', 'has', 'the', 'ultimate', 'aim', 'of', 'cutting', 'armament', '##s', 'in', 'the', 'region', '.', '[SEP]']
+[0m
+[34mInstance 24: ['So', 'when', 'they', 'pray', 'to', 'the', 'Kitchen', 'God', ',', 'people', 'place', 'sweets', ',', 'fresh', 'water', ',', 'black', 'beans', ',', 'and', 'hay', 'on', 'a', 'table', 'in', 'front', 'of', 'the', 'Kitchen', 'God', "'s", 'image', ';', 'the', 'last', 'three', 'of', 'these', 'are', 'for', 'the', 'horse', 'that', 'the', 'Kitchen', 'God', 'rides', 'to', 'Heaven', '.'][0m
+[33mPrompt 24: ['The', 'cost', 'of', 'his', 'one', '-', 'way', 'ticket', 'was', 'borne', 'by', 'his', 'colleague', 'at', 'ORG', ',', 'who', 'generous', '##ly', 'put', 'his', 'entire', 'savings', 'of', 'N', '##T', '$', '5', ',', '000', 'at', 'H', '##sia', "'", 's', 'disposal', '.', '[SEP]', 'Xi', '##nh', '##ua', 'News', 'Agency', ',', 'Beijing', ',', 'MISC', '[SEP]', 'But', 'when', 'the', 'high', 'court', 'ruled', 'in', 'the', 'PER', 'case', 'in', 'July', ',', 'the', 'president', 'began', 'to', 'lower', 'the', 'volume', '.', '[SEP]', 'Xi', '##nh', '##ua', 'News', 'Agency', ',', 'LOC', ',', 'March', '21st', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/ontonotes_conll/train_25_5555.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 25
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'S-ORG': 1, 'O': 2, 'B-MISC': 3, 'E-MISC': 4, 'B-ORG': 5, 'E-ORG': 6, 'B-PER': 7, 'I-PER': 8, 'E-PER': 9, 'S-MISC': 10, 'S-PER': 11, 'I-ORG': 12, 'S-LOC': 13, 'B-LOC': 14, 'I-LOC': 15, 'E-LOC': 16, 'I-MISC': 17, '<START>': 18, '<STOP>': 19}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Delmed', 'also', 'would', 'receive', 'the', 'North', 'American', 'rights', 'to', 'certain', 'Fresenius', 'AG', 'products', '.'][0m
+[33mPrompt 0: ['ORG', 'magazine', '.', '[SEP]', 'West', 'Germany', "'", 's', 'cost', '-', 'of', '-', 'living', 'index', 'rose', 'a', 'preliminary', '0', '.', '3', '%', 'in', 'October', 'from', 'MISC', 'and', 'was', 'up', '3', '.', '3', '%', 'from', 'a', 'year', 'earlier', ',', 'the', 'Federal', 'Statistics', 'Office', 'in', 'W', '##ies', '##bad', '##en', 'said', '.', '[SEP]', 'The', 'cost', 'of', 'his', 'one', '-', 'way', 'ticket', 'was', 'borne', 'by', 'his', 'colleague', 'at', 'Air', 'Force', 'HQ', 'Chang', 'Chu', '##an', '-', 'j', '##en', ',', 'who', 'generous', '##ly', 'put', 'his', 'entire', 'savings', 'of', 'N', '##T', '$', '5', ',', '000', 'at', 'PER', "'", 's', 'disposal', '.', '[SEP]', 'President', 'Putin', 'acknowledged', 'that', 'LOC', 'is', 'still', 'violating', 'its', 'commitment', 'in', 'Ch', '##ech', '##nya', ',', 'but', 'he', 'said', 'it', 'is', 'only', 'a', 'temporary', 'situation', 'which', 'has', 'the', 'ultimate', 'aim', 'of', 'cutting', 'armament', '##s', 'in', 'the', 'region', '.', '[SEP]']
+[0m
+[34mInstance 2: ['Lahoud', 'has', 'condemned', 'the', 'killings', 'insisting', 'he', "'s", 'not', 'responsible', 'for', 'them', '/.'][0m
+[33mPrompt 2: ['West', 'Germany', "'", 's', 'cost', '-', 'of', '-', 'living', 'index', 'rose', 'a', 'preliminary', '0', '.', '3', '%', 'in', 'October', 'from', 'September', 'and', 'was', 'up', '3', '.', '3', '%', 'from', 'a', 'year', 'earlier', ',', 'ORG', 'in', 'W', '##ies', '##bad', '##en', 'said', '.', '[SEP]', 'Del', '##med', 'also', 'would', 'receive', 'the', 'MISC', 'rights', 'to', 'certain', 'Fr', '##ese', '##nius', 'AG', 'products', '.', '[SEP]', 'Here', "'", 's', 'NBC', "'", 's', 'PER', ',', '`', '`', 'in', 'depth', '.', "'", "'", '[SEP]', 'LOC', 'says', 'it', 'wants', 'security', '.', '[SEP]']
+[0m
+[34mInstance 4: ['You', 'mentioned', 'you', "'re", 'fifty', 'one', '/.'][0m
+[33mPrompt 4: ['West', 'Germany', "'", 's', 'cost', '-', 'of', '-', 'living', 'index', 'rose', 'a', 'preliminary', '0', '.', '3', '%', 'in', 'October', 'from', 'September', 'and', 'was', 'up', '3', '.', '3', '%', 'from', 'a', 'year', 'earlier', ',', 'ORG', 'in', 'W', '##ies', '##bad', '##en', 'said', '.', '[SEP]', 'West', 'Germany', "'", 's', 'cost', '-', 'of', '-', 'living', 'index', 'rose', 'a', 'preliminary', 'MISC', 'in', 'October', 'from', 'September', 'and', 'was', 'up', '3', '.', '3', '%', 'from', 'a', 'year', 'earlier', ',', 'the', 'Federal', 'Statistics', 'Office', 'in', 'W', '##ies', '##bad', '##en', 'said', '.', '[SEP]', 'PER', 'points', 'to', 'other', 'countries', 'that', 'have', 'a', 'doctrine', 'of', 'extending', 'the', 'battlefield', 'outside', 'national', 'territory', '.', '[SEP]', 'Last', 'year', ',', 'LOC', "'", 's', 'imports', 'of', 'primary', 'products', 'increased', 'rapidly', ',', 'and', 'the', 'structure', 'of', 'exported', 'commodities', 'was', 'further', 'op', '##ti', '##mized', '.', '[SEP]']
+[0m
+[34mInstance 6: ['The', 'West', 'German', 'paper', 'company', 'entered', 'the', 'venture', 'in', 'April', '1988', 'by', 'acquiring', 'a', '50', '%', 'stake', ',', 'also', 'from', 'Beghin', '-', 'Say', '.'][0m
+[33mPrompt 6: ['On', 'December', '18', ',', 'ORG', 'Vice', '-', 'Chairman', 'Ten', '##g', 'Chen', '-', 'ch', '##ung', 'stated', 'that', 'the', 'government', 'has', 'already', 'begun', 'planning', 'for', 'the', 'full', 'three', 'links', '.', '[SEP]', 'The', 'West', 'German', 'paper', 'company', 'entered', 'the', 'venture', 'in', 'April', '1988', 'by', 'acquiring', 'a', 'MISC', 'stake', ',', 'also', 'from', 'Be', '##gh', '##in', '-', 'Say', '.', '[SEP]', 'His', 'grip', 'began', 'to', 'slip', 'on', 'September', '24th', ',', 'when', 'as', 'even', 'he', 'admitted', 'opposition', 'candidate', 'PER', 'won', 'more', 'votes', 'in', 'a', 'nation', '-', 'wide', 'election', '.', '[SEP]', 'Last', 'year', ',', 'LOC', "'", 's', 'imports', 'of', 'primary', 'products', 'increased', 'rapidly', ',', 'and', 'the', 'structure', 'of', 'exported', 'commodities', 'was', 'further', 'op', '##ti', '##mized', '.', '[SEP]']
+[0m
+[34mInstance 8: ['Xinhua', 'News', 'Agency', ',', 'Beijing', ',', 'March', '21st'][0m
+[33mPrompt 8: ['ORG', 'magazine', '.', '[SEP]', 'Del', '##med', 'also', 'would', 'receive', 'the', 'MISC', 'rights', 'to', 'certain', 'Fr', '##ese', '##nius', 'AG', 'products', '.', '[SEP]', 'Animal', 'expert', 'PER', 'takes', 'us', 'to', 'a', 'place', 'where', 'people', 'and', 'wildlife', 'try', 'to', 'co', '-', 'exist', 'a', 'place', 'where', 'both', 'share', 'a', 'horrific', 'past', '/', '.', '[SEP]', 'Iraq', 'and', 'Palestine', 'went', 'to', 'LOC', ',', 'and', 'Syria', 'and', 'Lebanon', 'went', 'to', 'France', '.', '.', '[SEP]']
+[0m
+[34mInstance 10: ['Tidewater', 'Inc.', '--', '4,631,400', 'common', 'shares', ',', 'via', 'Salomon', 'Brothers', 'Inc', '.'][0m
+[33mPrompt 10: ['Tide', '##water', 'Inc', '.', '-', '-', '4', ',', '63', '##1', ',', '400', 'common', 'shares', ',', 'via', 'ORG', '##omo', '##n', 'Brothers', 'Inc', '.', '[SEP]', 'But', 'when', 'the', 'high', 'court', 'ruled', 'in', 'the', 'Webster', 'case', 'in', 'MISC', ',', 'the', 'president', 'began', 'to', 'lower', 'the', 'volume', '.', '[SEP]', 'Doctor', 'PER', ',', 'I', 'mean', ',', 'until', 'when', 'do', 'you', 'expect', ',', 'I', 'mean', ',', 'I', 'mean', ',', 'the', 'lack', 'of', 'stability', 'in', 'the', 'Palestinian', 'matter', '?', '[SEP]', 'Iraq', 'and', 'Palestine', 'went', 'to', 'Britain', ',', 'and', 'Syria', 'and', 'Lebanon', 'went', 'to', 'LOC', '.', '.', '[SEP]']
+[0m
+[34mInstance 12: ['This', 'is', 'the', 'fourth', 'source', '.'][0m
+[33mPrompt 12: ['Rep', '.', 'Hamilton', 'said', 'the', 'purpose', 'of', 'the', 'meetings', 'would', 'be', 'to', '`', '`', 'improve', 'communications', 'and', 'perhaps', 'coordination', 'between', 'the', 'executive', 'branch', 'and', 'the', 'ORG', '.', "'", "'", '[SEP]', 'Here', "'", 's', 'NBC', "'", 's', 'Robert', 'Ha', '##ger', ',', '`', '`', 'MISC', '.', "'", "'", '[SEP]', 'PER', 'points', 'to', 'other', 'countries', 'that', 'have', 'a', 'doctrine', 'of', 'extending', 'the', 'battlefield', 'outside', 'national', 'territory', '.', '[SEP]', 'LOC', 'and', 'Palestine', 'went', 'to', 'Britain', ',', 'and', 'Syria', 'and', 'Lebanon', 'went', 'to', 'France', '.', '.', '[SEP]']
+[0m
+[34mInstance 14: ['Animal', 'expert', 'Jack', 'Hannah', 'takes', 'us', 'to', 'a', 'place', 'where', 'people', 'and', 'wildlife', 'try', 'to', 'co-exist', 'a', 'place', 'where', 'both', 'share', 'a', 'horrific', 'past', '/.'][0m
+[33mPrompt 14: ['Here', "'", 's', 'ORG', "'", 's', 'Robert', 'Ha', '##ger', ',', '`', '`', 'in', 'depth', '.', "'", "'", '[SEP]', 'But', 'when', 'the', 'high', 'court', 'ruled', 'in', 'the', 'Webster', 'case', 'in', 'MISC', ',', 'the', 'president', 'began', 'to', 'lower', 'the', 'volume', '.', '[SEP]', 'The', 'cost', 'of', 'his', 'one', '-', 'way', 'ticket', 'was', 'borne', 'by', 'his', 'colleague', 'at', 'Air', 'Force', 'HQ', 'Chang', 'Chu', '##an', '-', 'j', '##en', ',', 'who', 'generous', '##ly', 'put', 'his', 'entire', 'savings', 'of', 'N', '##T', '$', '5', ',', '000', 'at', 'PER', "'", 's', 'disposal', '.', '[SEP]', 'B', '##iki', '##ng', 'groups', 'in', 'LOC', ',', 'Idaho', ',', 'Michigan', 'and', 'Massachusetts', 'have', 'won', 'similar', 'concessions', ',', 'says', 'Tim', 'Blu', '##ment', '##hal', ',', 'mountain', 'bike', 'editor', 'of', 'B', '##ic', '##y', '##c', '##ling', 'magazine', '.', '[SEP]']
+[0m
+[34mInstance 16: ['Israel', 'says', 'it', 'wants', 'security', '.'][0m
+[33mPrompt 16: ['ORG', ',', 'Beijing', ',', 'March', '21st', '[SEP]', 'The', 'cost', 'of', 'his', 'one', '-', 'way', 'ticket', 'was', 'borne', 'by', 'his', 'colleague', 'at', 'Air', 'Force', 'HQ', 'Chang', 'Chu', '##an', '-', 'j', '##en', ',', 'who', 'generous', '##ly', 'put', 'his', 'entire', 'savings', 'of', 'MISC', 'at', 'H', '##sia', "'", 's', 'disposal', '.', '[SEP]', 'Animal', 'expert', 'PER', 'takes', 'us', 'to', 'a', 'place', 'where', 'people', 'and', 'wildlife', 'try', 'to', 'co', '-', 'exist', 'a', 'place', 'where', 'both', 'share', 'a', 'horrific', 'past', '/', '.', '[SEP]', 'Iraq', 'and', 'Palestine', 'went', 'to', 'Britain', ',', 'and', 'Syria', 'and', 'LOC', 'went', 'to', 'France', '.', '.', '[SEP]']
+[0m
+[34mInstance 18: ['West', 'Germany', "'s", 'cost', '-', 'of', '-', 'living', 'index', 'rose', 'a', 'preliminary', '0.3', '%', 'in', 'October', 'from', 'September', 'and', 'was', 'up', '3.3', '%', 'from', 'a', 'year', 'earlier', ',', 'the', 'Federal', 'Statistics', 'Office', 'in', 'Wiesbaden', 'said', '.'][0m
+[33mPrompt 18: ['While', 'ORG', 'rails', 'against', 'Hazel', "'", 's', 'developments', 'on', 'the', 'basis', 'they', 'are', 'not', 'wanted', 'and', 'they', 'are', 'bad', 'for', 'tax', '##payers', ',', 'the', 'fact', 're', '##ami', '##ns', 'that', 'they', 'are', 'all', 'sold', 'to', 'tax', '##payers', '.', '[SEP]', 'Del', '##med', 'also', 'would', 'receive', 'the', 'MISC', 'rights', 'to', 'certain', 'Fr', '##ese', '##nius', 'AG', 'products', '.', '[SEP]', 'The', 'cost', 'of', 'his', 'one', '-', 'way', 'ticket', 'was', 'borne', 'by', 'his', 'colleague', 'at', 'Air', 'Force', 'HQ', 'Chang', 'Chu', '##an', '-', 'j', '##en', ',', 'who', 'generous', '##ly', 'put', 'his', 'entire', 'savings', 'of', 'N', '##T', '$', '5', ',', '000', 'at', 'PER', "'", 's', 'disposal', '.', '[SEP]', 'LOC', 'cost', '-', 'of', '-', 'living', 'index', 'rose', 'a', 'preliminary', '0', '.', '3', '%', 'in', 'October', 'from', 'September', 'and', 'was', 'up', '3', '.', '3', '%', 'from', 'a', 'year', 'earlier', ',', 'the', 'Federal', 'Statistics', 'Office', 'in', 'W', '##ies', '##bad', '##en', 'said', '.', '[SEP]']
+[0m
+[34mInstance 20: ['His', 'grip', 'began', 'to', 'slip', 'on', 'September', '24th', ',', 'when', 'as', 'even', 'he', 'admitted', 'opposition', 'candidate', 'Vojislav', 'Kostunica', 'won', 'more', 'votes', 'in', 'a', 'nation', '-', 'wide', 'election', '.'][0m
+[33mPrompt 20: ['The', 'West', 'German', 'paper', 'company', 'entered', 'the', 'venture', 'in', 'April', '1988', 'by', 'acquiring', 'a', '50', '%', 'stake', ',', 'also', 'from', 'ORG', '.', '[SEP]', 'On', 'MISC', ',', 'MAC', 'Vice', '-', 'Chairman', 'Ten', '##g', 'Chen', '-', 'ch', '##ung', 'stated', 'that', 'the', 'government', 'has', 'already', 'begun', 'planning', 'for', 'the', 'full', 'three', 'links', '.', '[SEP]', 'On', 'December', '18', ',', 'MAC', 'Vice', '-', 'Chairman', 'PER', 'stated', 'that', 'the', 'government', 'has', 'already', 'begun', 'planning', 'for', 'the', 'full', 'three', 'links', '.', '[SEP]', 'B', '##iki', '##ng', 'groups', 'in', 'Montana', ',', 'Idaho', ',', 'Michigan', 'and', 'LOC', 'have', 'won', 'similar', 'concessions', ',', 'says', 'Tim', 'Blu', '##ment', '##hal', ',', 'mountain', 'bike', 'editor', 'of', 'B', '##ic', '##y', '##c', '##ling', 'magazine', '.', '[SEP]']
+[0m
+[34mInstance 22: ['Biking', 'groups', 'in', 'Montana', ',', 'Idaho', ',', 'Michigan', 'and', 'Massachusetts', 'have', 'won', 'similar', 'concessions', ',', 'says', 'Tim', 'Blumenthal', ',', 'mountain', 'bike', 'editor', 'of', 'Bicycling', 'magazine', '.'][0m
+[33mPrompt 22: ['The', 'cost', 'of', 'his', 'one', '-', 'way', 'ticket', 'was', 'borne', 'by', 'his', 'colleague', 'at', 'ORG', ',', 'who', 'generous', '##ly', 'put', 'his', 'entire', 'savings', 'of', 'N', '##T', '$', '5', ',', '000', 'at', 'H', '##sia', "'", 's', 'disposal', '.', '[SEP]', 'Here', "'", 's', 'NBC', "'", 's', 'Robert', 'Ha', '##ger', ',', '`', '`', 'MISC', '.', "'", "'", '[SEP]', 'Here', "'", 's', 'NBC', "'", 's', 'PER', ',', '`', '`', 'in', 'depth', '.', "'", "'", '[SEP]', 'LOC', 'and', 'Palestine', 'went', 'to', 'Britain', ',', 'and', 'Syria', 'and', 'Lebanon', 'went', 'to', 'France', '.', '.', '[SEP]']
+[0m
+[34mInstance 24: ['So', 'when', 'they', 'pray', 'to', 'the', 'Kitchen', 'God', ',', 'people', 'place', 'sweets', ',', 'fresh', 'water', ',', 'black', 'beans', ',', 'and', 'hay', 'on', 'a', 'table', 'in', 'front', 'of', 'the', 'Kitchen', 'God', "'s", 'image', ';', 'the', 'last', 'three', 'of', 'these', 'are', 'for', 'the', 'horse', 'that', 'the', 'Kitchen', 'God', 'rides', 'to', 'Heaven', '.'][0m
+[33mPrompt 24: ['Rep', '.', 'Hamilton', 'said', 'the', 'purpose', 'of', 'the', 'meetings', 'would', 'be', 'to', '`', '`', 'improve', 'communications', 'and', 'perhaps', 'coordination', 'between', 'the', 'executive', 'branch', 'and', 'the', 'ORG', '.', "'", "'", '[SEP]', 'The', 'West', 'German', 'paper', 'company', 'entered', 'the', 'venture', 'in', 'April', '1988', 'by', 'acquiring', 'a', 'MISC', 'stake', ',', 'also', 'from', 'Be', '##gh', '##in', '-', 'Say', '.', '[SEP]', 'But', 'when', 'the', 'high', 'court', 'ruled', 'in', 'the', 'PER', 'case', 'in', 'July', ',', 'the', 'president', 'began', 'to', 'lower', 'the', 'volume', '.', '[SEP]', 'B', '##iki', '##ng', 'groups', 'in', 'Montana', ',', 'LOC', ',', 'Michigan', 'and', 'Massachusetts', 'have', 'won', 'similar', 'concessions', ',', 'says', 'Tim', 'Blu', '##ment', '##hal', ',', 'mountain', 'bike', 'editor', 'of', 'B', '##ic', '##y', '##c', '##ling', 'magazine', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/ontonotes_conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 7602
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['President', 'Chen', 'Travels', 'Abroad'][0m
+[33mPrompt 0: ['The', 'West', 'German', 'paper', 'company', 'entered', 'the', 'venture', 'in', 'April', '1988', 'by', 'acquiring', 'a', '50', '%', 'stake', ',', 'also', 'from', 'ORG', '.', '[SEP]', 'On', 'MISC', ',', 'MAC', 'Vice', '-', 'Chairman', 'Ten', '##g', 'Chen', '-', 'ch', '##ung', 'stated', 'that', 'the', 'government', 'has', 'already', 'begun', 'planning', 'for', 'the', 'full', 'three', 'links', '.', '[SEP]', 'B', '##iki', '##ng', 'groups', 'in', 'Montana', ',', 'Idaho', ',', 'Michigan', 'and', 'Massachusetts', 'have', 'won', 'similar', 'concessions', ',', 'says', 'PER', ',', 'mountain', 'bike', 'editor', 'of', 'B', '##ic', '##y', '##c', '##ling', 'magazine', '.', '[SEP]', 'West', 'Germany', "'", 's', 'cost', '-', 'of', '-', 'living', 'index', 'rose', 'a', 'preliminary', '0', '.', '3', '%', 'in', 'October', 'from', 'September', 'and', 'was', 'up', '3', '.', '3', '%', 'from', 'a', 'year', 'earlier', ',', 'the', 'Federal', 'Statistics', 'Office', 'in', 'LOC', 'said', '.', '[SEP]']
+[0m
+[34mInstance 760: ['First', 'of', 'all', 'here', "'s", 'a', 'quick', 'track', 'of', 'some', 'of', 'the', 'stories', 'we', "'re", 'following', 'tonight', '/.'][0m
+[33mPrompt 760: ['Tide', '##water', 'Inc', '.', '-', '-', '4', ',', '63', '##1', ',', '400', 'common', 'shares', ',', 'via', 'ORG', '##omo', '##n', 'Brothers', 'Inc', '.', '[SEP]', 'West', 'Germany', "'", 's', 'cost', '-', 'of', '-', 'living', 'index', 'rose', 'a', 'preliminary', 'MISC', 'in', 'October', 'from', 'September', 'and', 'was', 'up', '3', '.', '3', '%', 'from', 'a', 'year', 'earlier', ',', 'the', 'Federal', 'Statistics', 'Office', 'in', 'W', '##ies', '##bad', '##en', 'said', '.', '[SEP]', 'Animal', 'expert', 'PER', 'takes', 'us', 'to', 'a', 'place', 'where', 'people', 'and', 'wildlife', 'try', 'to', 'co', '-', 'exist', 'a', 'place', 'where', 'both', 'share', 'a', 'horrific', 'past', '/', '.', '[SEP]', 'President', 'Putin', 'acknowledged', 'that', 'Russia', 'is', 'still', 'violating', 'its', 'commitment', 'in', 'LOC', ',', 'but', 'he', 'said', 'it', 'is', 'only', 'a', 'temporary', 'situation', 'which', 'has', 'the', 'ultimate', 'aim', 'of', 'cutting', 'armament', '##s', 'in', 'the', 'region', '.', '[SEP]']
+[0m
+[34mInstance 1520: ['Yes', ',', 'there', 'is', 'a', '100', 'year', '-', 'old', 'Israeli', '-', 'Arab', 'conflict', ','][0m
+[33mPrompt 1520: ['Del', '##med', 'also', 'would', 'receive', 'the', 'North', 'American', 'rights', 'to', 'certain', 'ORG', 'products', '.', '[SEP]', 'MISC', ',', 'China', "'", 's', 'imports', 'of', 'primary', 'products', 'increased', 'rapidly', ',', 'and', 'the', 'structure', 'of', 'exported', 'commodities', 'was', 'further', 'op', '##ti', '##mized', '.', '[SEP]', 'His', 'grip', 'began', 'to', 'slip', 'on', 'September', '24th', ',', 'when', 'as', 'even', 'he', 'admitted', 'opposition', 'candidate', 'PER', 'won', 'more', 'votes', 'in', 'a', 'nation', '-', 'wide', 'election', '.', '[SEP]', '`', '`', 'Obviously', ',', 'pride', 'sells', 'in', 'Texas', ',', "'", "'", 'says', 'a', 'spoke', '##s', '##woman', 'for', 'Bo', '##zel', '##l', 'Inc', '.', ',', 'Omaha', ',', 'LOC', '##eb', '.', ',', 'which', 'represents', '[SEP]']
+[0m
+[34mInstance 2280: ['The', 'stressful', ',', 'monumental', 'task', 'for', 'the', 'crew', 'on', 'the', 'U.S.', 'carrier', 'suffered', 'a', 'setback', '.'][0m
+[33mPrompt 2280: ['Del', '##med', 'also', 'would', 'receive', 'the', 'North', 'American', 'rights', 'to', 'certain', 'ORG', 'products', '.', '[SEP]', 'On', 'MISC', ',', 'MAC', 'Vice', '-', 'Chairman', 'Ten', '##g', 'Chen', '-', 'ch', '##ung', 'stated', 'that', 'the', 'government', 'has', 'already', 'begun', 'planning', 'for', 'the', 'full', 'three', 'links', '.', '[SEP]', 'B', '##iki', '##ng', 'groups', 'in', 'Montana', ',', 'Idaho', ',', 'Michigan', 'and', 'Massachusetts', 'have', 'won', 'similar', 'concessions', ',', 'says', 'PER', ',', 'mountain', 'bike', 'editor', 'of', 'B', '##ic', '##y', '##c', '##ling', 'magazine', '.', '[SEP]', 'Xi', '##nh', '##ua', 'News', 'Agency', ',', 'LOC', ',', 'March', '21st', '[SEP]']
+[0m
+[34mInstance 3040: ['For', 'the', 'first', 'time', ',', 'with', 'the', '``', 'Cole', "''", 'out', 'of', 'the', 'water', ',', 'the', 'full', 'impact', 'of', 'the', 'catastrophic', 'blast', 'clearly', 'visible', '.'][0m
+[33mPrompt 3040: ['On', 'December', '18', ',', 'ORG', 'Vice', '-', 'Chairman', 'Ten', '##g', 'Chen', '-', 'ch', '##ung', 'stated', 'that', 'the', 'government', 'has', 'already', 'begun', 'planning', 'for', 'the', 'full', 'three', 'links', '.', '[SEP]', 'Del', '##med', 'also', 'would', 'receive', 'the', 'MISC', 'rights', 'to', 'certain', 'Fr', '##ese', '##nius', 'AG', 'products', '.', '[SEP]', 'Animal', 'expert', 'PER', 'takes', 'us', 'to', 'a', 'place', 'where', 'people', 'and', 'wildlife', 'try', 'to', 'co', '-', 'exist', 'a', 'place', 'where', 'both', 'share', 'a', 'horrific', 'past', '/', '.', '[SEP]', '`', '`', 'Obviously', ',', 'pride', 'sells', 'in', 'Texas', ',', "'", "'", 'says', 'a', 'spoke', '##s', '##woman', 'for', 'Bo', '##zel', '##l', 'Inc', '.', ',', 'LOC', ',', 'N', '##eb', '.', ',', 'which', 'represents', '[SEP]']
+[0m
+[34mInstance 3800: ['The', 'total', 'marks', 'the', 'sixth', 'consecutive', 'monthly', 'decline', '.'][0m
+[33mPrompt 3800: ['Del', '##med', 'also', 'would', 'receive', 'the', 'North', 'American', 'rights', 'to', 'certain', 'ORG', 'products', '.', '[SEP]', 'Xi', '##nh', '##ua', 'News', 'Agency', ',', 'Beijing', ',', 'MISC', '[SEP]', 'Rep', '.', 'PER', 'said', 'the', 'purpose', 'of', 'the', 'meetings', 'would', 'be', 'to', '`', '`', 'improve', 'communications', 'and', 'perhaps', 'coordination', 'between', 'the', 'executive', 'branch', 'and', 'the', 'Fed', '.', "'", "'", '[SEP]', 'West', 'Germany', "'", 's', 'cost', '-', 'of', '-', 'living', 'index', 'rose', 'a', 'preliminary', '0', '.', '3', '%', 'in', 'October', 'from', 'September', 'and', 'was', 'up', '3', '.', '3', '%', 'from', 'a', 'year', 'earlier', ',', 'the', 'Federal', 'Statistics', 'Office', 'in', 'LOC', 'said', '.', '[SEP]']
+[0m
+[34mInstance 4560: ['In', 'an', 'interview', ',', 'Mr.', 'Bernstein', 'said', 'his', 'departure', '``', 'evolved', 'out', 'of', 'discussions', 'with', 'Si', 'Newhouse', 'and', 'that', "'s", 'the', 'decision', 'I', 'reached', '.', "''"][0m
+[33mPrompt 4560: ['On', 'December', '18', ',', 'ORG', 'Vice', '-', 'Chairman', 'Ten', '##g', 'Chen', '-', 'ch', '##ung', 'stated', 'that', 'the', 'government', 'has', 'already', 'begun', 'planning', 'for', 'the', 'full', 'three', 'links', '.', '[SEP]', 'This', 'is', 'the', 'MISC', 'source', '.', '[SEP]', 'B', '##iki', '##ng', 'groups', 'in', 'Montana', ',', 'Idaho', ',', 'Michigan', 'and', 'Massachusetts', 'have', 'won', 'similar', 'concessions', ',', 'says', 'PER', ',', 'mountain', 'bike', 'editor', 'of', 'B', '##ic', '##y', '##c', '##ling', 'magazine', '.', '[SEP]', '`', '`', 'Obviously', ',', 'pride', 'sells', 'in', 'Texas', ',', "'", "'", 'says', 'a', 'spoke', '##s', '##woman', 'for', 'Bo', '##zel', '##l', 'Inc', '.', ',', 'Omaha', ',', 'LOC', '##eb', '.', ',', 'which', 'represents', '[SEP]']
+[0m
+[34mInstance 5320: ['Thursday', "'s", 'report', 'on', 'the', 'September', 'consumer', 'price', 'index', 'is', 'expected', 'to', 'rise', ',', 'although', 'not', 'as', 'sharply', 'as', 'the', '0.9', '%', 'gain', 'reported', 'Friday', 'in', 'the', 'producer', 'price', 'index', '.'][0m
+[33mPrompt 5320: ['The', 'West', 'German', 'paper', 'company', 'entered', 'the', 'venture', 'in', 'April', '1988', 'by', 'acquiring', 'a', '50', '%', 'stake', ',', 'also', 'from', 'ORG', '.', '[SEP]', 'But', 'when', 'the', 'high', 'court', 'ruled', 'in', 'the', 'Webster', 'case', 'in', 'MISC', ',', 'the', 'president', 'began', 'to', 'lower', 'the', 'volume', '.', '[SEP]', 'But', 'when', 'the', 'high', 'court', 'ruled', 'in', 'the', 'PER', 'case', 'in', 'July', ',', 'the', 'president', 'began', 'to', 'lower', 'the', 'volume', '.', '[SEP]', 'Xi', '##nh', '##ua', 'News', 'Agency', ',', 'LOC', ',', 'March', '21st', '[SEP]']
+[0m
+[34mInstance 6080: ['Well', 'before', 'Campeau', ',', 'though', ',', 'there', 'were', 'signs', 'that', 'the', 'junk', 'market', 'was', 'stumbling', 'through', 'one', 'of', 'its', 'worst', 'years', 'ever', '.'][0m
+[33mPrompt 6080: ['West', 'Germany', "'", 's', 'cost', '-', 'of', '-', 'living', 'index', 'rose', 'a', 'preliminary', '0', '.', '3', '%', 'in', 'October', 'from', 'September', 'and', 'was', 'up', '3', '.', '3', '%', 'from', 'a', 'year', 'earlier', ',', 'ORG', 'in', 'W', '##ies', '##bad', '##en', 'said', '.', '[SEP]', 'So', 'when', 'they', 'pray', 'to', 'the', 'Kitchen', 'God', ',', 'people', 'place', 'sweet', '##s', ',', 'fresh', 'water', ',', 'black', 'beans', ',', 'and', 'hay', 'on', 'a', 'table', 'in', 'front', 'of', 'the', 'Kitchen', 'God', "'", 's', 'image', ';', 'the', 'last', 'MISC', 'of', 'these', 'are', 'for', 'the', 'horse', 'that', 'the', 'Kitchen', 'God', 'rides', 'to', 'Heaven', '.', '[SEP]', 'Animal', 'expert', 'PER', 'takes', 'us', 'to', 'a', 'place', 'where', 'people', 'and', 'wildlife', 'try', 'to', 'co', '-', 'exist', 'a', 'place', 'where', 'both', 'share', 'a', 'horrific', 'past', '/', '.', '[SEP]', '`', '`', 'Obviously', ',', 'pride', 'sells', 'in', 'LOC', ',', "'", "'", 'says', 'a', 'spoke', '##s', '##woman', 'for', 'Bo', '##zel', '##l', 'Inc', '.', ',', 'Omaha', ',', 'N', '##eb', '.', ',', 'which', 'represents', '[SEP]']
+[0m
+[34mInstance 6840: ['Fidelity', ',', 'for', 'example', ',', 'prepared', 'ads', 'several', 'months', 'ago', 'in', 'case', 'of', 'a', 'market', 'plunge', '.'][0m
+[33mPrompt 6840: ['While', 'ORG', 'rails', 'against', 'Hazel', "'", 's', 'developments', 'on', 'the', 'basis', 'they', 'are', 'not', 'wanted', 'and', 'they', 'are', 'bad', 'for', 'tax', '##payers', ',', 'the', 'fact', 're', '##ami', '##ns', 'that', 'they', 'are', 'all', 'sold', 'to', 'tax', '##payers', '.', '[SEP]', 'The', 'cost', 'of', 'his', 'one', '-', 'way', 'ticket', 'was', 'borne', 'by', 'his', 'colleague', 'at', 'Air', 'Force', 'HQ', 'Chang', 'Chu', '##an', '-', 'j', '##en', ',', 'who', 'generous', '##ly', 'put', 'his', 'entire', 'savings', 'of', 'MISC', 'at', 'H', '##sia', "'", 's', 'disposal', '.', '[SEP]', 'While', 'No', '##S', '##pra', '##wl', '##T', '##ax', 'rails', 'against', 'PER', "'", 's', 'developments', 'on', 'the', 'basis', 'they', 'are', 'not', 'wanted', 'and', 'they', 'are', 'bad', 'for', 'tax', '##payers', ',', 'the', 'fact', 're', '##ami', '##ns', 'that', 'they', 'are', 'all', 'sold', 'to', 'tax', '##payers', '.', '[SEP]', 'President', 'Putin', 'acknowledged', 'that', 'Russia', 'is', 'still', 'violating', 'its', 'commitment', 'in', 'LOC', ',', 'but', 'he', 'said', 'it', 'is', 'only', 'a', 'temporary', 'situation', 'which', 'has', 'the', 'ultimate', 'aim', 'of', 'cutting', 'armament', '##s', 'in', 'the', 'region', '.', '[SEP]']
+[0m
+[34mInstance 7600: ['Henceforth', ',', 'the', 'focus', 'of', 'national', 'economic', 'construction', 'will', 'be', 'gradually', 'transferred', 'to', 'the', 'Mid-west', 'in', 'steps', ',', 'and', 'has', 'reinforced', 'support', 'for', 'foreign', 'investment', 'utilization', 'in', 'the', 'Mid-west', 'areas', ',', 'and', 'fundamental', 'industries', 'such', 'as', 'agriculture', ',', 'transportation', ',', 'raw', 'materials', ',', 'etc.', 'are', 'still', 'the', 'focus', 'of', 'investments', '.'][0m
+[33mPrompt 7600: ['On', 'December', '18', ',', 'ORG', 'Vice', '-', 'Chairman', 'Ten', '##g', 'Chen', '-', 'ch', '##ung', 'stated', 'that', 'the', 'government', 'has', 'already', 'begun', 'planning', 'for', 'the', 'full', 'three', 'links', '.', '[SEP]', 'But', 'when', 'the', 'high', 'court', 'ruled', 'in', 'the', 'Webster', 'case', 'in', 'MISC', ',', 'the', 'president', 'began', 'to', 'lower', 'the', 'volume', '.', '[SEP]', 'While', 'No', '##S', '##pra', '##wl', '##T', '##ax', 'rails', 'against', 'PER', "'", 's', 'developments', 'on', 'the', 'basis', 'they', 'are', 'not', 'wanted', 'and', 'they', 'are', 'bad', 'for', 'tax', '##payers', ',', 'the', 'fact', 're', '##ami', '##ns', 'that', 'they', 'are', 'all', 'sold', 'to', 'tax', '##payers', '.', '[SEP]', 'LOC', 'cost', '-', 'of', '-', 'living', 'index', 'rose', 'a', 'preliminary', '0', '.', '3', '%', 'in', 'October', 'from', 'September', 'and', 'was', 'up', '3', '.', '3', '%', 'from', 'a', 'year', 'earlier', ',', 'the', 'Federal', 'Statistics', 'Office', 'in', 'W', '##ies', '##bad', '##en', 'said', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/ontonotes_conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 5091
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Powerful', 'Tools', 'for', 'Biotechnology', '-', 'Biochips'][0m
+[33mPrompt 0: ['The', 'cost', 'of', 'his', 'one', '-', 'way', 'ticket', 'was', 'borne', 'by', 'his', 'colleague', 'at', 'ORG', ',', 'who', 'generous', '##ly', 'put', 'his', 'entire', 'savings', 'of', 'N', '##T', '$', '5', ',', '000', 'at', 'H', '##sia', "'", 's', 'disposal', '.', '[SEP]', 'Tide', '##water', 'Inc', '.', '-', '-', 'MISC', 'common', 'shares', ',', 'via', 'Sal', '##omo', '##n', 'Brothers', 'Inc', '.', '[SEP]', 'On', 'December', '18', ',', 'MAC', 'Vice', '-', 'Chairman', 'PER', 'stated', 'that', 'the', 'government', 'has', 'already', 'begun', 'planning', 'for', 'the', 'full', 'three', 'links', '.', '[SEP]', 'LOC', 'says', 'it', 'wants', 'security', '.', '[SEP]']
+[0m
+[34mInstance 509: ['would', "n't", 'it', 'also', 'contribute', 'to', 'completely', 'connect', 'the', 'Palestinian', 'and', 'Jordanian', 'economy', 'to', 'the', 'Israeli', 'I', 'mean', ',', 'what', 'generates', 'from', 'it', ',', 'may', 'be', ',', 'of', 'demographic', ',', 'economic', 'and', 'development', 'projects', '.'][0m
+[33mPrompt 509: ['The', 'West', 'German', 'paper', 'company', 'entered', 'the', 'venture', 'in', 'April', '1988', 'by', 'acquiring', 'a', '50', '%', 'stake', ',', 'also', 'from', 'ORG', '.', '[SEP]', 'The', 'MISC', 'paper', 'company', 'entered', 'the', 'venture', 'in', 'April', '1988', 'by', 'acquiring', 'a', '50', '%', 'stake', ',', 'also', 'from', 'Be', '##gh', '##in', '-', 'Say', '.', '[SEP]', 'Animal', 'expert', 'PER', 'takes', 'us', 'to', 'a', 'place', 'where', 'people', 'and', 'wildlife', 'try', 'to', 'co', '-', 'exist', 'a', 'place', 'where', 'both', 'share', 'a', 'horrific', 'past', '/', '.', '[SEP]', 'West', 'Germany', "'", 's', 'cost', '-', 'of', '-', 'living', 'index', 'rose', 'a', 'preliminary', '0', '.', '3', '%', 'in', 'October', 'from', 'September', 'and', 'was', 'up', '3', '.', '3', '%', 'from', 'a', 'year', 'earlier', ',', 'the', 'Federal', 'Statistics', 'Office', 'in', 'LOC', 'said', '.', '[SEP]']
+[0m
+[34mInstance 1018: ['Um', 'you', 'were', 'recently', 'profiled', 'about', 'this', 'in', 'Fortune', 'magazine', '/.'][0m
+[33mPrompt 1018: ['While', 'ORG', 'rails', 'against', 'Hazel', "'", 's', 'developments', 'on', 'the', 'basis', 'they', 'are', 'not', 'wanted', 'and', 'they', 'are', 'bad', 'for', 'tax', '##payers', ',', 'the', 'fact', 're', '##ami', '##ns', 'that', 'they', 'are', 'all', 'sold', 'to', 'tax', '##payers', '.', '[SEP]', 'West', 'Germany', "'", 's', 'cost', '-', 'of', '-', 'living', 'index', 'rose', 'a', 'preliminary', 'MISC', 'in', 'October', 'from', 'September', 'and', 'was', 'up', '3', '.', '3', '%', 'from', 'a', 'year', 'earlier', ',', 'the', 'Federal', 'Statistics', 'Office', 'in', 'W', '##ies', '##bad', '##en', 'said', '.', '[SEP]', 'On', 'December', '18', ',', 'MAC', 'Vice', '-', 'Chairman', 'PER', 'stated', 'that', 'the', 'government', 'has', 'already', 'begun', 'planning', 'for', 'the', 'full', 'three', 'links', '.', '[SEP]', 'Xi', '##nh', '##ua', 'News', 'Agency', ',', 'LOC', ',', 'March', '21st', '[SEP]']
+[0m
+[34mInstance 1527: ['Taylor', ',', 'who', 'is', 'now', 'in', 'exile', 'in', 'Nigeria', ',', 'was', 'a', 'business', 'partner', 'with', 'Christian', 'Coalition', 'founder', 'Pat', 'Robertson', '...', 'in', 'a', 'Cayman', 'Islands', 'front', 'company', 'called', 'Freedom', 'Gold', ',', 'Ltd', '.'][0m
+[33mPrompt 1527: ['ORG', ',', 'Beijing', ',', 'March', '21st', '[SEP]', 'The', 'cost', 'of', 'his', 'MISC', '-', 'way', 'ticket', 'was', 'borne', 'by', 'his', 'colleague', 'at', 'Air', 'Force', 'HQ', 'Chang', 'Chu', '##an', '-', 'j', '##en', ',', 'who', 'generous', '##ly', 'put', 'his', 'entire', 'savings', 'of', 'N', '##T', '$', '5', ',', '000', 'at', 'H', '##sia', "'", 's', 'disposal', '.', '[SEP]', 'His', 'grip', 'began', 'to', 'slip', 'on', 'September', '24th', ',', 'when', 'as', 'even', 'he', 'admitted', 'opposition', 'candidate', 'PER', 'won', 'more', 'votes', 'in', 'a', 'nation', '-', 'wide', 'election', '.', '[SEP]', 'LOC', 'says', 'it', 'wants', 'security', '.', '[SEP]']
+[0m
+[34mInstance 2036: ['Saddam', 'Hussein', ':', 'I', 'have', 'only', 'honor', 'left', 'and', 'honor', 'can', 'not', 'be', 'sold', 'or', 'bought', '.'][0m
+[33mPrompt 2036: ['On', 'December', '18', ',', 'ORG', 'Vice', '-', 'Chairman', 'Ten', '##g', 'Chen', '-', 'ch', '##ung', 'stated', 'that', 'the', 'government', 'has', 'already', 'begun', 'planning', 'for', 'the', 'full', 'three', 'links', '.', '[SEP]', 'MISC', ',', 'China', "'", 's', 'imports', 'of', 'primary', 'products', 'increased', 'rapidly', ',', 'and', 'the', 'structure', 'of', 'exported', 'commodities', 'was', 'further', 'op', '##ti', '##mized', '.', '[SEP]', 'His', 'grip', 'began', 'to', 'slip', 'on', 'September', '24th', ',', 'when', 'as', 'even', 'he', 'admitted', 'opposition', 'candidate', 'PER', 'won', 'more', 'votes', 'in', 'a', 'nation', '-', 'wide', 'election', '.', '[SEP]', 'B', '##iki', '##ng', 'groups', 'in', 'Montana', ',', 'Idaho', ',', 'Michigan', 'and', 'LOC', 'have', 'won', 'similar', 'concessions', ',', 'says', 'Tim', 'Blu', '##ment', '##hal', ',', 'mountain', 'bike', 'editor', 'of', 'B', '##ic', '##y', '##c', '##ling', 'magazine', '.', '[SEP]']
+[0m
+[34mInstance 2545: ['The', 'FBI', 'says', 'when', 'they', 'questioned', 'him', ',', 'he', 'told', 'them', 'of', 'another', 'plot', 'to', 'bomb', 'an', 'American', 'ship', 'in', 'Yemen', ',', 'where', 'the', '``', 'USS', 'Cole', "''", 'was', 'ultimately', 'attacked', '.'][0m
+[33mPrompt 2545: ['Del', '##med', 'also', 'would', 'receive', 'the', 'North', 'American', 'rights', 'to', 'certain', 'ORG', 'products', '.', '[SEP]', 'But', 'when', 'the', 'high', 'court', 'ruled', 'in', 'the', 'Webster', 'case', 'in', 'MISC', ',', 'the', 'president', 'began', 'to', 'lower', 'the', 'volume', '.', '[SEP]', 'President', 'PER', 'acknowledged', 'that', 'Russia', 'is', 'still', 'violating', 'its', 'commitment', 'in', 'Ch', '##ech', '##nya', ',', 'but', 'he', 'said', 'it', 'is', 'only', 'a', 'temporary', 'situation', 'which', 'has', 'the', 'ultimate', 'aim', 'of', 'cutting', 'armament', '##s', 'in', 'the', 'region', '.', '[SEP]', 'LOC', 'cost', '-', 'of', '-', 'living', 'index', 'rose', 'a', 'preliminary', '0', '.', '3', '%', 'in', 'October', 'from', 'September', 'and', 'was', 'up', '3', '.', '3', '%', 'from', 'a', 'year', 'earlier', ',', 'the', 'Federal', 'Statistics', 'Office', 'in', 'W', '##ies', '##bad', '##en', 'said', '.', '[SEP]']
+[0m
+[34mInstance 3054: ['If', 'the', 'workers', 'do', "n't", 'approve', 'the', 'steep', 'cutbacks', 'American', 'says', 'it', 'will', 'file', 'for', 'bankruptcy', '.'][0m
+[33mPrompt 3054: ['The', 'West', 'German', 'paper', 'company', 'entered', 'the', 'venture', 'in', 'April', '1988', 'by', 'acquiring', 'a', '50', '%', 'stake', ',', 'also', 'from', 'ORG', '.', '[SEP]', 'So', 'when', 'they', 'pray', 'to', 'the', 'Kitchen', 'God', ',', 'people', 'place', 'sweet', '##s', ',', 'fresh', 'water', ',', 'black', 'beans', ',', 'and', 'hay', 'on', 'a', 'table', 'in', 'front', 'of', 'the', 'Kitchen', 'God', "'", 's', 'image', ';', 'the', 'last', 'MISC', 'of', 'these', 'are', 'for', 'the', 'horse', 'that', 'the', 'Kitchen', 'God', 'rides', 'to', 'Heaven', '.', '[SEP]', 'President', 'PER', 'acknowledged', 'that', 'Russia', 'is', 'still', 'violating', 'its', 'commitment', 'in', 'Ch', '##ech', '##nya', ',', 'but', 'he', 'said', 'it', 'is', 'only', 'a', 'temporary', 'situation', 'which', 'has', 'the', 'ultimate', 'aim', 'of', 'cutting', 'armament', '##s', 'in', 'the', 'region', '.', '[SEP]', 'LOC', 'and', 'Palestine', 'went', 'to', 'Britain', ',', 'and', 'Syria', 'and', 'Lebanon', 'went', 'to', 'France', '.', '.', '[SEP]']
+[0m
+[34mInstance 3563: ['However', ',', 'Time', 'executives', 'used', 'the', 'same', 'explanation', 'when', 'in', 'October', '1988', 'the', 'magazine', 'cut', 'its', 'guaranteed', 'circulation', 'from', '4.6', 'million', 'to', '4.3', 'million', '.'][0m
+[33mPrompt 3563: ['West', 'Germany', "'", 's', 'cost', '-', 'of', '-', 'living', 'index', 'rose', 'a', 'preliminary', '0', '.', '3', '%', 'in', 'October', 'from', 'September', 'and', 'was', 'up', '3', '.', '3', '%', 'from', 'a', 'year', 'earlier', ',', 'ORG', 'in', 'W', '##ies', '##bad', '##en', 'said', '.', '[SEP]', 'Xi', '##nh', '##ua', 'News', 'Agency', ',', 'Beijing', ',', 'MISC', '[SEP]', 'President', 'PER', 'acknowledged', 'that', 'Russia', 'is', 'still', 'violating', 'its', 'commitment', 'in', 'Ch', '##ech', '##nya', ',', 'but', 'he', 'said', 'it', 'is', 'only', 'a', 'temporary', 'situation', 'which', 'has', 'the', 'ultimate', 'aim', 'of', 'cutting', 'armament', '##s', 'in', 'the', 'region', '.', '[SEP]', 'Iraq', 'and', 'Palestine', 'went', 'to', 'Britain', ',', 'and', 'Syria', 'and', 'Lebanon', 'went', 'to', 'LOC', '.', '.', '[SEP]']
+[0m
+[34mInstance 4072: ['CNN', 'executives', 'hope', 'the', 'headlines', 'created', 'by', 'such', 'scoops', 'will', 'generate', 'excitement', 'for', 'its', '``', 'branded', "''", 'programs', ',', 'in', 'the', 'way', '``', '60', 'Minutes', "''", 'did', 'so', 'well', 'for', 'CBS', '.'][0m
+[33mPrompt 4072: ['On', 'December', '18', ',', 'ORG', 'Vice', '-', 'Chairman', 'Ten', '##g', 'Chen', '-', 'ch', '##ung', 'stated', 'that', 'the', 'government', 'has', 'already', 'begun', 'planning', 'for', 'the', 'full', 'three', 'links', '.', '[SEP]', 'The', 'West', 'German', 'paper', 'company', 'entered', 'the', 'venture', 'in', 'April', '1988', 'by', 'acquiring', 'a', 'MISC', 'stake', ',', 'also', 'from', 'Be', '##gh', '##in', '-', 'Say', '.', '[SEP]', 'Doctor', 'PER', ',', 'I', 'mean', ',', 'until', 'when', 'do', 'you', 'expect', ',', 'I', 'mean', ',', 'I', 'mean', ',', 'the', 'lack', 'of', 'stability', 'in', 'the', 'Palestinian', 'matter', '?', '[SEP]', 'President', 'Putin', 'acknowledged', 'that', 'LOC', 'is', 'still', 'violating', 'its', 'commitment', 'in', 'Ch', '##ech', '##nya', ',', 'but', 'he', 'said', 'it', 'is', 'only', 'a', 'temporary', 'situation', 'which', 'has', 'the', 'ultimate', 'aim', 'of', 'cutting', 'armament', '##s', 'in', 'the', 'region', '.', '[SEP]']
+[0m
+[34mInstance 4581: ['He', 'has', 'said', 'that', 'he', 'now', 'knows', 'how', 'Justice', 'John', 'Harlan', 'felt', ',', 'a', 'reference', 'to', 'the', 'late', 'conservative', 'justice', 'who', 'was', 'the', 'most', 'frequent', 'dissenter', 'from', 'the', 'Warren', 'Court', "'s", 'opinions', '.'][0m
+[33mPrompt 4581: ['ORG', 'magazine', '.', '[SEP]', 'The', 'cost', 'of', 'his', 'one', '-', 'way', 'ticket', 'was', 'borne', 'by', 'his', 'colleague', 'at', 'Air', 'Force', 'HQ', 'Chang', 'Chu', '##an', '-', 'j', '##en', ',', 'who', 'generous', '##ly', 'put', 'his', 'entire', 'savings', 'of', 'MISC', 'at', 'H', '##sia', "'", 's', 'disposal', '.', '[SEP]', 'PER', 'points', 'to', 'other', 'countries', 'that', 'have', 'a', 'doctrine', 'of', 'extending', 'the', 'battlefield', 'outside', 'national', 'territory', '.', '[SEP]', 'B', '##iki', '##ng', 'groups', 'in', 'Montana', ',', 'LOC', ',', 'Michigan', 'and', 'Massachusetts', 'have', 'won', 'similar', 'concessions', ',', 'says', 'Tim', 'Blu', '##ment', '##hal', ',', 'mountain', 'bike', 'editor', 'of', 'B', '##ic', '##y', '##c', '##ling', 'magazine', '.', '[SEP]']
+[0m
+[34mInstance 5090: ['Picture', 'taken', 'by', 'Xinhua', 'News', 'Agency', 'reporter', 'Shengnan', 'Li'][0m
+[33mPrompt 5090: ['Tide', '##water', 'Inc', '.', '-', '-', '4', ',', '63', '##1', ',', '400', 'common', 'shares', ',', 'via', 'ORG', '##omo', '##n', 'Brothers', 'Inc', '.', '[SEP]', 'The', 'cost', 'of', 'his', 'MISC', '-', 'way', 'ticket', 'was', 'borne', 'by', 'his', 'colleague', 'at', 'Air', 'Force', 'HQ', 'Chang', 'Chu', '##an', '-', 'j', '##en', ',', 'who', 'generous', '##ly', 'put', 'his', 'entire', 'savings', 'of', 'N', '##T', '$', '5', ',', '000', 'at', 'H', '##sia', "'", 's', 'disposal', '.', '[SEP]', 'His', 'grip', 'began', 'to', 'slip', 'on', 'September', '24th', ',', 'when', 'as', 'even', 'he', 'admitted', 'opposition', 'candidate', 'PER', 'won', 'more', 'votes', 'in', 'a', 'nation', '-', 'wide', 'election', '.', '[SEP]', 'Iraq', 'and', 'Palestine', 'went', 'to', 'Britain', ',', 'and', 'Syria', 'and', 'LOC', 'went', 'to', 'France', '.', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 3
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/ontonotes_conll/transformers_trainer_random_lexical_25_5555_2021.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1910.01703, Time is 1.21s
+[34m[dev set Total] Prec.: 0.05, Rec.: 0.02, F1: 0.03[0m
+saving the best model...
+Epoch 2: 1516.09351, Time is 1.18s
+[34m[dev set Total] Prec.: 0.87, Rec.: 0.56, F1: 0.68[0m
+saving the best model...
+Epoch 3: 1085.39346, Time is 1.17s
+[34m[dev set Total] Prec.: 3.03, Rec.: 12.28, F1: 4.86[0m
+saving the best model...
+Epoch 4: 764.76428, Time is 1.21s
+[34m[dev set Total] Prec.: 0.09, Rec.: 0.03, F1: 0.05[0m
+Epoch 5: 597.86932, Time is 1.13s
+[34m[dev set Total] Prec.: 0.26, Rec.: 0.01, F1: 0.02[0m
+Epoch 6: 527.27390, Time is 1.18s
+[34m[dev set Total] Prec.: 0.89, Rec.: 0.09, F1: 0.16[0m
+Epoch 7: 465.87903, Time is 1.12s
+[34m[dev set Total] Prec.: 1.87, Rec.: 0.38, F1: 0.63[0m
+Epoch 8: 408.07410, Time is 1.09s
+[34m[dev set Total] Prec.: 3.51, Rec.: 0.87, F1: 1.39[0m
+Epoch 9: 353.08136, Time is 1.09s
+[34m[dev set Total] Prec.: 6.55, Rec.: 2.55, F1: 3.67[0m
+Epoch 10: 308.76981, Time is 1.17s
+[34m[dev set Total] Prec.: 12.12, Rec.: 7.41, F1: 9.19[0m
+saving the best model...
+Epoch 11: 267.55542, Time is 1.20s
+[34m[dev set Total] Prec.: 17.18, Rec.: 12.11, F1: 14.21[0m
+saving the best model...
+Epoch 12: 229.37158, Time is 1.20s
+[34m[dev set Total] Prec.: 20.94, Rec.: 16.27, F1: 18.32[0m
+saving the best model...
+Epoch 13: 199.36639, Time is 1.12s
+[34m[dev set Total] Prec.: 20.89, Rec.: 18.51, F1: 19.63[0m
+saving the best model...
+Epoch 14: 171.76331, Time is 1.10s
+[34m[dev set Total] Prec.: 21.48, Rec.: 19.84, F1: 20.63[0m
+saving the best model...
+Epoch 15: 149.93805, Time is 1.12s
+[34m[dev set Total] Prec.: 23.09, Rec.: 21.13, F1: 22.07[0m
+saving the best model...
+Epoch 16: 130.46960, Time is 1.13s
+[34m[dev set Total] Prec.: 25.10, Rec.: 23.52, F1: 24.29[0m
+saving the best model...
+Epoch 17: 111.23700, Time is 1.19s
+[34m[dev set Total] Prec.: 27.27, Rec.: 25.28, F1: 26.24[0m
+saving the best model...
+Epoch 18: 97.12640, Time is 1.12s
+[34m[dev set Total] Prec.: 29.16, Rec.: 27.53, F1: 28.32[0m
+saving the best model...
+Epoch 19: 83.42914, Time is 1.12s
+[34m[dev set Total] Prec.: 30.79, Rec.: 29.86, F1: 30.32[0m
+saving the best model...
+Epoch 20: 72.19977, Time is 1.12s
+[34m[dev set Total] Prec.: 31.77, Rec.: 31.41, F1: 31.59[0m
+saving the best model...
+Epoch 21: 60.87225, Time is 1.12s
+[34m[dev set Total] Prec.: 32.53, Rec.: 32.77, F1: 32.65[0m
+saving the best model...
+Epoch 22: 53.19568, Time is 1.11s
+[34m[dev set Total] Prec.: 33.09, Rec.: 33.85, F1: 33.47[0m
+saving the best model...
+Epoch 23: 45.59058, Time is 1.13s
+[34m[dev set Total] Prec.: 33.92, Rec.: 34.49, F1: 34.21[0m
+saving the best model...
+Epoch 24: 38.66876, Time is 1.15s
+[34m[dev set Total] Prec.: 34.68, Rec.: 34.90, F1: 34.79[0m
+saving the best model...
+Epoch 25: 33.41998, Time is 1.12s
+[34m[dev set Total] Prec.: 35.27, Rec.: 35.38, F1: 35.33[0m
+saving the best model...
+Epoch 26: 30.76080, Time is 1.12s
+[34m[dev set Total] Prec.: 35.41, Rec.: 36.31, F1: 35.85[0m
+saving the best model...
+Epoch 27: 26.12207, Time is 1.12s
+[34m[dev set Total] Prec.: 35.43, Rec.: 36.94, F1: 36.17[0m
+saving the best model...
+Epoch 28: 22.10034, Time is 1.09s
+[34m[dev set Total] Prec.: 35.60, Rec.: 37.26, F1: 36.41[0m
+saving the best model...
+Epoch 29: 20.34723, Time is 1.13s
+[34m[dev set Total] Prec.: 36.04, Rec.: 37.20, F1: 36.61[0m
+saving the best model...
+Epoch 30: 18.00964, Time is 1.14s
+[34m[dev set Total] Prec.: 36.35, Rec.: 37.38, F1: 36.86[0m
+saving the best model...
+Epoch 31: 15.84772, Time is 1.26s
+[34m[dev set Total] Prec.: 36.40, Rec.: 37.30, F1: 36.85[0m
+Epoch 32: 13.66614, Time is 1.05s
+[34m[dev set Total] Prec.: 36.38, Rec.: 37.15, F1: 36.76[0m
+Epoch 33: 12.47119, Time is 1.04s
+[34m[dev set Total] Prec.: 36.45, Rec.: 37.12, F1: 36.78[0m
+Epoch 34: 11.94202, Time is 1.08s
+[34m[dev set Total] Prec.: 36.39, Rec.: 37.18, F1: 36.78[0m
+Epoch 35: 10.44696, Time is 1.03s
+[34m[dev set Total] Prec.: 36.34, Rec.: 37.18, F1: 36.76[0m
+Epoch 36: 10.29718, Time is 1.04s
+[34m[dev set Total] Prec.: 36.39, Rec.: 37.59, F1: 36.98[0m
+saving the best model...
+Epoch 37: 9.64209, Time is 1.14s
+[34m[dev set Total] Prec.: 36.55, Rec.: 37.86, F1: 37.20[0m
+saving the best model...
+Epoch 38: 9.02429, Time is 1.12s
+[34m[dev set Total] Prec.: 36.79, Rec.: 37.87, F1: 37.32[0m
+saving the best model...
+Epoch 39: 8.25055, Time is 1.11s
+[34m[dev set Total] Prec.: 37.00, Rec.: 37.63, F1: 37.31[0m
+Epoch 40: 7.75659, Time is 1.06s
+[34m[dev set Total] Prec.: 37.21, Rec.: 37.46, F1: 37.34[0m
+saving the best model...
+Epoch 41: 7.37000, Time is 1.15s
+[34m[dev set Total] Prec.: 37.27, Rec.: 37.57, F1: 37.42[0m
+saving the best model...
+Epoch 42: 6.66052, Time is 1.16s
+[34m[dev set Total] Prec.: 37.28, Rec.: 37.69, F1: 37.48[0m
+saving the best model...
+Epoch 43: 6.45288, Time is 1.13s
+[34m[dev set Total] Prec.: 37.39, Rec.: 37.94, F1: 37.66[0m
+saving the best model...
+Epoch 44: 5.96179, Time is 1.18s
+[34m[dev set Total] Prec.: 37.42, Rec.: 38.01, F1: 37.71[0m
+saving the best model...
+Epoch 45: 5.73523, Time is 1.11s
+[34m[dev set Total] Prec.: 37.47, Rec.: 38.03, F1: 37.75[0m
+saving the best model...
+Epoch 46: 6.53320, Time is 1.13s
+[34m[dev set Total] Prec.: 37.49, Rec.: 37.96, F1: 37.72[0m
+Epoch 47: 5.94348, Time is 1.03s
+[34m[dev set Total] Prec.: 37.48, Rec.: 37.86, F1: 37.67[0m
+Epoch 48: 6.06201, Time is 1.04s
+[34m[dev set Total] Prec.: 37.53, Rec.: 37.88, F1: 37.70[0m
+Epoch 49: 5.26459, Time is 1.04s
+[34m[dev set Total] Prec.: 37.51, Rec.: 37.81, F1: 37.66[0m
+Epoch 50: 5.36047, Time is 1.04s
+[34m[dev set Total] Prec.: 37.51, Rec.: 37.81, F1: 37.66[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 37.75
+Final testing.
+[34m[test set Total] Prec.: 37.28, Rec.: 38.28, F1: 37.77[0m
