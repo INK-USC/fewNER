@@ -6,7 +6,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--data', type=str, default='conll/train_all.txt', help="text file - dataset")
 parser.add_argument('--target_data', type=str, default='conll/train_50_5555.txt', help="text file - dataset")
 parser.add_argument('--number', type=int, default=50, help="number of sentences in dataset")
-parser.add_argument('--seed', type=int, default=5555, help="number of sentences in dataset")
+parser.add_argument('--seed', type=int, default=None, help="number of sentences in dataset")
 
 args = parser.parse_known_args()[0]
 
@@ -43,7 +43,7 @@ def labels_from_sents(sents):
     for sent in sents:
         sent_label = []
         for i in sent:
-            label = i.split(' ')[-1]
+            label = i.split('\t')[-1]
             sent_label.append(label)
         sent_label = convert_iobes(sent_label)
         for s_label in sent_label:
@@ -52,8 +52,9 @@ def labels_from_sents(sents):
     return labels
 
 def dataset_slice(number, sents, label_space):
-    random.seed(seed)
-    random.shuffle(sents)
+    if seed is not None:
+        random.seed(seed)
+        random.shuffle(sents)
     labels = set()
 
     sent_index = 0
@@ -65,7 +66,7 @@ def dataset_slice(number, sents, label_space):
                 tmp_bool = False
                 tmp_labels = []
                 for s in sent:
-                    tmp_labels.append(s.split(' ')[-1])
+                    tmp_labels.append(s.split('\t')[-1])
                 tmp_labels = convert_iobes(tmp_labels)
                 for tl in tmp_labels:
                     if tl.startswith("I-"):
@@ -78,7 +79,7 @@ def dataset_slice(number, sents, label_space):
 
         sent_labels = []
         for s in sents[sent_index]:
-            sent_labels.append(s.split(' ')[-1])
+            sent_labels.append(s.split('\t')[-1])
         sent_labels = convert_iobes(sent_labels)
         if len(list(set(sent_labels))) > 1:
             labels = labels.union(set(sent_labels))

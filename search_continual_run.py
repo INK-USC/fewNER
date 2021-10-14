@@ -7,15 +7,17 @@ from src.model import TransformersCRF
 import torch
 from typing import List
 from termcolor import colored
+from src.config.utils import write_results
 from src.config.transformers_util import get_huggingface_optimizer_and_scheduler
 from src.config import context_models, get_metric
+import pickle
+import tarfile
 from tqdm import tqdm
 from collections import Counter
 from src.data import TransformersNERSearchDataset
 from torch.utils.data import DataLoader
 import os
 import pickle
-import itertools as it
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
@@ -46,7 +48,7 @@ def parse_arguments(parser):
     parser.add_argument('--l2', type=float, default=1e-8)
     parser.add_argument('--lr_decay', type=float, default=0)
     parser.add_argument('--batch_size', type=int, default=10, help="default batch size is 10 (works well for normal neural crf), here default 30 for bert-based crf")
-    parser.add_argument('--num_epochs', type=int, default=40, help="Usually we set to 10.")
+    parser.add_argument('--num_epochs', type=int, default=20, help="Usually we set to 10.")
     parser.add_argument('--train_num', type=int, default=-1, help="-1 means all the data")
     parser.add_argument('--dev_num', type=int, default=-1, help="-1 means all the data")
     parser.add_argument('--test_num', type=int, default=-1, help="-1 means all the data")
@@ -54,7 +56,7 @@ def parse_arguments(parser):
     parser.add_argument('--max_grad_norm', type=float, default=1.0, help="The maximum gradient norm, if <=0, means no clipping, usually we don't use clipping for normal neural ncrf")
 
     ##model hyperparameter
-    parser.add_argument('--checkpoint', type=str, default="", help="The name to save the model files")
+    parser.add_argument('--checkpoint', type=str, default="model_files/model/conll_all", help="The name to save the model files")
     parser.add_argument('--model_folder', type=str, default="english_model", help="The name to save the model files")
     parser.add_argument('--hidden_dim', type=int, default=0, help="hidden size of the LSTM, usually we set to 200 for LSTM-CRF")
     parser.add_argument('--dropout', type=float, default=0.5, help="dropout for embedding")
@@ -71,28 +73,59 @@ def parse_arguments(parser):
     parser.add_argument('--test_file', type=str, default="data/conll2003_sample/test.txt", help="test file for test mode, only applicable in test mode")
     parser.add_argument('--percentage', type=int, default=100, help="how much percentage of training dataset to use")
 
-    parser.add_argument('--prompt', type=str, choices=["max", "random", "sbert", "bertscore"], help="prompt mode")
-    parser.add_argument('--template', type=str, choices=["no_context", "basic", "basic_all", "structure", "structure_all", "lexical", "lexical_all"], help="template mode")
-    parser.add_argument('--search_pool', type=str, choices=["source", "target", "source+target"], help="template mode")
+    parser.add_argument('--prompt', type=str, choices=["max", "random", "sbert", "bertscore", "search"], help="prompt mode")
+    parser.add_argument('--template', type=str, choices=["no_context", "basic", "basic_all", "structure", "structure_all","lexical","lexical_all"], help="template mode")
+    parser.add_argument('--search_pool', type=str, choices=["source","target","source+target"], help="template mode")
 
     args = parser.parse_args()
     for k in args.__dict__:
         print(k + ": " + str(args.__dict__[k]))
     return args
 
-def train_model_search(config: Config, epoch: int, train_loader: DataLoader, dev_loader: DataLoader):
+
+def train_model(config: Config, epoch: int, train_loader: DataLoader, dev_loader: DataLoader, test_loader: DataLoader, result_out_file_path: str):
     ### Data Processing Info
     train_num = len(train_loader)
     print(f"[Data Info] number of training instances: {train_num}")
 
+    print(
+        colored(f"[Model Info]: Working with transformers package from huggingface with {config.embedder_type}", 'red'))
+    print(colored(f"[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.", 'red'))
+    print(colored(f"[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.", 'red'))
+    folder_name = config.checkpoint
+    assert os.path.isdir(folder_name)
+
+    f = open(folder_name + "/config.conf", 'rb')
+    temp_config = pickle.load(f)
+    f.close()
+    temp_model = TransformersCRF(temp_config)
+    temp_model.load_state_dict(torch.load(f"{folder_name}/lstm_crf.m", map_location=config.device))
+
     model = TransformersCRF(config)
+    model.embedder = temp_model.embedder
+
     optimizer, scheduler = get_huggingface_optimizer_and_scheduler(config, model, num_training_steps=len(train_loader) * epoch,
                                                                    weight_decay=0.0, eps = 1e-8, warmup_step=0)
+    print(colored(f"[Optimizer Info] Modify the optimizer info as you need.", 'red'))
+    print(optimizer)
 
     model.to(config.device)
 
     best_dev = [-1, 0]
+    best_test = [-1, 0]
 
+    model_folder = config.model_folder
+    res_folder = "results"
+    if os.path.exists("model_files/" + model_folder):
+        raise FileExistsError(
+            f"The folder model_files/{model_folder} exists. Please either delete it or create a new one "
+            f"to avoid override.")
+    model_path = f"model_files/{model_folder}/lstm_crf.m"
+    config_path = f"model_files/{model_folder}/config.conf"
+    res_path = f"{res_folder}/{model_folder}.results"
+    print("[Info] The model will be saved to: %s.tar.gz" % (model_folder))
+    os.makedirs(f"model_files/{model_folder}", exist_ok= True) ## create model files. not raise error if exist
+    os.makedirs(res_folder, exist_ok=True)
     no_incre_dev = 0
     print(colored(f"[Train Info] Start training, you have set to stop if performace not increase for {config.max_no_incre} epochs",'red'))
     for i in tqdm(range(1, epoch + 1), desc="Epoch"):
@@ -118,12 +151,20 @@ def train_model_search(config: Config, epoch: int, train_loader: DataLoader, dev
 
         model.eval()
         dev_metrics = evaluate_model(config, model, dev_loader, "dev", dev_loader.dataset.insts)
+        #test_metrics = evaluate_model(config, model, test_loader, "test", test_loader.dataset.insts)
         if dev_metrics[2] > best_dev[0]:
             print("saving the best model...")
             no_incre_dev = 0
             best_dev[0] = dev_metrics[2]
             best_dev[1] = i
-
+            #best_test[0] = test_metrics[2]
+            #best_test[1] = i
+            torch.save(model.state_dict(), model_path)
+            # Save the corresponding config as well.
+            f = open(config_path, 'wb')
+            pickle.dump(config, f)
+            f.close()
+            #write_results(res_path, test_loader.dataset.insts)
         else:
             no_incre_dev += 1
         model.zero_grad()
@@ -131,8 +172,19 @@ def train_model_search(config: Config, epoch: int, train_loader: DataLoader, dev
             print("early stop because there are %d epochs not increasing f1 on dev"%no_incre_dev)
             break
 
+    print("Archiving the best Model...")
+    with tarfile.open(f"model_files/{model_folder}.tar.gz", "w:gz") as tar:
+        tar.add(f"model_files/{model_folder}", arcname=os.path.basename(model_folder))
+
+    print("Finished archiving the models")
+
     print("The best dev: %.2f" % (best_dev[0]))
-    return best_dev[0]
+    #print("The corresponding test: %.2f" % (best_test[0]))
+    print("Final testing.")
+    model.load_state_dict(torch.load(model_path))
+    model.eval()
+    evaluate_model(config, model, test_loader, "test", test_loader.dataset.insts, result_out_file_path=result_out_file_path)
+    write_results(res_path, test_loader.dataset.insts)
 
 
 def evaluate_model(config: Config, model: TransformersCRF, data_loader: DataLoader, name: str, insts: List, print_each_type_metric: bool = False, result_out_file_path: str = None):
@@ -184,54 +236,40 @@ def main():
         set_seed(opt, conf.seed)
         print(colored(f"[Data Info] Tokenizing the instances using '{conf.embedder_type}' tokenizer", "blue"))
         tokenizer = context_models[conf.embedder_type]["tokenizer"].from_pretrained(conf.embedder_type)
-        conf.dev_file = os.path.join(conf.data_dir, "dev_300.txt")
         print(colored(f"[Data Info] Reading dataset from: \n{conf.train_file}\n{conf.dev_file}\n{conf.test_file}", "blue"))
-
-        entity_candidate = TransformersNERSearchDataset(conf.train_file, tokenizer, number=conf.train_num,
-                                                          is_train=True, percentage=conf.percentage, template=conf.template)
-
-
-        keys, values = zip(*entity_candidate.prompt_candidates.items())
-        permutations_dicts = [dict(zip(keys, v)) for v in it.product(*values)]
-        best_combination = None
-        best_dev = 0
-        combination_file = open(conf.dataset + "_" + conf.percent_filename_suffix + "_" + conf.template + "_" + "combination.txt", "w")
-
-        for combination in permutations_dicts:
-            result_string = ""
-            for x in combination:
-                result_string += x + ": " + combination[x][0] + ", "
-            print(result_string)
-            train_dataset = TransformersNERSearchDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True,
+        f = open(conf.dataset + "_" + conf.percent_filename_suffix.split("_")[0] + "_" + conf.template + "_" + "combination.pkl", 'rb')
+        combination = pickle.load(f)
+        print(combination)
+        train_dataset = TransformersNERSearchDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True,
                                                    percentage=conf.percentage, template=conf.template, entity_candidate=combination)
 
-            conf.label2idx = train_dataset.label2idx
-            conf.idx2labels = train_dataset.idx2labels
+        conf.label2idx = train_dataset.label2idx
+        conf.idx2labels = train_dataset.idx2labels
 
-            dev_dataset = TransformersNERSearchDataset(conf.dev_file, tokenizer, number=conf.dev_num,
-                                                 label2idx=train_dataset.label2idx, is_train=False, template=conf.template,
-                                                 entity_candidate=combination)
-            num_workers = 8
-            conf.label_size = len(train_dataset.label2idx)
-            train_dataloader = DataLoader(train_dataset, batch_size=conf.batch_size, shuffle=True, num_workers=num_workers, collate_fn=train_dataset.collate_fn)
-            dev_dataloader = DataLoader(dev_dataset, batch_size=conf.batch_size, shuffle=False, num_workers=num_workers, collate_fn=dev_dataset.collate_fn)
-            dev_score = train_model_search(conf, conf.num_epochs, train_dataloader, dev_dataloader)
+        dev_dataset = TransformersNERSearchDataset(conf.dev_file, tokenizer, number=conf.dev_num,
+                                             label2idx=train_dataset.label2idx, is_train=False, template=conf.template,
+                                             entity_candidate=combination)
+        test_dataset = TransformersNERSearchDataset(conf.test_file, tokenizer, number=conf.dev_num,
+                                                   label2idx=train_dataset.label2idx, is_train=False,
+                                                   template=conf.template, entity_candidate=combination)
 
-            result_string += str(dev_score)
-            print(result_string)
-            combination_file.write("%s\n" % result_string)
-            combination_file.flush()
-            if dev_score > 0:
-                best_combination = combination
-                best_dev = dev_score
 
-        print("best combination: ")
-        for x in best_combination:
-            print(x + ": " + best_combination[x][0])
-        print(best_dev)
+        num_workers = 8
+        conf.label_size = len(train_dataset.label2idx)
+        train_dataloader = DataLoader(train_dataset, batch_size=conf.batch_size, shuffle=True, num_workers=num_workers, collate_fn=train_dataset.collate_fn)
+        dev_dataloader = DataLoader(dev_dataset, batch_size=conf.batch_size, shuffle=False, num_workers=num_workers, collate_fn=dev_dataset.collate_fn)
+        test_dataloader = DataLoader(test_dataset, batch_size=conf.batch_size, shuffle=False, num_workers=num_workers, collate_fn=test_dataset.collate_fn)
 
-        f = open(conf.dataset + "_" + conf.percent_filename_suffix + "_" + conf.template + "_" + "combination.pkl", 'wb')
-        pickle.dump(best_combination, f)
+        # For writing the metric results
+        result_out_dir = "results_metrics/{}/{}".format(opt.dataset, opt.embedder_type.replace("-", "_"))
+        if opt.hidden_dim > 0:
+            result_out_dir += "_bilstm"
+        result_out_dir += "_crf"
+        if not os.path.exists(result_out_dir):
+            os.makedirs(result_out_dir)
+        result_out_file_path = os.path.join(result_out_dir, "train_{}.txt".format(opt.percent_filename_suffix))
+
+        train_model(conf, conf.num_epochs, train_dataloader, dev_dataloader, test_dataloader, result_out_file_path)
     else:
         print(f"Unknown mode {opt.mode}")
         return

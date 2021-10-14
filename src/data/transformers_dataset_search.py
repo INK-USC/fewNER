@@ -49,7 +49,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
         max_entities = {}
         for label in entity_dict:
             max_entities[label] = []
-            for x in sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True)[0:10]:
+            for x in sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True)[0:3]:
                 max_entities[label].append([x[0], tuple(x[1])[0]])
 
     num_to_examine = 1 # Number of sample prompts we want to see
