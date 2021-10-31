@@ -13,6 +13,7 @@ from transformers import PreTrainedTokenizer
 import collections
 import numpy as np
 from termcolor import colored
+from scipy import stats
 from src.data.data_utils import convert_iobes, build_label_idx, check_all_labels_in_dict
 import bert_score
 from src.data import Instance
@@ -82,6 +83,8 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
     if prompt:
         print(colored("Some sample prompts used: ", "red"))
 
+    top_k_correct_selection_count = 0
+    scores = []
     for idx, inst in enumerate(instances):
         words = inst.ori_words
         orig_to_tok_index = []
@@ -108,6 +111,16 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
             for score, idx in zip(top_results[0], top_results[1]):
                 prompt_words = search_space_dict[search_space[idx]].ori_words
                 prompt_entities = search_space_dict[search_space[idx]].entities
+                # stats
+                if prompt_candidates_from_outside is not None and idx % step_sz == 0:
+                    print("[debug] Query: " + " ".join(inst.ori_words))
+                    print("[debug] Selected: " + search_space[idx])
+                    print("[debug] Score: %f" % score)
+                    print("[debug] Prompt Entities: ", prompt_entities)
+                if search_space_dict[search_space[idx]] == inst:
+                    top_k_correct_selection_count += 1
+                scores.append(score.item())
+                # stats end
 
                 if template == "basic_all":
                     for i, word in enumerate(prompt_words):
@@ -172,6 +185,16 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
             for score, idx in zip(top_results[0], top_results[1]):
                 prompt_words = search_space_dict[search_space[idx]].ori_words
                 prompt_entities = search_space_dict[search_space[idx]].entities
+                # stats
+                if prompt_candidates_from_outside is not None and idx % step_sz == 0:
+                    print("[debug] Query: " + " ".join(inst.ori_words))
+                    print("[debug] Selected: " + search_space[idx])
+                    print("[debug] Score: %f" % score)
+                    print("[debug] Prompt Entities: ", prompt_entities)
+                if search_space_dict[search_space[idx]] == inst:
+                    top_k_correct_selection_count += 1
+                scores.append(score.item())
+                # stats end
 
                 if template == "basic_all":
                     for i, word in enumerate(prompt_words):
@@ -410,6 +433,13 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                                     token_type_ids=segment_ids,
                                     word_seq_len=len(orig_to_tok_index),
                                     label_ids=label_ids))
+
+    if prompt_candidates_from_outside is None:
+        print(colored("[Info] Top 1 selection precision: %.2f" % (top_k_correct_selection_count / len(instances)), 'yellow'))
+
+    print("[debug] Score Stats:", stats.describe(scores))
+    print("[debug] Scores:", scores)
+    print("##################################")
 
     if prompt_candidates_from_outside is None and prompt is not None:
         return features, candidates
