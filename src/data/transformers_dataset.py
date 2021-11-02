@@ -434,12 +434,13 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                                     word_seq_len=len(orig_to_tok_index),
                                     label_ids=label_ids))
 
-    if prompt_candidates_from_outside is None:
+    if prompt_candidates_from_outside is None and (prompt == "sbert" or prompt == "bertscore"):
         print(colored("[Info] Top 1 selection precision: %.2f" % (top_k_correct_selection_count / len(instances)), 'yellow'))
 
-    print("[debug] Score Stats:", stats.describe(scores))
-    print("[debug] Scores:", scores)
-    print("##################################")
+    if len(scores) > 0 and (prompt == "sbert" or prompt == "bertscore"):
+        print("[debug] Score Stats:", stats.describe(scores))
+        print("[debug] Scores:", scores)
+        print("##################################")
 
     if prompt_candidates_from_outside is None and prompt is not None:
         return features, candidates
