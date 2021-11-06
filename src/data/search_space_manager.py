@@ -1,6 +1,6 @@
-"""
-A manager to facilitate instance-oriented demonstration NER. 
-"""
+#
+# @author: Kangmin
+#
 
 from src.data import Instance
 from typing import List, Dict, Set
@@ -8,8 +8,7 @@ from typing import List, Dict, Set
 
 class SearchSpaceManager:
     """
-        In instance-oriented NER we sometimes have restrictions on the search space.
-        This singleton object helps with managing search spaces. 
+        A singleton manager object that helps with search space restriction in instance-oriented demonstration. 
     """
 
     def __init__(self, instances: List[Instance]):
@@ -30,7 +29,9 @@ class SearchSpaceManager:
 
     def build_combination_search_spaces(self):
         """
-            Build a search space for each possible combination of labels using bitmask
+            Build a search space for each possible combination of labels using bitmask. 
+            Note that for a combination x, we choose the instances whose label combinations are supersets of x.
+            So an instance might appear in multiple search spaces.
         """
         # Because there should be 2^n search spaces, n cannot be too large.
         assert len(self._labels) < 10, \
@@ -50,7 +51,7 @@ class SearchSpaceManager:
 
     def build_single_label_search_spaces(self):
         """
-            Build a search space for each label, which contains all the instances that appear in this label.
+            Build a search space for each label, which contains all the instances that have this label.
             An instance may appear in multiple single label search spaces.
         """
         N = len(self._labels)
@@ -63,8 +64,7 @@ class SearchSpaceManager:
 
     def single_label_search_space(self, label: str) -> List[Instance]:
         """
-            Get the search space of one single label.
-            Return the space that contains all the instances that has this label.
+            Returns the space that contains all the instances that has this label.
         """
         if not self._built_single_label_spaces:
             self.build_single_label_search_spaces()
@@ -76,7 +76,7 @@ class SearchSpaceManager:
 
     def superset_labels_search_space(self, inst: Instance) -> List[Instance]:
         """
-            Get the search space of sentences whos labels are supersets of this instance.
+            Returns the search space of instances whose labels are supersets of instance inst.
         """
         if not self._built_combination_spaces:
             self.build_combination_search_spaces()
@@ -89,7 +89,7 @@ class SearchSpaceManager:
 
     def __get_mask(self, inst: Instance):
         """
-            Get the bitmask state of the labels appeared in an entity.
+            Get the bitmask state of an instance based on the labels it has.
         """
         mask = 0
         labels = set(label for entity, label in inst.entities)

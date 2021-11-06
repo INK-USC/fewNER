@@ -19,6 +19,7 @@ from torch.utils.data import DataLoader
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
+# Hardcode a file to see whether the search space manager is finding the right search space.
 tokenizer = context_models["bert-base-cased"]["tokenizer"].from_pretrained("bert-base-cased")
 dataset = TransformersNERDataset("dataset/conll/train_200.txt", tokenizer, number=-1, is_train=True, percentage=100)
 manager = SearchSpaceManager(dataset.insts)
