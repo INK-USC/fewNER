@@ -24,7 +24,7 @@ class SearchSpaceManager:
         # Assign each possible label an index and build a mapping from label to index
         # This helps building the combination search spaces by giving each label an encoding.
         self._id2lb = list(self._labels)
-        self._lb2id = dict((s, i) for i, s in enumerate(self._lb2id))
+        self._lb2id = d = dict((s, i) for i, s in enumerate(self._id2lb))
 
         self._built_combination_spaces = self._built_single_label_spaces = False
 
@@ -37,13 +37,13 @@ class SearchSpaceManager:
             f"N={len(self._labels)}, too large to build combination search spaces!"
 
         N = (1 << len(self._labels))
-        self._comb_space = [[]] * N
+        self._comb_space = [[] for _ in range(N)]
         # Enumerate all the combinations of labels
         for inst in self._insts:
             state = self.__get_mask(inst)
             for msk in range(N):
-                # determine if this instance's labels is a subset of this mask
-                if (msk | state) == msk:
+                # determine if this instance's labels is a superset of this mask
+                if (msk & state) == msk:
                     self._comb_space[msk].append(inst)
 
         self._built_combination_spaces = True
@@ -54,7 +54,7 @@ class SearchSpaceManager:
             An instance may appear in multiple single label search spaces.
         """
         N = len(self._labels)
-        self._singlelb_space = [[]] * N
+        self._singlelb_space = [[] for _ in range(N)]
         for inst in self._insts:
             for lb in set(label for entity, label in inst.entities):
                 self._singlelb_space[self._lb2id[lb]].append(inst)
