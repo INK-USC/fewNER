@@ -42,6 +42,7 @@ def gen_command_logfilename_modelfolder(args, seed, suffix):
         " --device cuda:0" + \
         " --percent_filename_suffix " + suffix + \
         " --num_epochs 50" + \
+        " --batch_size 4" + \
         ((" --prompt " + args.prompt + " --template " + args.template) if args.prompt else "") + \
         " --seed " + seed + " > " + log_file
 
@@ -51,13 +52,15 @@ def gen_command_logfilename_modelfolder(args, seed, suffix):
 log_files = []
 model_folders = []
 for suffix in suffices:
+    sub_runs = []
     for seed in seeds:
         predict_cmd,log_file,model_folder = gen_command_logfilename_modelfolder(args, seed, suffix)
-        log_files.append(log_file)
+        sub_runs.append(log_file)
         model_folders.append(model_folder)
         print("Executing command: " + predict_cmd + "\n")
         sys.stdout.flush() # Otherwise the command won't show for some reason
         os.system(predict_cmd)
+    log_files.append(sub_runs)
 
 for model_folder in model_folders:
     rm_cmd = "rm -rf model_files/" + model_folder
@@ -65,18 +68,24 @@ for model_folder in model_folders:
 
 ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
 f1_scores = []
-for file in log_files:
-    with open(file, 'r') as reader:
-        for line in reader:
-            pass
-        last_line = line
-        f1_scores.append(float(ansi_escape.sub('', last_line.split()[-1])))
+for subrun in log_files:
+    subrun_f1s = []
+    for file in subrun:
+        with open(file, 'r') as reader:
+            for line in reader:
+                pass
+            last_line = line
+            subrun_f1s.append(float(ansi_escape.sub('', last_line.split()[-1])))
+    f1_scores.append(subrun_f1s)
+
+print(f"F1 score array {f1_scores}")
 
 arr = numpy.array(f1_scores)
-mean = numpy.mean(arr, axis=0)
-std = numpy.std(arr, axis=0)
-print("average: ", numpy.mean(arr, axis=0))
-print("std: ", numpy.std(arr, axis=0))
+mean = arr.flatten().mean()
+# Calculate the std of the average instead of everything
+std = arr.mean(axis=1).std()
+print("average: ", mean)
+print("std: ", std)
 
 # Write result summary to a txt file. 
 with open(args.dataset + "_" + args.train_file.split('.')[0] + "_" + (args.prompt if args.prompt else "None") + "_" + (args.template if args.prompt else "None") + "_" + args.suffix + ".txt", 'w') as file:
