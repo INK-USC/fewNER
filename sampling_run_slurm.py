@@ -16,7 +16,7 @@ parser.add_argument('--no_subsamples', type=bool, required=False, default=False,
 
 args = parser.parse_known_args()[0]
 
-suffices = ([args.suffix + "_1337", args.suffix + "_2021", args.suffix + "_5555", args.suffix + "_42", args.suffix] if not args.no_subsamples else [args.suffix])
+suffices = ([args.suffix + "_1337", args.suffix + "_2021", args.suffix + "_5555", args.suffix + "_42", args.suffix + "_9999"] if not args.no_subsamples else [args.suffix])
 seeds = ['42', '1337', '2021']
 print(f"\nUsing suffices: {suffices}")
 sys.stdout.flush()
