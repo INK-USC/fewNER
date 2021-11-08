@@ -11,8 +11,9 @@ class SearchSpaceManager:
         A singleton manager object that helps with search space restriction in instance-oriented demonstration. 
     """
 
-    def __init__(self, instances: List[Instance]):
+    def __init__(self, instances: List[Instance], transformation_func=None):
         self._insts = instances
+        self._transformation_func = transformation_func
 
         # Extract all possible labels in this instance dataset
         self._labels = set()
@@ -47,6 +48,10 @@ class SearchSpaceManager:
                 if (msk & state) == msk:
                     self._comb_space[msk].append(inst)
 
+        if self._transformation_func is not None:
+            for i in range(N):
+                self._comb_space[i] = self._transformation_func(self._comb_space[i])
+
         self._built_combination_spaces = True
 
     def build_single_label_search_spaces(self):
@@ -59,6 +64,10 @@ class SearchSpaceManager:
         for inst in self._insts:
             for lb in set(label for entity, label in inst.entities):
                 self._singlelb_space[self._lb2id[lb]].append(inst)
+
+        if self._transformation_func is not None:
+            for i in range(N):
+                self._singlelb_space[i] = self._transformation_func(self._singlelb_space[i])
 
         self._built_single_label_spaces = True
 

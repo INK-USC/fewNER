@@ -17,6 +17,7 @@ from scipy import stats
 from src.data.data_utils import convert_iobes, build_label_idx, check_all_labels_in_dict
 import bert_score
 from src.data import Instance
+from src.data.search_space_manager import SearchSpaceManager
 import sys
 
 Feature = collections.namedtuple('Feature', 'input_ids attention_mask token_type_ids orig_to_tok_index word_seq_len label_ids')
@@ -66,18 +67,37 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
     if prompt == "sbert" or prompt == "bertscore":
         search_space = []
         search_space_dict = {}
+        trans_func = None
         for inst in candidates:
             search_space.append(" ".join(inst.ori_words))
             search_space_dict[" ".join(inst.ori_words)] = inst
         if prompt == "sbert":
             search_model = SentenceTransformer('all-roberta-large-v1')
-            corpus_embeddings = search_model.encode(search_space, convert_to_tensor=True)
+
+            def _trans_func(insts):
+                if len(insts) == 0:
+                    return None
+                search_space = list(map(lambda i: " ".join(i.ori_words), insts))
+                return search_model.encode(search_space, convert_to_tensor=True)
+
+            trans_func = _trans_func
+            # corpus_embeddings = search_model.encode(search_space, convert_to_tensor=True)
         if prompt == "bertscore":
             bert_score_model_type = bert_score.lang2model["en"]
             num_layers = bert_score.model2layers[bert_score_model_type]
             bert_score_model = bert_score.get_model(bert_score_model_type, num_layers, False)
 
-    num_to_examine = 10 # Number of sample prompts we want to see
+            def _trans_func(insts):
+                if len(insts) == 0:
+                    return None
+                search_space = list(map(lambda i: " ".join(i.ori_words), insts))
+                return search_space
+
+            trans_func = _trans_func
+
+        manager = SearchSpaceManager(candidates, trans_func)
+
+    num_to_examine = len(instances) # Number of sample prompts we want to see
     step_sz = len(instances) // num_to_examine 
 
     if prompt:
@@ -104,11 +124,23 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
             query = " ".join(inst.ori_words)
             query_embedding = search_model.encode(query, convert_to_tensor=True)
 
-            # We use cosine-similarity and torch.topk to find the highest 5 scores
-            cos_scores = util.pytorch_cos_sim(query_embedding, corpus_embeddings)[0]
-            top_results = torch.topk(cos_scores, k=1)
+            comparison_sets = []
+            # try combined set
+            combined_set = manager.superset_labels_search_space(inst)
+            if combined_set is None:
+                for lb in set(label for entity, label in inst.entities):
+                    comparison_sets.append(manager.single_label_search_space(lb))
+            else:
+                comparison_sets.append(combined_set)
 
-            for score, idx in zip(top_results[0], top_results[1]):
+            results = []
+            for corpus_embeddings in comparison_sets:
+                # We use cosine-similarity and torch.topk to find the highest 5 scores
+                cos_scores = util.pytorch_cos_sim(query_embedding, corpus_embeddings)[0]
+                top_results = torch.topk(cos_scores, k=1)
+                results.extend(zip(top_results[0], top_results[1]))
+
+            for score, idx in results:
                 prompt_words = search_space_dict[search_space[idx]].ori_words
                 prompt_entities = search_space_dict[search_space[idx]].entities
                 # stats
