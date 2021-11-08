@@ -35,7 +35,8 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                                          label2idx: Dict[str, int],
                                          prompt: str = None, # "max", "random", "sbert", "bertscore"
                                          template: str = None, # "no_context", "basic", "basic_all", "structure", "structure_all"
-                                         prompt_candidates_from_outside: List[str] = None):
+                                         prompt_candidates_from_outside: List[str] = None,
+                                         constrained_instances: bool = True):
     
     
     features = []
@@ -81,7 +82,8 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                 return sub_search_space, search_model.encode(sub_search_space, convert_to_tensor=True)
 
             trans_func = _trans_func
-            # corpus_embeddings = search_model.encode(search_space, convert_to_tensor=True)
+            if not constrained_instances:
+                global_corpus_embeddings = search_model.encode(search_space, convert_to_tensor=True)
         if prompt == "bertscore":
             bert_score_model_type = bert_score.lang2model["en"]
             num_layers = bert_score.model2layers[bert_score_model_type]
@@ -95,7 +97,8 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
 
             trans_func = _trans_func
 
-        manager = SearchSpaceManager(candidates, trans_func)
+        if constrained_instances:
+            manager = SearchSpaceManager(candidates, trans_func)
 
     num_to_examine = 10 # Number of sample prompts we want to see
     step_sz = len(instances) // num_to_examine 
@@ -124,21 +127,27 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
             query = " ".join(inst.ori_words)
             query_embedding = search_model.encode(query, convert_to_tensor=True)
 
-            comparison_sets = []
-            # try combined set
-            combined_set = manager.superset_labels_search_space(inst)
-            if combined_set is None:
-                for lb in set(label for entity, label in inst.entities):
-                    comparison_sets.append(manager.single_label_search_space(lb))
-            else:
-                comparison_sets.append(combined_set)
+            if constrained_instances:
+                comparison_sets = []
+                # try combined set
+                combined_set = manager.superset_labels_search_space(inst)
+                if combined_set is None:
+                    for lb in set(label for entity, label in inst.entities):
+                        comparison_sets.append(manager.single_label_search_space(lb))
+                else:
+                    comparison_sets.append(combined_set)
 
-            results = []
-            for sub_search_space, corpus_embeddings in comparison_sets:
-                # We use cosine-similarity and torch.topk to find the highest 5 scores
-                cos_scores = util.pytorch_cos_sim(query_embedding, corpus_embeddings)[0]
+                results = []
+                for sub_search_space, corpus_embeddings in comparison_sets:
+                    # We use cosine-similarity and torch.topk to find the highest 5 scores
+                    cos_scores = util.pytorch_cos_sim(query_embedding, corpus_embeddings)[0]
+                    top_results = torch.topk(cos_scores, k=1)
+                    results.extend(zip(top_results[0], map(lambda x: sub_search_space[x], top_results[1])))
+            else:
+                results = []
+                cos_scores = util.pytorch_cos_sim(query_embedding, global_corpus_embeddings)[0]
                 top_results = torch.topk(cos_scores, k=1)
-                results.extend(zip(top_results[0], map(lambda x: sub_search_space[x], top_results[1])))
+                results.extend(zip(top_results[0], map(lambda x: search_space[x], top_results[1])))
 
             for score, selected_id in results:
                 prompt_words = search_space_dict[selected_id].ori_words
@@ -211,22 +220,31 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
             prompt_tokens = []
             query = " ".join(inst.ori_words)
 
-            comparison_sets = []
-            # try combined set
-            combined_set = manager.superset_labels_search_space(inst)
-            if combined_set is None:
-                for lb in set(label for entity, label in inst.entities):
-                    comparison_sets.append(manager.single_label_search_space(lb))
-            else:
-                comparison_sets.append(combined_set)
+            if constrained_instances:
+                comparison_sets = []
+                # try combined set
+                combined_set = manager.superset_labels_search_space(inst)
+                if combined_set is None:
+                    for lb in set(label for entity, label in inst.entities):
+                        comparison_sets.append(manager.single_label_search_space(lb))
+                else:
+                    comparison_sets.append(combined_set)
 
-            results = []
-            for sub_search_space in comparison_sets:
-                queries = [query] * len(sub_search_space)
+                results = []
+                for sub_search_space in comparison_sets:
+                    queries = [query] * len(sub_search_space)
+                    # We use cosine-similarity and torch.topk to find the highest 5 scores
+                    P, R, F1 = bert_score.score(sub_search_space, queries, model_type=(bert_score_model_type, bert_score_model), verbose=idx % step_sz == 0)
+                    top_results = torch.topk(F1, k=1)
+                    results.extend(zip(top_results[0], map(lambda x: sub_search_space[x], top_results[1])))
+            else:
+                results = []
+                queries = [query] * len(search_space)
                 # We use cosine-similarity and torch.topk to find the highest 5 scores
-                P, R, F1 = bert_score.score(sub_search_space, queries, model_type=(bert_score_model_type, bert_score_model), verbose=idx % step_sz == 0)
+                P, R, F1 = bert_score.score(search_space, queries, model_type=(bert_score_model_type, bert_score_model), verbose=idx % step_sz == 0)
                 top_results = torch.topk(F1, k=1)
-                results.extend(zip(top_results[0], map(lambda x: sub_search_space[x], top_results[1])))
+                results.extend(zip(top_results[0], map(lambda x: search_space[x], top_results[1])))
+
 
             for score, selected_id in results:
                 prompt_words = search_space_dict[selected_id].ori_words
