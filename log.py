@@ -14,7 +14,7 @@ parser.add_argument('--gpu', type=str, default="0", help='GPU ids separated by "
 
 args = parser.parse_known_args()[0]
 
-suffices = [args.suffix, args.suffix + "_1337", args.suffix + "_2021", args.suffix + "_5555", args.suffix + "_42"]
+suffices = [args.suffix + "_9999", args.suffix + "_1337", args.suffix + "_2021", args.suffix + "_5555", args.suffix + "_42"]
 seeds = ['42', '1337', '2021']
 
 cmds = []
@@ -59,7 +59,17 @@ for i,file in enumerate(log_files):
         except:
             continue
 
-arr = numpy.array(f1_scores)
+averages = []
+tmp_nums = []
+for i, score in enumerate(f1_scores):
+    tmp_nums.append(score)
+    if len(tmp_nums) == 3:
+        arr = numpy.array(tmp_nums)
+        averages.append(numpy.mean(arr, axis=0))
+        tmp_nums = []
+
+print(averages)
+arr = numpy.array(averages)
 mean = numpy.mean(arr, axis=0)
 std = numpy.std(arr, axis=0)
 print("average: ", numpy.mean(arr, axis=0))
