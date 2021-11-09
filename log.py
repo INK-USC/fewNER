@@ -11,19 +11,22 @@ parser.add_argument('--suffix', type=str, required=True, help='Data Directory')
 parser.add_argument('--prompt', type=str, required=True, help='Data Directory')
 parser.add_argument('--template', type=str, required=True, help='Data Directory')
 parser.add_argument('--gpu', type=str, default="0", help='GPU ids separated by "," to use for computation')
+parser.add_argument('--constraint', action='store_true', required=False, default=False, help='constraint instances')
 
 args = parser.parse_known_args()[0]
 
 suffices = [args.suffix + "_9999", args.suffix + "_1337", args.suffix + "_2021", args.suffix + "_5555", args.suffix + "_42"]
 seeds = ['42', '1337', '2021']
 
+constraint = "constraint_" if args.constraint else ""
+
 cmds = []
 log_files = []
 model_folders = []
 for suffix in suffices:
     for seed in seeds:
-        log_file = "logs/" + args.dataset + "/" + args.train_file.split('.')[0] + "_" + args.prompt + "_" + args.template + "_" + suffix + "_" + seed + ".txt"
-        model_folder = "models/" + args.dataset + "/" + args.train_file.split('.')[0] + "_" + args.prompt + "_" + args.template + "_"  + suffix + "_" + seed
+        log_file = "logs/" + args.dataset + "/" + constraint + args.train_file.split('.')[0] + "_" + args.prompt + "_" + args.template + "_" + suffix + "_" + seed + ".txt"
+        model_folder = "models/" + args.dataset + "/" + constraint + args.train_file.split('.')[0] + "_" + args.prompt + "_" + args.template + "_"  + suffix + "_" + seed
         predict_cmd = \
             "CUDA_VISIBLE_DEVICES=" + str(args.gpu) + \
             " python3 " + args.train_file + \
@@ -80,7 +83,7 @@ print("std: ", numpy.std(arr, axis=0))
 print("runs: ", runs)
 
 if runs == 15:
-    with open(args.dataset + "_" + args.train_file.split('.')[0] + "_" + args.prompt + "_" + args.template + "_" + args.suffix + ".txt", 'w') as file:
+    with open(args.dataset + "_" + constraint + args.train_file.split('.')[0] + "_" + args.prompt + "_" + args.template + "_" + args.suffix + ".txt", 'w') as file:
         file.write("average: " + str(mean))
         file.write("\nstd: " + str(std))
         file.write("\nruns: "+ str(runs))
