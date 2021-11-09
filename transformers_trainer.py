@@ -253,7 +253,7 @@ def main():
                                                   prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates, feed_order=conf.label_permutation)
 
 
-        num_workers = 8
+        num_workers = 2
         conf.label_size = len(train_dataset.label2idx)
         train_dataloader = DataLoader(train_dataset, batch_size=conf.batch_size, shuffle=True, num_workers=num_workers, collate_fn=train_dataset.collate_fn)
         dev_dataloader = DataLoader(dev_dataset, batch_size=conf.batch_size, shuffle=False, num_workers=num_workers, collate_fn=dev_dataset.collate_fn)
