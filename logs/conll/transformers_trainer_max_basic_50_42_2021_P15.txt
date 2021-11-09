@@ -1,0 +1,329 @@
+device: cuda:0
+seed: 2021
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 50_42
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/transformers_trainer_max_basic_50_42_2021_P15
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: max
+template: basic
+search_pool: None
+label_permutation: 15
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_50_42.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_50_42.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-ORG': 1, 'I-ORG': 2, 'E-ORG': 3, 'O': 4, 'S-PER': 5, 'S-ORG': 6, 'B-PER': 7, 'E-PER': 8, 'S-MISC': 9, 'S-LOC': 10, 'B-MISC': 11, 'I-MISC': 12, 'E-MISC': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['GACETA', 'DE', 'LOS', 'NEGOCIOS'][0m
+[33mPrompt 0: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 5: ['--', 'Royal', 'Oak', 'shares', 'were', 'down', '1/16', 'at', '3-11/16', '.'][0m
+[33mPrompt 5: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 10: ['"', 'This', 'evening', 'Sheikh', 'Yassin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ramle', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'s", 'internal', 'security', 'ministry', '.'][0m
+[33mPrompt 10: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 15: ['Rakow', 'Czestochowa', '7', '2', '1', '4', '6', '10', '7'][0m
+[33mPrompt 15: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Nottingham', 'Forest', '3', '1', '1', '1', '5', '5', '4'][0m
+[33mPrompt 20: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 25: ['283', 'Tom', 'Lehman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark'][0m
+[33mPrompt 25: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 30: ['Dole', 'campaign', 'aides', 'said', 'the', 'candidate', 'was', 'telling', 'young', 'people', 'not', 'to', 'smoke', '.'][0m
+[33mPrompt 30: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 35: ['In', 'Home', 'Health', 'Inc', 'said', 'on', 'Thursday', 'it', 'will', 'appeal', 'to', 'the', 'U.S.', 'Federal', 'District', 'Court', 'in', 'Minneapolis', 'a', 'decision', 'by', 'the', 'Health', 'Care', 'Financing', 'Administration', '(', 'HCFA', ')', 'that', 'denied', 'reimbursement', 'of', 'certain', 'costs', 'under', 'Medicaid', '.'][0m
+[33mPrompt 35: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 40: ['Misael', 'Valerio', ',', 'head', 'of', 'border', 'police', 'at', 'the', 'Security', 'Ministry', ',', 'told', 'reporters', 'surveillance', 'of', 'the', 'northern', 'border', 'with', 'Nicaragua', 'has', 'been', 'stepped', 'up', 'to', 'keep', 'the', 'kidnappers', 'from', 'fleeing', 'Costa', 'Rica', '.'][0m
+[33mPrompt 40: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 45: ['Canada', "'s", 'Donovan', 'Bailey', ',', 'the', 'Olympic', '100', 'metres', 'champion', 'and', 'world', 'record', 'holder', ',', 'and', 'Namibian', 'Frankie', 'Fredericks', ',', 'the', 'silver', 'medallist', 'at', 'the', 'recent', 'Atlanta', 'Games', ',', 'have', 'already', 'agreed', 'to', 'run', 'in', 'the', '4X100', 'metres', 'team', '.'][0m
+[33mPrompt 45: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_50_42.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-ORG': 1, 'I-ORG': 2, 'E-ORG': 3, 'O': 4, 'S-PER': 5, 'S-ORG': 6, 'B-PER': 7, 'E-PER': 8, 'S-MISC': 9, 'S-LOC': 10, 'B-MISC': 11, 'I-MISC': 12, 'E-MISC': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['GACETA', 'DE', 'LOS', 'NEGOCIOS'][0m
+[33mPrompt 0: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 5: ['--', 'Royal', 'Oak', 'shares', 'were', 'down', '1/16', 'at', '3-11/16', '.'][0m
+[33mPrompt 5: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 10: ['"', 'This', 'evening', 'Sheikh', 'Yassin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ramle', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'s", 'internal', 'security', 'ministry', '.'][0m
+[33mPrompt 10: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 15: ['Rakow', 'Czestochowa', '7', '2', '1', '4', '6', '10', '7'][0m
+[33mPrompt 15: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Nottingham', 'Forest', '3', '1', '1', '1', '5', '5', '4'][0m
+[33mPrompt 20: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 25: ['283', 'Tom', 'Lehman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark'][0m
+[33mPrompt 25: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 30: ['Dole', 'campaign', 'aides', 'said', 'the', 'candidate', 'was', 'telling', 'young', 'people', 'not', 'to', 'smoke', '.'][0m
+[33mPrompt 30: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 35: ['In', 'Home', 'Health', 'Inc', 'said', 'on', 'Thursday', 'it', 'will', 'appeal', 'to', 'the', 'U.S.', 'Federal', 'District', 'Court', 'in', 'Minneapolis', 'a', 'decision', 'by', 'the', 'Health', 'Care', 'Financing', 'Administration', '(', 'HCFA', ')', 'that', 'denied', 'reimbursement', 'of', 'certain', 'costs', 'under', 'Medicaid', '.'][0m
+[33mPrompt 35: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 40: ['Misael', 'Valerio', ',', 'head', 'of', 'border', 'police', 'at', 'the', 'Security', 'Ministry', ',', 'told', 'reporters', 'surveillance', 'of', 'the', 'northern', 'border', 'with', 'Nicaragua', 'has', 'been', 'stepped', 'up', 'to', 'keep', 'the', 'kidnappers', 'from', 'fleeing', 'Costa', 'Rica', '.'][0m
+[33mPrompt 40: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 45: ['Canada', "'s", 'Donovan', 'Bailey', ',', 'the', 'Olympic', '100', 'metres', 'champion', 'and', 'world', 'record', 'holder', ',', 'and', 'Namibian', 'Frankie', 'Fredericks', ',', 'the', 'silver', 'medallist', 'at', 'the', 'recent', 'Atlanta', 'Games', ',', 'have', 'already', 'agreed', 'to', 'run', 'in', 'the', '4X100', 'metres', 'team', '.'][0m
+[33mPrompt 45: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'After', 'being', 'fined', '$', '250', ',', '000', 'by', 'the', 'sports', 'governing', 'body', 'on', 'Tuesday', ',', 'the', 'British', 'driver', 'rolled', 'his', 'Sub', '##aru', '6', '.', '5', 'km', 'into', 'stage', 'six', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'Sc', '##if', '##o', '(', 'Monaco', ')', ',', 'James', 'De', '##bba', '##h', '(', 'Nice', ')', ',', 'Pat', '##rice', 'Lok', '##o', '(', 'PS', '##G', ')', ',', 'Sc', '##if', '##o', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 13
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/transformers_trainer_max_basic_50_42_2021_P15.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 2359.78596, Time is 3.33s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+saving the best model...
+Epoch 2: 907.65138, Time is 3.70s
+[34m[dev set Total] Prec.: 0.02, Rec.: 0.02, F1: 0.02[0m
+saving the best model...
+Epoch 3: 704.48094, Time is 3.22s
+[34m[dev set Total] Prec.: 0.08, Rec.: 0.07, F1: 0.07[0m
+saving the best model...
+Epoch 4: 633.21999, Time is 3.33s
+[34m[dev set Total] Prec.: 0.13, Rec.: 0.12, F1: 0.12[0m
+saving the best model...
+Epoch 5: 565.83702, Time is 3.21s
+[34m[dev set Total] Prec.: 14.89, Rec.: 15.59, F1: 15.24[0m
+saving the best model...
+Epoch 6: 496.71677, Time is 3.20s
+[34m[dev set Total] Prec.: 21.74, Rec.: 22.23, F1: 21.98[0m
+saving the best model...
+Epoch 7: 411.63585, Time is 3.10s
+[34m[dev set Total] Prec.: 23.19, Rec.: 25.18, F1: 24.14[0m
+saving the best model...
+Epoch 8: 325.49727, Time is 3.71s
+[34m[dev set Total] Prec.: 24.45, Rec.: 30.75, F1: 27.24[0m
+saving the best model...
+Epoch 9: 236.29828, Time is 3.27s
+[34m[dev set Total] Prec.: 36.04, Rec.: 40.64, F1: 38.20[0m
+saving the best model...
+Epoch 10: 172.90968, Time is 3.54s
+[34m[dev set Total] Prec.: 43.93, Rec.: 47.02, F1: 45.42[0m
+saving the best model...
+Epoch 11: 115.47743, Time is 3.14s
+[34m[dev set Total] Prec.: 40.83, Rec.: 44.63, F1: 42.64[0m
+Epoch 12: 77.72826, Time is 3.42s
+[34m[dev set Total] Prec.: 50.59, Rec.: 54.28, F1: 52.37[0m
+saving the best model...
+Epoch 13: 51.56593, Time is 3.46s
+[34m[dev set Total] Prec.: 48.41, Rec.: 55.89, F1: 51.88[0m
+Epoch 14: 35.79106, Time is 3.33s
+[34m[dev set Total] Prec.: 54.26, Rec.: 57.75, F1: 55.95[0m
+saving the best model...
+Epoch 15: 22.96182, Time is 3.73s
+[34m[dev set Total] Prec.: 51.21, Rec.: 60.39, F1: 55.43[0m
+Epoch 16: 16.36841, Time is 3.63s
+[34m[dev set Total] Prec.: 53.67, Rec.: 61.01, F1: 57.11[0m
+saving the best model...
+Epoch 17: 10.33487, Time is 3.34s
+[34m[dev set Total] Prec.: 54.08, Rec.: 59.97, F1: 56.87[0m
+Epoch 18: 7.34610, Time is 3.28s
+[34m[dev set Total] Prec.: 55.76, Rec.: 60.83, F1: 58.18[0m
+saving the best model...
+Epoch 19: 5.04810, Time is 3.54s
+[34m[dev set Total] Prec.: 56.18, Rec.: 61.52, F1: 58.73[0m
+saving the best model...
+Epoch 20: 3.64220, Time is 2.86s
+[34m[dev set Total] Prec.: 55.98, Rec.: 62.46, F1: 59.04[0m
+saving the best model...
+Epoch 21: 2.52855, Time is 3.27s
+[34m[dev set Total] Prec.: 55.88, Rec.: 63.34, F1: 59.37[0m
+saving the best model...
+Epoch 22: 2.16788, Time is 3.22s
+[34m[dev set Total] Prec.: 58.95, Rec.: 63.71, F1: 61.24[0m
+saving the best model...
+Epoch 23: 1.51045, Time is 3.36s
+[34m[dev set Total] Prec.: 58.67, Rec.: 65.02, F1: 61.68[0m
+saving the best model...
+Epoch 24: 1.23544, Time is 2.86s
+[34m[dev set Total] Prec.: 58.08, Rec.: 64.45, F1: 61.10[0m
+Epoch 25: 0.89758, Time is 3.14s
+[34m[dev set Total] Prec.: 59.13, Rec.: 63.98, F1: 61.46[0m
+Epoch 26: 0.72495, Time is 2.77s
+[34m[dev set Total] Prec.: 61.07, Rec.: 65.64, F1: 63.27[0m
+saving the best model...
+Epoch 27: 0.64119, Time is 2.73s
+[34m[dev set Total] Prec.: 57.53, Rec.: 63.66, F1: 60.44[0m
+Epoch 28: 0.53204, Time is 3.21s
+[34m[dev set Total] Prec.: 58.76, Rec.: 64.30, F1: 61.40[0m
+Epoch 29: 0.45703, Time is 3.46s
+[34m[dev set Total] Prec.: 59.42, Rec.: 65.26, F1: 62.20[0m
+Epoch 30: 0.40808, Time is 3.32s
+[34m[dev set Total] Prec.: 59.17, Rec.: 64.94, F1: 61.92[0m
+Epoch 31: 0.37300, Time is 3.12s
+[34m[dev set Total] Prec.: 58.84, Rec.: 64.75, F1: 61.65[0m
+Epoch 32: 0.37189, Time is 3.42s
+[34m[dev set Total] Prec.: 59.76, Rec.: 65.09, F1: 62.31[0m
+Epoch 33: 0.32739, Time is 3.17s
+[34m[dev set Total] Prec.: 59.56, Rec.: 65.04, F1: 62.18[0m
+Epoch 34: 0.30234, Time is 3.31s
+[34m[dev set Total] Prec.: 59.56, Rec.: 64.95, F1: 62.14[0m
+Epoch 35: 0.28937, Time is 3.25s
+[34m[dev set Total] Prec.: 59.21, Rec.: 65.04, F1: 61.99[0m
+Epoch 36: 0.27417, Time is 3.23s
+[34m[dev set Total] Prec.: 58.94, Rec.: 64.70, F1: 61.68[0m
+Epoch 37: 0.26166, Time is 3.27s
+[34m[dev set Total] Prec.: 59.18, Rec.: 64.92, F1: 61.92[0m
+Epoch 38: 0.24989, Time is 3.07s
+[34m[dev set Total] Prec.: 59.73, Rec.: 65.29, F1: 62.39[0m
+Epoch 39: 0.24014, Time is 3.24s
+[34m[dev set Total] Prec.: 59.98, Rec.: 65.26, F1: 62.51[0m
+Epoch 40: 0.23975, Time is 3.21s
+[34m[dev set Total] Prec.: 59.91, Rec.: 65.19, F1: 62.44[0m
+Epoch 41: 0.23108, Time is 3.30s
+[34m[dev set Total] Prec.: 59.80, Rec.: 65.48, F1: 62.51[0m
+Epoch 42: 0.22528, Time is 3.20s
+[34m[dev set Total] Prec.: 59.43, Rec.: 65.22, F1: 62.19[0m
+Epoch 43: 0.21429, Time is 3.11s
+[34m[dev set Total] Prec.: 59.45, Rec.: 65.22, F1: 62.20[0m
+Epoch 44: 0.21616, Time is 3.02s
+[34m[dev set Total] Prec.: 59.86, Rec.: 65.22, F1: 62.43[0m
+Epoch 45: 0.21402, Time is 2.93s
+[34m[dev set Total] Prec.: 59.79, Rec.: 65.06, F1: 62.31[0m
+Epoch 46: 0.20934, Time is 3.20s
+[34m[dev set Total] Prec.: 59.80, Rec.: 65.16, F1: 62.36[0m
+early stop because there are 20 epochs not increasing f1 on dev
+Archiving the best Model...
+Finished archiving the models
+The best dev: 63.27
+Final testing.
+[34m[test set Total] Prec.: 59.75, Rec.: 63.37, F1: 61.51[0m

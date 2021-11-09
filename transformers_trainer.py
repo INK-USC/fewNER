@@ -74,6 +74,9 @@ def parse_arguments(parser):
     parser.add_argument('--prompt', type=str, choices=["max", "random", "sbert", "bertscore"], help="prompt mode")
     parser.add_argument('--template', type=str, choices=["no_context", "basic", "basic_all", "structure", "structure_all","lexical","lexical_all"], help="template mode")
     parser.add_argument('--search_pool', type=str, choices=["source","target","source+target"], help="template mode")
+    
+    # For label permutation
+    parser.add_argument('--label_permutation', type=int)
 
     args = parser.parse_args()
     for k in args.__dict__:
@@ -226,28 +229,28 @@ def main():
         print(colored(f"[Data Info] Reading dataset from: \n{conf.train_file}\n{conf.dev_file}\n{conf.test_file}", "blue"))
 
         if conf.prompt is None:
-            train_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True, percentage=conf.percentage)
+            train_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True, percentage=conf.percentage, feed_order=conf.label_permutation)
         else:
             prompt_candidate_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num,
                                                               is_train=True, percentage=conf.percentage,
-                                                              prompt=conf.prompt, template=conf.template)
+                                                              prompt=conf.prompt, template=conf.template, feed_order=conf.label_permutation)
             train_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True,
                                                    percentage=conf.percentage, prompt=conf.prompt, template=conf.template,
-                                                   prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
+                                                   prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates, feed_order=conf.label_permutation)
 
         conf.label2idx = train_dataset.label2idx
         conf.idx2labels = train_dataset.idx2labels
 
         if conf.prompt is None:
-            dev_dataset = TransformersNERDataset(conf.dev_file, tokenizer, number=conf.dev_num, label2idx=train_dataset.label2idx, is_train=False)
-            test_dataset = TransformersNERDataset(conf.test_file, tokenizer, number=conf.test_num, label2idx=train_dataset.label2idx, is_train=False)
+            dev_dataset = TransformersNERDataset(conf.dev_file, tokenizer, number=conf.dev_num, label2idx=train_dataset.label2idx, is_train=False, feed_order=conf.label_permutation)
+            test_dataset = TransformersNERDataset(conf.test_file, tokenizer, number=conf.test_num, label2idx=train_dataset.label2idx, is_train=False, feed_order=conf.label_permutation)
         else:
             dev_dataset = TransformersNERDataset(conf.dev_file, tokenizer, number=conf.dev_num,
                                                  label2idx=train_dataset.label2idx, is_train=False, prompt=conf.prompt, template=conf.template,
-                                                 prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
+                                                 prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates, feed_order=conf.label_permutation)
             test_dataset = TransformersNERDataset(conf.test_file, tokenizer, number=conf.test_num,
                                                   label2idx=train_dataset.label2idx, is_train=False, prompt=conf.prompt, template=conf.template,
-                                                  prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
+                                                  prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates, feed_order=conf.label_permutation)
 
 
         num_workers = 8

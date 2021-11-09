@@ -1,0 +1,372 @@
+device: cuda:0
+seed: 42
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 25_2021
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/transformers_trainer_max_basic_25_2021_42_P20
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: max
+template: basic
+search_pool: None
+label_permutation: 20
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_25_2021.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_25_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 25
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-PER': 1, 'E-PER': 2, 'O': 3, 'S-MISC': 4, 'B-MISC': 5, 'I-MISC': 6, 'E-MISC': 7, 'S-LOC': 8, 'S-ORG': 9, 'B-ORG': 10, 'I-ORG': 11, 'E-ORG': 12, 'S-PER': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Michael', 'Schumacher', "'s", 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa-Francorchamps', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.'][0m
+[33mPrompt 0: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2: ['California', '13', 'BALTIMORE', '0'][0m
+[33mPrompt 2: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 4: ['Singapore', 'Refining', 'Company', 'expected', 'to', 'shut', 'CDU', '3', '.'][0m
+[33mPrompt 4: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 6: ['Innocent', 'Butare', ',', 'executive', 'secretary', 'of', 'the', 'Rally', 'for', 'the', 'Return', 'of', 'Refugees', 'and', 'Democracy', 'in', 'Rwanda', '(', 'RDR', ')', 'which', 'says', 'it', 'has', 'the', 'support', 'of', 'Rwanda', "'s", 'exiled', 'Hutus', ',', 'appealed', 'to', 'the', 'international', 'community', 'to', 'deter', 'the', 'two', 'countries', 'from', 'going', 'ahead', 'with', 'what', 'it', 'termed', 'a', '"', 'forced', 'and', 'inhuman', 'action', '"', '.'][0m
+[33mPrompt 6: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 8: ['Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'tabulate', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':'][0m
+[33mPrompt 8: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 10: ['But', 'one', 'source', ',', 'the', 'head', 'of', 'a', 'Hong', 'Kong', 'trading', 'house', ',', 'said', 'it', 'made', 'no', 'difference', 'if', 'the', 'copper', 'was', 'customs', 'cleared', 'or', 'not', '.'][0m
+[33mPrompt 10: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 12: ['1.', 'Virna', 'De', 'Angeli', '(', 'Italy', ')', '55.66'][0m
+[33mPrompt 12: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 14: ['Greek', 'socialists', 'give', 'PM', 'green', 'light', 'for', 'election', '.'][0m
+[33mPrompt 14: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 16: ['Police', 'spokesman', 'Roger', 'Grimwade', 'said', 'the', 'six', 'or', 'seven', 'hijackers', 'remained', 'on', 'board', 'the', 'aircraft', ',', 'which', 'arrived', 'from', 'Cyprus', 'at', '4.30', 'a.m.', '(', '0330', 'GMT', ')', '.'][0m
+[33mPrompt 16: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 18: ['Rakow', 'Czestochowa', '1', 'Stomil', 'Olsztyn', '4'][0m
+[33mPrompt 18: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Obilic', '3', '3', '0', '0', '8', '1', '9'][0m
+[33mPrompt 20: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 22: ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South'][0m
+[33mPrompt 22: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 24: ['At', 'least', '16', 'people', 'were', 'killed', 'and', 'several', 'injured', 'on', 'Sunday', 'when', 'a', 'bus', 'fell', 'from', 'a', 'mountain', 'road', 'into', 'a', 'ravine', 'on', 'a', 'river', 'bank', 'in', 'Pakistan-ruled', 'Azad', '(', 'free', ')', 'Kashmir', ',', 'police', 'said', '.'][0m
+[33mPrompt 24: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_25_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 25
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-PER': 1, 'E-PER': 2, 'O': 3, 'S-MISC': 4, 'B-MISC': 5, 'I-MISC': 6, 'E-MISC': 7, 'S-LOC': 8, 'S-ORG': 9, 'B-ORG': 10, 'I-ORG': 11, 'E-ORG': 12, 'S-PER': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Michael', 'Schumacher', "'s", 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa-Francorchamps', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.'][0m
+[33mPrompt 0: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2: ['California', '13', 'BALTIMORE', '0'][0m
+[33mPrompt 2: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 4: ['Singapore', 'Refining', 'Company', 'expected', 'to', 'shut', 'CDU', '3', '.'][0m
+[33mPrompt 4: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 6: ['Innocent', 'Butare', ',', 'executive', 'secretary', 'of', 'the', 'Rally', 'for', 'the', 'Return', 'of', 'Refugees', 'and', 'Democracy', 'in', 'Rwanda', '(', 'RDR', ')', 'which', 'says', 'it', 'has', 'the', 'support', 'of', 'Rwanda', "'s", 'exiled', 'Hutus', ',', 'appealed', 'to', 'the', 'international', 'community', 'to', 'deter', 'the', 'two', 'countries', 'from', 'going', 'ahead', 'with', 'what', 'it', 'termed', 'a', '"', 'forced', 'and', 'inhuman', 'action', '"', '.'][0m
+[33mPrompt 6: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 8: ['Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'tabulate', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':'][0m
+[33mPrompt 8: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 10: ['But', 'one', 'source', ',', 'the', 'head', 'of', 'a', 'Hong', 'Kong', 'trading', 'house', ',', 'said', 'it', 'made', 'no', 'difference', 'if', 'the', 'copper', 'was', 'customs', 'cleared', 'or', 'not', '.'][0m
+[33mPrompt 10: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 12: ['1.', 'Virna', 'De', 'Angeli', '(', 'Italy', ')', '55.66'][0m
+[33mPrompt 12: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 14: ['Greek', 'socialists', 'give', 'PM', 'green', 'light', 'for', 'election', '.'][0m
+[33mPrompt 14: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 16: ['Police', 'spokesman', 'Roger', 'Grimwade', 'said', 'the', 'six', 'or', 'seven', 'hijackers', 'remained', 'on', 'board', 'the', 'aircraft', ',', 'which', 'arrived', 'from', 'Cyprus', 'at', '4.30', 'a.m.', '(', '0330', 'GMT', ')', '.'][0m
+[33mPrompt 16: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 18: ['Rakow', 'Czestochowa', '1', 'Stomil', 'Olsztyn', '4'][0m
+[33mPrompt 18: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Obilic', '3', '3', '0', '0', '8', '1', '9'][0m
+[33mPrompt 20: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 22: ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South'][0m
+[33mPrompt 22: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 24: ['At', 'least', '16', 'people', 'were', 'killed', 'and', 'several', 'injured', 'on', 'Sunday', 'when', 'a', 'bus', 'fell', 'from', 'a', 'mountain', 'road', 'into', 'a', 'ravine', 'on', 'a', 'river', 'bank', 'in', 'Pakistan-ruled', 'Azad', '(', 'free', ')', 'Kashmir', ',', 'police', 'said', '.'][0m
+[33mPrompt 24: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'is', 'MISC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Michael', 'Schumacher', 'is', 'PER', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 7
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/transformers_trainer_max_basic_25_2021_42_P20.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1287.44400, Time is 3.72s
+[34m[dev set Total] Prec.: 4.22, Rec.: 3.01, F1: 3.52[0m
+saving the best model...
+Epoch 2: 758.66427, Time is 2.76s
+[34m[dev set Total] Prec.: 22.37, Rec.: 3.15, F1: 5.52[0m
+saving the best model...
+Epoch 3: 566.24371, Time is 2.68s
+[34m[dev set Total] Prec.: 27.33, Rec.: 2.91, F1: 5.27[0m
+Epoch 4: 459.68793, Time is 2.74s
+[34m[dev set Total] Prec.: 25.00, Rec.: 5.73, F1: 9.32[0m
+saving the best model...
+Epoch 5: 368.60241, Time is 2.74s
+[34m[dev set Total] Prec.: 18.90, Rec.: 8.89, F1: 12.09[0m
+saving the best model...
+Epoch 6: 296.44394, Time is 2.68s
+[34m[dev set Total] Prec.: 27.04, Rec.: 23.27, F1: 25.02[0m
+saving the best model...
+Epoch 7: 241.41993, Time is 2.65s
+[34m[dev set Total] Prec.: 29.87, Rec.: 23.46, F1: 26.28[0m
+saving the best model...
+Epoch 8: 201.57101, Time is 2.73s
+[34m[dev set Total] Prec.: 34.27, Rec.: 25.99, F1: 29.56[0m
+saving the best model...
+Epoch 9: 161.16658, Time is 2.60s
+[34m[dev set Total] Prec.: 36.45, Rec.: 27.72, F1: 31.49[0m
+saving the best model...
+Epoch 10: 133.67305, Time is 2.79s
+[34m[dev set Total] Prec.: 38.33, Rec.: 31.10, F1: 34.34[0m
+saving the best model...
+Epoch 11: 108.98720, Time is 2.59s
+[34m[dev set Total] Prec.: 39.01, Rec.: 34.74, F1: 36.75[0m
+saving the best model...
+Epoch 12: 81.04257, Time is 2.73s
+[34m[dev set Total] Prec.: 41.05, Rec.: 37.59, F1: 39.24[0m
+saving the best model...
+Epoch 13: 62.86359, Time is 2.72s
+[34m[dev set Total] Prec.: 42.60, Rec.: 38.99, F1: 40.71[0m
+saving the best model...
+Epoch 14: 52.77237, Time is 2.74s
+[34m[dev set Total] Prec.: 43.36, Rec.: 39.59, F1: 41.39[0m
+saving the best model...
+Epoch 15: 41.07480, Time is 2.71s
+[34m[dev set Total] Prec.: 44.75, Rec.: 41.98, F1: 43.32[0m
+saving the best model...
+Epoch 16: 31.21342, Time is 2.58s
+[34m[dev set Total] Prec.: 44.28, Rec.: 42.91, F1: 43.59[0m
+saving the best model...
+Epoch 17: 23.61856, Time is 2.72s
+[34m[dev set Total] Prec.: 46.49, Rec.: 43.77, F1: 45.09[0m
+saving the best model...
+Epoch 18: 17.26340, Time is 2.74s
+[34m[dev set Total] Prec.: 46.68, Rec.: 45.03, F1: 45.84[0m
+saving the best model...
+Epoch 19: 13.78125, Time is 2.76s
+[34m[dev set Total] Prec.: 48.20, Rec.: 45.44, F1: 46.78[0m
+saving the best model...
+Epoch 20: 10.18277, Time is 2.72s
+[34m[dev set Total] Prec.: 47.83, Rec.: 46.45, F1: 47.13[0m
+saving the best model...
+Epoch 21: 8.38814, Time is 2.71s
+[34m[dev set Total] Prec.: 48.89, Rec.: 48.20, F1: 48.54[0m
+saving the best model...
+Epoch 22: 6.12394, Time is 2.71s
+[34m[dev set Total] Prec.: 49.29, Rec.: 49.92, F1: 49.60[0m
+saving the best model...
+Epoch 23: 5.18765, Time is 2.66s
+[34m[dev set Total] Prec.: 49.64, Rec.: 50.12, F1: 49.88[0m
+saving the best model...
+Epoch 24: 4.03798, Time is 2.67s
+[34m[dev set Total] Prec.: 48.75, Rec.: 50.98, F1: 49.84[0m
+Epoch 25: 3.52078, Time is 2.71s
+[34m[dev set Total] Prec.: 50.15, Rec.: 51.36, F1: 50.75[0m
+saving the best model...
+Epoch 26: 2.73563, Time is 2.80s
+[34m[dev set Total] Prec.: 51.11, Rec.: 51.68, F1: 51.39[0m
+saving the best model...
+Epoch 27: 2.40671, Time is 2.79s
+[34m[dev set Total] Prec.: 51.06, Rec.: 51.73, F1: 51.39[0m
+Epoch 28: 1.93707, Time is 2.73s
+[34m[dev set Total] Prec.: 51.81, Rec.: 51.79, F1: 51.80[0m
+saving the best model...
+Epoch 29: 1.55839, Time is 2.74s
+[34m[dev set Total] Prec.: 52.16, Rec.: 52.86, F1: 52.51[0m
+saving the best model...
+Epoch 30: 1.34310, Time is 2.71s
+[34m[dev set Total] Prec.: 52.39, Rec.: 53.23, F1: 52.81[0m
+saving the best model...
+Epoch 31: 1.14410, Time is 2.77s
+[34m[dev set Total] Prec.: 52.99, Rec.: 53.84, F1: 53.41[0m
+saving the best model...
+Epoch 32: 1.03049, Time is 2.72s
+[34m[dev set Total] Prec.: 53.16, Rec.: 54.09, F1: 53.62[0m
+saving the best model...
+Epoch 33: 0.88919, Time is 2.67s
+[34m[dev set Total] Prec.: 52.89, Rec.: 53.79, F1: 53.34[0m
+Epoch 34: 0.79340, Time is 2.64s
+[34m[dev set Total] Prec.: 53.20, Rec.: 54.11, F1: 53.65[0m
+saving the best model...
+Epoch 35: 0.71173, Time is 2.77s
+[34m[dev set Total] Prec.: 53.47, Rec.: 54.16, F1: 53.81[0m
+saving the best model...
+Epoch 36: 0.67714, Time is 2.68s
+[34m[dev set Total] Prec.: 54.08, Rec.: 54.60, F1: 54.34[0m
+saving the best model...
+Epoch 37: 0.58541, Time is 2.64s
+[34m[dev set Total] Prec.: 54.21, Rec.: 55.00, F1: 54.60[0m
+saving the best model...
+Epoch 38: 0.52351, Time is 2.67s
+[34m[dev set Total] Prec.: 54.19, Rec.: 55.19, F1: 54.69[0m
+saving the best model...
+Epoch 39: 0.51971, Time is 2.72s
+[34m[dev set Total] Prec.: 54.24, Rec.: 55.41, F1: 54.82[0m
+saving the best model...
+Epoch 40: 0.52211, Time is 2.70s
+[34m[dev set Total] Prec.: 54.31, Rec.: 55.59, F1: 54.94[0m
+saving the best model...
+Epoch 41: 0.45384, Time is 2.67s
+[34m[dev set Total] Prec.: 54.40, Rec.: 55.19, F1: 54.79[0m
+Epoch 42: 0.43311, Time is 2.67s
+[34m[dev set Total] Prec.: 54.61, Rec.: 55.36, F1: 54.98[0m
+saving the best model...
+Epoch 43: 0.40860, Time is 2.69s
+[34m[dev set Total] Prec.: 54.35, Rec.: 55.20, F1: 54.77[0m
+Epoch 44: 0.40266, Time is 2.61s
+[34m[dev set Total] Prec.: 54.31, Rec.: 55.17, F1: 54.74[0m
+Epoch 45: 0.39581, Time is 2.76s
+[34m[dev set Total] Prec.: 54.47, Rec.: 55.27, F1: 54.87[0m
+Epoch 46: 0.39404, Time is 2.70s
+[34m[dev set Total] Prec.: 54.46, Rec.: 55.24, F1: 54.84[0m
+Epoch 47: 0.37634, Time is 2.71s
+[34m[dev set Total] Prec.: 54.44, Rec.: 55.29, F1: 54.86[0m
+Epoch 48: 0.36533, Time is 2.66s
+[34m[dev set Total] Prec.: 54.49, Rec.: 55.44, F1: 54.96[0m
+Epoch 49: 0.36166, Time is 2.62s
+[34m[dev set Total] Prec.: 54.51, Rec.: 55.46, F1: 54.98[0m
+Epoch 50: 0.35201, Time is 2.67s
+[34m[dev set Total] Prec.: 54.52, Rec.: 55.49, F1: 55.00[0m
+saving the best model...
+Archiving the best Model...
+Finished archiving the models
+The best dev: 55.00
+Final testing.
+[34m[test set Total] Prec.: 51.08, Rec.: 53.88, F1: 52.44[0m

@@ -18,11 +18,13 @@ from src.data.data_utils import convert_iobes, build_label_idx, check_all_labels
 import bert_score
 from src.data import Instance
 import sys
+from itertools import permutations
 
 Feature = collections.namedtuple('Feature', 'input_ids attention_mask token_type_ids orig_to_tok_index word_seq_len label_ids')
 Feature.__new__.__defaults__ = (None,) * 6
 
-
+# Hardcoded, this only works for Conll dataset
+ALL_LABEL_PERMUTATIONS = list(permutations(["PER","LOC","ORG","MISC"]))
 
 def maybe_show_prompt(id, word, prompt, mod):
     if id % mod == 0:
@@ -32,6 +34,7 @@ def maybe_show_prompt(id, word, prompt, mod):
 def convert_instances_to_feature_tensors(instances: List[Instance],
                                          tokenizer: PreTrainedTokenizer,
                                          label2idx: Dict[str, int],
+                                         feed_order: int,
                                          prompt: str = None, # "max", "random", "sbert", "bertscore"
                                          template: str = None, # "no_context", "basic", "basic_all", "structure", "structure_all"
                                          prompt_candidates_from_outside: List[str] = None):
@@ -252,7 +255,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
 
         elif prompt == "max":
             prompt_tokens = []
-            for entity_label in max_entities:
+            for entity_label in ALL_LABEL_PERMUTATIONS[feed_order]:
                 if template in ["no_context", "basic", "basic_all"]:
                     if template in ["basic", "basic_all"]:
                         instance_words = max_entities[entity_label][1].ori_words
@@ -458,7 +461,8 @@ class TransformersNERDataset(Dataset):
                  percentage: int = 100,
                  prompt: str = None,
                  template: str = None,
-                 prompt_candidates_from_outside: List[str] = None):
+                 prompt_candidates_from_outside: List[str] = None,
+                 feed_order: int = 0):
         """
         sents: we use sentences if we want to build dataset from sentences directly instead of file
         """
@@ -479,9 +483,9 @@ class TransformersNERDataset(Dataset):
             # check_all_labels_in_dict(insts=insts, label2idx=self.label2idx)
 
         if is_train and prompt is not None:
-            self.insts_ids, self.prompt_candidates = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt, template=template)
+            self.insts_ids, self.prompt_candidates = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, feed_order, prompt=prompt, template=template)
         else:
-            self.insts_ids = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt, template=template, prompt_candidates_from_outside=prompt_candidates_from_outside)
+            self.insts_ids = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, feed_order, prompt=prompt, template=template, prompt_candidates_from_outside=prompt_candidates_from_outside)
             self.prompt_candidates = None
         self.tokenizer = tokenizer
 

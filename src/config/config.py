@@ -83,6 +83,7 @@ class Config:
         self.device = torch.device(args.device)
         self.max_no_incre = args.max_no_incre
         self.max_grad_norm = args.max_grad_norm if "max_grad_norm" in args.__dict__ else None
+        self.label_permutation = args.label_permutation
 
     def read_pretrain_embedding(self) -> Tuple[Union[Dict[str, np.array], None], int]:
         """

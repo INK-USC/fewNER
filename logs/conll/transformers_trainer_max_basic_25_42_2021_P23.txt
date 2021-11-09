@@ -1,0 +1,367 @@
+device: cuda:0
+seed: 2021
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 25_42
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/transformers_trainer_max_basic_25_42_2021_P23
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: max
+template: basic
+search_pool: None
+label_permutation: 23
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_25_42.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_25_42.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 25
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-ORG': 1, 'I-ORG': 2, 'E-ORG': 3, 'O': 4, 'S-LOC': 5, 'S-ORG': 6, 'B-PER': 7, 'E-PER': 8, 'I-PER': 9, 'B-LOC': 10, 'E-LOC': 11, 'B-MISC': 12, 'I-MISC': 13, 'E-MISC': 14, 'S-MISC': 15, 'S-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['GACETA', 'DE', 'LOS', 'NEGOCIOS'][0m
+[33mPrompt 0: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2: ['Daewoo', 'Dacom', 'Communications', '(', 'Poland', ')', 'Ltd', ',', 'which', 'was', 'set', 'up', 'with', 'an', 'initial', 'investment', 'of', '$', '1.0', 'million', ',', 'is', 'expected', 'to', 'have', 'sales', 'of', '$', '60', 'million', 'by', 'the', 'year', '2000', ',', 'a', 'Daewoo', 'statement', 'said', 'on', 'Thursday', '..'][0m
+[33mPrompt 2: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 4: ['Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.'][0m
+[33mPrompt 4: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 6: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper-Collins', 'had', 'not', 'helped', '.'][0m
+[33mPrompt 6: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 8: ['An', 'earlier', 'problem', 'with', 'CDU', 'No', '.'][0m
+[33mPrompt 8: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 10: ['In', 'Home', 'Health', 'Inc', 'said', 'on', 'Thursday', 'it', 'will', 'appeal', 'to', 'the', 'U.S.', 'Federal', 'District', 'Court', 'in', 'Minneapolis', 'a', 'decision', 'by', 'the', 'Health', 'Care', 'Financing', 'Administration', '(', 'HCFA', ')', 'that', 'denied', 'reimbursement', 'of', 'certain', 'costs', 'under', 'Medicaid', '.'][0m
+[33mPrompt 10: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 12: ['The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'s", '1.8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.'][0m
+[33mPrompt 12: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 14: ['First', 'Alliance', 'net', 'income', 'slips', '.'][0m
+[33mPrompt 14: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 16: ['Durham', '14', '0', '9', '5', '22', '50', '87'][0m
+[33mPrompt 16: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 18: ['CRICKET', '-', 'ENGLISH', 'COUNTY', 'CHAMPIONSHIP', 'SCORES', '.'][0m
+[33mPrompt 18: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Canada', "'s", 'Donovan', 'Bailey', ',', 'the', 'Olympic', '100', 'metres', 'champion', 'and', 'world', 'record', 'holder', ',', 'and', 'Namibian', 'Frankie', 'Fredericks', ',', 'the', 'silver', 'medallist', 'at', 'the', 'recent', 'Atlanta', 'Games', ',', 'have', 'already', 'agreed', 'to', 'run', 'in', 'the', '4X100', 'metres', 'team', '.'][0m
+[33mPrompt 20: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 22: ['Nantes', '0', 'Lens', '1'][0m
+[33mPrompt 22: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 24: ['A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forwarded', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.'][0m
+[33mPrompt 24: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_25_42.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 25
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-ORG': 1, 'I-ORG': 2, 'E-ORG': 3, 'O': 4, 'S-LOC': 5, 'S-ORG': 6, 'B-PER': 7, 'E-PER': 8, 'I-PER': 9, 'B-LOC': 10, 'E-LOC': 11, 'B-MISC': 12, 'I-MISC': 13, 'E-MISC': 14, 'S-MISC': 15, 'S-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['GACETA', 'DE', 'LOS', 'NEGOCIOS'][0m
+[33mPrompt 0: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2: ['Daewoo', 'Dacom', 'Communications', '(', 'Poland', ')', 'Ltd', ',', 'which', 'was', 'set', 'up', 'with', 'an', 'initial', 'investment', 'of', '$', '1.0', 'million', ',', 'is', 'expected', 'to', 'have', 'sales', 'of', '$', '60', 'million', 'by', 'the', 'year', '2000', ',', 'a', 'Daewoo', 'statement', 'said', 'on', 'Thursday', '..'][0m
+[33mPrompt 2: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 4: ['Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.'][0m
+[33mPrompt 4: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 6: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper-Collins', 'had', 'not', 'helped', '.'][0m
+[33mPrompt 6: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 8: ['An', 'earlier', 'problem', 'with', 'CDU', 'No', '.'][0m
+[33mPrompt 8: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 10: ['In', 'Home', 'Health', 'Inc', 'said', 'on', 'Thursday', 'it', 'will', 'appeal', 'to', 'the', 'U.S.', 'Federal', 'District', 'Court', 'in', 'Minneapolis', 'a', 'decision', 'by', 'the', 'Health', 'Care', 'Financing', 'Administration', '(', 'HCFA', ')', 'that', 'denied', 'reimbursement', 'of', 'certain', 'costs', 'under', 'Medicaid', '.'][0m
+[33mPrompt 10: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 12: ['The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'s", '1.8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.'][0m
+[33mPrompt 12: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 14: ['First', 'Alliance', 'net', 'income', 'slips', '.'][0m
+[33mPrompt 14: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 16: ['Durham', '14', '0', '9', '5', '22', '50', '87'][0m
+[33mPrompt 16: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 18: ['CRICKET', '-', 'ENGLISH', 'COUNTY', 'CHAMPIONSHIP', 'SCORES', '.'][0m
+[33mPrompt 18: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Canada', "'s", 'Donovan', 'Bailey', ',', 'the', 'Olympic', '100', 'metres', 'champion', 'and', 'world', 'record', 'holder', ',', 'and', 'Namibian', 'Frankie', 'Fredericks', ',', 'the', 'silver', 'medallist', 'at', 'the', 'recent', 'Atlanta', 'Games', ',', 'have', 'already', 'agreed', 'to', 'run', 'in', 'the', '4X100', 'metres', 'team', '.'][0m
+[33mPrompt 20: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 22: ['Nantes', '0', 'Lens', '1'][0m
+[33mPrompt 22: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 24: ['A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forwarded', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.'][0m
+[33mPrompt 24: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'Net', 'Book', 'Agreement', 'is', 'MISC', '.', '[SEP]', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'GA', '##CE', '##TA', 'DE', 'L', '##OS', 'NE', '##G', '##OC', '##IO', '##S', 'is', 'ORG', '.', '[SEP]', 'SA', '##N', 'J', '##OS', '##E', ',', 'Costa', 'Rica', '1996', '-', '08', '-', '28', 'Costa', 'Rica', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Richard', 'Black', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 7
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/transformers_trainer_max_basic_25_42_2021_P23.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 2102.04548, Time is 5.45s
+[34m[dev set Total] Prec.: 0.34, Rec.: 1.13, F1: 0.53[0m
+saving the best model...
+Epoch 2: 1036.76273, Time is 2.69s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 3: 704.08207, Time is 2.66s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 4: 554.93010, Time is 2.69s
+[34m[dev set Total] Prec.: 0.32, Rec.: 0.22, F1: 0.26[0m
+Epoch 5: 482.40042, Time is 2.66s
+[34m[dev set Total] Prec.: 0.30, Rec.: 0.19, F1: 0.23[0m
+Epoch 6: 414.73216, Time is 2.65s
+[34m[dev set Total] Prec.: 0.35, Rec.: 0.19, F1: 0.24[0m
+Epoch 7: 360.59975, Time is 2.73s
+[34m[dev set Total] Prec.: 1.79, Rec.: 1.01, F1: 1.29[0m
+saving the best model...
+Epoch 8: 307.55498, Time is 2.64s
+[34m[dev set Total] Prec.: 6.23, Rec.: 3.35, F1: 4.36[0m
+saving the best model...
+Epoch 9: 260.06027, Time is 2.67s
+[34m[dev set Total] Prec.: 11.49, Rec.: 6.48, F1: 8.29[0m
+saving the best model...
+Epoch 10: 208.51323, Time is 2.61s
+[34m[dev set Total] Prec.: 24.10, Rec.: 15.76, F1: 19.06[0m
+saving the best model...
+Epoch 11: 164.67339, Time is 2.62s
+[34m[dev set Total] Prec.: 37.75, Rec.: 25.88, F1: 30.71[0m
+saving the best model...
+Epoch 12: 127.62688, Time is 2.66s
+[34m[dev set Total] Prec.: 48.77, Rec.: 30.08, F1: 37.21[0m
+saving the best model...
+Epoch 13: 97.85330, Time is 2.71s
+[34m[dev set Total] Prec.: 50.32, Rec.: 35.31, F1: 41.50[0m
+saving the best model...
+Epoch 14: 79.78495, Time is 2.71s
+[34m[dev set Total] Prec.: 51.19, Rec.: 38.36, F1: 43.86[0m
+saving the best model...
+Epoch 15: 58.48508, Time is 2.65s
+[34m[dev set Total] Prec.: 55.21, Rec.: 40.22, F1: 46.54[0m
+saving the best model...
+Epoch 16: 52.21972, Time is 2.68s
+[34m[dev set Total] Prec.: 50.61, Rec.: 42.94, F1: 46.46[0m
+Epoch 17: 38.36804, Time is 2.63s
+[34m[dev set Total] Prec.: 54.33, Rec.: 44.64, F1: 49.02[0m
+saving the best model...
+Epoch 18: 30.28366, Time is 2.69s
+[34m[dev set Total] Prec.: 59.40, Rec.: 46.28, F1: 52.03[0m
+saving the best model...
+Epoch 19: 23.32837, Time is 2.65s
+[34m[dev set Total] Prec.: 59.12, Rec.: 49.49, F1: 53.88[0m
+saving the best model...
+Epoch 20: 16.90915, Time is 2.64s
+[34m[dev set Total] Prec.: 60.82, Rec.: 50.96, F1: 55.46[0m
+saving the best model...
+Epoch 21: 15.47392, Time is 2.69s
+[34m[dev set Total] Prec.: 62.02, Rec.: 51.65, F1: 56.36[0m
+saving the best model...
+Epoch 22: 11.50421, Time is 2.66s
+[34m[dev set Total] Prec.: 59.54, Rec.: 53.03, F1: 56.10[0m
+Epoch 23: 8.88425, Time is 2.70s
+[34m[dev set Total] Prec.: 60.71, Rec.: 52.37, F1: 56.23[0m
+Epoch 24: 7.43503, Time is 2.67s
+[34m[dev set Total] Prec.: 61.90, Rec.: 52.44, F1: 56.78[0m
+saving the best model...
+Epoch 25: 5.96812, Time is 2.77s
+[34m[dev set Total] Prec.: 61.47, Rec.: 52.83, F1: 56.82[0m
+saving the best model...
+Epoch 26: 5.22951, Time is 2.65s
+[34m[dev set Total] Prec.: 62.18, Rec.: 52.78, F1: 57.10[0m
+saving the best model...
+Epoch 27: 4.11526, Time is 2.72s
+[34m[dev set Total] Prec.: 62.54, Rec.: 53.84, F1: 57.86[0m
+saving the best model...
+Epoch 28: 3.31413, Time is 2.75s
+[34m[dev set Total] Prec.: 62.92, Rec.: 54.29, F1: 58.29[0m
+saving the best model...
+Epoch 29: 2.83338, Time is 2.69s
+[34m[dev set Total] Prec.: 65.27, Rec.: 54.85, F1: 59.61[0m
+saving the best model...
+Epoch 30: 2.36301, Time is 2.69s
+[34m[dev set Total] Prec.: 66.36, Rec.: 54.68, F1: 59.96[0m
+saving the best model...
+Epoch 31: 1.99063, Time is 2.69s
+[34m[dev set Total] Prec.: 66.09, Rec.: 54.33, F1: 59.64[0m
+Epoch 32: 1.75497, Time is 2.63s
+[34m[dev set Total] Prec.: 66.00, Rec.: 54.92, F1: 59.95[0m
+Epoch 33: 1.52228, Time is 2.68s
+[34m[dev set Total] Prec.: 65.88, Rec.: 55.61, F1: 60.31[0m
+saving the best model...
+Epoch 34: 1.29904, Time is 2.73s
+[34m[dev set Total] Prec.: 66.34, Rec.: 56.28, F1: 60.90[0m
+saving the best model...
+Epoch 35: 1.16322, Time is 2.70s
+[34m[dev set Total] Prec.: 67.09, Rec.: 56.70, F1: 61.46[0m
+saving the best model...
+Epoch 36: 1.11061, Time is 2.69s
+[34m[dev set Total] Prec.: 67.17, Rec.: 56.82, F1: 61.56[0m
+saving the best model...
+Epoch 37: 0.99164, Time is 2.64s
+[34m[dev set Total] Prec.: 67.52, Rec.: 56.55, F1: 61.55[0m
+Epoch 38: 0.92993, Time is 2.65s
+[34m[dev set Total] Prec.: 67.57, Rec.: 56.21, F1: 61.37[0m
+Epoch 39: 0.80429, Time is 2.65s
+[34m[dev set Total] Prec.: 66.77, Rec.: 56.35, F1: 61.12[0m
+Epoch 40: 0.79022, Time is 2.68s
+[34m[dev set Total] Prec.: 66.74, Rec.: 56.60, F1: 61.25[0m
+Epoch 41: 0.73322, Time is 2.64s
+[34m[dev set Total] Prec.: 67.37, Rec.: 56.65, F1: 61.55[0m
+Epoch 42: 0.69994, Time is 2.57s
+[34m[dev set Total] Prec.: 67.73, Rec.: 56.38, F1: 61.54[0m
+Epoch 43: 0.68805, Time is 2.63s
+[34m[dev set Total] Prec.: 68.14, Rec.: 56.30, F1: 61.66[0m
+saving the best model...
+Epoch 44: 0.65109, Time is 2.71s
+[34m[dev set Total] Prec.: 68.31, Rec.: 56.40, F1: 61.78[0m
+saving the best model...
+Epoch 45: 0.60632, Time is 2.55s
+[34m[dev set Total] Prec.: 68.27, Rec.: 56.52, F1: 61.84[0m
+saving the best model...
+Epoch 46: 0.61215, Time is 2.62s
+[34m[dev set Total] Prec.: 68.33, Rec.: 56.53, F1: 61.87[0m
+saving the best model...
+Epoch 47: 0.60952, Time is 2.63s
+[34m[dev set Total] Prec.: 68.64, Rec.: 56.55, F1: 62.01[0m
+saving the best model...
+Epoch 48: 0.56686, Time is 2.60s
+[34m[dev set Total] Prec.: 68.78, Rec.: 56.62, F1: 62.11[0m
+saving the best model...
+Epoch 49: 0.57317, Time is 2.67s
+[34m[dev set Total] Prec.: 68.93, Rec.: 56.64, F1: 62.18[0m
+saving the best model...
+Epoch 50: 0.57675, Time is 2.66s
+[34m[dev set Total] Prec.: 68.87, Rec.: 56.57, F1: 62.12[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 62.18
+Final testing.
+[34m[test set Total] Prec.: 67.11, Rec.: 54.79, F1: 60.33[0m
