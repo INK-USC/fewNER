@@ -83,7 +83,7 @@ print(f"F1 score array {f1_scores}")
 arr = numpy.array(f1_scores)
 mean = arr.flatten().mean()
 # Calculate the std of the average instead of everything
-std = arr.mean(axis=1).std()
+std = (arr.mean(axis=1).std() if not args.no_subsamples else arr[0].std())
 print("average: ", mean)
 print("std: ", std)
 
