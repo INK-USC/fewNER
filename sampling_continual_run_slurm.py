@@ -41,6 +41,7 @@ for suffix in suffices:
             " --prompt " + args.prompt + \
             " --template " + args.template + \
             " --search_pool " + args.search_pool + \
+            " --batch_size 4" + \
             " --seed " + seed + " > " + log_file
         log_files.append(log_file)
         model_folders.append(model_folder)

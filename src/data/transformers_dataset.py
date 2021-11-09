@@ -19,10 +19,13 @@ import bert_score
 from src.data import Instance
 from src.data.search_space_manager import SearchSpaceManager
 import sys
+import os
 
 Feature = collections.namedtuple('Feature', 'input_ids attention_mask token_type_ids orig_to_tok_index word_seq_len label_ids')
 Feature.__new__.__defaults__ = (None,) * 6
 
+CONST_INST = os.environ.get('CONST_INST', '1') == '1'
+print("Constrained Instances: " + str(CONST_INST))
 
 
 def maybe_show_prompt(id, word, prompt, mod):
@@ -36,7 +39,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                                          prompt: str = None, # "max", "random", "sbert", "bertscore"
                                          template: str = None, # "no_context", "basic", "basic_all", "structure", "structure_all"
                                          prompt_candidates_from_outside: List[str] = None,
-                                         constrained_instances: bool = True):
+                                         constrained_instances: bool = CONST_INST):
     
     
     features = []

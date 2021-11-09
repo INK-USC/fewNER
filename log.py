@@ -48,16 +48,19 @@ for suffix in suffices:
 
 ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
 f1_scores = []
+runs = 0
 for i,file in enumerate(log_files):
-    with open(file, 'r') as reader:
-        for line in reader:
-            pass
-        last_line = line
-        print(last_line)
-        try:
+    try:
+        with open(file, 'r') as reader:
+            for line in reader:
+                pass
+            last_line = line
+            print(last_line)
+        
             f1_scores.append(float(ansi_escape.sub('', last_line.split()[-1])))
-        except:
-            continue
+            runs += 1
+    except:
+        continue
 
 averages = []
 tmp_nums = []
@@ -74,10 +77,13 @@ mean = numpy.mean(arr, axis=0)
 std = numpy.std(arr, axis=0)
 print("average: ", numpy.mean(arr, axis=0))
 print("std: ", numpy.std(arr, axis=0))
+print("runs: ", runs)
 
-with open(args.dataset + "_" + args.train_file.split('.')[0] + "_" + args.prompt + "_" + args.template + "_" + args.suffix + ".txt", 'w') as file:
-    file.write("average: " + str(mean))
-    file.write("std: " + str(std))
+if runs == 15:
+    with open(args.dataset + "_" + args.train_file.split('.')[0] + "_" + args.prompt + "_" + args.template + "_" + args.suffix + ".txt", 'w') as file:
+        file.write("average: " + str(mean))
+        file.write("\nstd: " + str(std))
+        file.write("\nruns: "+ str(runs))
 
 
 

@@ -13,6 +13,7 @@ parser.add_argument('--suffix', type=str, required=True, help='Size of training 
 parser.add_argument('--prompt', type=str, required=False, help='Selection strategy')
 parser.add_argument('--template', type=str, required=False, help='Template')
 parser.add_argument('--no_subsamples', type=bool, required=False, default=False, help='No seeded subsamples is this is specified (any value will evaluate to true)')
+parser.add_argument('--constraint', action='store_true', required=False, default=False, help='constraint instances')
 
 args = parser.parse_known_args()[0]
 
@@ -26,15 +27,17 @@ try:
 except:
     pass
 
+constraint = "constraint_" if args.constraint else ""
 
 def gen_command_logfilename_modelfolder(args, seed, suffix):
     """
         Returns (command, log file, model folder)
     """
-    log_file = "logs/" + args.dataset + "/" + args.train_file.split('.')[0] + "_" + (args.prompt if args.prompt else "None") + "_" + (args.template if args.prompt else "None") + "_" + suffix + "_" + seed + ".txt"
-    model_folder = "models/" + args.dataset + "/" + args.train_file.split('.')[0] + "_" + (args.prompt if args.prompt else "None") +"_" + (args.template if args.prompt else "None") +  "_"  + suffix + "_" + seed
+    log_file = "logs/" + args.dataset + "/" + constraint + args.train_file.split('.')[0] + "_" + (args.prompt if args.prompt else "None") + "_" + (args.template if args.prompt else "None") + "_" + suffix + "_" + seed + ".txt"
+    model_folder = "models/" + args.dataset + "/" + constraint + args.train_file.split('.')[0] + "_" + (args.prompt if args.prompt else "None") +"_" + (args.template if args.prompt else "None") +  "_"  + suffix + "_" + seed
     predict_cmd = None
     predict_cmd = \
+        ("" if args.constraint else " CONST_INST=0") + \
         " python3 " + args.train_file + \
         " --dataset " + args.dataset + \
         " --data_dir " + args.data_dir + \
@@ -59,6 +62,7 @@ for suffix in suffices:
         model_folders.append(model_folder)
         print("Executing command: " + predict_cmd + "\n")
         sys.stdout.flush() # Otherwise the command won't show for some reason
+        # if not os.path.exists(model_folder):
         os.system(predict_cmd)
     log_files.append(sub_runs)
 
@@ -88,6 +92,6 @@ print("average: ", mean)
 print("std: ", std)
 
 # Write result summary to a txt file. 
-with open(args.dataset + "_" + args.train_file.split('.')[0] + "_" + (args.prompt if args.prompt else "None") + "_" + (args.template if args.prompt else "None") + "_" + args.suffix + ".txt", 'w') as file:
+with open(args.dataset + "_" + constraint +  args.train_file.split('.')[0] + "_" + (args.prompt if args.prompt else "None") + "_" + (args.template if args.prompt else "None") + "_" + args.suffix + ".txt", 'w') as file:
     file.write("average: " + str(mean))
     file.write("std: " + str(std))
