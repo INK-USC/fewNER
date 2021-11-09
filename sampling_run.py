@@ -44,7 +44,7 @@ def gen_command_logfilename_modelfolder(args, seed, suffix):
         " --device cuda:0" + \
         " --percent_filename_suffix " + suffix + \
         " --num_epochs 50" + \
-        " --batch_size 10" + \
+        " --batch_size 4" + \
         ((" --prompt " + args.prompt + " --template " + args.template) if args.prompt else "") + \
         " --seed " + seed + " > " + log_file
 
