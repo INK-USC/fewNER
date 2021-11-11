@@ -36,7 +36,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                                          prompt: str = None, # "max", "random", "sbert", "bertscore"
                                          template: str = None, # "no_context", "basic", "basic_all", "structure", "structure_all"
                                          prompt_candidates_from_outside: List[str] = None,
-                                         constrained_instances: bool = True):
+                                         constrained_instances: bool = False):
     
     
     features = []
