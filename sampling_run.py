@@ -27,6 +27,7 @@ try:
 except:
     pass
 
+print("WARNING! YOU ARE RUNNING ON PERTURBATION BRANCH! THE LABELS ARE PERTURBED!")
 
 def gen_command_logfilename_modelfolder(args, seed, suffix):
     """

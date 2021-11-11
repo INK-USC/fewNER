@@ -64,6 +64,15 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
         for label in entity_dict:
             for x in sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True)[0:1]:
                 max_entities[label] = [x[0], tuple(x[1])[0]]
+
+    ## Mess up the labels
+    ## Now max_entities dictionary is label to ['entity', inst]
+    ## This dict should map label -> label and make sure no label is mapped to itself.
+    all_labels = list(max_entities.keys())
+    perturbed_dict = {}
+    for i in range(len(all_labels)):
+        perturbed_dict[all_labels[i]] = all_labels[(i+1) % len(all_labels)]
+
                 
     if prompt == "sbert" or prompt == "bertscore":
         search_space = []
@@ -331,7 +340,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                             prompt_tokens.append(sub_token)
 
                         prompt_tokens.append("is")
-                        prompt_tokens.append(entity_label)
+                        prompt_tokens.append(perturbed_dict[entity_label])
                         prompt_tokens.append(".")
                         prompt_tokens.append(tokenizer.sep_token)
 
