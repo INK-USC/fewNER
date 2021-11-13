@@ -233,7 +233,7 @@ def main():
                                                               prompt=conf.prompt, template=conf.template)
             train_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True,
                                                    percentage=conf.percentage, prompt=conf.prompt, template=conf.template,
-                                                   prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
+                                                   prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates, perturb=True)
 
         conf.label2idx = train_dataset.label2idx
         conf.idx2labels = train_dataset.idx2labels
@@ -244,7 +244,7 @@ def main():
         else:
             dev_dataset = TransformersNERDataset(conf.dev_file, tokenizer, number=conf.dev_num,
                                                  label2idx=train_dataset.label2idx, is_train=False, prompt=conf.prompt, template=conf.template,
-                                                 prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
+                                                 prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates, perturb=True)
             test_dataset = TransformersNERDataset(conf.test_file, tokenizer, number=conf.test_num,
                                                   label2idx=train_dataset.label2idx, is_train=False, prompt=conf.prompt, template=conf.template,
                                                   prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates, perturb=True)
