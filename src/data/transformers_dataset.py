@@ -36,7 +36,8 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                                          prompt: str = None, # "max", "random", "sbert", "bertscore"
                                          template: str = None, # "no_context", "basic", "basic_all", "structure", "structure_all"
                                          prompt_candidates_from_outside: List[str] = None,
-                                         constrained_instances: bool = False):
+                                         constrained_instances: bool = False, 
+                                         perturb: bool = False):
     
     
     features = []
@@ -49,14 +50,17 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
 
     ## Construct entity dictionary for "max" or "random".
     entity_dict = {}
+    all_entities = set()
     for inst in candidates:
         for entity, label in inst.entities:
+            all_entities.add(entity)
             if label not in entity_dict:
                 entity_dict[label] = {}
             if entity not in entity_dict[label]:
                 entity_dict[label][entity] = [inst]
             else:
                 entity_dict[label][entity].append(inst)
+    all_entities = list(all_entities)
 
     ## Popular Entity
     if prompt == "max":
@@ -328,19 +332,19 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
             for entity_label in max_entities:
                 if template in ["no_context", "basic", "basic_all"]:
                     if template in ["basic", "basic_all"]:
-                        instance_words = max_entities[entity_label][1].ori_words
+                        instance_words = (max_entities[entity_label][1].ori_words if not perturb else random.choice(candidates).ori_words)
                         for i, word in enumerate(instance_words):
                             instance_tokens = tokenizer.tokenize(" " + word)
                             for sub_token in instance_tokens:
                                 prompt_tokens.append(sub_token)
 
                     if template in ["no_context", "basic"]:
-                        entity_tokens = tokenizer.tokenize(" " + max_entities[entity_label][0])
+                        entity_tokens = tokenizer.tokenize(" " + (max_entities[entity_label][0] if not perturb else random.choice(all_entities)))
                         for sub_token in entity_tokens:
                             prompt_tokens.append(sub_token)
 
                         prompt_tokens.append("is")
-                        prompt_tokens.append(perturbed_dict[entity_label])
+                        prompt_tokens.append((perturbed_dict[entity_label] if perturb else entity_label))
                         prompt_tokens.append(".")
                         prompt_tokens.append(tokenizer.sep_token)
 
@@ -531,7 +535,8 @@ class TransformersNERDataset(Dataset):
                  percentage: int = 100,
                  prompt: str = None,
                  template: str = None,
-                 prompt_candidates_from_outside: List[str] = None):
+                 prompt_candidates_from_outside: List[str] = None,
+                 perturb: bool = False):
         """
         sents: we use sentences if we want to build dataset from sentences directly instead of file
         """
@@ -552,9 +557,9 @@ class TransformersNERDataset(Dataset):
             # check_all_labels_in_dict(insts=insts, label2idx=self.label2idx)
 
         if is_train and prompt is not None:
-            self.insts_ids, self.prompt_candidates = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt, template=template)
+            self.insts_ids, self.prompt_candidates = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt, template=template, perturb=perturb)
         else:
-            self.insts_ids = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt, template=template, prompt_candidates_from_outside=prompt_candidates_from_outside)
+            self.insts_ids = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt, template=template, prompt_candidates_from_outside=prompt_candidates_from_outside, perturb=perturb)
             self.prompt_candidates = None
         self.tokenizer = tokenizer
 

@@ -247,7 +247,7 @@ def main():
                                                  prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
             test_dataset = TransformersNERDataset(conf.test_file, tokenizer, number=conf.test_num,
                                                   label2idx=train_dataset.label2idx, is_train=False, prompt=conf.prompt, template=conf.template,
-                                                  prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
+                                                  prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates, perturb=True)
 
 
         num_workers = 8
