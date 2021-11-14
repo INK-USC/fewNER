@@ -14,6 +14,7 @@ parser.add_argument('--prompt', type=str, required=False, help='Selection strate
 parser.add_argument('--template', type=str, required=False, help='Template')
 parser.add_argument('--no_subsamples', type=bool, required=False, default=False, help='No seeded subsamples is this is specified (any value will evaluate to true)')
 parser.add_argument('--gpu', type=str, default="0", help='GPU ids separated by "," to use for computation')
+parser.add_argument('--entity_selection_seed', type=int, default=-1, help="only needed if prompt == fixed_random")
 
 args = parser.parse_known_args()[0]
 
@@ -27,13 +28,14 @@ try:
 except:
     pass
 
+s_identifier = str(args.entity_selection_seed)
 
 def gen_command_logfilename_modelfolder(args, seed, suffix):
     """
         Returns (command, log file, model folder)
     """
-    log_file = "logs/" + args.dataset + "/" + args.train_file.split('.')[0] + "_" + (args.prompt if args.prompt else "None") + "_" + (args.template if args.prompt else "None") + "_" + suffix + "_" + seed + ".txt"
-    model_folder = "models/" + args.dataset + "/" + args.train_file.split('.')[0] + "_" + (args.prompt if args.prompt else "None") +"_" + (args.template if args.prompt else "None") +  "_"  + suffix + "_" + seed
+    log_file = "logs/" + args.dataset + "/" + s_identifier + "_" + (args.prompt if args.prompt else "None") + "_" + (args.template if args.prompt else "None") + "_" + suffix + "_" + seed + ".txt"
+    model_folder = "models/" + args.dataset + "/" + s_identifier + "_" + (args.prompt if args.prompt else "None") +"_" + (args.template if args.prompt else "None") +  "_"  + suffix + "_" + seed
     predict_cmd = None
     predict_cmd = \
         "CUDA_VISIBLE_DEVICES=" + str(args.gpu) + \
@@ -46,6 +48,7 @@ def gen_command_logfilename_modelfolder(args, seed, suffix):
         " --num_epochs 50" + \
         " --batch_size 4" + \
         ((" --prompt " + args.prompt + " --template " + args.template) if args.prompt else "") + \
+        ((" --entity_selection_seed " + str(args.entity_selection_seed)) if args.prompt=="fixed_random" else "") + \
         " --seed " + seed + " > " + log_file
 
     return predict_cmd,log_file,model_folder
@@ -90,6 +93,6 @@ print("average: ", mean)
 print("std: ", std)
 
 # Write result summary to a txt file. 
-with open(args.dataset + "_" + args.train_file.split('.')[0] + "_" + (args.prompt if args.prompt else "None") + "_" + (args.template if args.prompt else "None") + "_" + args.suffix + ".txt", 'w') as file:
+with open(args.dataset + "_" + s_identifier + "_" + (args.prompt if args.prompt else "None") + "_" + (args.template if args.prompt else "None") + "_" + args.suffix + ".txt", 'w') as file:
     file.write("average: " + str(mean))
     file.write("std: " + str(std))

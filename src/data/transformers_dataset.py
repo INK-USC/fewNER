@@ -36,7 +36,8 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                                          prompt: str = None, # "max", "random", "sbert", "bertscore"
                                          template: str = None, # "no_context", "basic", "basic_all", "structure", "structure_all"
                                          prompt_candidates_from_outside: List[str] = None,
-                                         constrained_instances: bool = False):
+                                         constrained_instances: bool = False,
+                                         entity_selection_seed: int = -1):
     
     
     features = []
@@ -59,11 +60,21 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                 entity_dict[label][entity].append(inst)
 
     ## Popular Entity
+    max_entities = {}
+    if entity_selection_seed != -1:
+        random.seed(entity_selection_seed)
+
     if prompt == "max":
-        max_entities = {}
         for label in entity_dict:
             for x in sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True)[0:1]:
                 max_entities[label] = [x[0], tuple(x[1])[0]]
+    elif prompt == "fixed_random":
+        # We use max_entities here for simplicity, can maybe refactor later
+        for label in entity_dict:
+            all_entities = sorted(entity_dict[label].items(), key=lambda kv: len(kv[1]), reverse=True)[1:] # Avoid the most popular one
+            x = random.choice(all_entities)
+            print(f"--> For label {label}, picked entity {x[0]}, picked instance {x[1][0].ori_words}")
+            max_entities[label] = [x[0], tuple(x[1])[0]]
                 
     if prompt == "sbert" or prompt == "bertscore":
         search_space = []
@@ -314,7 +325,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
             input_ids = tokenizer.convert_tokens_to_ids(
                 [tokenizer.cls_token] + tokens + [tokenizer.sep_token] + prompt_tokens + [tokenizer.sep_token])
 
-        elif prompt == "max":
+        elif prompt in ["max", "fixed_random"]:
             prompt_tokens = []
             for entity_label in max_entities:
                 if template in ["no_context", "basic", "basic_all"]:
@@ -522,7 +533,8 @@ class TransformersNERDataset(Dataset):
                  percentage: int = 100,
                  prompt: str = None,
                  template: str = None,
-                 prompt_candidates_from_outside: List[str] = None):
+                 prompt_candidates_from_outside: List[str] = None, 
+                 entity_selection_seed: int = -1):
         """
         sents: we use sentences if we want to build dataset from sentences directly instead of file
         """
@@ -543,9 +555,9 @@ class TransformersNERDataset(Dataset):
             # check_all_labels_in_dict(insts=insts, label2idx=self.label2idx)
 
         if is_train and prompt is not None:
-            self.insts_ids, self.prompt_candidates = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt, template=template)
+            self.insts_ids, self.prompt_candidates = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt, template=template, entity_selection_seed = entity_selection_seed)
         else:
-            self.insts_ids = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt, template=template, prompt_candidates_from_outside=prompt_candidates_from_outside)
+            self.insts_ids = convert_instances_to_feature_tensors(insts, tokenizer, label2idx, prompt=prompt, template=template, prompt_candidates_from_outside=prompt_candidates_from_outside, entity_selection_seed = entity_selection_seed)
             self.prompt_candidates = None
         self.tokenizer = tokenizer
 

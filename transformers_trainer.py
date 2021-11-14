@@ -71,7 +71,9 @@ def parse_arguments(parser):
     parser.add_argument('--test_file', type=str, default="data/conll2003_sample/test.txt", help="test file for test mode, only applicable in test mode")
     parser.add_argument('--percentage', type=int, default=100, help="how much percentage of training dataset to use")
 
-    parser.add_argument('--prompt', type=str, choices=["max", "random", "sbert", "bertscore"], help="prompt mode")
+    parser.add_argument('--prompt', type=str, choices=["max", "random", "fixed_random", "sbert", "bertscore"], help="prompt mode")
+    parser.add_argument('--entity_selection_seed', type=int, default=42, help="only needed if prompt == fixed_random")
+
     parser.add_argument('--template', type=str, choices=["no_context", "basic", "basic_all", "structure", "structure_all","lexical","lexical_all"], help="template mode")
     parser.add_argument('--search_pool', type=str, choices=["source","target","source+target"], help="template mode")
 
@@ -230,10 +232,10 @@ def main():
         else:
             prompt_candidate_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num,
                                                               is_train=True, percentage=conf.percentage,
-                                                              prompt=conf.prompt, template=conf.template)
+                                                              prompt=conf.prompt, template=conf.template, entity_selection_seed=conf.entity_selection_seed)
             train_dataset = TransformersNERDataset(conf.train_file, tokenizer, number=conf.train_num, is_train=True,
                                                    percentage=conf.percentage, prompt=conf.prompt, template=conf.template,
-                                                   prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
+                                                   prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates, entity_selection_seed=conf.entity_selection_seed)
 
         conf.label2idx = train_dataset.label2idx
         conf.idx2labels = train_dataset.idx2labels
@@ -244,10 +246,10 @@ def main():
         else:
             dev_dataset = TransformersNERDataset(conf.dev_file, tokenizer, number=conf.dev_num,
                                                  label2idx=train_dataset.label2idx, is_train=False, prompt=conf.prompt, template=conf.template,
-                                                 prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
+                                                 prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates, entity_selection_seed=conf.entity_selection_seed)
             test_dataset = TransformersNERDataset(conf.test_file, tokenizer, number=conf.test_num,
                                                   label2idx=train_dataset.label2idx, is_train=False, prompt=conf.prompt, template=conf.template,
-                                                  prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates)
+                                                  prompt_candidates_from_outside=prompt_candidate_dataset.prompt_candidates, entity_selection_seed=conf.entity_selection_seed)
 
 
         num_workers = 8
