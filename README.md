@@ -1,12 +1,17 @@
 # fewNER
 
-<!-- TODO: add description/abstract -->
 
 ## Table of contents
 
 1. [Setup](#setup)
 2. [Valid Combination Table](#valid-combination-table)
 3. [Running](#running)
+
+   3.1. [Single run](#single-run)
+
+   3.2. [Multiple runs](#multiple-runs)
+
+   3.3. [Running prompt Search](#running-prompt-search)
 
 <hr/>
 
@@ -16,7 +21,8 @@
 
 2. Run `pip install -r requirements.txt`
 
-3. _*Optional*_ Add support for CUDA. We have tested the repository on pytorch version [1.7.1](https://pytorch.org/get-started/previous-versions/#v171) with CUDA version 10.1.
+3. _*Optional*_ Add support for CUDA. We have tested the repository on pytorch
+   version [1.7.1](https://pytorch.org/get-started/previous-versions/#v171) with CUDA version 10.1.
 
 ```bash
 # conda
@@ -26,7 +32,8 @@ conda install pytorch==1.7.1 torchvision==0.8.2 torchaudio==0.7.2 cudatoolkit=10
 pip install torch==1.7.1+cu101 torchvision==0.8.2+cu101 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
 ```
 
-4. **Important** Locate your python libraries directory and replace the `bert_score/score.py` with `score.py` provided in this repository. We make some changes to cache the model and avoid reloading of model for each call. For example,
+4. **Important** Locate your python libraries directory and replace the `bert_score/score.py` with `score.py` provided
+   in this repository. We make some changes to cache the model and avoid reloading of model for each call. For example,
 
 ```bash
 cp score.py ~/.conda/envs/<ENV_NAME>/lib/python3.6/site-packages/bert_score/score.py
@@ -38,11 +45,10 @@ cp score.py ~/.conda/envs/<ENV_NAME>/lib/python3.6/site-packages/bert_score/scor
 
 | Prompt      | Template                                                         |
 | ----------- | ---------------------------------------------------------------- |
-| `max`       | `no_context`, `basic`, `basic_all`, `structure`, `structure_all` |
-| `random`    | `no_context`, `basic`, `basic_all`, `structure`, `structure_all` |
-| `sbert`     | `basic_all`, `structure_all`                                     |
-| `bertscore` | `basic_all`, `structure_all`                                     |
-| `search`    | `no_context`, `basic`, `basic_all`, `structure`, `structure_all` |
+| `max`       | `no_context`, `basic`, `lexical` |
+| `random`    | `no_context`, `basic`, `lexical`|
+| `sbert`     | `basic_all`, `lexical_all`                                     |
+| `bertscore` | `basic_all`, `lexical_all`                                     |
 
 <hr/>
 
@@ -53,40 +59,59 @@ Possible values for:
 - `<DATASET>` : `conll`, `ontonotes_conll`, `bc5cdr`
 - `<PROMPT>` : from the table above
 - `<TEMPLATE>` : from the table above
+- `<SUFFIX>` : 25, 50
+- `<SEEDED_SUFFIX>` :
+    - For train size 25:
+        - 25_42
+        - 25_1337
+        - 25_2021
+        - 25_5555
+        - 25_9999
+    - For train size 50:
+        - 50_42
+        - 50_1337
+        - 50_2021
+        - 50_5555
+        - 50_9999
+- `<TRAIN_SEED>` : 42, 1337, 2021
 
 ### Single run
+
+Execute a single run.
 
 - In-domain setting
 
   ```bash
-  CUDA_VISIBLE_DEVICES=0 \
-    python3 transformers_trainer.py \
+  python3 transformers_trainer.py \
     --dataset <DATASET> \
     --data_dir dataset/<DATASET> \
     --model_folder models/<DATASET>/test10 \
     --device cuda:0 \
-    --percent_filename_suffix 50 \
+    --percent_filename_suffix <SEEDED_SUFFIX> \
     --prompt <PROMPT> \
     --template <TEMPLATE> \
-    --num_epochs 50
+    --num_epochs 50 \
+    --seed <TRAIN_SEED>
   ```
 
 - Domain Adaptation setting
   ```bash
-  CUDA_VISIBLE_DEVICES=0 \
-    python3 transformers_continual_trainer.py \
+  python3 transformers_continual_trainer.py \
     --dataset <DATASET> \
     --data_dir dataset/<DATASET> \
-    --checkpoint /home/shared/fewner/conll_all \
+    --checkpoint checkpoint/conll_all \
     --model_folder models/<DATASET>/transfer_train_50_conll \
     --device cuda:0 \
     --prompt <PROMPT> \
     --template <TEMPLATE> \
     --search_pool target \
-    --percent_filename_suffix 50
+    --percent_filename_suffix <SEEDED_SUFFIX> \
+    --seed <TRAIN_SEED>
   ```
 
 ### Multiple runs
+
+This setting runs all 15 runs i.e. 5 different sub-samples x 3 training seeds
 
 - In-domain setting
 
@@ -96,7 +121,7 @@ Possible values for:
     --dataset <DATASET> \
     --data_dir dataset/<DATASET> \
     --gpu 0 \
-    --suffix 50 \
+    --suffix <SUFFIX> \
     --prompt <PROMPT> \
     --template <TEMPLATE>
   ```
@@ -107,15 +132,38 @@ Possible values for:
     --train_file transformers_continual_trainer.py \
     --dataset <DATASET> \
     --data_dir dataset/<DATASET> \
-    --suffix 25 \
+    --gpu 0 \
+    --suffix <SUFFIX> \
     --prompt <PROMPT> \
     --template <TEMPLATE> \
     --search_pool target \
-    --checkpoint /home/shared/fewner/conll_all
+    --checkpoint checkpoint/conll_all
   ```
 
-### bash scripts
+### Running prompt Search
 
-- To test your setup, `cd` to the repo root folder and run `./bin/test_setup`. This runs a training script and if you setup is correct you shouldn't see any errors.
-- To train with conll dataset with a specific percent_filename_suffix, run `./bin/train_with_conll SUFFIX`. For example `./bin/train_with_conll 50`, or `./bin/train_with_conll all`.
-- To clear **all** current models, results, and metrics to revert to a repo with just source code, run `./bin/clear_existing_outputs`. Note that by running this you will lose all the trained models and calculated results.
+| Prompt      | Template                                                         |
+| ----------- | ---------------------------------------------------------------- |
+| `search`    | `no_context`, `basic`, `lexical` |
+
+1. search for best entities (based on only one seed)
+    ```bash
+    python3 search.py \
+        --dataset <DATASET> \
+        --data_dir dataset/<DATASET> \
+        --model_folder models/<DATASET>/conll_max_basic \
+        --device cuda:0 \
+        --percent_filename_suffix <SEEDED_SUFFIX> \
+        --template <TEMPLATE>
+    ```
+
+2. Run with best entities
+    ```bash
+    python sampling_run.py \
+        --train_file search_run.py \
+        --dataset <DATASET> \
+        --data_dir dataset/<DATASET> \
+        --gpu 0 \
+        --suffix <SUFFIX> \
+        --template <TEMPLATE>
+    ```
