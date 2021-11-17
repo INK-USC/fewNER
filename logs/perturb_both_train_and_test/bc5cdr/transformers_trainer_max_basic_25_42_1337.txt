@@ -1,0 +1,333 @@
+device: cuda:0
+seed: 1337
+dataset: bc5cdr
+data_dir: dataset/bc5cdr
+percent_filename_suffix: 25_42
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/bc5cdr/transformers_trainer_max_basic_25_42_1337
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: max
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/bc5cdr/train_25_42.txt
+dataset/bc5cdr/dev.txt
+dataset/bc5cdr/test.txt[0m
+[Data Info] Reading file: dataset/bc5cdr/train_25_42.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 25
+[Data Info] Using the training set to build label index
+#labels: 12
+label 2idx: {'<PAD>': 0, 'O': 1, 'S-Chemical': 2, 'S-Disease': 3, 'B-Disease': 4, 'E-Disease': 5, 'I-Disease': 6, 'B-Chemical': 7, 'I-Chemical': 8, 'E-Chemical': 9, '<START>': 10, '<STOP>': 11}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Antipsychotic', '-', 'like', 'profile', 'of', 'thioperamide', ',', 'a', 'selective', 'H3', '-', 'receptor', 'antagonist', 'in', 'mice', '.'][0m
+[33mPrompt 0: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 2: ['Stevens', '-', 'Johnson', 'syndrome', 'is', 'a', 'well', '-', 'recognized', 'immune', 'complex', '-', 'mediated', 'hypersensitivity', 'reaction', 'that', 'affects', 'all', 'age', 'groups', ',', 'is', 'drug', 'or', 'infection', 'induced', ',', 'and', 'has', 'classic', 'systemic', ',', 'mucosal', ',', 'and', 'dermatologic', 'manifestations', '.'][0m
+[33mPrompt 2: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 4: ['NRA0160', ',', '5', '-', '[', '2', '-', '(', '4', '-', '(', '3', '-', 'fluorobenzylidene', ')', 'piperidin', '-', '1', '-', 'yl', ')', 'ethyl', ']', '-', '4', '-', '(', '4', '-', 'fluorophenyl', ')', 'thiazole', '-', '2', '-', 'carboxamide', ',', 'has', 'a', 'high', 'affinity', 'for', 'human', 'cloned', 'dopamine', 'D4', '.', '2', ',', 'D4', '.', '4', 'and', 'D4', '.', '7', 'receptors', ',', 'with', 'Ki', 'values', 'of', '0', '.', '5', ',', '0', '.', '9', 'and', '2', '.', '7', 'nM', ',', 'respectively', '.'][0m
+[33mPrompt 4: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 6: ['Comparison', 'of', 'the', 'mean', 'ALT', 'values', 'revealed', 'significantly', 'higher', 'mean', 'alanine', 'aminotransferase', '(', 'ALT', ')', 'values', 'in', 'the', 'control', 'group', 'than', 'the', 'prophylactic', 'lamivudine', 'group', ';', '154', ':', '64', '(', 'p', '<', '0', '.', '32', ')', '.'][0m
+[33mPrompt 6: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 8: ['Biopsies', 'performed', 'in', 'five', 'patients', 'revealed', 'new', 'pathological', 'changes', ':', 'One', 'membranoproliferative', 'glomerulopathy', 'and', 'interstitial', 'nephritis', '.'][0m
+[33mPrompt 8: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 10: ['In', 'several', 'models', 'of', 'hypertension', ',', 'elevation', 'of', 'intracellular', 'sodium', 'level', 'was', 'documented', 'in', 'cardiac', 'tissue', '.'][0m
+[33mPrompt 10: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 12: ['HBsAg', ',', 'anti', '-', 'HBs', ',', 'anti', '-', 'HBc', ',', 'and', 'anti', '-', 'HIV', '1', '/', '2', 'were', 'determined', 'as', 'part', 'of', 'routine', 'diagnosis', 'using', 'Axsym', 'assays', '(', 'Abbott', 'Laboratories', ',', 'North', 'Chicago', ',', 'IL', ')', '.'][0m
+[33mPrompt 12: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 14: ['We', 'report', 'twin', 'neonates', 'who', 'were', 'born', 'prematurely', 'at', '32', 'weeks', 'of', 'gestation', 'to', 'a', 'mother', 'with', 'human', 'immunodeficiency', 'virus', 'infection', '.'][0m
+[33mPrompt 14: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 16: ['Neurologic', 'effects', 'of', 'subarachnoid', 'administration', 'of', '2', '-', 'chloroprocaine', '-', 'CE', ',', 'bupivacaine', ',', 'and', 'low', 'pH', 'normal', 'saline', 'in', 'dogs', '.'][0m
+[33mPrompt 16: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 18: ['The', 'effects', 'of', 'continuous', 'positive', 'airway', 'pressure', '(', 'CPAP', ')', 'on', 'cardiovascular', 'dynamics', 'and', 'pulmonary', 'shunt', '(', 'QS', '/', 'QT', ')', 'were', 'investigated', 'in', '12', 'dogs', 'before', 'and', 'during', 'sodium', 'nitroprusside', 'infusion', 'that', 'decreased', 'mean', 'arterial', 'blood', 'pressure', '40', '-', '50', 'per', 'cent', '.'][0m
+[33mPrompt 18: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Five', 'patients', 'displayed', 'CAN', 'and', 'Kaposi', "'", 's', 'sarcoma', '.'][0m
+[33mPrompt 20: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 22: ['The', 'typical', 'signs', 'of', 'VPA', '-', 'induced', 'encephalopathy', 'are', 'impaired', 'consciousness', ',', 'sometimes', 'marked', 'EEG', 'background', 'slowing', ',', 'increased', 'seizure', 'frequency', ',', 'with', 'or', 'without', 'hyperammonemia', '.'][0m
+[33mPrompt 22: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 24: ['A', 'total', 'of', '177', 'patients', 'were', 'diagnosed', 'as', 'allergic', 'to', 'beta', '-', 'lactam', 'antibiotics', '.'][0m
+[33mPrompt 24: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/train_25_42.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 25
+[Data Info] Using the training set to build label index
+#labels: 12
+label 2idx: {'<PAD>': 0, 'O': 1, 'S-Chemical': 2, 'S-Disease': 3, 'B-Disease': 4, 'E-Disease': 5, 'I-Disease': 6, 'B-Chemical': 7, 'I-Chemical': 8, 'E-Chemical': 9, '<START>': 10, '<STOP>': 11}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Antipsychotic', '-', 'like', 'profile', 'of', 'thioperamide', ',', 'a', 'selective', 'H3', '-', 'receptor', 'antagonist', 'in', 'mice', '.'][0m
+[33mPrompt 0: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 2: ['Stevens', '-', 'Johnson', 'syndrome', 'is', 'a', 'well', '-', 'recognized', 'immune', 'complex', '-', 'mediated', 'hypersensitivity', 'reaction', 'that', 'affects', 'all', 'age', 'groups', ',', 'is', 'drug', 'or', 'infection', 'induced', ',', 'and', 'has', 'classic', 'systemic', ',', 'mucosal', ',', 'and', 'dermatologic', 'manifestations', '.'][0m
+[33mPrompt 2: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 4: ['NRA0160', ',', '5', '-', '[', '2', '-', '(', '4', '-', '(', '3', '-', 'fluorobenzylidene', ')', 'piperidin', '-', '1', '-', 'yl', ')', 'ethyl', ']', '-', '4', '-', '(', '4', '-', 'fluorophenyl', ')', 'thiazole', '-', '2', '-', 'carboxamide', ',', 'has', 'a', 'high', 'affinity', 'for', 'human', 'cloned', 'dopamine', 'D4', '.', '2', ',', 'D4', '.', '4', 'and', 'D4', '.', '7', 'receptors', ',', 'with', 'Ki', 'values', 'of', '0', '.', '5', ',', '0', '.', '9', 'and', '2', '.', '7', 'nM', ',', 'respectively', '.'][0m
+[33mPrompt 4: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 6: ['Comparison', 'of', 'the', 'mean', 'ALT', 'values', 'revealed', 'significantly', 'higher', 'mean', 'alanine', 'aminotransferase', '(', 'ALT', ')', 'values', 'in', 'the', 'control', 'group', 'than', 'the', 'prophylactic', 'lamivudine', 'group', ';', '154', ':', '64', '(', 'p', '<', '0', '.', '32', ')', '.'][0m
+[33mPrompt 6: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 8: ['Biopsies', 'performed', 'in', 'five', 'patients', 'revealed', 'new', 'pathological', 'changes', ':', 'One', 'membranoproliferative', 'glomerulopathy', 'and', 'interstitial', 'nephritis', '.'][0m
+[33mPrompt 8: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 10: ['In', 'several', 'models', 'of', 'hypertension', ',', 'elevation', 'of', 'intracellular', 'sodium', 'level', 'was', 'documented', 'in', 'cardiac', 'tissue', '.'][0m
+[33mPrompt 10: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 12: ['HBsAg', ',', 'anti', '-', 'HBs', ',', 'anti', '-', 'HBc', ',', 'and', 'anti', '-', 'HIV', '1', '/', '2', 'were', 'determined', 'as', 'part', 'of', 'routine', 'diagnosis', 'using', 'Axsym', 'assays', '(', 'Abbott', 'Laboratories', ',', 'North', 'Chicago', ',', 'IL', ')', '.'][0m
+[33mPrompt 12: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 14: ['We', 'report', 'twin', 'neonates', 'who', 'were', 'born', 'prematurely', 'at', '32', 'weeks', 'of', 'gestation', 'to', 'a', 'mother', 'with', 'human', 'immunodeficiency', 'virus', 'infection', '.'][0m
+[33mPrompt 14: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 16: ['Neurologic', 'effects', 'of', 'subarachnoid', 'administration', 'of', '2', '-', 'chloroprocaine', '-', 'CE', ',', 'bupivacaine', ',', 'and', 'low', 'pH', 'normal', 'saline', 'in', 'dogs', '.'][0m
+[33mPrompt 16: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 18: ['The', 'effects', 'of', 'continuous', 'positive', 'airway', 'pressure', '(', 'CPAP', ')', 'on', 'cardiovascular', 'dynamics', 'and', 'pulmonary', 'shunt', '(', 'QS', '/', 'QT', ')', 'were', 'investigated', 'in', '12', 'dogs', 'before', 'and', 'during', 'sodium', 'nitroprusside', 'infusion', 'that', 'decreased', 'mean', 'arterial', 'blood', 'pressure', '40', '-', '50', 'per', 'cent', '.'][0m
+[33mPrompt 18: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Five', 'patients', 'displayed', 'CAN', 'and', 'Kaposi', "'", 's', 'sarcoma', '.'][0m
+[33mPrompt 20: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 22: ['The', 'typical', 'signs', 'of', 'VPA', '-', 'induced', 'encephalopathy', 'are', 'impaired', 'consciousness', ',', 'sometimes', 'marked', 'EEG', 'background', 'slowing', ',', 'increased', 'seizure', 'frequency', ',', 'with', 'or', 'without', 'hyperammonemia', '.'][0m
+[33mPrompt 22: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 24: ['A', 'total', 'of', '177', 'patients', 'were', 'diagnosed', 'as', 'allergic', 'to', 'beta', '-', 'lactam', 'antibiotics', '.'][0m
+[33mPrompt 24: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 3809
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['22', '-', 'oxacalcitriol', 'suppresses', 'secondary', 'hyperparathyroidism', 'without', 'inducing', 'low', 'bone', 'turnover', 'in', 'dogs', 'with', 'renal', 'failure', '.'][0m
+[33mPrompt 0: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 380: ['The', 'time', 'course', 'of', 'events', 'suggested', 'that', 'amphotericin', 'B', 'was', 'the', 'cause', 'of', 'the', 'seizures', 'in', 'this', 'AIDS', 'patient', '.'][0m
+[33mPrompt 380: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 760: ['VSD', 'also', 'was', 'noted', 'following', 'treatment', 'on', 'GD', '11', '.'][0m
+[33mPrompt 760: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1140: ['A', 'variety', 'of', 'abnormal', 'sensory', '/', 'motor', 'behaviors', 'associated', 'with', 'electrical', 'discharges', 'recorded', 'from', 'the', 'bilateral', 'brainstem', 'were', 'induced', 'in', 'adult', 'WKY', 'rats', 'by', 'mechanical', '(', 'electrode', 'implants', ')', 'and', 'DC', 'electrical', 'current', 'stimulations', 'and', 'by', 'acute', 'and', 'chronic', 'administration', 'of', 'cocaine', '.'][0m
+[33mPrompt 1140: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1520: ['During', 'treatment', 'of', 'chronic', 'hepatitis', 'C', 'patients', 'with', 'interferon', 'and', 'ribavirin', ',', 'a', 'lot', 'of', 'side', 'effects', 'are', 'described', '.'][0m
+[33mPrompt 1520: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1900: ['A', 'biodegradable', 'polymer', 'dextran', 'has', 'been', 'utilized', 'as', 'a', 'carrier', 'for', 'synthesis', 'of', 'etodolac', '-', 'dextran', 'conjugates', '(', 'ED', ')', 'to', 'improve', 'its', 'aqueous', 'solubility', 'and', 'reduce', 'gastrointestinal', 'side', 'effects', '.'][0m
+[33mPrompt 1900: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 2280: ['We', 'conclude', 'that', 'the', 'analgesic', 'action', 'of', 'opioids', 'on', 'the', 'peripheral', 'terminals', 'of', 'primary', 'afferents', 'is', 'via', 'a', 'binding', 'site', 'with', 'characteristics', 'of', 'the', 'mu', '-', 'opioid', 'receptor', 'and', 'that', 'this', 'action', 'is', 'mediated', 'by', 'inhibition', 'of', 'the', 'cyclic', 'adenosine', 'monophosphate', 'second', 'messenger', 'system', '.'][0m
+[33mPrompt 2280: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 2660: ['Tri', '-', 'ortho', '-', 'tolyl', 'phosphate', '(', 'TOTP', ')', ',', '360', 'mg', '/', 'kg', ',', 'po', ',', 'and', '0', ',', '0', "'", '-', 'diisopropyl', 'phosphorofluoridate', '(', 'DFP', ')', ',', '1', 'mg', '/', 'kg', 'sc', ',', 'were', 'administered', 'to', 'adult', 'White', 'Leghorn', 'chickens', '24', 'hr', 'after', 'they', 'were', 'placed', 'on', 'diets', 'containing', '0', 'to', '300', 'ppm', 'corticosterone', '.'][0m
+[33mPrompt 2660: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3040: ['Intraventricular', 'infusion', 'of', 'dopamine', 'sufficient', 'to', 'raise', 'the', 'brain', 'dopamine', 'to', 'the', 'same', 'extent', 'did', 'not', 'prevent', 'the', 'ammonia', 'coma', 'nor', 'affect', 'the', 'blood', 'and', 'brain', 'ammonia', 'concentrations', '.'][0m
+[33mPrompt 3040: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3420: ['These', 'results', 'are', 'consistent', 'with', 'the', 'hypothesis', 'that', 'the', 'rat', 'has', 'a', 'poorer', 'tolerance', 'for', 'deoxycholic', 'acid', 'than', 'do', 'certain', 'other', 'species', '.'][0m
+[33mPrompt 3420: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3800: ['Isoniazid', 'significantly', 'increased', 'bradycardia', 'after', 'propranolol', ',', 'pindolol', ',', 'labetalol', 'and', 'atenolol', ',', 'as', 'well', 'as', 'after', 'clonidine', ',', 'but', 'not', 'after', 'hexamethonium', 'or', 'carbachol', '.'][0m
+[33mPrompt 3800: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 3974
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Torsade', 'de', 'pointes', 'ventricular', 'tachycardia', 'during', 'low', 'dose', 'intermittent', 'dobutamine', 'treatment', 'in', 'a', 'patient', 'with', 'dilated', 'cardiomyopathy', 'and', 'congestive', 'heart', 'failure', '.'][0m
+[33mPrompt 0: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 397: ['Neuroleptic', 'malignant', 'syndrome', 'complicated', 'by', 'massive', 'intestinal', 'bleeding', 'in', 'a', 'patient', 'with', 'chronic', 'renal', 'failure', '.'][0m
+[33mPrompt 397: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 794: ['Apparent', 'risk', 'factors', 'for', 'the', 'development', 'of', 'mania', 'or', 'hypomania', 'during', 'fluoxetine', 'pharmacotherapy', 'in', 'this', 'population', 'were', 'the', 'combination', 'of', 'attention', '-', 'deficit', 'hyperactivity', 'disorder', 'and', 'affective', 'instability', ';', 'major', 'depression', 'with', 'psychotic', 'features', ';', 'a', 'family', 'history', 'of', 'affective', 'disorder', ',', 'especially', 'bipolar', 'disorder', ';', 'and', 'a', 'diagnosis', 'of', 'bipolar', 'disorder', '.'][0m
+[33mPrompt 794: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1191: ['CONCLUSION', ':', 'The', 'data', 'acquired', 'suggest', 'that', 'isolated', 'MAP', 'may', 'have', 'certain', 'benefits', 'on', 'LV', 'dimension', '/', 'function', 'in', 'acute', 'heart', 'failure', ',', 'even', 'in', 'the', 'absence', 'of', 'MR', '.'][0m
+[33mPrompt 1191: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1588: ['Initial', 'evaluation', 'confirmed', 'FHF', 'from', 'acetaminophen', 'and', 'cerebral', 'edema', '.'][0m
+[33mPrompt 1588: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1985: ['CONCLUSIONS', ':', 'The', 'prevalence', 'of', 'levodopa', '-', 'induced', 'dyskinesia', 'in', 'our', 'patients', 'was', '44', '%', '.'][0m
+[33mPrompt 1985: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 2382: ['Bortezomib', 'and', 'high', '-', 'dose', 'dexamethasone', '-', 'containing', 'regimens', 'are', 'considered', 'to', 'be', 'generally', 'tolerable', 'with', 'few', 'severe', 'bacterial', 'infections', 'in', 'patients', 'with', 'B', '-', 'cell', 'malignancies', '.'][0m
+[33mPrompt 2382: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 2779: ['Conditions', 'that', 'will', 'be', 'required', 'for', 'studies', 'of', '1', ',', '3', '-', 'butadiene', 'are', 'discussed', '.'][0m
+[33mPrompt 2779: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3176: ['After', '4', 'weeks', 'the', 'PAN', 'rats', 'were', 'severely', 'proteinuric', '(', '190', '+', '/', '-', '80', 'mg', '/', '24', 'hr', ')', ',', 'and', 'all', 'rats', 'were', 'given', 'colloidal', 'carbon', '(', 'CC', ')', 'intravenously', '.'][0m
+[33mPrompt 3176: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3573: ['This', 'also', 'resulted', 'in', 'an', 'increased', 'incidence', 'of', 'seizures', ',', '90', '%', '(', 'P', '<', 'or', '=', '.', '01', ')', ',', 'and', 'death', ',', '90', '%', '(', 'P', '<', 'or', '=', '.', '05', ')', ',', 'compared', 'with', 'group', '4', '.'][0m
+[33mPrompt 3573: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3970: ['Seven', 'of', 'the', '13', 'patients', 'had', 'exhibited', 'a', 'subclinical', 'hypertensive', 'state', 'before', 'cyclosporin', 'A', 'therapy', '.'][0m
+[33mPrompt 3970: ['Anti', '##psy', '##cho', '##tic', '-', 'like', 'profile', 'of', 'th', '##io', '##per', '##ami', '##de', ',', 'a', 'selective', 'H', '##3', '-', 'receptor', 'antagonist', 'in', 'mice', '.', 'th', '##io', '##per', '##ami', '##de', 'is', 'Disease', '.', '[SEP]', 'Un', '##i', '-', 'and', 'multi', '##var', '##iate', 'analyses', 'were', 'used', 'to', 'test', 'the', 'influence', 'of', 'the', 'clinical', 'variables', ':', 'age', ',', 'sex', ',', 'stroke', ',', 'my', '##oc', '##ard', '##io', '##pathy', '(', 'MP', ')', ',', 'duration', 'of', 'the', 'test', ',', 'mit', '##ral', 're', '##gu', '##rg', '##itation', '(', 'MR', ')', 'and', 'the', 'M', '##Z', 'dose', '.', 'stroke', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 7
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/bc5cdr/transformers_trainer_max_basic_25_42_1337.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1610.89581, Time is 2.57s
+[34m[dev set Total] Prec.: 4.05, Rec.: 3.05, F1: 3.48[0m
+saving the best model...
+Epoch 2: 666.92140, Time is 2.02s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 3: 482.98587, Time is 1.84s
+[34m[dev set Total] Prec.: 36.36, Rec.: 0.04, F1: 0.08[0m
+Epoch 4: 375.14964, Time is 2.00s
+[34m[dev set Total] Prec.: 48.90, Rec.: 3.71, F1: 6.90[0m
+saving the best model...
+Epoch 5: 292.74481, Time is 2.07s
+[34m[dev set Total] Prec.: 46.34, Rec.: 9.84, F1: 16.23[0m
+saving the best model...
+Epoch 6: 223.28878, Time is 1.97s
+[34m[dev set Total] Prec.: 40.83, Rec.: 26.19, F1: 31.91[0m
+saving the best model...
+Epoch 7: 172.07370, Time is 2.31s
+[34m[dev set Total] Prec.: 47.73, Rec.: 31.50, F1: 37.96[0m
+saving the best model...
+Epoch 8: 120.79256, Time is 1.87s
+[34m[dev set Total] Prec.: 44.33, Rec.: 38.76, F1: 41.35[0m
+saving the best model...
+Epoch 9: 98.00140, Time is 2.07s
+[34m[dev set Total] Prec.: 44.91, Rec.: 39.27, F1: 41.90[0m
+saving the best model...
+Epoch 10: 64.19347, Time is 2.11s
+[34m[dev set Total] Prec.: 46.55, Rec.: 43.09, F1: 44.75[0m
+saving the best model...
+Epoch 11: 46.27203, Time is 2.02s
+[34m[dev set Total] Prec.: 48.23, Rec.: 45.53, F1: 46.84[0m
+saving the best model...
+Epoch 12: 31.39389, Time is 1.83s
+[34m[dev set Total] Prec.: 47.55, Rec.: 45.34, F1: 46.41[0m
+Epoch 13: 20.48102, Time is 1.96s
+[34m[dev set Total] Prec.: 50.26, Rec.: 46.04, F1: 48.06[0m
+saving the best model...
+Epoch 14: 16.68637, Time is 1.95s
+[34m[dev set Total] Prec.: 48.62, Rec.: 51.26, F1: 49.90[0m
+saving the best model...
+Epoch 15: 9.49236, Time is 1.92s
+[34m[dev set Total] Prec.: 51.56, Rec.: 51.04, F1: 51.30[0m
+saving the best model...
+Epoch 16: 6.44537, Time is 1.94s
+[34m[dev set Total] Prec.: 52.11, Rec.: 48.56, F1: 50.27[0m
+Epoch 17: 4.13614, Time is 2.19s
+[34m[dev set Total] Prec.: 47.72, Rec.: 51.99, F1: 49.76[0m
+Epoch 18: 3.27350, Time is 1.92s
+[34m[dev set Total] Prec.: 48.48, Rec.: 55.96, F1: 51.95[0m
+saving the best model...
+Epoch 19: 1.84468, Time is 1.80s
+[34m[dev set Total] Prec.: 51.83, Rec.: 54.25, F1: 53.01[0m
+saving the best model...
+Epoch 20: 1.35413, Time is 2.25s
+[34m[dev set Total] Prec.: 51.73, Rec.: 53.96, F1: 52.82[0m
+Epoch 21: 0.78232, Time is 2.29s
+[34m[dev set Total] Prec.: 49.83, Rec.: 53.98, F1: 51.82[0m
+Epoch 22: 0.60495, Time is 1.82s
+[34m[dev set Total] Prec.: 52.49, Rec.: 56.25, F1: 54.30[0m
+saving the best model...
+Epoch 23: 0.42557, Time is 2.12s
+[34m[dev set Total] Prec.: 53.08, Rec.: 53.76, F1: 53.42[0m
+Epoch 24: 0.32369, Time is 1.71s
+[34m[dev set Total] Prec.: 49.00, Rec.: 53.05, F1: 50.94[0m
+Epoch 25: 0.25005, Time is 1.96s
+[34m[dev set Total] Prec.: 49.59, Rec.: 53.89, F1: 51.65[0m
+Epoch 26: 0.19797, Time is 1.96s
+[34m[dev set Total] Prec.: 50.41, Rec.: 55.29, F1: 52.74[0m
+Epoch 27: 0.17220, Time is 1.63s
+[34m[dev set Total] Prec.: 51.02, Rec.: 54.34, F1: 52.63[0m
+Epoch 28: 0.15311, Time is 1.95s
+[34m[dev set Total] Prec.: 51.43, Rec.: 54.52, F1: 52.93[0m
+Epoch 29: 0.13979, Time is 1.86s
+[34m[dev set Total] Prec.: 51.39, Rec.: 54.26, F1: 52.78[0m
+Epoch 30: 0.12521, Time is 1.67s
+[34m[dev set Total] Prec.: 51.21, Rec.: 54.00, F1: 52.57[0m
+Epoch 31: 0.11404, Time is 1.76s
+[34m[dev set Total] Prec.: 51.54, Rec.: 54.09, F1: 52.78[0m
+Epoch 32: 0.10657, Time is 2.04s
+[34m[dev set Total] Prec.: 51.43, Rec.: 54.33, F1: 52.84[0m
+Epoch 33: 0.10175, Time is 2.05s
+[34m[dev set Total] Prec.: 50.18, Rec.: 55.44, F1: 52.68[0m
+Epoch 34: 0.09454, Time is 2.02s
+[34m[dev set Total] Prec.: 49.70, Rec.: 56.08, F1: 52.70[0m
+Epoch 35: 0.09340, Time is 1.87s
+[34m[dev set Total] Prec.: 50.14, Rec.: 55.55, F1: 52.71[0m
+Epoch 36: 0.08755, Time is 1.80s
+[34m[dev set Total] Prec.: 50.80, Rec.: 54.28, F1: 52.48[0m
+Epoch 37: 0.08679, Time is 1.78s
+[34m[dev set Total] Prec.: 51.59, Rec.: 52.83, F1: 52.20[0m
+Epoch 38: 0.08534, Time is 1.96s
+[34m[dev set Total] Prec.: 51.84, Rec.: 52.06, F1: 51.95[0m
+Epoch 39: 0.08456, Time is 1.90s
+[34m[dev set Total] Prec.: 51.73, Rec.: 52.50, F1: 52.11[0m
+Epoch 40: 0.14328, Time is 1.77s
+[34m[dev set Total] Prec.: 50.89, Rec.: 53.75, F1: 52.28[0m
+Epoch 41: 0.08755, Time is 1.86s
+[34m[dev set Total] Prec.: 50.09, Rec.: 55.32, F1: 52.58[0m
+Epoch 42: 0.07877, Time is 1.67s
+[34m[dev set Total] Prec.: 50.34, Rec.: 55.98, F1: 53.01[0m
+early stop because there are 20 epochs not increasing f1 on dev
+Archiving the best Model...
+Finished archiving the models
+The best dev: 54.30
+Final testing.
+[34m[test set Total] Prec.: 51.05, Rec.: 56.61, F1: 53.69[0m

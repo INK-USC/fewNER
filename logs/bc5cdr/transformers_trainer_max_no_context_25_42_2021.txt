@@ -1,0 +1,352 @@
+device: cuda:0
+seed: 2021
+dataset: bc5cdr
+data_dir: dataset/bc5cdr
+percent_filename_suffix: 25_42
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/bc5cdr/transformers_trainer_max_no_context_25_42_2021
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: max
+template: no_context
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/bc5cdr/train_25_42.txt
+dataset/bc5cdr/dev.txt
+dataset/bc5cdr/test.txt[0m
+[Data Info] Reading file: dataset/bc5cdr/train_25_42.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 25
+[Data Info] Using the training set to build label index
+#labels: 12
+label 2idx: {'<PAD>': 0, 'O': 1, 'S-Chemical': 2, 'S-Disease': 3, 'B-Disease': 4, 'E-Disease': 5, 'I-Disease': 6, 'B-Chemical': 7, 'I-Chemical': 8, 'E-Chemical': 9, '<START>': 10, '<STOP>': 11}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Antipsychotic', '-', 'like', 'profile', 'of', 'thioperamide', ',', 'a', 'selective', 'H3', '-', 'receptor', 'antagonist', 'in', 'mice', '.'][0m
+[33mPrompt 0: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 2: ['Stevens', '-', 'Johnson', 'syndrome', 'is', 'a', 'well', '-', 'recognized', 'immune', 'complex', '-', 'mediated', 'hypersensitivity', 'reaction', 'that', 'affects', 'all', 'age', 'groups', ',', 'is', 'drug', 'or', 'infection', 'induced', ',', 'and', 'has', 'classic', 'systemic', ',', 'mucosal', ',', 'and', 'dermatologic', 'manifestations', '.'][0m
+[33mPrompt 2: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 4: ['NRA0160', ',', '5', '-', '[', '2', '-', '(', '4', '-', '(', '3', '-', 'fluorobenzylidene', ')', 'piperidin', '-', '1', '-', 'yl', ')', 'ethyl', ']', '-', '4', '-', '(', '4', '-', 'fluorophenyl', ')', 'thiazole', '-', '2', '-', 'carboxamide', ',', 'has', 'a', 'high', 'affinity', 'for', 'human', 'cloned', 'dopamine', 'D4', '.', '2', ',', 'D4', '.', '4', 'and', 'D4', '.', '7', 'receptors', ',', 'with', 'Ki', 'values', 'of', '0', '.', '5', ',', '0', '.', '9', 'and', '2', '.', '7', 'nM', ',', 'respectively', '.'][0m
+[33mPrompt 4: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 6: ['Comparison', 'of', 'the', 'mean', 'ALT', 'values', 'revealed', 'significantly', 'higher', 'mean', 'alanine', 'aminotransferase', '(', 'ALT', ')', 'values', 'in', 'the', 'control', 'group', 'than', 'the', 'prophylactic', 'lamivudine', 'group', ';', '154', ':', '64', '(', 'p', '<', '0', '.', '32', ')', '.'][0m
+[33mPrompt 6: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 8: ['Biopsies', 'performed', 'in', 'five', 'patients', 'revealed', 'new', 'pathological', 'changes', ':', 'One', 'membranoproliferative', 'glomerulopathy', 'and', 'interstitial', 'nephritis', '.'][0m
+[33mPrompt 8: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 10: ['In', 'several', 'models', 'of', 'hypertension', ',', 'elevation', 'of', 'intracellular', 'sodium', 'level', 'was', 'documented', 'in', 'cardiac', 'tissue', '.'][0m
+[33mPrompt 10: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 12: ['HBsAg', ',', 'anti', '-', 'HBs', ',', 'anti', '-', 'HBc', ',', 'and', 'anti', '-', 'HIV', '1', '/', '2', 'were', 'determined', 'as', 'part', 'of', 'routine', 'diagnosis', 'using', 'Axsym', 'assays', '(', 'Abbott', 'Laboratories', ',', 'North', 'Chicago', ',', 'IL', ')', '.'][0m
+[33mPrompt 12: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 14: ['We', 'report', 'twin', 'neonates', 'who', 'were', 'born', 'prematurely', 'at', '32', 'weeks', 'of', 'gestation', 'to', 'a', 'mother', 'with', 'human', 'immunodeficiency', 'virus', 'infection', '.'][0m
+[33mPrompt 14: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 16: ['Neurologic', 'effects', 'of', 'subarachnoid', 'administration', 'of', '2', '-', 'chloroprocaine', '-', 'CE', ',', 'bupivacaine', ',', 'and', 'low', 'pH', 'normal', 'saline', 'in', 'dogs', '.'][0m
+[33mPrompt 16: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 18: ['The', 'effects', 'of', 'continuous', 'positive', 'airway', 'pressure', '(', 'CPAP', ')', 'on', 'cardiovascular', 'dynamics', 'and', 'pulmonary', 'shunt', '(', 'QS', '/', 'QT', ')', 'were', 'investigated', 'in', '12', 'dogs', 'before', 'and', 'during', 'sodium', 'nitroprusside', 'infusion', 'that', 'decreased', 'mean', 'arterial', 'blood', 'pressure', '40', '-', '50', 'per', 'cent', '.'][0m
+[33mPrompt 18: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Five', 'patients', 'displayed', 'CAN', 'and', 'Kaposi', "'", 's', 'sarcoma', '.'][0m
+[33mPrompt 20: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 22: ['The', 'typical', 'signs', 'of', 'VPA', '-', 'induced', 'encephalopathy', 'are', 'impaired', 'consciousness', ',', 'sometimes', 'marked', 'EEG', 'background', 'slowing', ',', 'increased', 'seizure', 'frequency', ',', 'with', 'or', 'without', 'hyperammonemia', '.'][0m
+[33mPrompt 22: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 24: ['A', 'total', 'of', '177', 'patients', 'were', 'diagnosed', 'as', 'allergic', 'to', 'beta', '-', 'lactam', 'antibiotics', '.'][0m
+[33mPrompt 24: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/train_25_42.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 25
+[Data Info] Using the training set to build label index
+#labels: 12
+label 2idx: {'<PAD>': 0, 'O': 1, 'S-Chemical': 2, 'S-Disease': 3, 'B-Disease': 4, 'E-Disease': 5, 'I-Disease': 6, 'B-Chemical': 7, 'I-Chemical': 8, 'E-Chemical': 9, '<START>': 10, '<STOP>': 11}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Antipsychotic', '-', 'like', 'profile', 'of', 'thioperamide', ',', 'a', 'selective', 'H3', '-', 'receptor', 'antagonist', 'in', 'mice', '.'][0m
+[33mPrompt 0: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 2: ['Stevens', '-', 'Johnson', 'syndrome', 'is', 'a', 'well', '-', 'recognized', 'immune', 'complex', '-', 'mediated', 'hypersensitivity', 'reaction', 'that', 'affects', 'all', 'age', 'groups', ',', 'is', 'drug', 'or', 'infection', 'induced', ',', 'and', 'has', 'classic', 'systemic', ',', 'mucosal', ',', 'and', 'dermatologic', 'manifestations', '.'][0m
+[33mPrompt 2: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 4: ['NRA0160', ',', '5', '-', '[', '2', '-', '(', '4', '-', '(', '3', '-', 'fluorobenzylidene', ')', 'piperidin', '-', '1', '-', 'yl', ')', 'ethyl', ']', '-', '4', '-', '(', '4', '-', 'fluorophenyl', ')', 'thiazole', '-', '2', '-', 'carboxamide', ',', 'has', 'a', 'high', 'affinity', 'for', 'human', 'cloned', 'dopamine', 'D4', '.', '2', ',', 'D4', '.', '4', 'and', 'D4', '.', '7', 'receptors', ',', 'with', 'Ki', 'values', 'of', '0', '.', '5', ',', '0', '.', '9', 'and', '2', '.', '7', 'nM', ',', 'respectively', '.'][0m
+[33mPrompt 4: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 6: ['Comparison', 'of', 'the', 'mean', 'ALT', 'values', 'revealed', 'significantly', 'higher', 'mean', 'alanine', 'aminotransferase', '(', 'ALT', ')', 'values', 'in', 'the', 'control', 'group', 'than', 'the', 'prophylactic', 'lamivudine', 'group', ';', '154', ':', '64', '(', 'p', '<', '0', '.', '32', ')', '.'][0m
+[33mPrompt 6: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 8: ['Biopsies', 'performed', 'in', 'five', 'patients', 'revealed', 'new', 'pathological', 'changes', ':', 'One', 'membranoproliferative', 'glomerulopathy', 'and', 'interstitial', 'nephritis', '.'][0m
+[33mPrompt 8: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 10: ['In', 'several', 'models', 'of', 'hypertension', ',', 'elevation', 'of', 'intracellular', 'sodium', 'level', 'was', 'documented', 'in', 'cardiac', 'tissue', '.'][0m
+[33mPrompt 10: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 12: ['HBsAg', ',', 'anti', '-', 'HBs', ',', 'anti', '-', 'HBc', ',', 'and', 'anti', '-', 'HIV', '1', '/', '2', 'were', 'determined', 'as', 'part', 'of', 'routine', 'diagnosis', 'using', 'Axsym', 'assays', '(', 'Abbott', 'Laboratories', ',', 'North', 'Chicago', ',', 'IL', ')', '.'][0m
+[33mPrompt 12: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 14: ['We', 'report', 'twin', 'neonates', 'who', 'were', 'born', 'prematurely', 'at', '32', 'weeks', 'of', 'gestation', 'to', 'a', 'mother', 'with', 'human', 'immunodeficiency', 'virus', 'infection', '.'][0m
+[33mPrompt 14: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 16: ['Neurologic', 'effects', 'of', 'subarachnoid', 'administration', 'of', '2', '-', 'chloroprocaine', '-', 'CE', ',', 'bupivacaine', ',', 'and', 'low', 'pH', 'normal', 'saline', 'in', 'dogs', '.'][0m
+[33mPrompt 16: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 18: ['The', 'effects', 'of', 'continuous', 'positive', 'airway', 'pressure', '(', 'CPAP', ')', 'on', 'cardiovascular', 'dynamics', 'and', 'pulmonary', 'shunt', '(', 'QS', '/', 'QT', ')', 'were', 'investigated', 'in', '12', 'dogs', 'before', 'and', 'during', 'sodium', 'nitroprusside', 'infusion', 'that', 'decreased', 'mean', 'arterial', 'blood', 'pressure', '40', '-', '50', 'per', 'cent', '.'][0m
+[33mPrompt 18: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Five', 'patients', 'displayed', 'CAN', 'and', 'Kaposi', "'", 's', 'sarcoma', '.'][0m
+[33mPrompt 20: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 22: ['The', 'typical', 'signs', 'of', 'VPA', '-', 'induced', 'encephalopathy', 'are', 'impaired', 'consciousness', ',', 'sometimes', 'marked', 'EEG', 'background', 'slowing', ',', 'increased', 'seizure', 'frequency', ',', 'with', 'or', 'without', 'hyperammonemia', '.'][0m
+[33mPrompt 22: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 24: ['A', 'total', 'of', '177', 'patients', 'were', 'diagnosed', 'as', 'allergic', 'to', 'beta', '-', 'lactam', 'antibiotics', '.'][0m
+[33mPrompt 24: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 3809
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['22', '-', 'oxacalcitriol', 'suppresses', 'secondary', 'hyperparathyroidism', 'without', 'inducing', 'low', 'bone', 'turnover', 'in', 'dogs', 'with', 'renal', 'failure', '.'][0m
+[33mPrompt 0: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 380: ['The', 'time', 'course', 'of', 'events', 'suggested', 'that', 'amphotericin', 'B', 'was', 'the', 'cause', 'of', 'the', 'seizures', 'in', 'this', 'AIDS', 'patient', '.'][0m
+[33mPrompt 380: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 760: ['VSD', 'also', 'was', 'noted', 'following', 'treatment', 'on', 'GD', '11', '.'][0m
+[33mPrompt 760: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1140: ['A', 'variety', 'of', 'abnormal', 'sensory', '/', 'motor', 'behaviors', 'associated', 'with', 'electrical', 'discharges', 'recorded', 'from', 'the', 'bilateral', 'brainstem', 'were', 'induced', 'in', 'adult', 'WKY', 'rats', 'by', 'mechanical', '(', 'electrode', 'implants', ')', 'and', 'DC', 'electrical', 'current', 'stimulations', 'and', 'by', 'acute', 'and', 'chronic', 'administration', 'of', 'cocaine', '.'][0m
+[33mPrompt 1140: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1520: ['During', 'treatment', 'of', 'chronic', 'hepatitis', 'C', 'patients', 'with', 'interferon', 'and', 'ribavirin', ',', 'a', 'lot', 'of', 'side', 'effects', 'are', 'described', '.'][0m
+[33mPrompt 1520: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 1900: ['A', 'biodegradable', 'polymer', 'dextran', 'has', 'been', 'utilized', 'as', 'a', 'carrier', 'for', 'synthesis', 'of', 'etodolac', '-', 'dextran', 'conjugates', '(', 'ED', ')', 'to', 'improve', 'its', 'aqueous', 'solubility', 'and', 'reduce', 'gastrointestinal', 'side', 'effects', '.'][0m
+[33mPrompt 1900: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 2280: ['We', 'conclude', 'that', 'the', 'analgesic', 'action', 'of', 'opioids', 'on', 'the', 'peripheral', 'terminals', 'of', 'primary', 'afferents', 'is', 'via', 'a', 'binding', 'site', 'with', 'characteristics', 'of', 'the', 'mu', '-', 'opioid', 'receptor', 'and', 'that', 'this', 'action', 'is', 'mediated', 'by', 'inhibition', 'of', 'the', 'cyclic', 'adenosine', 'monophosphate', 'second', 'messenger', 'system', '.'][0m
+[33mPrompt 2280: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 2660: ['Tri', '-', 'ortho', '-', 'tolyl', 'phosphate', '(', 'TOTP', ')', ',', '360', 'mg', '/', 'kg', ',', 'po', ',', 'and', '0', ',', '0', "'", '-', 'diisopropyl', 'phosphorofluoridate', '(', 'DFP', ')', ',', '1', 'mg', '/', 'kg', 'sc', ',', 'were', 'administered', 'to', 'adult', 'White', 'Leghorn', 'chickens', '24', 'hr', 'after', 'they', 'were', 'placed', 'on', 'diets', 'containing', '0', 'to', '300', 'ppm', 'corticosterone', '.'][0m
+[33mPrompt 2660: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3040: ['Intraventricular', 'infusion', 'of', 'dopamine', 'sufficient', 'to', 'raise', 'the', 'brain', 'dopamine', 'to', 'the', 'same', 'extent', 'did', 'not', 'prevent', 'the', 'ammonia', 'coma', 'nor', 'affect', 'the', 'blood', 'and', 'brain', 'ammonia', 'concentrations', '.'][0m
+[33mPrompt 3040: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3420: ['These', 'results', 'are', 'consistent', 'with', 'the', 'hypothesis', 'that', 'the', 'rat', 'has', 'a', 'poorer', 'tolerance', 'for', 'deoxycholic', 'acid', 'than', 'do', 'certain', 'other', 'species', '.'][0m
+[33mPrompt 3420: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[34mInstance 3800: ['Isoniazid', 'significantly', 'increased', 'bradycardia', 'after', 'propranolol', ',', 'pindolol', ',', 'labetalol', 'and', 'atenolol', ',', 'as', 'well', 'as', 'after', 'clonidine', ',', 'but', 'not', 'after', 'hexamethonium', 'or', 'carbachol', '.'][0m
+[33mPrompt 3800: ['th', '##io', '##per', '##ami', '##de', 'is', 'Chemical', '.', '[SEP]', 'stroke', 'is', 'Disease', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/bc5cdr/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 3974
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Torsade', 'de', 'pointes', 'ventricular', 'tachycardia', 'during', 'low', 'dose', 'intermittent', 'dobutamine', 'treatment', 'in', 'a', 'patient', 'with', 'dilated', 'cardiomyopathy', 'and', 'congestive', 'heart', 'failure', '.'][0m
+[33mPrompt 0: ['inter', '##st', '##iti', '##al', 'ne', '##ph', '##rit', '##is', 'is', 'Disease', '.', '[SEP]', 'ps', '##ych', '##ose', '##s', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 397: ['Neuroleptic', 'malignant', 'syndrome', 'complicated', 'by', 'massive', 'intestinal', 'bleeding', 'in', 'a', 'patient', 'with', 'chronic', 'renal', 'failure', '.'][0m
+[33mPrompt 397: ['ps', '##ych', '##ose', '##s', 'is', 'Disease', '.', '[SEP]', 'an', '##eur', '##ys', '##ms', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 794: ['Apparent', 'risk', 'factors', 'for', 'the', 'development', 'of', 'mania', 'or', 'hypomania', 'during', 'fluoxetine', 'pharmacotherapy', 'in', 'this', 'population', 'were', 'the', 'combination', 'of', 'attention', '-', 'deficit', 'hyperactivity', 'disorder', 'and', 'affective', 'instability', ';', 'major', 'depression', 'with', 'psychotic', 'features', ';', 'a', 'family', 'history', 'of', 'affective', 'disorder', ',', 'especially', 'bipolar', 'disorder', ';', 'and', 'a', 'diagnosis', 'of', 'bipolar', 'disorder', '.'][0m
+[33mPrompt 794: ['Stevens', '-', 'Johnson', 'syndrome', 'is', 'Disease', '.', '[SEP]', 'la', '##mi', '##vu', '##dine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1191: ['CONCLUSION', ':', 'The', 'data', 'acquired', 'suggest', 'that', 'isolated', 'MAP', 'may', 'have', 'certain', 'benefits', 'on', 'LV', 'dimension', '/', 'function', 'in', 'acute', 'heart', 'failure', ',', 'even', 'in', 'the', 'absence', 'of', 'MR', '.'][0m
+[33mPrompt 1191: ['br', '##on', '##cho', '##sp', '##as', '##m', 'is', 'Disease', '.', '[SEP]', 'my', '##oc', '##ard', '##io', '##pathy', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1588: ['Initial', 'evaluation', 'confirmed', 'FHF', 'from', 'acetaminophen', 'and', 'cerebral', 'edema', '.'][0m
+[33mPrompt 1588: ['Stevens', '-', 'Johnson', 'syndrome', 'is', 'Disease', '.', '[SEP]', 'la', '##mi', '##vu', '##dine', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 1985: ['CONCLUSIONS', ':', 'The', 'prevalence', 'of', 'levodopa', '-', 'induced', 'dyskinesia', 'in', 'our', 'patients', 'was', '44', '%', '.'][0m
+[33mPrompt 1985: ['an', '##eur', '##ys', '##ms', 'is', 'Disease', '.', '[SEP]', 'anxiety', 'ne', '##uro', '##sis', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 2382: ['Bortezomib', 'and', 'high', '-', 'dose', 'dexamethasone', '-', 'containing', 'regimens', 'are', 'considered', 'to', 'be', 'generally', 'tolerable', 'with', 'few', 'severe', 'bacterial', 'infections', 'in', 'patients', 'with', 'B', '-', 'cell', 'malignancies', '.'][0m
+[33mPrompt 2382: ['liver', 'a', '##bs', '##cess', 'is', 'Disease', '.', '[SEP]', 'disorders', 'of', 'the', 'central', 'nervous', 'system', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 2779: ['Conditions', 'that', 'will', 'be', 'required', 'for', 'studies', 'of', '1', ',', '3', '-', 'butadiene', 'are', 'discussed', '.'][0m
+[33mPrompt 2779: ['en', '##ce', '##pha', '##lop', '##athy', 'is', 'Disease', '.', '[SEP]', 'MP', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3176: ['After', '4', 'weeks', 'the', 'PAN', 'rats', 'were', 'severely', 'proteinuric', '(', '190', '+', '/', '-', '80', 'mg', '/', '24', 'hr', ')', ',', 'and', 'all', 'rats', 'were', 'given', 'colloidal', 'carbon', '(', 'CC', ')', 'intravenously', '.'][0m
+[33mPrompt 3176: ['in', '##tra', '##he', '##pa', '##tic', 'ch', '##ole', '##sta', '##sis', 'is', 'Disease', '.', '[SEP]', 'sodium', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3573: ['This', 'also', 'resulted', 'in', 'an', 'increased', 'incidence', 'of', 'seizures', ',', '90', '%', '(', 'P', '<', 'or', '=', '.', '01', ')', ',', 'and', 'death', ',', '90', '%', '(', 'P', '<', 'or', '=', '.', '05', ')', ',', 'compared', 'with', 'group', '4', '.'][0m
+[33mPrompt 3573: ['sodium', 'ni', '##tro', '##p', '##russ', '##ide', 'is', 'Disease', '.', '[SEP]', 'seizure', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[34mInstance 3970: ['Seven', 'of', 'the', '13', 'patients', 'had', 'exhibited', 'a', 'subclinical', 'hypertensive', 'state', 'before', 'cyclosporin', 'A', 'therapy', '.'][0m
+[33mPrompt 3970: ['motor', 'ne', '##uro', '##pathy', 'is', 'Disease', '.', '[SEP]', 'mit', '##ral', 're', '##gu', '##rg', '##itation', 'is', 'Chemical', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 7
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/bc5cdr/transformers_trainer_max_no_context_25_42_2021.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1832.10994, Time is 2.63s
+[34m[dev set Total] Prec.: 0.60, Rec.: 2.96, F1: 1.00[0m
+saving the best model...
+Epoch 2: 888.48980, Time is 2.08s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 3: 556.21963, Time is 2.29s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 4: 403.77148, Time is 2.01s
+[34m[dev set Total] Prec.: 2.41, Rec.: 0.31, F1: 0.55[0m
+Epoch 5: 315.88670, Time is 2.03s
+[34m[dev set Total] Prec.: 23.86, Rec.: 2.29, F1: 4.18[0m
+saving the best model...
+Epoch 6: 242.20447, Time is 2.10s
+[34m[dev set Total] Prec.: 49.50, Rec.: 18.43, F1: 26.86[0m
+saving the best model...
+Epoch 7: 174.62320, Time is 2.00s
+[34m[dev set Total] Prec.: 46.72, Rec.: 30.47, F1: 36.88[0m
+saving the best model...
+Epoch 8: 125.09515, Time is 1.71s
+[34m[dev set Total] Prec.: 46.03, Rec.: 36.95, F1: 40.99[0m
+saving the best model...
+Epoch 9: 89.86815, Time is 1.99s
+[34m[dev set Total] Prec.: 48.90, Rec.: 38.59, F1: 43.14[0m
+saving the best model...
+Epoch 10: 68.27689, Time is 2.09s
+[34m[dev set Total] Prec.: 45.01, Rec.: 49.72, F1: 47.25[0m
+saving the best model...
+Epoch 11: 45.41000, Time is 2.20s
+[34m[dev set Total] Prec.: 46.91, Rec.: 50.72, F1: 48.75[0m
+saving the best model...
+Epoch 12: 30.64763, Time is 2.02s
+[34m[dev set Total] Prec.: 50.03, Rec.: 47.81, F1: 48.89[0m
+saving the best model...
+Epoch 13: 22.29268, Time is 2.11s
+[34m[dev set Total] Prec.: 48.24, Rec.: 51.91, F1: 50.01[0m
+saving the best model...
+Epoch 14: 12.93317, Time is 2.18s
+[34m[dev set Total] Prec.: 48.82, Rec.: 53.14, F1: 50.89[0m
+saving the best model...
+Epoch 15: 8.62021, Time is 2.07s
+[34m[dev set Total] Prec.: 47.76, Rec.: 55.44, F1: 51.31[0m
+saving the best model...
+Epoch 16: 5.95184, Time is 2.05s
+[34m[dev set Total] Prec.: 48.60, Rec.: 53.46, F1: 50.91[0m
+Epoch 17: 4.05747, Time is 2.17s
+[34m[dev set Total] Prec.: 50.12, Rec.: 52.85, F1: 51.45[0m
+saving the best model...
+Epoch 18: 2.49615, Time is 2.00s
+[34m[dev set Total] Prec.: 44.90, Rec.: 58.46, F1: 50.79[0m
+Epoch 19: 1.90975, Time is 2.25s
+[34m[dev set Total] Prec.: 49.87, Rec.: 54.06, F1: 51.88[0m
+saving the best model...
+Epoch 20: 1.16777, Time is 2.11s
+[34m[dev set Total] Prec.: 46.91, Rec.: 60.06, F1: 52.68[0m
+saving the best model...
+Epoch 21: 0.91791, Time is 2.11s
+[34m[dev set Total] Prec.: 48.03, Rec.: 58.32, F1: 52.68[0m
+saving the best model...
+Epoch 22: 0.56935, Time is 1.96s
+[34m[dev set Total] Prec.: 49.88, Rec.: 54.63, F1: 52.15[0m
+Epoch 23: 0.43503, Time is 2.16s
+[34m[dev set Total] Prec.: 48.27, Rec.: 58.38, F1: 52.85[0m
+saving the best model...
+Epoch 24: 0.32292, Time is 1.94s
+[34m[dev set Total] Prec.: 46.53, Rec.: 61.61, F1: 53.02[0m
+saving the best model...
+Epoch 25: 0.26590, Time is 2.07s
+[34m[dev set Total] Prec.: 46.02, Rec.: 60.72, F1: 52.36[0m
+Epoch 26: 0.21968, Time is 2.14s
+[34m[dev set Total] Prec.: 46.51, Rec.: 58.16, F1: 51.69[0m
+Epoch 27: 0.19241, Time is 2.04s
+[34m[dev set Total] Prec.: 47.24, Rec.: 57.09, F1: 51.70[0m
+Epoch 28: 0.16158, Time is 2.19s
+[34m[dev set Total] Prec.: 47.63, Rec.: 58.29, F1: 52.43[0m
+Epoch 29: 0.14888, Time is 2.13s
+[34m[dev set Total] Prec.: 47.57, Rec.: 58.89, F1: 52.63[0m
+Epoch 30: 0.14244, Time is 2.04s
+[34m[dev set Total] Prec.: 45.95, Rec.: 61.51, F1: 52.61[0m
+Epoch 31: 0.12807, Time is 2.09s
+[34m[dev set Total] Prec.: 46.09, Rec.: 62.22, F1: 52.96[0m
+Epoch 32: 0.12604, Time is 2.17s
+[34m[dev set Total] Prec.: 46.99, Rec.: 61.20, F1: 53.16[0m
+saving the best model...
+Epoch 33: 0.11700, Time is 2.20s
+[34m[dev set Total] Prec.: 47.47, Rec.: 59.85, F1: 52.95[0m
+Epoch 34: 0.11113, Time is 2.09s
+[34m[dev set Total] Prec.: 48.44, Rec.: 58.09, F1: 52.83[0m
+Epoch 35: 0.10928, Time is 2.07s
+[34m[dev set Total] Prec.: 48.52, Rec.: 57.53, F1: 52.64[0m
+Epoch 36: 0.10873, Time is 2.20s
+[34m[dev set Total] Prec.: 48.01, Rec.: 57.32, F1: 52.26[0m
+Epoch 37: 0.10060, Time is 2.15s
+[34m[dev set Total] Prec.: 47.37, Rec.: 57.68, F1: 52.02[0m
+Epoch 38: 0.09650, Time is 2.05s
+[34m[dev set Total] Prec.: 47.00, Rec.: 57.52, F1: 51.73[0m
+Epoch 39: 0.09407, Time is 2.17s
+[34m[dev set Total] Prec.: 46.95, Rec.: 57.65, F1: 51.75[0m
+Epoch 40: 0.09570, Time is 2.00s
+[34m[dev set Total] Prec.: 46.94, Rec.: 57.89, F1: 51.84[0m
+Epoch 41: 0.09190, Time is 2.09s
+[34m[dev set Total] Prec.: 46.42, Rec.: 58.41, F1: 51.73[0m
+Epoch 42: 0.09000, Time is 2.14s
+[34m[dev set Total] Prec.: 46.34, Rec.: 58.45, F1: 51.69[0m
+Epoch 43: 0.08661, Time is 2.16s
+[34m[dev set Total] Prec.: 46.55, Rec.: 58.28, F1: 51.76[0m
+Epoch 44: 0.08813, Time is 1.62s
+[34m[dev set Total] Prec.: 46.74, Rec.: 58.13, F1: 51.81[0m
+Epoch 45: 0.08661, Time is 2.12s
+[34m[dev set Total] Prec.: 46.75, Rec.: 58.07, F1: 51.80[0m
+Epoch 46: 0.08575, Time is 2.16s
+[34m[dev set Total] Prec.: 46.71, Rec.: 58.12, F1: 51.79[0m
+Epoch 47: 0.08319, Time is 2.10s
+[34m[dev set Total] Prec.: 46.73, Rec.: 58.10, F1: 51.80[0m
+Epoch 48: 0.08542, Time is 2.19s
+[34m[dev set Total] Prec.: 46.73, Rec.: 58.13, F1: 51.81[0m
+Epoch 49: 0.08279, Time is 2.08s
+[34m[dev set Total] Prec.: 46.73, Rec.: 58.12, F1: 51.81[0m
+Epoch 50: 0.08466, Time is 2.32s
+[34m[dev set Total] Prec.: 46.75, Rec.: 58.12, F1: 51.81[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 53.16
+Final testing.
+[34m[test set Total] Prec.: 46.92, Rec.: 61.18, F1: 53.11[0m

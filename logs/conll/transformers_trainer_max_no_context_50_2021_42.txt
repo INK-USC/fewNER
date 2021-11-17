@@ -1,0 +1,327 @@
+device: cuda:0
+seed: 42
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 50_2021
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/transformers_trainer_max_no_context_50_2021_42
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: max
+template: no_context
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_50_2021.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_50_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-MISC': 1, 'E-MISC': 2, 'O': 3, 'S-LOC': 4, 'B-ORG': 5, 'E-ORG': 6, 'S-MISC': 7, 'S-ORG': 8, 'B-PER': 9, 'E-PER': 10, 'S-PER': 11, 'I-MISC': 12, 'I-ORG': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['S.', 'African', 'apartheid', 'killer', 'convicted', 'of', 'six', 'murders', '.'][0m
+[33mPrompt 0: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 5: ['American', 'world', 'champion', 'Gwen', 'Torrence', ',', 'the', 'bronze', 'medallist', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11.00', '.'][0m
+[33mPrompt 5: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 10: ['Essex', '532-8'][0m
+[33mPrompt 10: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 15: ['ATHENS', '1996-08-22'][0m
+[33mPrompt 15: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Bedie', 'pardoned', 'two', 'other', 'journalists', 'jailed', 'for', 'incitement', 'to', 'disturb', 'public', 'order', '.'][0m
+[33mPrompt 20: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 25: ['GROZNY', ',', 'Russia', '1996-08-23'][0m
+[33mPrompt 25: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 30: ['AMSTERDAM', '1996-08-28'][0m
+[33mPrompt 30: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 35: ['SunGard', 'to', 'buy', 'CheckFree', 'unit', '.'][0m
+[33mPrompt 35: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 40: ['"', 'If', 'we', 'lose', 'this', 'one', ',', 'Tony', 'and', 'I', 'will', 'have', 'to', 'have', 'a', 'good', 'look', 'at', 'giving', 'someone', 'else', 'a', 'go', ',', '"', 'Newcombe', 'was', 'quoted', 'as', 'saying', 'in', 'Sydney', "'s", 'Daily', 'Telegraph', 'newspaper', '.'][0m
+[33mPrompt 40: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 45: ['Obilic', '3', '3', '0', '0', '8', '1', '9'][0m
+[33mPrompt 45: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_50_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-MISC': 1, 'E-MISC': 2, 'O': 3, 'S-LOC': 4, 'B-ORG': 5, 'E-ORG': 6, 'S-MISC': 7, 'S-ORG': 8, 'B-PER': 9, 'E-PER': 10, 'S-PER': 11, 'I-MISC': 12, 'I-ORG': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['S.', 'African', 'apartheid', 'killer', 'convicted', 'of', 'six', 'murders', '.'][0m
+[33mPrompt 0: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 5: ['American', 'world', 'champion', 'Gwen', 'Torrence', ',', 'the', 'bronze', 'medallist', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11.00', '.'][0m
+[33mPrompt 5: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 10: ['Essex', '532-8'][0m
+[33mPrompt 10: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 15: ['ATHENS', '1996-08-22'][0m
+[33mPrompt 15: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Bedie', 'pardoned', 'two', 'other', 'journalists', 'jailed', 'for', 'incitement', 'to', 'disturb', 'public', 'order', '.'][0m
+[33mPrompt 20: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 25: ['GROZNY', ',', 'Russia', '1996-08-23'][0m
+[33mPrompt 25: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 30: ['AMSTERDAM', '1996-08-28'][0m
+[33mPrompt 30: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 35: ['SunGard', 'to', 'buy', 'CheckFree', 'unit', '.'][0m
+[33mPrompt 35: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 40: ['"', 'If', 'we', 'lose', 'this', 'one', ',', 'Tony', 'and', 'I', 'will', 'have', 'to', 'have', 'a', 'good', 'look', 'at', 'giving', 'someone', 'else', 'a', 'go', ',', '"', 'Newcombe', 'was', 'quoted', 'as', 'saying', 'in', 'Sydney', "'s", 'Daily', 'Telegraph', 'newspaper', '.'][0m
+[33mPrompt 40: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 45: ['Obilic', '3', '3', '0', '0', '8', '1', '9'][0m
+[33mPrompt 45: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['Olympic', 'is', 'MISC', '.', '[SEP]', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Le', 'Mat', '##in', 'is', 'ORG', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['M', '##OS', '##CO', '##W', 'is', 'LOC', '.', '[SEP]', 'China', 'Daily', 'is', 'ORG', '.', '[SEP]', 'Sid', '##hu', 'is', 'PER', '.', '[SEP]', 'Charleston', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['Series', 'is', 'LOC', '.', '[SEP]', 'Roger', 'G', '##rim', '##wa', '##de', 'is', 'ORG', '.', '[SEP]', 'Williams', 'is', 'PER', '.', '[SEP]', 'Canada', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'LOC', '.', '[SEP]', 'Singapore', 'Re', '##fining', 'Company', 'is', 'ORG', '.', '[SEP]', 'Nepal', 'is', 'PER', '.', '[SEP]', 'Me', '##d', '##ved', '##ev', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['Nepal', 'is', 'LOC', '.', '[SEP]', 'Roger', 'G', '##rim', '##wa', '##de', 'is', 'ORG', '.', '[SEP]', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]', 'S', '.', 'African', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['S', '.', 'African', 'is', 'LOC', '.', '[SEP]', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'is', 'PER', '.', '[SEP]', 'CD', '##U', '3', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['Algiers', 'is', 'LOC', '.', '[SEP]', 'China', 'is', 'ORG', '.', '[SEP]', 'India', 'is', 'PER', '.', '[SEP]', 'GM', '##T', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['Williams', 'is', 'LOC', '.', '[SEP]', 'Costa', '##s', 'Si', '##mit', '##is', 'is', 'ORG', '.', '[SEP]', 'Russia', 'is', 'PER', '.', '[SEP]', 'S', '##kan', '##dal', '##id', '##is', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['Doncaster', 'Cup', 'is', 'LOC', '.', '[SEP]', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Tibetan', 'is', 'PER', '.', '[SEP]', 'Hong', 'Kong', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['BA', '##LT', '##IM', '##OR', '##E', 'is', 'LOC', '.', '[SEP]', 'Sal', '##omo', '##n', 'is', 'ORG', '.', '[SEP]', 'H', '##OE', '##K', 'L', '##O', '##OS', 'is', 'PER', '.', '[SEP]', 'O', '##bil', '##ic', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['Me', '##d', '##ved', '##ev', 'is', 'LOC', '.', '[SEP]', 'New', '##combe', 'is', 'ORG', '.', '[SEP]', 'H', '##OE', '##K', 'L', '##O', '##OS', 'is', 'PER', '.', '[SEP]', 'Iranian', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['G', '##RO', '##Z', '##N', '##Y', 'is', 'LOC', '.', '[SEP]', 'Israel', 'is', 'ORG', '.', '[SEP]', 'Lebanese', 'is', 'PER', '.', '[SEP]', 'AT', '##H', '##EN', '##S', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 13
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/transformers_trainer_max_no_context_50_2021_42.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1691.48949, Time is 3.27s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+saving the best model...
+Epoch 2: 732.46846, Time is 3.26s
+[34m[dev set Total] Prec.: 5.28, Rec.: 2.09, F1: 2.99[0m
+saving the best model...
+Epoch 3: 520.00478, Time is 3.43s
+[34m[dev set Total] Prec.: 23.55, Rec.: 19.97, F1: 21.61[0m
+saving the best model...
+Epoch 4: 406.58496, Time is 3.17s
+[34m[dev set Total] Prec.: 29.62, Rec.: 30.31, F1: 29.96[0m
+saving the best model...
+Epoch 5: 314.21922, Time is 3.32s
+[34m[dev set Total] Prec.: 42.61, Rec.: 45.52, F1: 44.02[0m
+saving the best model...
+Epoch 6: 242.58081, Time is 3.11s
+[34m[dev set Total] Prec.: 50.57, Rec.: 49.98, F1: 50.28[0m
+saving the best model...
+Epoch 7: 192.51815, Time is 3.22s
+[34m[dev set Total] Prec.: 51.22, Rec.: 55.69, F1: 53.36[0m
+saving the best model...
+Epoch 8: 134.68583, Time is 3.29s
+[34m[dev set Total] Prec.: 52.25, Rec.: 58.54, F1: 55.22[0m
+saving the best model...
+Epoch 9: 97.30789, Time is 3.25s
+[34m[dev set Total] Prec.: 54.97, Rec.: 57.21, F1: 56.07[0m
+saving the best model...
+Epoch 10: 71.47845, Time is 3.35s
+[34m[dev set Total] Prec.: 57.94, Rec.: 60.68, F1: 59.28[0m
+saving the best model...
+Epoch 11: 44.38689, Time is 3.21s
+[34m[dev set Total] Prec.: 55.93, Rec.: 61.33, F1: 58.51[0m
+Epoch 12: 29.12802, Time is 3.42s
+[34m[dev set Total] Prec.: 56.57, Rec.: 62.68, F1: 59.47[0m
+saving the best model...
+Epoch 13: 22.09859, Time is 3.41s
+[34m[dev set Total] Prec.: 55.09, Rec.: 63.94, F1: 59.19[0m
+Epoch 14: 15.83005, Time is 3.14s
+[34m[dev set Total] Prec.: 59.24, Rec.: 63.34, F1: 61.22[0m
+saving the best model...
+Epoch 15: 11.04172, Time is 3.22s
+[34m[dev set Total] Prec.: 58.62, Rec.: 64.87, F1: 61.59[0m
+saving the best model...
+Epoch 16: 6.97505, Time is 3.08s
+[34m[dev set Total] Prec.: 57.23, Rec.: 64.35, F1: 60.58[0m
+Epoch 17: 5.09425, Time is 3.23s
+[34m[dev set Total] Prec.: 58.71, Rec.: 65.53, F1: 61.93[0m
+saving the best model...
+Epoch 18: 3.10757, Time is 3.09s
+[34m[dev set Total] Prec.: 56.04, Rec.: 65.34, F1: 60.33[0m
+Epoch 19: 2.21326, Time is 3.37s
+[34m[dev set Total] Prec.: 59.13, Rec.: 64.85, F1: 61.86[0m
+Epoch 20: 1.57263, Time is 3.19s
+[34m[dev set Total] Prec.: 57.91, Rec.: 66.91, F1: 62.08[0m
+saving the best model...
+Epoch 21: 1.13397, Time is 3.18s
+[34m[dev set Total] Prec.: 59.03, Rec.: 66.54, F1: 62.56[0m
+saving the best model...
+Epoch 22: 0.90207, Time is 3.11s
+[34m[dev set Total] Prec.: 58.47, Rec.: 67.21, F1: 62.54[0m
+Epoch 23: 0.72409, Time is 2.79s
+[34m[dev set Total] Prec.: 59.15, Rec.: 66.66, F1: 62.68[0m
+saving the best model...
+Epoch 24: 0.58530, Time is 3.08s
+[34m[dev set Total] Prec.: 57.65, Rec.: 65.93, F1: 61.51[0m
+Epoch 25: 0.49634, Time is 3.12s
+[34m[dev set Total] Prec.: 59.02, Rec.: 66.99, F1: 62.75[0m
+saving the best model...
+Epoch 26: 0.40845, Time is 3.15s
+[34m[dev set Total] Prec.: 59.03, Rec.: 67.48, F1: 62.97[0m
+saving the best model...
+Epoch 27: 0.36450, Time is 3.03s
+[34m[dev set Total] Prec.: 58.34, Rec.: 67.09, F1: 62.41[0m
+Epoch 28: 0.31493, Time is 3.28s
+[34m[dev set Total] Prec.: 58.57, Rec.: 67.41, F1: 62.68[0m
+Epoch 29: 0.28146, Time is 3.22s
+[34m[dev set Total] Prec.: 58.29, Rec.: 67.46, F1: 62.54[0m
+Epoch 30: 0.26312, Time is 3.32s
+[34m[dev set Total] Prec.: 57.85, Rec.: 67.14, F1: 62.15[0m
+Epoch 31: 0.24698, Time is 3.05s
+[34m[dev set Total] Prec.: 57.92, Rec.: 67.30, F1: 62.26[0m
+Epoch 32: 0.22696, Time is 3.24s
+[34m[dev set Total] Prec.: 57.63, Rec.: 67.68, F1: 62.25[0m
+Epoch 33: 0.22610, Time is 3.14s
+[34m[dev set Total] Prec.: 57.83, Rec.: 67.67, F1: 62.36[0m
+Epoch 34: 0.20515, Time is 3.22s
+[34m[dev set Total] Prec.: 58.47, Rec.: 67.58, F1: 62.70[0m
+Epoch 35: 0.20032, Time is 3.06s
+[34m[dev set Total] Prec.: 58.59, Rec.: 67.28, F1: 62.63[0m
+Epoch 36: 0.20074, Time is 3.22s
+[34m[dev set Total] Prec.: 58.63, Rec.: 67.24, F1: 62.65[0m
+Epoch 37: 0.18954, Time is 3.23s
+[34m[dev set Total] Prec.: 58.69, Rec.: 67.33, F1: 62.71[0m
+Epoch 38: 0.17786, Time is 3.23s
+[34m[dev set Total] Prec.: 58.72, Rec.: 67.40, F1: 62.76[0m
+Epoch 39: 0.17352, Time is 3.34s
+[34m[dev set Total] Prec.: 58.65, Rec.: 67.36, F1: 62.71[0m
+Epoch 40: 0.17445, Time is 3.23s
+[34m[dev set Total] Prec.: 58.44, Rec.: 67.43, F1: 62.62[0m
+Epoch 41: 0.17970, Time is 3.15s
+[34m[dev set Total] Prec.: 58.38, Rec.: 67.51, F1: 62.62[0m
+Epoch 42: 0.16396, Time is 3.05s
+[34m[dev set Total] Prec.: 58.24, Rec.: 67.38, F1: 62.48[0m
+Epoch 43: 0.15808, Time is 3.22s
+[34m[dev set Total] Prec.: 58.51, Rec.: 67.65, F1: 62.75[0m
+Epoch 44: 0.16415, Time is 3.13s
+[34m[dev set Total] Prec.: 58.74, Rec.: 67.80, F1: 62.95[0m
+Epoch 45: 0.16080, Time is 2.99s
+[34m[dev set Total] Prec.: 58.79, Rec.: 67.73, F1: 62.95[0m
+Epoch 46: 0.15826, Time is 3.11s
+[34m[dev set Total] Prec.: 58.78, Rec.: 67.73, F1: 62.94[0m
+early stop because there are 20 epochs not increasing f1 on dev
+Archiving the best Model...
+Finished archiving the models
+The best dev: 62.97
+Final testing.
+[34m[test set Total] Prec.: 55.82, Rec.: 63.73, F1: 59.51[0m
