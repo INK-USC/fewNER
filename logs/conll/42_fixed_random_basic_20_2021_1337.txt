@@ -1,0 +1,368 @@
+device: cuda:0
+seed: 1337
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 20_2021
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/42_fixed_random_basic_20_2021_1337
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 42
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_20_2021.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_20_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 20
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-PER': 1, 'E-PER': 2, 'O': 3, 'S-MISC': 4, 'B-MISC': 5, 'I-MISC': 6, 'E-MISC': 7, 'S-LOC': 8, 'B-ORG': 9, 'I-ORG': 10, 'E-ORG': 11, 'S-ORG': 12, 'B-LOC': 13, 'E-LOC': 14, 'I-PER': 15, 'S-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label PER, picked entity Virna De Angeli, picked instance ['1.', 'Virna', 'De', 'Angeli', '(', 'Italy', ')', '55.66']
+--> For label MISC, picked entity Belgian, picked instance ['Michael', 'Schumacher', "'s", 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa-Francorchamps', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.']
+--> For label LOC, picked entity South, picked instance ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South']
+--> For label ORG, picked entity CheckFree, picked instance ['SunGard', 'to', 'buy', 'CheckFree', 'unit', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Michael', 'Schumacher', "'s", 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa-Francorchamps', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.'][0m
+[33mPrompt 0: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2: ['Innocent', 'Butare', ',', 'executive', 'secretary', 'of', 'the', 'Rally', 'for', 'the', 'Return', 'of', 'Refugees', 'and', 'Democracy', 'in', 'Rwanda', '(', 'RDR', ')', 'which', 'says', 'it', 'has', 'the', 'support', 'of', 'Rwanda', "'s", 'exiled', 'Hutus', ',', 'appealed', 'to', 'the', 'international', 'community', 'to', 'deter', 'the', 'two', 'countries', 'from', 'going', 'ahead', 'with', 'what', 'it', 'termed', 'a', '"', 'forced', 'and', 'inhuman', 'action', '"', '.'][0m
+[33mPrompt 2: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 4: ['SunGard', 'to', 'buy', 'CheckFree', 'unit', '.'][0m
+[33mPrompt 4: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 6: ['Series', 'one-day', '(', '50', 'overs', ')', 'cricket', 'match', 'between', 'Australia', 'and'][0m
+[33mPrompt 6: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 8: ['Yorkshire', '529-8', 'declared'][0m
+[33mPrompt 8: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 10: ['"', 'If', 'we', 'lose', 'this', 'one', ',', 'Tony', 'and', 'I', 'will', 'have', 'to', 'have', 'a', 'good', 'look', 'at', 'giving', 'someone', 'else', 'a', 'go', ',', '"', 'Newcombe', 'was', 'quoted', 'as', 'saying', 'in', 'Sydney', "'s", 'Daily', 'Telegraph', 'newspaper', '.'][0m
+[33mPrompt 10: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 12: ['CLEVELAND', '76', '51', '.598', '-'][0m
+[33mPrompt 12: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 14: ['Sidhu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one-day', 'international', 'against', 'England', 'at', 'Old', 'Trafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three-test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'Azharuddin', '.'][0m
+[33mPrompt 14: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 16: ['HOEK', 'LOOS', 'H1', 'NET', 'PROFIT', '28.9', 'MLN', 'GUILDERS', '.'][0m
+[33mPrompt 16: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 18: ['HINA', 'said', 'the', 'church', 'in', 'the', 'small', 'village', 'of', 'Karin', 'Gornji', ',', '30', 'km', '(', '19', 'miles', ')', 'north', 'of', 'Zadar', ',', 'was', 'destroyed', 'by', 'the', 'morning', 'attack', '.'][0m
+[33mPrompt 18: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_20_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 20
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-PER': 1, 'E-PER': 2, 'O': 3, 'S-MISC': 4, 'B-MISC': 5, 'I-MISC': 6, 'E-MISC': 7, 'S-LOC': 8, 'B-ORG': 9, 'I-ORG': 10, 'E-ORG': 11, 'S-ORG': 12, 'B-LOC': 13, 'E-LOC': 14, 'I-PER': 15, 'S-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label PER, picked entity Virna De Angeli, picked instance ['1.', 'Virna', 'De', 'Angeli', '(', 'Italy', ')', '55.66']
+--> For label MISC, picked entity Belgian, picked instance ['Michael', 'Schumacher', "'s", 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa-Francorchamps', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.']
+--> For label LOC, picked entity South, picked instance ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South']
+--> For label ORG, picked entity CheckFree, picked instance ['SunGard', 'to', 'buy', 'CheckFree', 'unit', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Michael', 'Schumacher', "'s", 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa-Francorchamps', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.'][0m
+[33mPrompt 0: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2: ['Innocent', 'Butare', ',', 'executive', 'secretary', 'of', 'the', 'Rally', 'for', 'the', 'Return', 'of', 'Refugees', 'and', 'Democracy', 'in', 'Rwanda', '(', 'RDR', ')', 'which', 'says', 'it', 'has', 'the', 'support', 'of', 'Rwanda', "'s", 'exiled', 'Hutus', ',', 'appealed', 'to', 'the', 'international', 'community', 'to', 'deter', 'the', 'two', 'countries', 'from', 'going', 'ahead', 'with', 'what', 'it', 'termed', 'a', '"', 'forced', 'and', 'inhuman', 'action', '"', '.'][0m
+[33mPrompt 2: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 4: ['SunGard', 'to', 'buy', 'CheckFree', 'unit', '.'][0m
+[33mPrompt 4: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 6: ['Series', 'one-day', '(', '50', 'overs', ')', 'cricket', 'match', 'between', 'Australia', 'and'][0m
+[33mPrompt 6: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 8: ['Yorkshire', '529-8', 'declared'][0m
+[33mPrompt 8: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 10: ['"', 'If', 'we', 'lose', 'this', 'one', ',', 'Tony', 'and', 'I', 'will', 'have', 'to', 'have', 'a', 'good', 'look', 'at', 'giving', 'someone', 'else', 'a', 'go', ',', '"', 'Newcombe', 'was', 'quoted', 'as', 'saying', 'in', 'Sydney', "'s", 'Daily', 'Telegraph', 'newspaper', '.'][0m
+[33mPrompt 10: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 12: ['CLEVELAND', '76', '51', '.598', '-'][0m
+[33mPrompt 12: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 14: ['Sidhu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one-day', 'international', 'against', 'England', 'at', 'Old', 'Trafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three-test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'Azharuddin', '.'][0m
+[33mPrompt 14: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 16: ['HOEK', 'LOOS', 'H1', 'NET', 'PROFIT', '28.9', 'MLN', 'GUILDERS', '.'][0m
+[33mPrompt 16: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 18: ['HINA', 'said', 'the', 'church', 'in', 'the', 'small', 'village', 'of', 'Karin', 'Gornji', ',', '30', 'km', '(', '19', 'miles', ')', 'north', 'of', 'Zadar', ',', 'was', 'destroyed', 'by', 'the', 'morning', 'attack', '.'][0m
+[33mPrompt 18: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label PER, picked entity Virna De Angeli, picked instance ['1.', 'Virna', 'De', 'Angeli', '(', 'Italy', ')', '55.66']
+--> For label MISC, picked entity Belgian, picked instance ['Michael', 'Schumacher', "'s", 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa-Francorchamps', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.']
+--> For label LOC, picked entity South, picked instance ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South']
+--> For label ORG, picked entity CheckFree, picked instance ['SunGard', 'to', 'buy', 'CheckFree', 'unit', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label PER, picked entity Virna De Angeli, picked instance ['1.', 'Virna', 'De', 'Angeli', '(', 'Italy', ')', '55.66']
+--> For label MISC, picked entity Belgian, picked instance ['Michael', 'Schumacher', "'s", 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa-Francorchamps', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.']
+--> For label LOC, picked entity South, picked instance ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South']
+--> For label ORG, picked entity CheckFree, picked instance ['SunGard', 'to', 'buy', 'CheckFree', 'unit', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['1', '.', 'V', '##irn', '##a', 'De', 'Angel', '##i', '(', 'Italy', ')', '55', '.', '66', 'V', '##irn', '##a', 'De', 'Angel', '##i', 'is', 'PER', '.', '[SEP]', 'Michael', 'Schumacher', "'", 's', 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa', '-', 'Franco', '##rch', '##amp', '##s', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.', 'Belgian', 'is', 'MISC', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'South', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Check', '##F', '##ree', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 5
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/42_fixed_random_basic_20_2021_1337.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 902.75073, Time is 2.23s
+[34m[dev set Total] Prec.: 0.03, Rec.: 0.08, F1: 0.04[0m
+saving the best model...
+Epoch 2: 581.46506, Time is 1.62s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 3: 444.55124, Time is 1.30s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 4: 373.40276, Time is 1.65s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 5: 327.06641, Time is 1.45s
+[34m[dev set Total] Prec.: 0.14, Rec.: 0.02, F1: 0.03[0m
+Epoch 6: 282.58426, Time is 1.04s
+[34m[dev set Total] Prec.: 5.78, Rec.: 1.23, F1: 2.03[0m
+saving the best model...
+Epoch 7: 233.50662, Time is 1.70s
+[34m[dev set Total] Prec.: 19.79, Rec.: 9.30, F1: 12.65[0m
+saving the best model...
+Epoch 8: 188.58826, Time is 2.00s
+[34m[dev set Total] Prec.: 23.76, Rec.: 16.25, F1: 19.30[0m
+saving the best model...
+Epoch 9: 162.92252, Time is 1.73s
+[34m[dev set Total] Prec.: 26.46, Rec.: 18.91, F1: 22.06[0m
+saving the best model...
+Epoch 10: 139.53009, Time is 1.70s
+[34m[dev set Total] Prec.: 31.99, Rec.: 24.96, F1: 28.04[0m
+saving the best model...
+Epoch 11: 116.44882, Time is 1.24s
+[34m[dev set Total] Prec.: 35.60, Rec.: 29.89, F1: 32.50[0m
+saving the best model...
+Epoch 12: 94.85864, Time is 2.26s
+[34m[dev set Total] Prec.: 39.90, Rec.: 34.83, F1: 37.19[0m
+saving the best model...
+Epoch 13: 76.57957, Time is 2.21s
+[34m[dev set Total] Prec.: 41.84, Rec.: 37.52, F1: 39.56[0m
+saving the best model...
+Epoch 14: 62.10641, Time is 2.29s
+[34m[dev set Total] Prec.: 43.56, Rec.: 39.34, F1: 41.34[0m
+saving the best model...
+Epoch 15: 52.70782, Time is 2.00s
+[34m[dev set Total] Prec.: 45.65, Rec.: 41.78, F1: 43.63[0m
+saving the best model...
+Epoch 16: 44.06927, Time is 2.24s
+[34m[dev set Total] Prec.: 45.72, Rec.: 43.36, F1: 44.51[0m
+saving the best model...
+Epoch 17: 33.13458, Time is 2.22s
+[34m[dev set Total] Prec.: 45.90, Rec.: 43.48, F1: 44.66[0m
+saving the best model...
+Epoch 18: 29.55499, Time is 2.20s
+[34m[dev set Total] Prec.: 46.79, Rec.: 43.84, F1: 45.27[0m
+saving the best model...
+Epoch 19: 24.41885, Time is 2.26s
+[34m[dev set Total] Prec.: 48.49, Rec.: 46.38, F1: 47.41[0m
+saving the best model...
+Epoch 20: 19.76343, Time is 2.15s
+[34m[dev set Total] Prec.: 49.90, Rec.: 48.21, F1: 49.04[0m
+saving the best model...
+Epoch 21: 16.63623, Time is 1.80s
+[34m[dev set Total] Prec.: 50.97, Rec.: 49.06, F1: 50.00[0m
+saving the best model...
+Epoch 22: 13.51718, Time is 1.98s
+[34m[dev set Total] Prec.: 50.39, Rec.: 49.23, F1: 49.80[0m
+Epoch 23: 11.63266, Time is 1.98s
+[34m[dev set Total] Prec.: 50.39, Rec.: 49.56, F1: 49.97[0m
+Epoch 24: 10.03674, Time is 1.77s
+[34m[dev set Total] Prec.: 50.84, Rec.: 50.37, F1: 50.60[0m
+saving the best model...
+Epoch 25: 8.41597, Time is 2.13s
+[34m[dev set Total] Prec.: 50.73, Rec.: 51.25, F1: 50.98[0m
+saving the best model...
+Epoch 26: 7.43237, Time is 2.09s
+[34m[dev set Total] Prec.: 50.54, Rec.: 51.60, F1: 51.07[0m
+saving the best model...
+Epoch 27: 6.07050, Time is 2.03s
+[34m[dev set Total] Prec.: 50.95, Rec.: 51.41, F1: 51.18[0m
+saving the best model...
+Epoch 28: 5.49429, Time is 2.12s
+[34m[dev set Total] Prec.: 52.72, Rec.: 51.43, F1: 52.07[0m
+saving the best model...
+Epoch 29: 4.82251, Time is 2.26s
+[34m[dev set Total] Prec.: 54.07, Rec.: 51.23, F1: 52.61[0m
+saving the best model...
+Epoch 30: 4.17163, Time is 2.35s
+[34m[dev set Total] Prec.: 53.97, Rec.: 51.82, F1: 52.87[0m
+saving the best model...
+Epoch 31: 3.85107, Time is 2.36s
+[34m[dev set Total] Prec.: 52.98, Rec.: 52.07, F1: 52.52[0m
+Epoch 32: 3.71817, Time is 2.14s
+[34m[dev set Total] Prec.: 52.57, Rec.: 52.34, F1: 52.46[0m
+Epoch 33: 3.18427, Time is 1.87s
+[34m[dev set Total] Prec.: 52.80, Rec.: 52.54, F1: 52.67[0m
+Epoch 34: 2.69971, Time is 1.39s
+[34m[dev set Total] Prec.: 53.18, Rec.: 52.63, F1: 52.90[0m
+saving the best model...
+Epoch 35: 2.41202, Time is 1.95s
+[34m[dev set Total] Prec.: 52.99, Rec.: 53.10, F1: 53.05[0m
+saving the best model...
+Epoch 36: 2.34058, Time is 2.23s
+[34m[dev set Total] Prec.: 52.83, Rec.: 53.42, F1: 53.12[0m
+saving the best model...
+Epoch 37: 2.11670, Time is 2.20s
+[34m[dev set Total] Prec.: 52.85, Rec.: 53.72, F1: 53.28[0m
+saving the best model...
+Epoch 38: 1.88550, Time is 2.09s
+[34m[dev set Total] Prec.: 53.19, Rec.: 53.87, F1: 53.53[0m
+saving the best model...
+Epoch 39: 1.88727, Time is 2.10s
+[34m[dev set Total] Prec.: 53.36, Rec.: 53.79, F1: 53.57[0m
+saving the best model...
+Epoch 40: 1.71364, Time is 1.63s
+[34m[dev set Total] Prec.: 53.19, Rec.: 53.82, F1: 53.50[0m
+Epoch 41: 1.59332, Time is 2.06s
+[34m[dev set Total] Prec.: 53.13, Rec.: 53.92, F1: 53.52[0m
+Epoch 42: 1.57437, Time is 1.54s
+[34m[dev set Total] Prec.: 53.17, Rec.: 53.92, F1: 53.55[0m
+Epoch 43: 1.53204, Time is 1.61s
+[34m[dev set Total] Prec.: 53.38, Rec.: 53.89, F1: 53.63[0m
+saving the best model...
+Epoch 44: 1.31482, Time is 2.32s
+[34m[dev set Total] Prec.: 53.59, Rec.: 53.91, F1: 53.75[0m
+saving the best model...
+Epoch 45: 1.34604, Time is 2.53s
+[34m[dev set Total] Prec.: 53.57, Rec.: 53.96, F1: 53.76[0m
+saving the best model...
+Epoch 46: 1.33575, Time is 2.28s
+[34m[dev set Total] Prec.: 53.69, Rec.: 54.11, F1: 53.90[0m
+saving the best model...
+Epoch 47: 1.29538, Time is 1.95s
+[34m[dev set Total] Prec.: 53.76, Rec.: 54.09, F1: 53.92[0m
+saving the best model...
+Epoch 48: 1.31619, Time is 2.02s
+[34m[dev set Total] Prec.: 53.78, Rec.: 54.09, F1: 53.94[0m
+saving the best model...
+Epoch 49: 1.19250, Time is 1.92s
+[34m[dev set Total] Prec.: 53.73, Rec.: 53.99, F1: 53.86[0m
+Epoch 50: 1.29663, Time is 2.32s
+[34m[dev set Total] Prec.: 53.73, Rec.: 54.01, F1: 53.87[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 53.94
+Final testing.
+[34m[test set Total] Prec.: 51.13, Rec.: 53.65, F1: 52.36[0m

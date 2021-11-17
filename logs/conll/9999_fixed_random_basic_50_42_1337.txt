@@ -1,0 +1,335 @@
+device: cuda:0
+seed: 1337
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 50_42
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/9999_fixed_random_basic_50_42_1337
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 9999
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_50_42.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_50_42.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-ORG': 1, 'I-ORG': 2, 'E-ORG': 3, 'O': 4, 'S-PER': 5, 'S-ORG': 6, 'B-PER': 7, 'E-PER': 8, 'S-MISC': 9, 'S-LOC': 10, 'B-MISC': 11, 'I-MISC': 12, 'E-MISC': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label ORG, picked entity Nantes, picked instance ['Nantes', '0', 'Lens', '1']
+--> For label PER, picked entity Yassin, picked instance ['"', 'This', 'evening', 'Sheikh', 'Yassin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ramle', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'s", 'internal', 'security', 'ministry', '.']
+--> For label MISC, picked entity Australian, picked instance ['Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'jeopardised', 'by', 'Parliament', "'s", 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 'scrutinise', 'the', '1996/97', 'budget', '.']
+--> For label LOC, picked entity Kosovo, picked instance ['The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'s", '1.8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['GACETA', 'DE', 'LOS', 'NEGOCIOS'][0m
+[33mPrompt 0: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 5: ['--', 'Royal', 'Oak', 'shares', 'were', 'down', '1/16', 'at', '3-11/16', '.'][0m
+[33mPrompt 5: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 10: ['"', 'This', 'evening', 'Sheikh', 'Yassin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ramle', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'s", 'internal', 'security', 'ministry', '.'][0m
+[33mPrompt 10: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 15: ['Rakow', 'Czestochowa', '7', '2', '1', '4', '6', '10', '7'][0m
+[33mPrompt 15: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Nottingham', 'Forest', '3', '1', '1', '1', '5', '5', '4'][0m
+[33mPrompt 20: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 25: ['283', 'Tom', 'Lehman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark'][0m
+[33mPrompt 25: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 30: ['Dole', 'campaign', 'aides', 'said', 'the', 'candidate', 'was', 'telling', 'young', 'people', 'not', 'to', 'smoke', '.'][0m
+[33mPrompt 30: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 35: ['In', 'Home', 'Health', 'Inc', 'said', 'on', 'Thursday', 'it', 'will', 'appeal', 'to', 'the', 'U.S.', 'Federal', 'District', 'Court', 'in', 'Minneapolis', 'a', 'decision', 'by', 'the', 'Health', 'Care', 'Financing', 'Administration', '(', 'HCFA', ')', 'that', 'denied', 'reimbursement', 'of', 'certain', 'costs', 'under', 'Medicaid', '.'][0m
+[33mPrompt 35: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 40: ['Misael', 'Valerio', ',', 'head', 'of', 'border', 'police', 'at', 'the', 'Security', 'Ministry', ',', 'told', 'reporters', 'surveillance', 'of', 'the', 'northern', 'border', 'with', 'Nicaragua', 'has', 'been', 'stepped', 'up', 'to', 'keep', 'the', 'kidnappers', 'from', 'fleeing', 'Costa', 'Rica', '.'][0m
+[33mPrompt 40: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 45: ['Canada', "'s", 'Donovan', 'Bailey', ',', 'the', 'Olympic', '100', 'metres', 'champion', 'and', 'world', 'record', 'holder', ',', 'and', 'Namibian', 'Frankie', 'Fredericks', ',', 'the', 'silver', 'medallist', 'at', 'the', 'recent', 'Atlanta', 'Games', ',', 'have', 'already', 'agreed', 'to', 'run', 'in', 'the', '4X100', 'metres', 'team', '.'][0m
+[33mPrompt 45: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_50_42.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-ORG': 1, 'I-ORG': 2, 'E-ORG': 3, 'O': 4, 'S-PER': 5, 'S-ORG': 6, 'B-PER': 7, 'E-PER': 8, 'S-MISC': 9, 'S-LOC': 10, 'B-MISC': 11, 'I-MISC': 12, 'E-MISC': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label ORG, picked entity Nantes, picked instance ['Nantes', '0', 'Lens', '1']
+--> For label PER, picked entity Yassin, picked instance ['"', 'This', 'evening', 'Sheikh', 'Yassin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ramle', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'s", 'internal', 'security', 'ministry', '.']
+--> For label MISC, picked entity Australian, picked instance ['Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'jeopardised', 'by', 'Parliament', "'s", 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 'scrutinise', 'the', '1996/97', 'budget', '.']
+--> For label LOC, picked entity Kosovo, picked instance ['The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'s", '1.8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['GACETA', 'DE', 'LOS', 'NEGOCIOS'][0m
+[33mPrompt 0: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 5: ['--', 'Royal', 'Oak', 'shares', 'were', 'down', '1/16', 'at', '3-11/16', '.'][0m
+[33mPrompt 5: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 10: ['"', 'This', 'evening', 'Sheikh', 'Yassin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ramle', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'s", 'internal', 'security', 'ministry', '.'][0m
+[33mPrompt 10: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 15: ['Rakow', 'Czestochowa', '7', '2', '1', '4', '6', '10', '7'][0m
+[33mPrompt 15: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Nottingham', 'Forest', '3', '1', '1', '1', '5', '5', '4'][0m
+[33mPrompt 20: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 25: ['283', 'Tom', 'Lehman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark'][0m
+[33mPrompt 25: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 30: ['Dole', 'campaign', 'aides', 'said', 'the', 'candidate', 'was', 'telling', 'young', 'people', 'not', 'to', 'smoke', '.'][0m
+[33mPrompt 30: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 35: ['In', 'Home', 'Health', 'Inc', 'said', 'on', 'Thursday', 'it', 'will', 'appeal', 'to', 'the', 'U.S.', 'Federal', 'District', 'Court', 'in', 'Minneapolis', 'a', 'decision', 'by', 'the', 'Health', 'Care', 'Financing', 'Administration', '(', 'HCFA', ')', 'that', 'denied', 'reimbursement', 'of', 'certain', 'costs', 'under', 'Medicaid', '.'][0m
+[33mPrompt 35: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 40: ['Misael', 'Valerio', ',', 'head', 'of', 'border', 'police', 'at', 'the', 'Security', 'Ministry', ',', 'told', 'reporters', 'surveillance', 'of', 'the', 'northern', 'border', 'with', 'Nicaragua', 'has', 'been', 'stepped', 'up', 'to', 'keep', 'the', 'kidnappers', 'from', 'fleeing', 'Costa', 'Rica', '.'][0m
+[33mPrompt 40: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 45: ['Canada', "'s", 'Donovan', 'Bailey', ',', 'the', 'Olympic', '100', 'metres', 'champion', 'and', 'world', 'record', 'holder', ',', 'and', 'Namibian', 'Frankie', 'Fredericks', ',', 'the', 'silver', 'medallist', 'at', 'the', 'recent', 'Atlanta', 'Games', ',', 'have', 'already', 'agreed', 'to', 'run', 'in', 'the', '4X100', 'metres', 'team', '.'][0m
+[33mPrompt 45: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label ORG, picked entity Nantes, picked instance ['Nantes', '0', 'Lens', '1']
+--> For label PER, picked entity Yassin, picked instance ['"', 'This', 'evening', 'Sheikh', 'Yassin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ramle', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'s", 'internal', 'security', 'ministry', '.']
+--> For label MISC, picked entity Australian, picked instance ['Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'jeopardised', 'by', 'Parliament', "'s", 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 'scrutinise', 'the', '1996/97', 'budget', '.']
+--> For label LOC, picked entity Kosovo, picked instance ['The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'s", '1.8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label ORG, picked entity Nantes, picked instance ['Nantes', '0', 'Lens', '1']
+--> For label PER, picked entity Yassin, picked instance ['"', 'This', 'evening', 'Sheikh', 'Yassin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ramle', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'s", 'internal', 'security', 'ministry', '.']
+--> For label MISC, picked entity Australian, picked instance ['Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'jeopardised', 'by', 'Parliament', "'s", 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 'scrutinise', 'the', '1996/97', 'budget', '.']
+--> For label LOC, picked entity Kosovo, picked instance ['The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'s", '1.8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['Nan', '##tes', '0', 'Len', '##s', '1', 'Nan', '##tes', 'is', 'ORG', '.', '[SEP]', '"', 'This', 'evening', 'Sheikh', 'Ya', '##ssin', 'completed', 'medical', 'checks', 'and', 'returned', 'to', 'Ram', '##le', 'prisons', 'authority', 'medical', 'centre', ',', '"', 'said', 'a', 'spokesman', 'for', 'Israel', "'", 's', 'internal', 'security', 'ministry', '.', 'Ya', '##ssin', 'is', 'PER', '.', '[SEP]', 'Australian', 'Prime', 'Minister', 'John', 'Howard', 'said', 'the', 'possibility', 'of', 'lower', 'interest', 'rates', 'was', 'being', 'j', '##eo', '##pard', '##ised', 'by', 'Parliament', "'", 's', 'upper', 'house', 'where', 'opposition', 'parties', 'planned', 'to', 's', '##c', '##ru', '##tin', '##ise', 'the', '1996', '/', '97', 'budget', '.', 'Australian', 'is', 'MISC', '.', '[SEP]', 'The', 'Serbs', ',', 'who', 'make', 'up', '10', 'percent', 'of', 'the', 'province', "'", 's', '1', '.', '8', 'million', 'people', ',', 'claim', 'Kosovo', 'as', 'the', 'cradle', 'of', 'their', 'culture', '.', 'Kosovo', 'is', 'LOC', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 13
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/9999_fixed_random_basic_50_42_1337.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1891.37350, Time is 6.73s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+saving the best model...
+Epoch 2: 766.05922, Time is 5.94s
+[34m[dev set Total] Prec.: 1.15, Rec.: 0.39, F1: 0.58[0m
+saving the best model...
+Epoch 3: 553.35088, Time is 5.70s
+[34m[dev set Total] Prec.: 17.10, Rec.: 16.44, F1: 16.76[0m
+saving the best model...
+Epoch 4: 447.00528, Time is 5.84s
+[34m[dev set Total] Prec.: 25.34, Rec.: 27.89, F1: 26.55[0m
+saving the best model...
+Epoch 5: 358.73254, Time is 5.94s
+[34m[dev set Total] Prec.: 43.15, Rec.: 40.40, F1: 41.73[0m
+saving the best model...
+Epoch 6: 280.81148, Time is 5.72s
+[34m[dev set Total] Prec.: 41.01, Rec.: 46.45, F1: 43.56[0m
+saving the best model...
+Epoch 7: 217.60641, Time is 5.94s
+[34m[dev set Total] Prec.: 44.91, Rec.: 51.11, F1: 47.81[0m
+saving the best model...
+Epoch 8: 157.91626, Time is 6.07s
+[34m[dev set Total] Prec.: 48.91, Rec.: 51.21, F1: 50.04[0m
+saving the best model...
+Epoch 9: 118.22483, Time is 5.65s
+[34m[dev set Total] Prec.: 53.30, Rec.: 58.59, F1: 55.82[0m
+saving the best model...
+Epoch 10: 76.95316, Time is 5.89s
+[34m[dev set Total] Prec.: 56.01, Rec.: 60.47, F1: 58.16[0m
+saving the best model...
+Epoch 11: 57.63026, Time is 5.89s
+[34m[dev set Total] Prec.: 58.77, Rec.: 60.47, F1: 59.61[0m
+saving the best model...
+Epoch 12: 38.82219, Time is 5.83s
+[34m[dev set Total] Prec.: 56.71, Rec.: 61.23, F1: 58.88[0m
+Epoch 13: 25.04443, Time is 5.80s
+[34m[dev set Total] Prec.: 58.08, Rec.: 63.10, F1: 60.49[0m
+saving the best model...
+Epoch 14: 19.38478, Time is 4.62s
+[34m[dev set Total] Prec.: 56.95, Rec.: 63.37, F1: 59.99[0m
+Epoch 15: 12.89381, Time is 5.14s
+[34m[dev set Total] Prec.: 58.46, Rec.: 62.73, F1: 60.52[0m
+saving the best model...
+Epoch 16: 9.93304, Time is 3.44s
+[34m[dev set Total] Prec.: 59.38, Rec.: 65.29, F1: 62.20[0m
+saving the best model...
+Epoch 17: 6.48912, Time is 4.83s
+[34m[dev set Total] Prec.: 59.62, Rec.: 63.86, F1: 61.67[0m
+Epoch 18: 6.07870, Time is 5.45s
+[34m[dev set Total] Prec.: 63.51, Rec.: 65.83, F1: 64.65[0m
+saving the best model...
+Epoch 19: 3.37631, Time is 6.69s
+[34m[dev set Total] Prec.: 60.47, Rec.: 65.19, F1: 62.74[0m
+Epoch 20: 2.15813, Time is 6.11s
+[34m[dev set Total] Prec.: 60.57, Rec.: 65.85, F1: 63.10[0m
+Epoch 21: 1.60639, Time is 6.17s
+[34m[dev set Total] Prec.: 61.35, Rec.: 66.47, F1: 63.81[0m
+Epoch 22: 1.17786, Time is 6.26s
+[34m[dev set Total] Prec.: 62.60, Rec.: 66.49, F1: 64.48[0m
+Epoch 23: 1.08710, Time is 6.16s
+[34m[dev set Total] Prec.: 64.32, Rec.: 66.00, F1: 65.15[0m
+saving the best model...
+Epoch 24: 0.71313, Time is 6.37s
+[34m[dev set Total] Prec.: 61.75, Rec.: 66.50, F1: 64.04[0m
+Epoch 25: 0.61694, Time is 6.33s
+[34m[dev set Total] Prec.: 61.83, Rec.: 66.71, F1: 64.18[0m
+Epoch 26: 0.48282, Time is 6.35s
+[34m[dev set Total] Prec.: 62.81, Rec.: 66.55, F1: 64.63[0m
+Epoch 27: 0.46460, Time is 6.48s
+[34m[dev set Total] Prec.: 61.81, Rec.: 66.17, F1: 63.91[0m
+Epoch 28: 0.40366, Time is 6.04s
+[34m[dev set Total] Prec.: 60.94, Rec.: 66.17, F1: 63.45[0m
+Epoch 29: 0.37544, Time is 5.38s
+[34m[dev set Total] Prec.: 61.57, Rec.: 66.17, F1: 63.79[0m
+Epoch 30: 0.32593, Time is 5.70s
+[34m[dev set Total] Prec.: 62.26, Rec.: 66.23, F1: 64.19[0m
+Epoch 31: 0.28916, Time is 2.53s
+[34m[dev set Total] Prec.: 62.37, Rec.: 66.62, F1: 64.42[0m
+Epoch 32: 0.28177, Time is 3.24s
+[34m[dev set Total] Prec.: 61.61, Rec.: 66.18, F1: 63.81[0m
+Epoch 33: 0.25739, Time is 6.02s
+[34m[dev set Total] Prec.: 61.61, Rec.: 66.35, F1: 63.89[0m
+Epoch 34: 0.24394, Time is 5.91s
+[34m[dev set Total] Prec.: 61.87, Rec.: 66.35, F1: 64.03[0m
+Epoch 35: 0.23831, Time is 5.89s
+[34m[dev set Total] Prec.: 61.96, Rec.: 66.25, F1: 64.04[0m
+Epoch 36: 0.22961, Time is 5.78s
+[34m[dev set Total] Prec.: 61.88, Rec.: 66.18, F1: 63.96[0m
+Epoch 37: 0.21747, Time is 5.81s
+[34m[dev set Total] Prec.: 62.15, Rec.: 65.98, F1: 64.01[0m
+Epoch 38: 0.21188, Time is 6.09s
+[34m[dev set Total] Prec.: 62.09, Rec.: 66.10, F1: 64.03[0m
+Epoch 39: 0.20721, Time is 5.64s
+[34m[dev set Total] Prec.: 62.16, Rec.: 66.12, F1: 64.08[0m
+Epoch 40: 0.20146, Time is 6.12s
+[34m[dev set Total] Prec.: 62.48, Rec.: 66.25, F1: 64.31[0m
+Epoch 41: 0.20155, Time is 6.09s
+[34m[dev set Total] Prec.: 62.67, Rec.: 66.40, F1: 64.48[0m
+Epoch 42: 0.18808, Time is 6.57s
+[34m[dev set Total] Prec.: 63.00, Rec.: 66.54, F1: 64.72[0m
+Epoch 43: 0.18848, Time is 6.14s
+[34m[dev set Total] Prec.: 63.02, Rec.: 66.59, F1: 64.76[0m
+early stop because there are 20 epochs not increasing f1 on dev
+Archiving the best Model...
+Finished archiving the models
+The best dev: 65.15
+Final testing.
+[34m[test set Total] Prec.: 62.58, Rec.: 65.06, F1: 63.80[0m

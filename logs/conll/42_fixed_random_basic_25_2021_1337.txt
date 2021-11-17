@@ -1,0 +1,382 @@
+device: cuda:0
+seed: 1337
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 25_2021
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/42_fixed_random_basic_25_2021_1337
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 42
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_25_2021.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_25_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 25
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-PER': 1, 'E-PER': 2, 'O': 3, 'S-MISC': 4, 'B-MISC': 5, 'I-MISC': 6, 'E-MISC': 7, 'S-LOC': 8, 'S-ORG': 9, 'B-ORG': 10, 'I-ORG': 11, 'E-ORG': 12, 'S-PER': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label PER, picked entity Mohammed Azharuddin, picked instance ['Sidhu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one-day', 'international', 'against', 'England', 'at', 'Old', 'Trafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three-test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'Azharuddin', '.']
+--> For label MISC, picked entity Tibetan, picked instance ['King', 'Birendra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.']
+--> For label LOC, picked entity Canada, picked instance ['1.', 'Jacques', 'Villeneuve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50.574']
+--> For label ORG, picked entity SunGard, picked instance ['SunGard', 'to', 'buy', 'CheckFree', 'unit', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Michael', 'Schumacher', "'s", 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa-Francorchamps', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.'][0m
+[33mPrompt 0: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2: ['California', '13', 'BALTIMORE', '0'][0m
+[33mPrompt 2: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 4: ['Singapore', 'Refining', 'Company', 'expected', 'to', 'shut', 'CDU', '3', '.'][0m
+[33mPrompt 4: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 6: ['Innocent', 'Butare', ',', 'executive', 'secretary', 'of', 'the', 'Rally', 'for', 'the', 'Return', 'of', 'Refugees', 'and', 'Democracy', 'in', 'Rwanda', '(', 'RDR', ')', 'which', 'says', 'it', 'has', 'the', 'support', 'of', 'Rwanda', "'s", 'exiled', 'Hutus', ',', 'appealed', 'to', 'the', 'international', 'community', 'to', 'deter', 'the', 'two', 'countries', 'from', 'going', 'ahead', 'with', 'what', 'it', 'termed', 'a', '"', 'forced', 'and', 'inhuman', 'action', '"', '.'][0m
+[33mPrompt 6: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 8: ['Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'tabulate', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':'][0m
+[33mPrompt 8: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 10: ['But', 'one', 'source', ',', 'the', 'head', 'of', 'a', 'Hong', 'Kong', 'trading', 'house', ',', 'said', 'it', 'made', 'no', 'difference', 'if', 'the', 'copper', 'was', 'customs', 'cleared', 'or', 'not', '.'][0m
+[33mPrompt 10: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 12: ['1.', 'Virna', 'De', 'Angeli', '(', 'Italy', ')', '55.66'][0m
+[33mPrompt 12: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 14: ['Greek', 'socialists', 'give', 'PM', 'green', 'light', 'for', 'election', '.'][0m
+[33mPrompt 14: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 16: ['Police', 'spokesman', 'Roger', 'Grimwade', 'said', 'the', 'six', 'or', 'seven', 'hijackers', 'remained', 'on', 'board', 'the', 'aircraft', ',', 'which', 'arrived', 'from', 'Cyprus', 'at', '4.30', 'a.m.', '(', '0330', 'GMT', ')', '.'][0m
+[33mPrompt 16: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 18: ['Rakow', 'Czestochowa', '1', 'Stomil', 'Olsztyn', '4'][0m
+[33mPrompt 18: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Obilic', '3', '3', '0', '0', '8', '1', '9'][0m
+[33mPrompt 20: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 22: ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South'][0m
+[33mPrompt 22: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 24: ['At', 'least', '16', 'people', 'were', 'killed', 'and', 'several', 'injured', 'on', 'Sunday', 'when', 'a', 'bus', 'fell', 'from', 'a', 'mountain', 'road', 'into', 'a', 'ravine', 'on', 'a', 'river', 'bank', 'in', 'Pakistan-ruled', 'Azad', '(', 'free', ')', 'Kashmir', ',', 'police', 'said', '.'][0m
+[33mPrompt 24: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_25_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 25
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-PER': 1, 'E-PER': 2, 'O': 3, 'S-MISC': 4, 'B-MISC': 5, 'I-MISC': 6, 'E-MISC': 7, 'S-LOC': 8, 'S-ORG': 9, 'B-ORG': 10, 'I-ORG': 11, 'E-ORG': 12, 'S-PER': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label PER, picked entity Mohammed Azharuddin, picked instance ['Sidhu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one-day', 'international', 'against', 'England', 'at', 'Old', 'Trafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three-test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'Azharuddin', '.']
+--> For label MISC, picked entity Tibetan, picked instance ['King', 'Birendra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.']
+--> For label LOC, picked entity Canada, picked instance ['1.', 'Jacques', 'Villeneuve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50.574']
+--> For label ORG, picked entity SunGard, picked instance ['SunGard', 'to', 'buy', 'CheckFree', 'unit', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Michael', 'Schumacher', "'s", 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa-Francorchamps', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.'][0m
+[33mPrompt 0: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2: ['California', '13', 'BALTIMORE', '0'][0m
+[33mPrompt 2: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 4: ['Singapore', 'Refining', 'Company', 'expected', 'to', 'shut', 'CDU', '3', '.'][0m
+[33mPrompt 4: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 6: ['Innocent', 'Butare', ',', 'executive', 'secretary', 'of', 'the', 'Rally', 'for', 'the', 'Return', 'of', 'Refugees', 'and', 'Democracy', 'in', 'Rwanda', '(', 'RDR', ')', 'which', 'says', 'it', 'has', 'the', 'support', 'of', 'Rwanda', "'s", 'exiled', 'Hutus', ',', 'appealed', 'to', 'the', 'international', 'community', 'to', 'deter', 'the', 'two', 'countries', 'from', 'going', 'ahead', 'with', 'what', 'it', 'termed', 'a', '"', 'forced', 'and', 'inhuman', 'action', '"', '.'][0m
+[33mPrompt 6: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 8: ['Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'tabulate', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':'][0m
+[33mPrompt 8: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 10: ['But', 'one', 'source', ',', 'the', 'head', 'of', 'a', 'Hong', 'Kong', 'trading', 'house', ',', 'said', 'it', 'made', 'no', 'difference', 'if', 'the', 'copper', 'was', 'customs', 'cleared', 'or', 'not', '.'][0m
+[33mPrompt 10: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 12: ['1.', 'Virna', 'De', 'Angeli', '(', 'Italy', ')', '55.66'][0m
+[33mPrompt 12: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 14: ['Greek', 'socialists', 'give', 'PM', 'green', 'light', 'for', 'election', '.'][0m
+[33mPrompt 14: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 16: ['Police', 'spokesman', 'Roger', 'Grimwade', 'said', 'the', 'six', 'or', 'seven', 'hijackers', 'remained', 'on', 'board', 'the', 'aircraft', ',', 'which', 'arrived', 'from', 'Cyprus', 'at', '4.30', 'a.m.', '(', '0330', 'GMT', ')', '.'][0m
+[33mPrompt 16: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 18: ['Rakow', 'Czestochowa', '1', 'Stomil', 'Olsztyn', '4'][0m
+[33mPrompt 18: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Obilic', '3', '3', '0', '0', '8', '1', '9'][0m
+[33mPrompt 20: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 22: ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South'][0m
+[33mPrompt 22: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 24: ['At', 'least', '16', 'people', 'were', 'killed', 'and', 'several', 'injured', 'on', 'Sunday', 'when', 'a', 'bus', 'fell', 'from', 'a', 'mountain', 'road', 'into', 'a', 'ravine', 'on', 'a', 'river', 'bank', 'in', 'Pakistan-ruled', 'Azad', '(', 'free', ')', 'Kashmir', ',', 'police', 'said', '.'][0m
+[33mPrompt 24: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label PER, picked entity Mohammed Azharuddin, picked instance ['Sidhu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one-day', 'international', 'against', 'England', 'at', 'Old', 'Trafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three-test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'Azharuddin', '.']
+--> For label MISC, picked entity Tibetan, picked instance ['King', 'Birendra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.']
+--> For label LOC, picked entity Canada, picked instance ['1.', 'Jacques', 'Villeneuve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50.574']
+--> For label ORG, picked entity SunGard, picked instance ['SunGard', 'to', 'buy', 'CheckFree', 'unit', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label PER, picked entity Mohammed Azharuddin, picked instance ['Sidhu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one-day', 'international', 'against', 'England', 'at', 'Old', 'Trafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three-test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'Azharuddin', '.']
+--> For label MISC, picked entity Tibetan, picked instance ['King', 'Birendra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.']
+--> For label LOC, picked entity Canada, picked instance ['1.', 'Jacques', 'Villeneuve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50.574']
+--> For label ORG, picked entity SunGard, picked instance ['SunGard', 'to', 'buy', 'CheckFree', 'unit', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Mohammed', 'A', '##z', '##har', '##uddin', 'is', 'PER', '.', '[SEP]', 'King', 'B', '##ire', '##ndra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.', 'Tibetan', 'is', 'MISC', '.', '[SEP]', '1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Canada', 'is', 'LOC', '.', '[SEP]', 'Sun', '##G', '##ard', 'to', 'buy', 'Check', '##F', '##ree', 'unit', '.', 'Sun', '##G', '##ard', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 7
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/42_fixed_random_basic_25_2021_1337.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1106.03062, Time is 2.72s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+saving the best model...
+Epoch 2: 644.79274, Time is 2.91s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 3: 541.88391, Time is 1.71s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 4: 454.25163, Time is 1.74s
+[34m[dev set Total] Prec.: 10.59, Rec.: 0.30, F1: 0.59[0m
+saving the best model...
+Epoch 5: 380.46050, Time is 2.02s
+[34m[dev set Total] Prec.: 27.84, Rec.: 9.77, F1: 14.46[0m
+saving the best model...
+Epoch 6: 317.87909, Time is 2.39s
+[34m[dev set Total] Prec.: 25.66, Rec.: 14.21, F1: 18.29[0m
+saving the best model...
+Epoch 7: 271.47953, Time is 2.87s
+[34m[dev set Total] Prec.: 33.92, Rec.: 22.47, F1: 27.03[0m
+saving the best model...
+Epoch 8: 224.97988, Time is 2.91s
+[34m[dev set Total] Prec.: 37.97, Rec.: 27.21, F1: 31.70[0m
+saving the best model...
+Epoch 9: 194.88348, Time is 2.99s
+[34m[dev set Total] Prec.: 37.39, Rec.: 29.15, F1: 32.76[0m
+saving the best model...
+Epoch 10: 159.79572, Time is 3.11s
+[34m[dev set Total] Prec.: 35.69, Rec.: 30.36, F1: 32.81[0m
+saving the best model...
+Epoch 11: 133.46473, Time is 2.49s
+[34m[dev set Total] Prec.: 37.63, Rec.: 34.00, F1: 35.73[0m
+saving the best model...
+Epoch 12: 110.18338, Time is 2.38s
+[34m[dev set Total] Prec.: 41.92, Rec.: 37.20, F1: 39.42[0m
+saving the best model...
+Epoch 13: 92.48160, Time is 2.54s
+[34m[dev set Total] Prec.: 42.17, Rec.: 41.43, F1: 41.80[0m
+saving the best model...
+Epoch 14: 73.45891, Time is 2.45s
+[34m[dev set Total] Prec.: 46.10, Rec.: 44.73, F1: 45.40[0m
+saving the best model...
+Epoch 15: 58.20032, Time is 2.34s
+[34m[dev set Total] Prec.: 48.57, Rec.: 45.37, F1: 46.91[0m
+saving the best model...
+Epoch 16: 44.81444, Time is 2.07s
+[34m[dev set Total] Prec.: 49.74, Rec.: 47.95, F1: 48.83[0m
+saving the best model...
+Epoch 17: 37.50320, Time is 2.66s
+[34m[dev set Total] Prec.: 48.82, Rec.: 47.86, F1: 48.34[0m
+Epoch 18: 30.14763, Time is 2.73s
+[34m[dev set Total] Prec.: 50.23, Rec.: 49.43, F1: 49.83[0m
+saving the best model...
+Epoch 19: 22.78274, Time is 2.43s
+[34m[dev set Total] Prec.: 51.34, Rec.: 50.15, F1: 50.74[0m
+saving the best model...
+Epoch 20: 19.90317, Time is 2.74s
+[34m[dev set Total] Prec.: 49.78, Rec.: 49.97, F1: 49.87[0m
+Epoch 21: 14.05835, Time is 2.66s
+[34m[dev set Total] Prec.: 51.12, Rec.: 51.60, F1: 51.36[0m
+saving the best model...
+Epoch 22: 12.29350, Time is 2.80s
+[34m[dev set Total] Prec.: 51.39, Rec.: 51.82, F1: 51.60[0m
+saving the best model...
+Epoch 23: 10.17980, Time is 2.81s
+[34m[dev set Total] Prec.: 50.98, Rec.: 52.93, F1: 51.94[0m
+saving the best model...
+Epoch 24: 7.71783, Time is 2.88s
+[34m[dev set Total] Prec.: 51.64, Rec.: 53.33, F1: 52.47[0m
+saving the best model...
+Epoch 25: 6.43362, Time is 3.06s
+[34m[dev set Total] Prec.: 51.70, Rec.: 53.60, F1: 52.63[0m
+saving the best model...
+Epoch 26: 5.10855, Time is 3.09s
+[34m[dev set Total] Prec.: 51.66, Rec.: 53.87, F1: 52.74[0m
+saving the best model...
+Epoch 27: 4.14720, Time is 2.83s
+[34m[dev set Total] Prec.: 52.88, Rec.: 54.23, F1: 53.55[0m
+saving the best model...
+Epoch 28: 3.68292, Time is 2.94s
+[34m[dev set Total] Prec.: 52.97, Rec.: 54.90, F1: 53.92[0m
+saving the best model...
+Epoch 29: 2.94302, Time is 2.93s
+[34m[dev set Total] Prec.: 52.64, Rec.: 55.98, F1: 54.26[0m
+saving the best model...
+Epoch 30: 2.60927, Time is 2.95s
+[34m[dev set Total] Prec.: 51.75, Rec.: 56.45, F1: 54.00[0m
+Epoch 31: 2.17622, Time is 1.86s
+[34m[dev set Total] Prec.: 52.67, Rec.: 56.20, F1: 54.38[0m
+saving the best model...
+Epoch 32: 1.99374, Time is 2.46s
+[34m[dev set Total] Prec.: 52.29, Rec.: 55.93, F1: 54.05[0m
+Epoch 33: 1.78573, Time is 1.13s
+[34m[dev set Total] Prec.: 51.61, Rec.: 56.15, F1: 53.78[0m
+Epoch 34: 1.56264, Time is 1.70s
+[34m[dev set Total] Prec.: 51.51, Rec.: 56.47, F1: 53.87[0m
+Epoch 35: 1.28998, Time is 1.79s
+[34m[dev set Total] Prec.: 51.54, Rec.: 56.58, F1: 53.95[0m
+Epoch 36: 1.22653, Time is 2.18s
+[34m[dev set Total] Prec.: 52.14, Rec.: 56.50, F1: 54.23[0m
+Epoch 37: 1.12186, Time is 3.02s
+[34m[dev set Total] Prec.: 52.79, Rec.: 56.48, F1: 54.57[0m
+saving the best model...
+Epoch 38: 1.03098, Time is 2.37s
+[34m[dev set Total] Prec.: 52.66, Rec.: 57.02, F1: 54.75[0m
+saving the best model...
+Epoch 39: 0.94862, Time is 2.90s
+[34m[dev set Total] Prec.: 52.12, Rec.: 57.41, F1: 54.64[0m
+Epoch 40: 0.87270, Time is 2.93s
+[34m[dev set Total] Prec.: 52.49, Rec.: 57.60, F1: 54.93[0m
+saving the best model...
+Epoch 41: 0.83183, Time is 2.88s
+[34m[dev set Total] Prec.: 52.57, Rec.: 57.34, F1: 54.85[0m
+Epoch 42: 0.79276, Time is 2.80s
+[34m[dev set Total] Prec.: 53.03, Rec.: 57.56, F1: 55.20[0m
+saving the best model...
+Epoch 43: 0.75847, Time is 2.85s
+[34m[dev set Total] Prec.: 53.28, Rec.: 57.61, F1: 55.36[0m
+saving the best model...
+Epoch 44: 0.75166, Time is 2.61s
+[34m[dev set Total] Prec.: 53.31, Rec.: 57.61, F1: 55.38[0m
+saving the best model...
+Epoch 45: 0.68796, Time is 2.81s
+[34m[dev set Total] Prec.: 53.27, Rec.: 57.54, F1: 55.32[0m
+Epoch 46: 0.64359, Time is 2.75s
+[34m[dev set Total] Prec.: 53.31, Rec.: 57.48, F1: 55.32[0m
+Epoch 47: 0.66590, Time is 2.22s
+[34m[dev set Total] Prec.: 53.21, Rec.: 57.44, F1: 55.25[0m
+Epoch 48: 0.65202, Time is 2.30s
+[34m[dev set Total] Prec.: 53.27, Rec.: 57.49, F1: 55.30[0m
+Epoch 49: 0.59135, Time is 2.88s
+[34m[dev set Total] Prec.: 53.18, Rec.: 57.46, F1: 55.24[0m
+Epoch 50: 0.62054, Time is 2.86s
+[34m[dev set Total] Prec.: 53.17, Rec.: 57.46, F1: 55.23[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 55.38
+Final testing.
+[34m[test set Total] Prec.: 49.81, Rec.: 56.07, F1: 52.75[0m

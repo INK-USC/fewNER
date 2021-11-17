@@ -1,0 +1,363 @@
+device: cuda:0
+seed: 1337
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 30_1337
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/5555_fixed_random_basic_30_1337_1337
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 5555
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_30_1337.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_30_1337.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 30
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'S-MISC': 2, 'S-LOC': 3, 'S-PER': 4, 'B-PER': 5, 'I-PER': 6, 'E-PER': 7, 'B-ORG': 8, 'I-ORG': 9, 'E-ORG': 10, 'S-ORG': 11, 'B-MISC': 12, 'I-MISC': 13, 'E-MISC': 14, 'B-LOC': 15, 'E-LOC': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label MISC, picked entity Chinese, picked instance ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 'reverts', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trickle', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.']
+--> For label LOC, picked entity DUBAI, picked instance ['DUBAI', '1996-08-29']
+--> For label PER, picked entity Bob Wickman, picked instance ['Bob', 'Wickman', '(', '5-1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.']
+--> For label ORG, picked entity New York Yankees, picked instance ['Bob', 'Wickman', '(', '5-1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['The', 'Parisians', ',', 'who', 'have', 'yet', 'to', 'concede', 'a', 'goal', ',', 'were', 'without', 'Brazil', "'s", 'Leonardo', 'and', 'Panama', "'s", 'Julio', 'Cesar', 'Dely', 'Valdes', ',', 'both', 'called', 'up', 'by', 'their', 'national', 'sides', '.'][0m
+[33mPrompt 0: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 3: ['Bob', 'Wickman', '(', '5-1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.'][0m
+[33mPrompt 3: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 6: ['FEATURE', '-', 'Rich', 'new', 'detail', 'on', 'U.S.', 'Civil', 'War', 'unearthed', '.'][0m
+[33mPrompt 6: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 9: ['AUGUST', '1996', 'CDU', '/', 'CSU', 'SPD', 'FDP', 'Greens', 'PDS'][0m
+[33mPrompt 9: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 12: ['Ronald', 'de', 'Boer', 'and', 'Dennis', 'Bergkamp', 'are', 'the', 'likely', 'contenders', 'to', 'lead', 'the', 'team', '.'][0m
+[33mPrompt 12: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 15: ['WHEAT', 'SALES', '-', 'Taiwan', 'Flour', 'Mills', 'Assn', 'bought', '98,000', 'tonnes', 'of', 'U.S.', 'No.1', 'or', 'No.2', 'wheat', 'from', 'Cargill', ',', 'Mitsui', ',', 'Continental', 'and', 'Louis', 'Dreyfus', 'Corp', 'for', 'shipment', 'from', 'the', 'Pacific', 'Northwest', '.'][0m
+[33mPrompt 15: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 18: ['In', 'a', 'written', 'statement', 'released', 'at', 'the', 'news', 'conference', ',', 'Gujral', 'reiterated', 'India', "'s", 'objections', 'to', 'the', 'treaty', ',', 'under', 'negotiation', 'at', 'the', 'Conference', 'on', 'Disarmament', 'in', 'Geneva', '.'][0m
+[33mPrompt 18: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 21: ['But', 'the', 'spokesman', 'said', 'subsequent', 'tests', 'in', 'Cologne', 'proved', 'his', 'body', 'produced', 'higher-than-average', 'testosterone', 'levels', 'naturally', '.'][0m
+[33mPrompt 21: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 24: ['The', 'Andean', 'nation', "'s", 'population', 'of', '11.4', 'million', 'is', '47', 'percent', 'indigenous', '.'][0m
+[33mPrompt 24: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 27: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 'reverts', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trickle', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.'][0m
+[33mPrompt 27: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_30_1337.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 30
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'S-MISC': 2, 'S-LOC': 3, 'S-PER': 4, 'B-PER': 5, 'I-PER': 6, 'E-PER': 7, 'B-ORG': 8, 'I-ORG': 9, 'E-ORG': 10, 'S-ORG': 11, 'B-MISC': 12, 'I-MISC': 13, 'E-MISC': 14, 'B-LOC': 15, 'E-LOC': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label MISC, picked entity Chinese, picked instance ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 'reverts', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trickle', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.']
+--> For label LOC, picked entity DUBAI, picked instance ['DUBAI', '1996-08-29']
+--> For label PER, picked entity Bob Wickman, picked instance ['Bob', 'Wickman', '(', '5-1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.']
+--> For label ORG, picked entity New York Yankees, picked instance ['Bob', 'Wickman', '(', '5-1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['The', 'Parisians', ',', 'who', 'have', 'yet', 'to', 'concede', 'a', 'goal', ',', 'were', 'without', 'Brazil', "'s", 'Leonardo', 'and', 'Panama', "'s", 'Julio', 'Cesar', 'Dely', 'Valdes', ',', 'both', 'called', 'up', 'by', 'their', 'national', 'sides', '.'][0m
+[33mPrompt 0: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 3: ['Bob', 'Wickman', '(', '5-1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.'][0m
+[33mPrompt 3: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 6: ['FEATURE', '-', 'Rich', 'new', 'detail', 'on', 'U.S.', 'Civil', 'War', 'unearthed', '.'][0m
+[33mPrompt 6: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 9: ['AUGUST', '1996', 'CDU', '/', 'CSU', 'SPD', 'FDP', 'Greens', 'PDS'][0m
+[33mPrompt 9: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 12: ['Ronald', 'de', 'Boer', 'and', 'Dennis', 'Bergkamp', 'are', 'the', 'likely', 'contenders', 'to', 'lead', 'the', 'team', '.'][0m
+[33mPrompt 12: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 15: ['WHEAT', 'SALES', '-', 'Taiwan', 'Flour', 'Mills', 'Assn', 'bought', '98,000', 'tonnes', 'of', 'U.S.', 'No.1', 'or', 'No.2', 'wheat', 'from', 'Cargill', ',', 'Mitsui', ',', 'Continental', 'and', 'Louis', 'Dreyfus', 'Corp', 'for', 'shipment', 'from', 'the', 'Pacific', 'Northwest', '.'][0m
+[33mPrompt 15: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 18: ['In', 'a', 'written', 'statement', 'released', 'at', 'the', 'news', 'conference', ',', 'Gujral', 'reiterated', 'India', "'s", 'objections', 'to', 'the', 'treaty', ',', 'under', 'negotiation', 'at', 'the', 'Conference', 'on', 'Disarmament', 'in', 'Geneva', '.'][0m
+[33mPrompt 18: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 21: ['But', 'the', 'spokesman', 'said', 'subsequent', 'tests', 'in', 'Cologne', 'proved', 'his', 'body', 'produced', 'higher-than-average', 'testosterone', 'levels', 'naturally', '.'][0m
+[33mPrompt 21: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 24: ['The', 'Andean', 'nation', "'s", 'population', 'of', '11.4', 'million', 'is', '47', 'percent', 'indigenous', '.'][0m
+[33mPrompt 24: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 27: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 'reverts', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trickle', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.'][0m
+[33mPrompt 27: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label MISC, picked entity Chinese, picked instance ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 'reverts', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trickle', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.']
+--> For label LOC, picked entity DUBAI, picked instance ['DUBAI', '1996-08-29']
+--> For label PER, picked entity Bob Wickman, picked instance ['Bob', 'Wickman', '(', '5-1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.']
+--> For label ORG, picked entity New York Yankees, picked instance ['Bob', 'Wickman', '(', '5-1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label MISC, picked entity Chinese, picked instance ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 'reverts', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trickle', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.']
+--> For label LOC, picked entity DUBAI, picked instance ['DUBAI', '1996-08-29']
+--> For label PER, picked entity Bob Wickman, picked instance ['Bob', 'Wickman', '(', '5-1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.']
+--> For label ORG, picked entity New York Yankees, picked instance ['Bob', 'Wickman', '(', '5-1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['Hong', 'Kong', ',', 'a', 'British', 'colony', ',', 're', '##vert', '##s', 'to', 'Chinese', 'control', 'next', 'year', 'but', 'will', 'remain', 'sealed', 'off', 'from', 'the', 'mainland', 'except', 'to', 'a', 'tiny', 'trick', '##le', 'of', 'legal', 'immigrants', 'and', 'people', 'with', 'special', 'visit', 'permits', '.', 'Chinese', 'is', 'MISC', '.', '[SEP]', 'D', '##U', '##BA', '##I', '1996', '-', '08', '-', '29', 'D', '##U', '##BA', '##I', 'is', 'LOC', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'Bob', 'W', '##ick', '##man', 'is', 'PER', '.', '[SEP]', 'Bob', 'W', '##ick', '##man', '(', '5', '-', '1', ')', ',', 'acquired', 'from', 'the', 'New', 'York', 'Yankees', 'on', 'Friday', ',', 'earned', 'the', 'win', 'in', 'his', 'Milwaukee', 'debut', 'despite', 'allowing', 'the', 'tying', 'run', 'in', 'the', 'eighth', 'inning', '.', 'New', 'York', 'Yankees', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 8
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/5555_fixed_random_basic_30_1337_1337.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1829.07705, Time is 2.89s
+[34m[dev set Total] Prec.: 0.10, Rec.: 0.05, F1: 0.07[0m
+saving the best model...
+Epoch 2: 840.96121, Time is 2.48s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 3: 658.86499, Time is 1.50s
+[34m[dev set Total] Prec.: 0.31, Rec.: 0.05, F1: 0.09[0m
+saving the best model...
+Epoch 4: 533.75923, Time is 1.53s
+[34m[dev set Total] Prec.: 1.07, Rec.: 0.30, F1: 0.47[0m
+saving the best model...
+Epoch 5: 438.78606, Time is 3.57s
+[34m[dev set Total] Prec.: 9.30, Rec.: 5.10, F1: 6.59[0m
+saving the best model...
+Epoch 6: 354.38191, Time is 2.16s
+[34m[dev set Total] Prec.: 28.14, Rec.: 20.48, F1: 23.71[0m
+saving the best model...
+Epoch 7: 293.64662, Time is 2.35s
+[34m[dev set Total] Prec.: 26.03, Rec.: 22.50, F1: 24.14[0m
+saving the best model...
+Epoch 8: 247.69376, Time is 3.01s
+[34m[dev set Total] Prec.: 27.12, Rec.: 23.96, F1: 25.44[0m
+saving the best model...
+Epoch 9: 200.59317, Time is 2.88s
+[34m[dev set Total] Prec.: 30.77, Rec.: 28.36, F1: 29.52[0m
+saving the best model...
+Epoch 10: 157.75005, Time is 2.71s
+[34m[dev set Total] Prec.: 37.98, Rec.: 34.57, F1: 36.20[0m
+saving the best model...
+Epoch 11: 123.15637, Time is 3.53s
+[34m[dev set Total] Prec.: 41.87, Rec.: 38.97, F1: 40.37[0m
+saving the best model...
+Epoch 12: 95.17856, Time is 3.51s
+[34m[dev set Total] Prec.: 46.82, Rec.: 44.26, F1: 45.50[0m
+saving the best model...
+Epoch 13: 75.91260, Time is 3.58s
+[34m[dev set Total] Prec.: 50.22, Rec.: 47.68, F1: 48.92[0m
+saving the best model...
+Epoch 14: 59.37650, Time is 3.66s
+[34m[dev set Total] Prec.: 52.84, Rec.: 49.49, F1: 51.11[0m
+saving the best model...
+Epoch 15: 42.70602, Time is 3.40s
+[34m[dev set Total] Prec.: 54.24, Rec.: 51.43, F1: 52.80[0m
+saving the best model...
+Epoch 16: 32.45032, Time is 3.06s
+[34m[dev set Total] Prec.: 56.29, Rec.: 52.48, F1: 54.31[0m
+saving the best model...
+Epoch 17: 23.88959, Time is 3.60s
+[34m[dev set Total] Prec.: 59.09, Rec.: 54.09, F1: 56.48[0m
+saving the best model...
+Epoch 18: 19.42870, Time is 3.02s
+[34m[dev set Total] Prec.: 56.15, Rec.: 56.10, F1: 56.12[0m
+Epoch 19: 14.37740, Time is 2.80s
+[34m[dev set Total] Prec.: 58.89, Rec.: 56.99, F1: 57.93[0m
+saving the best model...
+Epoch 20: 10.64548, Time is 2.79s
+[34m[dev set Total] Prec.: 58.61, Rec.: 56.62, F1: 57.60[0m
+Epoch 21: 7.61090, Time is 3.44s
+[34m[dev set Total] Prec.: 59.83, Rec.: 58.18, F1: 58.99[0m
+saving the best model...
+Epoch 22: 6.21976, Time is 3.51s
+[34m[dev set Total] Prec.: 59.00, Rec.: 58.52, F1: 58.76[0m
+Epoch 23: 4.63367, Time is 3.49s
+[34m[dev set Total] Prec.: 59.89, Rec.: 59.03, F1: 59.46[0m
+saving the best model...
+Epoch 24: 3.50647, Time is 3.65s
+[34m[dev set Total] Prec.: 59.59, Rec.: 59.63, F1: 59.61[0m
+saving the best model...
+Epoch 25: 2.95061, Time is 3.17s
+[34m[dev set Total] Prec.: 58.93, Rec.: 59.75, F1: 59.34[0m
+Epoch 26: 2.22433, Time is 2.35s
+[34m[dev set Total] Prec.: 61.54, Rec.: 60.47, F1: 61.00[0m
+saving the best model...
+Epoch 27: 1.87103, Time is 3.08s
+[34m[dev set Total] Prec.: 61.43, Rec.: 60.76, F1: 61.10[0m
+saving the best model...
+Epoch 28: 1.57901, Time is 2.98s
+[34m[dev set Total] Prec.: 62.22, Rec.: 61.15, F1: 61.68[0m
+saving the best model...
+Epoch 29: 1.25070, Time is 3.02s
+[34m[dev set Total] Prec.: 62.24, Rec.: 61.03, F1: 61.63[0m
+Epoch 30: 1.05743, Time is 3.10s
+[34m[dev set Total] Prec.: 62.52, Rec.: 61.10, F1: 61.80[0m
+saving the best model...
+Epoch 31: 0.97736, Time is 3.17s
+[34m[dev set Total] Prec.: 62.02, Rec.: 61.22, F1: 61.62[0m
+Epoch 32: 0.76624, Time is 3.62s
+[34m[dev set Total] Prec.: 61.41, Rec.: 61.72, F1: 61.57[0m
+Epoch 33: 0.70587, Time is 3.47s
+[34m[dev set Total] Prec.: 60.93, Rec.: 62.02, F1: 61.47[0m
+Epoch 34: 0.63675, Time is 3.46s
+[34m[dev set Total] Prec.: 61.56, Rec.: 61.99, F1: 61.77[0m
+Epoch 35: 0.56812, Time is 2.73s
+[34m[dev set Total] Prec.: 60.93, Rec.: 62.01, F1: 61.46[0m
+Epoch 36: 0.52365, Time is 3.15s
+[34m[dev set Total] Prec.: 60.44, Rec.: 62.29, F1: 61.35[0m
+Epoch 37: 0.46268, Time is 3.55s
+[34m[dev set Total] Prec.: 61.59, Rec.: 62.36, F1: 61.97[0m
+saving the best model...
+Epoch 38: 0.43988, Time is 3.72s
+[34m[dev set Total] Prec.: 61.76, Rec.: 62.21, F1: 61.99[0m
+saving the best model...
+Epoch 39: 0.43073, Time is 3.46s
+[34m[dev set Total] Prec.: 61.22, Rec.: 62.33, F1: 61.77[0m
+Epoch 40: 0.40213, Time is 3.43s
+[34m[dev set Total] Prec.: 61.21, Rec.: 62.50, F1: 61.84[0m
+Epoch 41: 0.38712, Time is 2.16s
+[34m[dev set Total] Prec.: 61.17, Rec.: 62.45, F1: 61.80[0m
+Epoch 42: 0.36795, Time is 1.85s
+[34m[dev set Total] Prec.: 60.90, Rec.: 62.53, F1: 61.70[0m
+Epoch 43: 1.51208, Time is 1.78s
+[34m[dev set Total] Prec.: 61.06, Rec.: 62.63, F1: 61.83[0m
+Epoch 44: 0.34622, Time is 3.00s
+[34m[dev set Total] Prec.: 61.44, Rec.: 62.45, F1: 61.94[0m
+Epoch 45: 0.34537, Time is 2.85s
+[34m[dev set Total] Prec.: 61.82, Rec.: 62.36, F1: 62.09[0m
+saving the best model...
+Epoch 46: 0.33597, Time is 2.40s
+[34m[dev set Total] Prec.: 62.25, Rec.: 62.73, F1: 62.49[0m
+saving the best model...
+Epoch 47: 0.33105, Time is 2.80s
+[34m[dev set Total] Prec.: 62.34, Rec.: 62.88, F1: 62.61[0m
+saving the best model...
+Epoch 48: 0.32733, Time is 3.08s
+[34m[dev set Total] Prec.: 62.41, Rec.: 62.97, F1: 62.69[0m
+saving the best model...
+Epoch 49: 0.32147, Time is 3.28s
+[34m[dev set Total] Prec.: 62.41, Rec.: 62.97, F1: 62.69[0m
+Epoch 50: 0.32532, Time is 3.52s
+[34m[dev set Total] Prec.: 62.43, Rec.: 63.00, F1: 62.72[0m
+saving the best model...
+Archiving the best Model...
+Finished archiving the models
+The best dev: 62.72
+Final testing.
+[34m[test set Total] Prec.: 55.93, Rec.: 58.02, F1: 56.96[0m

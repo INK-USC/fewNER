@@ -1,0 +1,373 @@
+device: cuda:0
+seed: 1337
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 25_5555
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/5555_fixed_random_basic_25_5555_1337
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 5555
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_25_5555.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_25_5555.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 25
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'B-ORG': 2, 'I-ORG': 3, 'E-ORG': 4, 'S-LOC': 5, 'B-PER': 6, 'E-PER': 7, 'S-MISC': 8, 'I-PER': 9, 'B-MISC': 10, 'I-MISC': 11, 'E-MISC': 12, 'S-ORG': 13, 'S-PER': 14, 'B-LOC': 15, 'E-LOC': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label ORG, picked entity Buducnost ( V ), picked instance ['Buducnost', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6']
+--> For label LOC, picked entity West Bank, picked instance ['A', 'West', 'Bank', 'bookseller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli-PLO', 'self-rule', 'deals', '.']
+--> For label PER, picked entity Jacqueline Wong, picked instance ['--', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Desk', '+1', '212', '859', '1620']
+--> For label MISC, picked entity 1,000 Lakes Rally, picked instance ['A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'s", 'opening', 'phase', 'of', 'the', 'world', 'championship', '1,000', 'Lakes', 'Rally', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['The', 'Palestinian', 'Legislative', 'Council', 'on', 'Wednesday', 'called', 'for', 'a', 'halt', 'to', 'contacts', 'with', 'Israel', ',', 'just', 'hours', 'after', 'President', 'Yasser', 'Arafat', 'said', 'the', 'Jewish', 'state', 'had', 'effectively', 'declared', 'war', 'on', 'the', 'Palestinians', 'by', 'pursuing', 'its', 'hardline', 'policies', '.'][0m
+[33mPrompt 0: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2: ['The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'Eijden', ',', 'in', '1:04.541', '.'][0m
+[33mPrompt 2: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 4: ['--', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Desk', '+1', '212', '859', '1620'][0m
+[33mPrompt 4: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 6: ['Queens', 'Park', 'Rangers', '2', '2', '0', '0', '4', '2', '6'][0m
+[33mPrompt 6: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 8: ['The', '24-year-old', 'Gabrich', ',', 'who', 'signed', 'for', 'an', 'undisclosed', 'fee', 'from', 'the', 'Argentine', 'side', 'Newell', 'Old', 'Boys', ',', 'is', 'set', 'to', 'join', 'Dutch', 'international', 'Patrick', 'Kluivert', 'in', 'the', 'Ajax', 'forward', 'line', '.'][0m
+[33mPrompt 8: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 10: ['Sidi', 'Kacem', '0', 'Royal', 'Armed', 'Forces', '0'][0m
+[33mPrompt 10: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 12: ['In', 'Toronto', ',', 'Pat', 'Hentgen', 'tossed', 'a', 'five-hitter', 'for', 'his', 'fifth', 'consecutive', 'complete', 'game', 'and', 'three', 'players', 'drove', 'in', 'two', 'runs', 'apiece', 'as', 'the', 'Toronto', 'Blue', 'Jays', 'defeated', 'the', 'Minnesota', 'Twins', '6-1', 'for', 'their', 'ninth', 'win', 'in', '11', 'games', '.'][0m
+[33mPrompt 12: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 14: ['Buducnost', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6'][0m
+[33mPrompt 14: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 16: ['--', 'Joyce', 'Liu', '(', '2-5080815', ')'][0m
+[33mPrompt 16: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 18: ['Ajax', 'defender', 'John', 'Veldman', 'and', 'his', 'team', 'mate', 'Richard', 'Witschge', 'are', 'injured', ',', 'while', 'PSV', 'midfielder', 'Philip', 'Cocu', 'has', 'a', 'fever', '.'][0m
+[33mPrompt 18: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 20: ['SOCCER', '-', 'DUTCH', 'FIRST', 'DIVISION', 'SUMMARY', '.'][0m
+[33mPrompt 20: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 22: ['CHICAGO', '1996-08-27'][0m
+[33mPrompt 22: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 24: ['Johnson', 'is', 'the', 'second', 'manager', 'to', 'be', 'hospitalized', 'this', 'week', 'after', 'California', 'Angels', 'skipper', 'John', 'McNamara', 'was', 'admitted', 'to', 'New', 'York', "'s", 'Columbia', 'Presbyterian', 'Hospital', 'on', 'Wednesday', 'with', 'a', 'blood', 'clot', 'in', 'his', 'left', 'calf', '.'][0m
+[33mPrompt 24: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_25_5555.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 25
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'B-ORG': 2, 'I-ORG': 3, 'E-ORG': 4, 'S-LOC': 5, 'B-PER': 6, 'E-PER': 7, 'S-MISC': 8, 'I-PER': 9, 'B-MISC': 10, 'I-MISC': 11, 'E-MISC': 12, 'S-ORG': 13, 'S-PER': 14, 'B-LOC': 15, 'E-LOC': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label ORG, picked entity Buducnost ( V ), picked instance ['Buducnost', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6']
+--> For label LOC, picked entity West Bank, picked instance ['A', 'West', 'Bank', 'bookseller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli-PLO', 'self-rule', 'deals', '.']
+--> For label PER, picked entity Jacqueline Wong, picked instance ['--', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Desk', '+1', '212', '859', '1620']
+--> For label MISC, picked entity 1,000 Lakes Rally, picked instance ['A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'s", 'opening', 'phase', 'of', 'the', 'world', 'championship', '1,000', 'Lakes', 'Rally', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['The', 'Palestinian', 'Legislative', 'Council', 'on', 'Wednesday', 'called', 'for', 'a', 'halt', 'to', 'contacts', 'with', 'Israel', ',', 'just', 'hours', 'after', 'President', 'Yasser', 'Arafat', 'said', 'the', 'Jewish', 'state', 'had', 'effectively', 'declared', 'war', 'on', 'the', 'Palestinians', 'by', 'pursuing', 'its', 'hardline', 'policies', '.'][0m
+[33mPrompt 0: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2: ['The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'Eijden', ',', 'in', '1:04.541', '.'][0m
+[33mPrompt 2: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 4: ['--', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Desk', '+1', '212', '859', '1620'][0m
+[33mPrompt 4: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 6: ['Queens', 'Park', 'Rangers', '2', '2', '0', '0', '4', '2', '6'][0m
+[33mPrompt 6: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 8: ['The', '24-year-old', 'Gabrich', ',', 'who', 'signed', 'for', 'an', 'undisclosed', 'fee', 'from', 'the', 'Argentine', 'side', 'Newell', 'Old', 'Boys', ',', 'is', 'set', 'to', 'join', 'Dutch', 'international', 'Patrick', 'Kluivert', 'in', 'the', 'Ajax', 'forward', 'line', '.'][0m
+[33mPrompt 8: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 10: ['Sidi', 'Kacem', '0', 'Royal', 'Armed', 'Forces', '0'][0m
+[33mPrompt 10: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 12: ['In', 'Toronto', ',', 'Pat', 'Hentgen', 'tossed', 'a', 'five-hitter', 'for', 'his', 'fifth', 'consecutive', 'complete', 'game', 'and', 'three', 'players', 'drove', 'in', 'two', 'runs', 'apiece', 'as', 'the', 'Toronto', 'Blue', 'Jays', 'defeated', 'the', 'Minnesota', 'Twins', '6-1', 'for', 'their', 'ninth', 'win', 'in', '11', 'games', '.'][0m
+[33mPrompt 12: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 14: ['Buducnost', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6'][0m
+[33mPrompt 14: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 16: ['--', 'Joyce', 'Liu', '(', '2-5080815', ')'][0m
+[33mPrompt 16: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 18: ['Ajax', 'defender', 'John', 'Veldman', 'and', 'his', 'team', 'mate', 'Richard', 'Witschge', 'are', 'injured', ',', 'while', 'PSV', 'midfielder', 'Philip', 'Cocu', 'has', 'a', 'fever', '.'][0m
+[33mPrompt 18: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 20: ['SOCCER', '-', 'DUTCH', 'FIRST', 'DIVISION', 'SUMMARY', '.'][0m
+[33mPrompt 20: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 22: ['CHICAGO', '1996-08-27'][0m
+[33mPrompt 22: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 24: ['Johnson', 'is', 'the', 'second', 'manager', 'to', 'be', 'hospitalized', 'this', 'week', 'after', 'California', 'Angels', 'skipper', 'John', 'McNamara', 'was', 'admitted', 'to', 'New', 'York', "'s", 'Columbia', 'Presbyterian', 'Hospital', 'on', 'Wednesday', 'with', 'a', 'blood', 'clot', 'in', 'his', 'left', 'calf', '.'][0m
+[33mPrompt 24: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label ORG, picked entity Buducnost ( V ), picked instance ['Buducnost', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6']
+--> For label LOC, picked entity West Bank, picked instance ['A', 'West', 'Bank', 'bookseller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli-PLO', 'self-rule', 'deals', '.']
+--> For label PER, picked entity Jacqueline Wong, picked instance ['--', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Desk', '+1', '212', '859', '1620']
+--> For label MISC, picked entity 1,000 Lakes Rally, picked instance ['A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'s", 'opening', 'phase', 'of', 'the', 'world', 'championship', '1,000', 'Lakes', 'Rally', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label ORG, picked entity Buducnost ( V ), picked instance ['Buducnost', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6']
+--> For label LOC, picked entity West Bank, picked instance ['A', 'West', 'Bank', 'bookseller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli-PLO', 'self-rule', 'deals', '.']
+--> For label PER, picked entity Jacqueline Wong, picked instance ['--', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Desk', '+1', '212', '859', '1620']
+--> For label MISC, picked entity 1,000 Lakes Rally, picked instance ['A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'s", 'opening', 'phase', 'of', 'the', 'world', 'championship', '1,000', 'Lakes', 'Rally', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['Bud', '##uc', '##nos', '##t', '(', 'V', ')', '3', '2', '0', '1', '4', '3', '6', 'Bud', '##uc', '##nos', '##t', '(', 'V', ')', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', '-', '-', 'Jacqueline', 'Wong', ',', 'New', 'York', 'Energy', 'Des', '##k', '+', '1', '212', '85', '##9', '1620', 'Jacqueline', 'Wong', 'is', 'PER', '.', '[SEP]', 'A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'", 's', 'opening', 'phase', 'of', 'the', 'world', 'championship', '1', ',', '000', 'Lakes', 'Rally', '.', '1', ',', '000', 'Lakes', 'Rally', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 7
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/5555_fixed_random_basic_25_5555_1337.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1354.49277, Time is 3.78s
+[34m[dev set Total] Prec.: 0.96, Rec.: 2.64, F1: 1.41[0m
+saving the best model...
+Epoch 2: 717.49471, Time is 3.10s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 3: 558.88856, Time is 2.89s
+[34m[dev set Total] Prec.: 24.62, Rec.: 0.54, F1: 1.05[0m
+Epoch 4: 448.04180, Time is 2.52s
+[34m[dev set Total] Prec.: 4.76, Rec.: 1.65, F1: 2.45[0m
+saving the best model...
+Epoch 5: 374.71544, Time is 2.87s
+[34m[dev set Total] Prec.: 2.69, Rec.: 1.55, F1: 1.97[0m
+Epoch 6: 300.26004, Time is 1.63s
+[34m[dev set Total] Prec.: 4.56, Rec.: 2.29, F1: 3.05[0m
+saving the best model...
+Epoch 7: 235.71761, Time is 2.44s
+[34m[dev set Total] Prec.: 15.02, Rec.: 8.42, F1: 10.79[0m
+saving the best model...
+Epoch 8: 189.37202, Time is 2.97s
+[34m[dev set Total] Prec.: 24.84, Rec.: 15.26, F1: 18.90[0m
+saving the best model...
+Epoch 9: 150.19499, Time is 3.05s
+[34m[dev set Total] Prec.: 32.33, Rec.: 21.25, F1: 25.65[0m
+saving the best model...
+Epoch 10: 115.48904, Time is 3.08s
+[34m[dev set Total] Prec.: 35.08, Rec.: 24.64, F1: 28.95[0m
+saving the best model...
+Epoch 11: 90.77020, Time is 2.61s
+[34m[dev set Total] Prec.: 36.03, Rec.: 26.76, F1: 30.71[0m
+saving the best model...
+Epoch 12: 69.16741, Time is 3.05s
+[34m[dev set Total] Prec.: 42.99, Rec.: 30.38, F1: 35.60[0m
+saving the best model...
+Epoch 13: 52.53844, Time is 2.91s
+[34m[dev set Total] Prec.: 49.34, Rec.: 36.27, F1: 41.81[0m
+saving the best model...
+Epoch 14: 38.23177, Time is 2.56s
+[34m[dev set Total] Prec.: 48.55, Rec.: 38.94, F1: 43.21[0m
+saving the best model...
+Epoch 15: 27.96001, Time is 2.20s
+[34m[dev set Total] Prec.: 49.41, Rec.: 41.11, F1: 44.88[0m
+saving the best model...
+Epoch 16: 20.76885, Time is 2.97s
+[34m[dev set Total] Prec.: 52.42, Rec.: 40.80, F1: 45.89[0m
+saving the best model...
+Epoch 17: 15.32761, Time is 2.97s
+[34m[dev set Total] Prec.: 54.49, Rec.: 44.53, F1: 49.01[0m
+saving the best model...
+Epoch 18: 11.57018, Time is 2.48s
+[34m[dev set Total] Prec.: 55.66, Rec.: 47.09, F1: 51.02[0m
+saving the best model...
+Epoch 19: 8.65919, Time is 2.84s
+[34m[dev set Total] Prec.: 58.77, Rec.: 46.83, F1: 52.13[0m
+saving the best model...
+Epoch 20: 7.12143, Time is 3.31s
+[34m[dev set Total] Prec.: 59.00, Rec.: 49.44, F1: 53.80[0m
+saving the best model...
+Epoch 21: 5.72238, Time is 3.20s
+[34m[dev set Total] Prec.: 60.43, Rec.: 51.55, F1: 55.64[0m
+saving the best model...
+Epoch 22: 3.75779, Time is 2.86s
+[34m[dev set Total] Prec.: 63.03, Rec.: 53.44, F1: 57.84[0m
+saving the best model...
+Epoch 23: 3.57423, Time is 2.59s
+[34m[dev set Total] Prec.: 60.20, Rec.: 52.61, F1: 56.15[0m
+Epoch 24: 2.77691, Time is 1.60s
+[34m[dev set Total] Prec.: 58.67, Rec.: 51.89, F1: 55.07[0m
+Epoch 25: 2.16670, Time is 2.59s
+[34m[dev set Total] Prec.: 62.90, Rec.: 52.31, F1: 57.12[0m
+Epoch 26: 1.63065, Time is 2.57s
+[34m[dev set Total] Prec.: 62.08, Rec.: 52.83, F1: 57.08[0m
+Epoch 27: 1.34634, Time is 2.93s
+[34m[dev set Total] Prec.: 61.71, Rec.: 53.52, F1: 57.32[0m
+Epoch 28: 1.15119, Time is 2.92s
+[34m[dev set Total] Prec.: 62.55, Rec.: 54.11, F1: 58.02[0m
+saving the best model...
+Epoch 29: 0.93823, Time is 2.94s
+[34m[dev set Total] Prec.: 63.90, Rec.: 53.49, F1: 58.23[0m
+saving the best model...
+Epoch 30: 0.83237, Time is 3.15s
+[34m[dev set Total] Prec.: 62.33, Rec.: 52.71, F1: 57.12[0m
+Epoch 31: 0.71660, Time is 2.38s
+[34m[dev set Total] Prec.: 60.18, Rec.: 54.29, F1: 57.09[0m
+Epoch 32: 0.59855, Time is 2.23s
+[34m[dev set Total] Prec.: 62.74, Rec.: 55.37, F1: 58.82[0m
+saving the best model...
+Epoch 33: 0.55106, Time is 2.80s
+[34m[dev set Total] Prec.: 64.47, Rec.: 55.30, F1: 59.54[0m
+saving the best model...
+Epoch 34: 0.49442, Time is 2.85s
+[34m[dev set Total] Prec.: 64.32, Rec.: 54.95, F1: 59.27[0m
+Epoch 35: 0.47021, Time is 2.76s
+[34m[dev set Total] Prec.: 63.48, Rec.: 54.01, F1: 58.36[0m
+Epoch 36: 0.39220, Time is 2.52s
+[34m[dev set Total] Prec.: 62.53, Rec.: 54.01, F1: 57.96[0m
+Epoch 37: 0.37799, Time is 2.67s
+[34m[dev set Total] Prec.: 62.25, Rec.: 54.23, F1: 57.96[0m
+Epoch 38: 0.35336, Time is 3.02s
+[34m[dev set Total] Prec.: 61.77, Rec.: 54.88, F1: 58.12[0m
+Epoch 39: 0.33651, Time is 2.13s
+[34m[dev set Total] Prec.: 62.40, Rec.: 54.87, F1: 58.39[0m
+Epoch 40: 0.33145, Time is 2.66s
+[34m[dev set Total] Prec.: 63.21, Rec.: 55.25, F1: 58.96[0m
+Epoch 41: 0.30148, Time is 2.92s
+[34m[dev set Total] Prec.: 63.74, Rec.: 55.30, F1: 59.22[0m
+Epoch 42: 0.29779, Time is 3.04s
+[34m[dev set Total] Prec.: 63.85, Rec.: 55.25, F1: 59.24[0m
+Epoch 43: 0.28893, Time is 3.05s
+[34m[dev set Total] Prec.: 63.61, Rec.: 55.22, F1: 59.12[0m
+Epoch 44: 0.27550, Time is 2.89s
+[34m[dev set Total] Prec.: 63.21, Rec.: 55.04, F1: 58.84[0m
+Epoch 45: 0.28471, Time is 2.65s
+[34m[dev set Total] Prec.: 63.01, Rec.: 54.85, F1: 58.65[0m
+Epoch 46: 0.27812, Time is 1.49s
+[34m[dev set Total] Prec.: 63.26, Rec.: 55.02, F1: 58.85[0m
+Epoch 47: 0.26881, Time is 2.52s
+[34m[dev set Total] Prec.: 63.41, Rec.: 55.07, F1: 58.95[0m
+Epoch 48: 0.26950, Time is 1.03s
+[34m[dev set Total] Prec.: 63.50, Rec.: 55.12, F1: 59.02[0m
+Epoch 49: 0.25816, Time is 1.03s
+[34m[dev set Total] Prec.: 63.56, Rec.: 55.17, F1: 59.07[0m
+Epoch 50: 0.26175, Time is 2.26s
+[34m[dev set Total] Prec.: 63.53, Rec.: 55.17, F1: 59.05[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 59.54
+Final testing.
+[34m[test set Total] Prec.: 64.42, Rec.: 52.61, F1: 57.92[0m

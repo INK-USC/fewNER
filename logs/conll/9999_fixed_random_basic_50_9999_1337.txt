@@ -1,0 +1,351 @@
+device: cuda:0
+seed: 1337
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 50_9999
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/9999_fixed_random_basic_50_9999_1337
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 9999
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_50_9999.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_50_9999.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-MISC': 1, 'E-MISC': 2, 'O': 3, 'B-PER': 4, 'E-PER': 5, 'B-LOC': 6, 'I-LOC': 7, 'E-LOC': 8, 'S-MISC': 9, 'S-ORG': 10, 'S-LOC': 11, 'B-ORG': 12, 'E-ORG': 13, 'I-PER': 14, 'I-ORG': 15, 'S-PER': 16, 'I-MISC': 17, '<START>': 18, '<STOP>': 19}
+--> For label MISC, picked entity Etruscan, picked instance ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'separatist', 'leader', 'Umberto', 'Bossi', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'Etruscan', 'town', 'of', 'Orvieto', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.']
+--> For label PER, picked entity A. Stewart, picked instance ['A.', 'Stewart', 'not', 'out', '40']
+--> For label LOC, picked entity Houston, picked instance ['In', 'Houston', ',', 'Andy', 'Benes', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run-scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St.', 'Louis', 'Cardinals', 'to', 'a', '3-2', 'victory', 'over', 'the', 'Houston', 'Astros', '.']
+--> For label ORG, picked entity Yorkshire, picked instance ['At', 'Headingley', ':', 'Yorkshire', '305-5', '(', 'C.', 'White', '66', 'not', 'out', ',', 'M.', 'Moxon']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CENTRAL', 'DIVISION'][0m
+[33mPrompt 0: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 5: ['Recriminations', 'built', 'up', 'over', 'how', 'the', 'scandal', "'s", 'central', 'figure', ',', 'convicted', 'child', 'rapist', 'Marc', 'Dutroux', ',', 'managed', 'to', 'prey', 'on', 'children', 'unhindered', 'for', 'so', 'long', '.'][0m
+[33mPrompt 5: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 10: ['"', 'Coming', 'just', 'a', 'million', 'guilders', 'under', 'the', 'forecast', 'range', 'is', "n't", 'overwhelmingly', 'surprising', ',', '"', 'said', 'ING', 'analyst', 'Steven', 'Vrolijk', ',', 'who', 'is', 'continuing', 'to', 'look', 'for', 'a', 'nine', 'to', '10', 'percent', 'rise', 'in', '1996', 'earnings', '.'][0m
+[33mPrompt 10: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 15: ['--', 'Dimitris', 'Kontogiannis', ',', 'Athens', 'Newsroom', '+301', '3311812-4'][0m
+[33mPrompt 15: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Chairman', 'Mohamed', 'Fahim', 'Rayyan', 'told', 'a', 'news', 'conference', 'at', 'Cairo', 'airport', ':', '"', 'The', 'control', 'tower', 'should', 'have', 'allocated', 'the', 'plane', 'another', 'runway', ',', 'instead', 'of', 'the', 'one', 'the', 'plane', 'landed', 'on', '.', '"'][0m
+[33mPrompt 20: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 25: ['Vitesse', 'Arnhem', '1', '(', 'Vierklau', '85th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard'][0m
+[33mPrompt 25: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 30: ['At', 'Headingley', ':', 'Yorkshire', '305-5', '(', 'C.', 'White', '66', 'not', 'out', ',', 'M.', 'Moxon'][0m
+[33mPrompt 30: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 35: ['Thousands', 'in', 'Calcutta', ',', 'where', 'she', 'founded', 'her', 'Missionaries', 'of', 'Charity', 'religious', 'order', 'in', '1949', ',', 'prayed', 'for', 'her', 'recovery', '.'][0m
+[33mPrompt 35: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 40: ['Richard', 'Finn'][0m
+[33mPrompt 40: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 45: ['It', 'took', 'Martinez', 'four', 'Opens', 'to', 'get', 'as', 'far', 'as', 'the', 'quarters', ',', 'and', 'another', 'four', 'to', 'match', 'that', '.'][0m
+[33mPrompt 45: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_50_9999.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-MISC': 1, 'E-MISC': 2, 'O': 3, 'B-PER': 4, 'E-PER': 5, 'B-LOC': 6, 'I-LOC': 7, 'E-LOC': 8, 'S-MISC': 9, 'S-ORG': 10, 'S-LOC': 11, 'B-ORG': 12, 'E-ORG': 13, 'I-PER': 14, 'I-ORG': 15, 'S-PER': 16, 'I-MISC': 17, '<START>': 18, '<STOP>': 19}
+--> For label MISC, picked entity Etruscan, picked instance ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'separatist', 'leader', 'Umberto', 'Bossi', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'Etruscan', 'town', 'of', 'Orvieto', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.']
+--> For label PER, picked entity A. Stewart, picked instance ['A.', 'Stewart', 'not', 'out', '40']
+--> For label LOC, picked entity Houston, picked instance ['In', 'Houston', ',', 'Andy', 'Benes', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run-scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St.', 'Louis', 'Cardinals', 'to', 'a', '3-2', 'victory', 'over', 'the', 'Houston', 'Astros', '.']
+--> For label ORG, picked entity Yorkshire, picked instance ['At', 'Headingley', ':', 'Yorkshire', '305-5', '(', 'C.', 'White', '66', 'not', 'out', ',', 'M.', 'Moxon']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CENTRAL', 'DIVISION'][0m
+[33mPrompt 0: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 5: ['Recriminations', 'built', 'up', 'over', 'how', 'the', 'scandal', "'s", 'central', 'figure', ',', 'convicted', 'child', 'rapist', 'Marc', 'Dutroux', ',', 'managed', 'to', 'prey', 'on', 'children', 'unhindered', 'for', 'so', 'long', '.'][0m
+[33mPrompt 5: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 10: ['"', 'Coming', 'just', 'a', 'million', 'guilders', 'under', 'the', 'forecast', 'range', 'is', "n't", 'overwhelmingly', 'surprising', ',', '"', 'said', 'ING', 'analyst', 'Steven', 'Vrolijk', ',', 'who', 'is', 'continuing', 'to', 'look', 'for', 'a', 'nine', 'to', '10', 'percent', 'rise', 'in', '1996', 'earnings', '.'][0m
+[33mPrompt 10: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 15: ['--', 'Dimitris', 'Kontogiannis', ',', 'Athens', 'Newsroom', '+301', '3311812-4'][0m
+[33mPrompt 15: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Chairman', 'Mohamed', 'Fahim', 'Rayyan', 'told', 'a', 'news', 'conference', 'at', 'Cairo', 'airport', ':', '"', 'The', 'control', 'tower', 'should', 'have', 'allocated', 'the', 'plane', 'another', 'runway', ',', 'instead', 'of', 'the', 'one', 'the', 'plane', 'landed', 'on', '.', '"'][0m
+[33mPrompt 20: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 25: ['Vitesse', 'Arnhem', '1', '(', 'Vierklau', '85th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard'][0m
+[33mPrompt 25: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 30: ['At', 'Headingley', ':', 'Yorkshire', '305-5', '(', 'C.', 'White', '66', 'not', 'out', ',', 'M.', 'Moxon'][0m
+[33mPrompt 30: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 35: ['Thousands', 'in', 'Calcutta', ',', 'where', 'she', 'founded', 'her', 'Missionaries', 'of', 'Charity', 'religious', 'order', 'in', '1949', ',', 'prayed', 'for', 'her', 'recovery', '.'][0m
+[33mPrompt 35: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 40: ['Richard', 'Finn'][0m
+[33mPrompt 40: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 45: ['It', 'took', 'Martinez', 'four', 'Opens', 'to', 'get', 'as', 'far', 'as', 'the', 'quarters', ',', 'and', 'another', 'four', 'to', 'match', 'that', '.'][0m
+[33mPrompt 45: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label MISC, picked entity Etruscan, picked instance ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'separatist', 'leader', 'Umberto', 'Bossi', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'Etruscan', 'town', 'of', 'Orvieto', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.']
+--> For label PER, picked entity A. Stewart, picked instance ['A.', 'Stewart', 'not', 'out', '40']
+--> For label LOC, picked entity Houston, picked instance ['In', 'Houston', ',', 'Andy', 'Benes', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run-scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St.', 'Louis', 'Cardinals', 'to', 'a', '3-2', 'victory', 'over', 'the', 'Houston', 'Astros', '.']
+--> For label ORG, picked entity Yorkshire, picked instance ['At', 'Headingley', ':', 'Yorkshire', '305-5', '(', 'C.', 'White', '66', 'not', 'out', ',', 'M.', 'Moxon']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label MISC, picked entity Etruscan, picked instance ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'separatist', 'leader', 'Umberto', 'Bossi', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'Etruscan', 'town', 'of', 'Orvieto', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.']
+--> For label PER, picked entity A. Stewart, picked instance ['A.', 'Stewart', 'not', 'out', '40']
+--> For label LOC, picked entity Houston, picked instance ['In', 'Houston', ',', 'Andy', 'Benes', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run-scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St.', 'Louis', 'Cardinals', 'to', 'a', '3-2', 'victory', 'over', 'the', 'Houston', 'Astros', '.']
+--> For label ORG, picked entity Yorkshire, picked instance ['At', 'Headingley', ':', 'Yorkshire', '305-5', '(', 'C.', 'White', '66', 'not', 'out', ',', 'M.', 'Moxon']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'At', 'Head', '##ing', '##ley', ':', 'Yorkshire', '305', '-', '5', '(', 'C', '.', 'White', '66', 'not', 'out', ',', 'M', '.', 'Mo', '##xon', 'Yorkshire', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 13
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/9999_fixed_random_basic_50_9999_1337.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1649.11536, Time is 6.75s
+[34m[dev set Total] Prec.: 27.08, Rec.: 0.22, F1: 0.43[0m
+saving the best model...
+Epoch 2: 914.82092, Time is 6.00s
+[34m[dev set Total] Prec.: 22.34, Rec.: 8.27, F1: 12.07[0m
+saving the best model...
+Epoch 3: 688.95181, Time is 5.15s
+[34m[dev set Total] Prec.: 26.50, Rec.: 23.78, F1: 25.07[0m
+saving the best model...
+Epoch 4: 528.49458, Time is 4.98s
+[34m[dev set Total] Prec.: 34.04, Rec.: 34.51, F1: 34.27[0m
+saving the best model...
+Epoch 5: 411.51879, Time is 5.27s
+[34m[dev set Total] Prec.: 42.41, Rec.: 41.63, F1: 42.02[0m
+saving the best model...
+Epoch 6: 318.31274, Time is 5.88s
+[34m[dev set Total] Prec.: 44.56, Rec.: 45.34, F1: 44.95[0m
+saving the best model...
+Epoch 7: 249.93970, Time is 5.86s
+[34m[dev set Total] Prec.: 47.52, Rec.: 47.78, F1: 47.65[0m
+saving the best model...
+Epoch 8: 191.91768, Time is 5.88s
+[34m[dev set Total] Prec.: 49.92, Rec.: 49.92, F1: 49.92[0m
+saving the best model...
+Epoch 9: 148.09464, Time is 6.08s
+[34m[dev set Total] Prec.: 49.69, Rec.: 51.41, F1: 50.54[0m
+saving the best model...
+Epoch 10: 108.52763, Time is 3.52s
+[34m[dev set Total] Prec.: 53.51, Rec.: 54.18, F1: 53.84[0m
+saving the best model...
+Epoch 11: 80.41434, Time is 6.20s
+[34m[dev set Total] Prec.: 58.59, Rec.: 57.83, F1: 58.21[0m
+saving the best model...
+Epoch 12: 56.62576, Time is 3.54s
+[34m[dev set Total] Prec.: 60.21, Rec.: 59.97, F1: 60.09[0m
+saving the best model...
+Epoch 13: 37.05493, Time is 6.35s
+[34m[dev set Total] Prec.: 61.82, Rec.: 62.06, F1: 61.94[0m
+saving the best model...
+Epoch 14: 28.48174, Time is 6.50s
+[34m[dev set Total] Prec.: 61.65, Rec.: 62.16, F1: 61.90[0m
+Epoch 15: 17.89685, Time is 5.66s
+[34m[dev set Total] Prec.: 67.10, Rec.: 63.20, F1: 65.09[0m
+saving the best model...
+Epoch 16: 11.94690, Time is 5.72s
+[34m[dev set Total] Prec.: 65.35, Rec.: 63.39, F1: 64.35[0m
+Epoch 17: 8.82498, Time is 5.42s
+[34m[dev set Total] Prec.: 64.52, Rec.: 64.28, F1: 64.40[0m
+Epoch 18: 5.29883, Time is 3.54s
+[34m[dev set Total] Prec.: 70.15, Rec.: 64.67, F1: 67.30[0m
+saving the best model...
+Epoch 19: 3.91776, Time is 5.77s
+[34m[dev set Total] Prec.: 68.02, Rec.: 66.74, F1: 67.38[0m
+saving the best model...
+Epoch 20: 2.75363, Time is 4.17s
+[34m[dev set Total] Prec.: 68.65, Rec.: 66.50, F1: 67.56[0m
+saving the best model...
+Epoch 21: 2.09119, Time is 4.99s
+[34m[dev set Total] Prec.: 69.69, Rec.: 66.08, F1: 67.84[0m
+saving the best model...
+Epoch 22: 1.38072, Time is 5.54s
+[34m[dev set Total] Prec.: 70.19, Rec.: 66.03, F1: 68.05[0m
+saving the best model...
+Epoch 23: 1.08617, Time is 5.42s
+[34m[dev set Total] Prec.: 68.91, Rec.: 66.82, F1: 67.85[0m
+Epoch 24: 0.79483, Time is 5.97s
+[34m[dev set Total] Prec.: 68.04, Rec.: 67.19, F1: 67.62[0m
+Epoch 25: 0.61584, Time is 5.97s
+[34m[dev set Total] Prec.: 69.93, Rec.: 66.84, F1: 68.35[0m
+saving the best model...
+Epoch 26: 0.52695, Time is 5.49s
+[34m[dev set Total] Prec.: 69.43, Rec.: 67.18, F1: 68.29[0m
+Epoch 27: 0.46191, Time is 5.73s
+[34m[dev set Total] Prec.: 71.54, Rec.: 67.63, F1: 69.53[0m
+saving the best model...
+Epoch 28: 0.40485, Time is 5.56s
+[34m[dev set Total] Prec.: 71.75, Rec.: 67.46, F1: 69.54[0m
+saving the best model...
+Epoch 29: 0.36948, Time is 5.21s
+[34m[dev set Total] Prec.: 70.80, Rec.: 66.87, F1: 68.78[0m
+Epoch 30: 0.32657, Time is 5.37s
+[34m[dev set Total] Prec.: 70.78, Rec.: 66.87, F1: 68.77[0m
+Epoch 31: 0.32248, Time is 5.91s
+[34m[dev set Total] Prec.: 70.49, Rec.: 67.24, F1: 68.83[0m
+Epoch 32: 0.29540, Time is 5.95s
+[34m[dev set Total] Prec.: 71.18, Rec.: 67.24, F1: 69.15[0m
+Epoch 33: 0.27934, Time is 4.75s
+[34m[dev set Total] Prec.: 72.02, Rec.: 67.01, F1: 69.42[0m
+Epoch 34: 0.25848, Time is 6.52s
+[34m[dev set Total] Prec.: 72.11, Rec.: 66.82, F1: 69.36[0m
+Epoch 35: 0.25693, Time is 6.19s
+[34m[dev set Total] Prec.: 72.15, Rec.: 66.87, F1: 69.41[0m
+Epoch 36: 0.25107, Time is 5.36s
+[34m[dev set Total] Prec.: 70.54, Rec.: 66.89, F1: 68.67[0m
+Epoch 37: 0.23544, Time is 5.81s
+[34m[dev set Total] Prec.: 70.40, Rec.: 67.04, F1: 68.68[0m
+Epoch 38: 0.22333, Time is 5.72s
+[34m[dev set Total] Prec.: 70.51, Rec.: 66.96, F1: 68.69[0m
+Epoch 39: 0.22087, Time is 5.35s
+[34m[dev set Total] Prec.: 70.91, Rec.: 67.09, F1: 68.95[0m
+Epoch 40: 0.21596, Time is 5.29s
+[34m[dev set Total] Prec.: 70.95, Rec.: 67.16, F1: 69.00[0m
+Epoch 41: 0.21304, Time is 5.53s
+[34m[dev set Total] Prec.: 71.12, Rec.: 67.18, F1: 69.09[0m
+Epoch 42: 0.20551, Time is 5.70s
+[34m[dev set Total] Prec.: 71.43, Rec.: 67.14, F1: 69.22[0m
+Epoch 43: 0.20418, Time is 6.51s
+[34m[dev set Total] Prec.: 71.75, Rec.: 67.21, F1: 69.41[0m
+Epoch 44: 0.20338, Time is 6.41s
+[34m[dev set Total] Prec.: 71.82, Rec.: 67.26, F1: 69.47[0m
+Epoch 45: 0.19757, Time is 6.45s
+[34m[dev set Total] Prec.: 71.88, Rec.: 67.28, F1: 69.50[0m
+Epoch 46: 0.19650, Time is 6.49s
+[34m[dev set Total] Prec.: 71.84, Rec.: 67.36, F1: 69.53[0m
+Epoch 47: 0.19028, Time is 6.05s
+[34m[dev set Total] Prec.: 71.78, Rec.: 67.38, F1: 69.51[0m
+Epoch 48: 0.19122, Time is 5.60s
+[34m[dev set Total] Prec.: 71.67, Rec.: 67.41, F1: 69.48[0m
+early stop because there are 20 epochs not increasing f1 on dev
+Archiving the best Model...
+Finished archiving the models
+The best dev: 69.54
+Final testing.
+[34m[test set Total] Prec.: 70.73, Rec.: 66.83, F1: 68.73[0m

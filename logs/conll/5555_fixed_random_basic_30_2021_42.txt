@@ -1,0 +1,359 @@
+device: cuda:0
+seed: 42
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 30_2021
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/5555_fixed_random_basic_30_2021_42
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 5555
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_30_2021.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_30_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 30
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-PER': 1, 'E-PER': 2, 'O': 3, 'S-MISC': 4, 'B-MISC': 5, 'I-MISC': 6, 'E-MISC': 7, 'S-LOC': 8, 'S-ORG': 9, 'B-ORG': 10, 'I-ORG': 11, 'E-ORG': 12, 'S-PER': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label PER, picked entity Peter Hedblom, picked instance ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South']
+--> For label MISC, picked entity Australian, picked instance ['Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'tabulate', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':']
+--> For label LOC, picked entity Russia, picked instance ['GROZNY', ',', 'Russia', '1996-08-23']
+--> For label ORG, picked entity California, picked instance ['California', '13', 'BALTIMORE', '0']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Michael', 'Schumacher', "'s", 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa-Francorchamps', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.'][0m
+[33mPrompt 0: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 3: ['GROZNY', ',', 'Russia', '1996-08-23'][0m
+[33mPrompt 3: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 6: ['1.', 'Jacques', 'Villeneuve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50.574'][0m
+[33mPrompt 6: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 9: ['Singapore', 'Refining', 'Company', 'expected', 'to', 'shut', 'CDU', '3', '.'][0m
+[33mPrompt 9: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 12: ['Although', 'five', 'days', 'of', 'the', 'ban', 'were', 'suspended', 'until', 'January', '1', ',', 'Weaver', 'will', 'miss', 'next', 'month', "'s", 'big', 'St', 'Leger', 'meeting', ',', 'including', 'the', 'ride', 'on', 'top', 'stayer', 'Double', 'Trigger', 'in', 'the', 'Doncaster', 'Cup', '.'][0m
+[33mPrompt 12: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 15: ['But', 'one', 'source', ',', 'the', 'head', 'of', 'a', 'Hong', 'Kong', 'trading', 'house', ',', 'said', 'it', 'made', 'no', 'difference', 'if', 'the', 'copper', 'was', 'customs', 'cleared', 'or', 'not', '.'][0m
+[33mPrompt 15: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 18: ['Yorkshire', '529-8', 'declared'][0m
+[33mPrompt 18: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 21: ['Police', 'spokesman', 'Roger', 'Grimwade', 'said', 'the', 'six', 'or', 'seven', 'hijackers', 'remained', 'on', 'board', 'the', 'aircraft', ',', 'which', 'arrived', 'from', 'Cyprus', 'at', '4.30', 'a.m.', '(', '0330', 'GMT', ')', '.'][0m
+[33mPrompt 21: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 24: ['Sidhu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one-day', 'international', 'against', 'England', 'at', 'Old', 'Trafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three-test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'Azharuddin', '.'][0m
+[33mPrompt 24: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 27: ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South'][0m
+[33mPrompt 27: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_30_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 30
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-PER': 1, 'E-PER': 2, 'O': 3, 'S-MISC': 4, 'B-MISC': 5, 'I-MISC': 6, 'E-MISC': 7, 'S-LOC': 8, 'S-ORG': 9, 'B-ORG': 10, 'I-ORG': 11, 'E-ORG': 12, 'S-PER': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label PER, picked entity Peter Hedblom, picked instance ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South']
+--> For label MISC, picked entity Australian, picked instance ['Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'tabulate', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':']
+--> For label LOC, picked entity Russia, picked instance ['GROZNY', ',', 'Russia', '1996-08-23']
+--> For label ORG, picked entity California, picked instance ['California', '13', 'BALTIMORE', '0']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Michael', 'Schumacher', "'s", 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa-Francorchamps', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.'][0m
+[33mPrompt 0: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 3: ['GROZNY', ',', 'Russia', '1996-08-23'][0m
+[33mPrompt 3: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 6: ['1.', 'Jacques', 'Villeneuve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50.574'][0m
+[33mPrompt 6: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 9: ['Singapore', 'Refining', 'Company', 'expected', 'to', 'shut', 'CDU', '3', '.'][0m
+[33mPrompt 9: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 12: ['Although', 'five', 'days', 'of', 'the', 'ban', 'were', 'suspended', 'until', 'January', '1', ',', 'Weaver', 'will', 'miss', 'next', 'month', "'s", 'big', 'St', 'Leger', 'meeting', ',', 'including', 'the', 'ride', 'on', 'top', 'stayer', 'Double', 'Trigger', 'in', 'the', 'Doncaster', 'Cup', '.'][0m
+[33mPrompt 12: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 15: ['But', 'one', 'source', ',', 'the', 'head', 'of', 'a', 'Hong', 'Kong', 'trading', 'house', ',', 'said', 'it', 'made', 'no', 'difference', 'if', 'the', 'copper', 'was', 'customs', 'cleared', 'or', 'not', '.'][0m
+[33mPrompt 15: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 18: ['Yorkshire', '529-8', 'declared'][0m
+[33mPrompt 18: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 21: ['Police', 'spokesman', 'Roger', 'Grimwade', 'said', 'the', 'six', 'or', 'seven', 'hijackers', 'remained', 'on', 'board', 'the', 'aircraft', ',', 'which', 'arrived', 'from', 'Cyprus', 'at', '4.30', 'a.m.', '(', '0330', 'GMT', ')', '.'][0m
+[33mPrompt 21: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 24: ['Sidhu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one-day', 'international', 'against', 'England', 'at', 'Old', 'Trafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three-test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'Azharuddin', '.'][0m
+[33mPrompt 24: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 27: ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South'][0m
+[33mPrompt 27: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label PER, picked entity Peter Hedblom, picked instance ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South']
+--> For label MISC, picked entity Australian, picked instance ['Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'tabulate', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':']
+--> For label LOC, picked entity Russia, picked instance ['GROZNY', ',', 'Russia', '1996-08-23']
+--> For label ORG, picked entity California, picked instance ['California', '13', 'BALTIMORE', '0']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label PER, picked entity Peter Hedblom, picked instance ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South']
+--> For label MISC, picked entity Australian, picked instance ['Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'tabulate', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':']
+--> For label LOC, picked entity Russia, picked instance ['GROZNY', ',', 'Russia', '1996-08-23']
+--> For label ORG, picked entity California, picked instance ['California', '13', 'BALTIMORE', '0']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'Australian', 'rugby', 'league', 'premiership', 'standings', 'after', 'matches', 'played', 'at', 'the', 'weekend', '(', 'ta', '##bula', '##te', 'under', 'played', ',', 'won', ',', 'drawn', ',', 'lost', ',', 'points', 'for', ',', 'against', ',', 'total', 'points', ')', ':', 'Australian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'California', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 8
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/5555_fixed_random_basic_30_2021_42.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1700.89260, Time is 3.68s
+[34m[dev set Total] Prec.: 2.40, Rec.: 0.45, F1: 0.76[0m
+saving the best model...
+Epoch 2: 804.13264, Time is 2.63s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 3: 537.18800, Time is 2.83s
+[34m[dev set Total] Prec.: 34.03, Rec.: 2.73, F1: 5.05[0m
+saving the best model...
+Epoch 4: 411.88049, Time is 2.74s
+[34m[dev set Total] Prec.: 27.04, Rec.: 16.76, F1: 20.69[0m
+saving the best model...
+Epoch 5: 334.23816, Time is 3.02s
+[34m[dev set Total] Prec.: 20.83, Rec.: 23.68, F1: 22.16[0m
+saving the best model...
+Epoch 6: 263.51270, Time is 3.42s
+[34m[dev set Total] Prec.: 29.42, Rec.: 32.45, F1: 30.86[0m
+saving the best model...
+Epoch 7: 214.20452, Time is 3.40s
+[34m[dev set Total] Prec.: 36.16, Rec.: 37.12, F1: 36.63[0m
+saving the best model...
+Epoch 8: 176.43985, Time is 2.44s
+[34m[dev set Total] Prec.: 38.45, Rec.: 40.23, F1: 39.32[0m
+saving the best model...
+Epoch 9: 146.13162, Time is 2.97s
+[34m[dev set Total] Prec.: 39.55, Rec.: 40.69, F1: 40.11[0m
+saving the best model...
+Epoch 10: 115.64636, Time is 1.50s
+[34m[dev set Total] Prec.: 41.01, Rec.: 42.44, F1: 41.71[0m
+saving the best model...
+Epoch 11: 91.79267, Time is 1.96s
+[34m[dev set Total] Prec.: 40.52, Rec.: 43.58, F1: 42.00[0m
+saving the best model...
+Epoch 12: 74.82959, Time is 2.42s
+[34m[dev set Total] Prec.: 45.54, Rec.: 47.46, F1: 46.48[0m
+saving the best model...
+Epoch 13: 58.74002, Time is 1.48s
+[34m[dev set Total] Prec.: 49.69, Rec.: 50.34, F1: 50.01[0m
+saving the best model...
+Epoch 14: 42.75450, Time is 2.27s
+[34m[dev set Total] Prec.: 48.74, Rec.: 50.76, F1: 49.73[0m
+Epoch 15: 32.53024, Time is 3.28s
+[34m[dev set Total] Prec.: 48.88, Rec.: 51.95, F1: 50.37[0m
+saving the best model...
+Epoch 16: 22.68851, Time is 3.33s
+[34m[dev set Total] Prec.: 50.08, Rec.: 54.31, F1: 52.11[0m
+saving the best model...
+Epoch 17: 17.87068, Time is 3.17s
+[34m[dev set Total] Prec.: 51.79, Rec.: 54.66, F1: 53.19[0m
+saving the best model...
+Epoch 18: 13.14581, Time is 3.24s
+[34m[dev set Total] Prec.: 53.35, Rec.: 55.62, F1: 54.46[0m
+saving the best model...
+Epoch 19: 9.49011, Time is 3.17s
+[34m[dev set Total] Prec.: 52.87, Rec.: 56.70, F1: 54.72[0m
+saving the best model...
+Epoch 20: 7.74619, Time is 3.24s
+[34m[dev set Total] Prec.: 53.27, Rec.: 57.28, F1: 55.20[0m
+saving the best model...
+Epoch 21: 6.02579, Time is 3.13s
+[34m[dev set Total] Prec.: 54.52, Rec.: 57.85, F1: 56.13[0m
+saving the best model...
+Epoch 22: 4.56444, Time is 3.17s
+[34m[dev set Total] Prec.: 54.46, Rec.: 58.45, F1: 56.39[0m
+saving the best model...
+Epoch 23: 3.83981, Time is 2.90s
+[34m[dev set Total] Prec.: 53.92, Rec.: 58.37, F1: 56.06[0m
+Epoch 24: 3.21950, Time is 2.71s
+[34m[dev set Total] Prec.: 54.91, Rec.: 59.45, F1: 57.09[0m
+saving the best model...
+Epoch 25: 2.55013, Time is 2.95s
+[34m[dev set Total] Prec.: 52.65, Rec.: 57.73, F1: 55.07[0m
+Epoch 26: 2.15637, Time is 2.69s
+[34m[dev set Total] Prec.: 53.94, Rec.: 59.43, F1: 56.55[0m
+Epoch 27: 1.68922, Time is 2.94s
+[34m[dev set Total] Prec.: 55.15, Rec.: 61.20, F1: 58.02[0m
+saving the best model...
+Epoch 28: 1.47266, Time is 3.08s
+[34m[dev set Total] Prec.: 54.98, Rec.: 60.79, F1: 57.74[0m
+Epoch 29: 1.31400, Time is 3.06s
+[34m[dev set Total] Prec.: 54.82, Rec.: 60.39, F1: 57.47[0m
+Epoch 30: 1.08096, Time is 3.09s
+[34m[dev set Total] Prec.: 54.69, Rec.: 60.59, F1: 57.49[0m
+Epoch 31: 0.99692, Time is 3.18s
+[34m[dev set Total] Prec.: 54.60, Rec.: 60.49, F1: 57.39[0m
+Epoch 32: 0.85809, Time is 2.81s
+[34m[dev set Total] Prec.: 54.35, Rec.: 59.55, F1: 56.83[0m
+Epoch 33: 0.78226, Time is 2.28s
+[34m[dev set Total] Prec.: 54.93, Rec.: 60.04, F1: 57.37[0m
+Epoch 34: 0.69617, Time is 2.29s
+[34m[dev set Total] Prec.: 54.90, Rec.: 60.41, F1: 57.52[0m
+Epoch 35: 0.62091, Time is 2.56s
+[34m[dev set Total] Prec.: 54.37, Rec.: 59.97, F1: 57.04[0m
+Epoch 36: 0.57469, Time is 2.50s
+[34m[dev set Total] Prec.: 54.98, Rec.: 60.66, F1: 57.68[0m
+Epoch 37: 0.54199, Time is 3.26s
+[34m[dev set Total] Prec.: 55.37, Rec.: 61.10, F1: 58.09[0m
+saving the best model...
+Epoch 38: 0.47617, Time is 3.31s
+[34m[dev set Total] Prec.: 55.26, Rec.: 60.64, F1: 57.82[0m
+Epoch 39: 0.48590, Time is 3.04s
+[34m[dev set Total] Prec.: 55.23, Rec.: 60.83, F1: 57.89[0m
+Epoch 40: 0.45697, Time is 2.20s
+[34m[dev set Total] Prec.: 55.35, Rec.: 60.81, F1: 57.95[0m
+Epoch 41: 0.43362, Time is 3.31s
+[34m[dev set Total] Prec.: 55.43, Rec.: 60.79, F1: 57.99[0m
+Epoch 42: 0.42664, Time is 2.19s
+[34m[dev set Total] Prec.: 55.38, Rec.: 60.90, F1: 58.01[0m
+Epoch 43: 0.38382, Time is 2.33s
+[34m[dev set Total] Prec.: 55.58, Rec.: 61.15, F1: 58.23[0m
+saving the best model...
+Epoch 44: 0.38992, Time is 3.14s
+[34m[dev set Total] Prec.: 55.84, Rec.: 61.23, F1: 58.41[0m
+saving the best model...
+Epoch 45: 0.38022, Time is 2.76s
+[34m[dev set Total] Prec.: 55.73, Rec.: 61.18, F1: 58.33[0m
+Epoch 46: 0.36496, Time is 2.76s
+[34m[dev set Total] Prec.: 55.79, Rec.: 61.30, F1: 58.41[0m
+saving the best model...
+Epoch 47: 0.36078, Time is 3.12s
+[34m[dev set Total] Prec.: 55.78, Rec.: 61.35, F1: 58.43[0m
+saving the best model...
+Epoch 48: 0.36340, Time is 3.46s
+[34m[dev set Total] Prec.: 55.67, Rec.: 61.33, F1: 58.37[0m
+Epoch 49: 0.37852, Time is 3.21s
+[34m[dev set Total] Prec.: 55.67, Rec.: 61.37, F1: 58.38[0m
+Epoch 50: 0.37535, Time is 3.25s
+[34m[dev set Total] Prec.: 55.63, Rec.: 61.33, F1: 58.34[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 58.43
+Final testing.
+[34m[test set Total] Prec.: 51.27, Rec.: 59.44, F1: 55.05[0m

@@ -1,0 +1,360 @@
+device: cuda:0
+seed: 42
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 30_5555
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/42_fixed_random_basic_30_5555_42
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 42
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_30_5555.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_30_5555.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 30
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'B-ORG': 2, 'I-ORG': 3, 'E-ORG': 4, 'S-LOC': 5, 'B-PER': 6, 'E-PER': 7, 'S-MISC': 8, 'I-PER': 9, 'B-MISC': 10, 'I-MISC': 11, 'E-MISC': 12, 'S-ORG': 13, 'S-PER': 14, 'B-LOC': 15, 'E-LOC': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label ORG, picked entity Oxford, picked instance ['Oxford', '2', '1', '0', '1', '6', '2', '3']
+--> For label LOC, picked entity West Bank, picked instance ['A', 'West', 'Bank', 'bookseller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli-PLO', 'self-rule', 'deals', '.']
+--> For label PER, picked entity Jan Van Eijden, picked instance ['The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'Eijden', ',', 'in', '1:04.541', '.']
+--> For label MISC, picked entity British, picked instance ['"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'goverment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Siraj', 'Mia', ',', '"', 'Under-Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['The', 'Palestinian', 'Legislative', 'Council', 'on', 'Wednesday', 'called', 'for', 'a', 'halt', 'to', 'contacts', 'with', 'Israel', ',', 'just', 'hours', 'after', 'President', 'Yasser', 'Arafat', 'said', 'the', 'Jewish', 'state', 'had', 'effectively', 'declared', 'war', 'on', 'the', 'Palestinians', 'by', 'pursuing', 'its', 'hardline', 'policies', '.'][0m
+[33mPrompt 0: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 3: ['A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'s", 'opening', 'phase', 'of', 'the', 'world', 'championship', '1,000', 'Lakes', 'Rally', '.'][0m
+[33mPrompt 3: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 6: ['Queens', 'Park', 'Rangers', '2', '2', '0', '0', '4', '2', '6'][0m
+[33mPrompt 6: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 9: ['A', 'West', 'Bank', 'bookseller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli-PLO', 'self-rule', 'deals', '.'][0m
+[33mPrompt 9: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 12: ['In', 'Toronto', ',', 'Pat', 'Hentgen', 'tossed', 'a', 'five-hitter', 'for', 'his', 'fifth', 'consecutive', 'complete', 'game', 'and', 'three', 'players', 'drove', 'in', 'two', 'runs', 'apiece', 'as', 'the', 'Toronto', 'Blue', 'Jays', 'defeated', 'the', 'Minnesota', 'Twins', '6-1', 'for', 'their', 'ninth', 'win', 'in', '11', 'games', '.'][0m
+[33mPrompt 12: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 15: ['Wasim', 'Akram', '(', 'Pakistan', ')', '300', ',', '70'][0m
+[33mPrompt 15: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 18: ['Result', 'of', 'a', 'French', 'first', 'division'][0m
+[33mPrompt 18: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 21: ['--', 'Joyce', 'Liu', '(', '2-5080815', ')'][0m
+[33mPrompt 21: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 24: ['8.', 'Mark', 'Richardson', '(', 'Britain', ')', '45.67'][0m
+[33mPrompt 24: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 27: ['CHICAGO', '1996-08-27'][0m
+[33mPrompt 27: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_30_5555.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 30
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'B-ORG': 2, 'I-ORG': 3, 'E-ORG': 4, 'S-LOC': 5, 'B-PER': 6, 'E-PER': 7, 'S-MISC': 8, 'I-PER': 9, 'B-MISC': 10, 'I-MISC': 11, 'E-MISC': 12, 'S-ORG': 13, 'S-PER': 14, 'B-LOC': 15, 'E-LOC': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label ORG, picked entity Oxford, picked instance ['Oxford', '2', '1', '0', '1', '6', '2', '3']
+--> For label LOC, picked entity West Bank, picked instance ['A', 'West', 'Bank', 'bookseller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli-PLO', 'self-rule', 'deals', '.']
+--> For label PER, picked entity Jan Van Eijden, picked instance ['The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'Eijden', ',', 'in', '1:04.541', '.']
+--> For label MISC, picked entity British, picked instance ['"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'goverment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Siraj', 'Mia', ',', '"', 'Under-Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['The', 'Palestinian', 'Legislative', 'Council', 'on', 'Wednesday', 'called', 'for', 'a', 'halt', 'to', 'contacts', 'with', 'Israel', ',', 'just', 'hours', 'after', 'President', 'Yasser', 'Arafat', 'said', 'the', 'Jewish', 'state', 'had', 'effectively', 'declared', 'war', 'on', 'the', 'Palestinians', 'by', 'pursuing', 'its', 'hardline', 'policies', '.'][0m
+[33mPrompt 0: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 3: ['A', 'Belgian', 'man', 'died', 'and', '31', 'people', 'were', 'injured', 'after', 'an', 'accident', 'in', 'Friday', "'s", 'opening', 'phase', 'of', 'the', 'world', 'championship', '1,000', 'Lakes', 'Rally', '.'][0m
+[33mPrompt 3: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 6: ['Queens', 'Park', 'Rangers', '2', '2', '0', '0', '4', '2', '6'][0m
+[33mPrompt 6: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 9: ['A', 'West', 'Bank', 'bookseller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli-PLO', 'self-rule', 'deals', '.'][0m
+[33mPrompt 9: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 12: ['In', 'Toronto', ',', 'Pat', 'Hentgen', 'tossed', 'a', 'five-hitter', 'for', 'his', 'fifth', 'consecutive', 'complete', 'game', 'and', 'three', 'players', 'drove', 'in', 'two', 'runs', 'apiece', 'as', 'the', 'Toronto', 'Blue', 'Jays', 'defeated', 'the', 'Minnesota', 'Twins', '6-1', 'for', 'their', 'ninth', 'win', 'in', '11', 'games', '.'][0m
+[33mPrompt 12: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 15: ['Wasim', 'Akram', '(', 'Pakistan', ')', '300', ',', '70'][0m
+[33mPrompt 15: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 18: ['Result', 'of', 'a', 'French', 'first', 'division'][0m
+[33mPrompt 18: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 21: ['--', 'Joyce', 'Liu', '(', '2-5080815', ')'][0m
+[33mPrompt 21: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 24: ['8.', 'Mark', 'Richardson', '(', 'Britain', ')', '45.67'][0m
+[33mPrompt 24: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 27: ['CHICAGO', '1996-08-27'][0m
+[33mPrompt 27: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label ORG, picked entity Oxford, picked instance ['Oxford', '2', '1', '0', '1', '6', '2', '3']
+--> For label LOC, picked entity West Bank, picked instance ['A', 'West', 'Bank', 'bookseller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli-PLO', 'self-rule', 'deals', '.']
+--> For label PER, picked entity Jan Van Eijden, picked instance ['The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'Eijden', ',', 'in', '1:04.541', '.']
+--> For label MISC, picked entity British, picked instance ['"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'goverment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Siraj', 'Mia', ',', '"', 'Under-Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label ORG, picked entity Oxford, picked instance ['Oxford', '2', '1', '0', '1', '6', '2', '3']
+--> For label LOC, picked entity West Bank, picked instance ['A', 'West', 'Bank', 'bookseller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli-PLO', 'self-rule', 'deals', '.']
+--> For label PER, picked entity Jan Van Eijden, picked instance ['The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'Eijden', ',', 'in', '1:04.541', '.']
+--> For label MISC, picked entity British, picked instance ['"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'goverment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Siraj', 'Mia', ',', '"', 'Under-Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['Oxford', '2', '1', '0', '1', '6', '2', '3', 'Oxford', 'is', 'ORG', '.', '[SEP]', 'A', 'West', 'Bank', 'books', '##eller', 'charged', 'on', 'Thursday', 'that', 'the', 'Palestinian', 'Information', 'Ministry', 'has', 'forced', 'him', 'to', 'sign', 'an', 'undertaking', 'not', 'to', 'distribute', 'books', 'written', 'by', 'critics', 'of', 'Israeli', '-', 'P', '##L', '##O', 'self', '-', 'rule', 'deals', '.', 'West', 'Bank', 'is', 'LOC', '.', '[SEP]', 'The', 'bronze', 'medal', 'went', 'to', 'another', 'German', ',', 'Jan', 'Van', 'E', '##i', '##j', '##den', ',', 'in', '1', ':', '04', '.', '54', '##1', '.', 'Jan', 'Van', 'E', '##i', '##j', '##den', 'is', 'PER', '.', '[SEP]', '"', 'I', 'have', 'told', 'Bangladesh', 'leaders', 'that', 'British', 'go', '##ver', '##ment', 'has', 'attached', 'serious', 'importance', 'to', 'the', 'resolution', 'of', 'the', 'tragic', 'death', 'of', 'Sir', '##aj', 'Mia', ',', '"', 'Under', '-', 'Secretary', 'of', 'State', 'for', 'Foreign', 'and', 'Commonwealth', 'Affairs', 'Liam', 'Fox', 'Fox', ',', 'told', 'reporters', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 8
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/42_fixed_random_basic_30_5555_42.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1780.82283, Time is 5.47s
+[34m[dev set Total] Prec.: 1.19, Rec.: 4.01, F1: 1.84[0m
+saving the best model...
+Epoch 2: 842.72071, Time is 4.14s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 3: 589.24364, Time is 4.48s
+[34m[dev set Total] Prec.: 1.19, Rec.: 0.71, F1: 0.89[0m
+Epoch 4: 455.82233, Time is 3.80s
+[34m[dev set Total] Prec.: 7.24, Rec.: 6.08, F1: 6.61[0m
+saving the best model...
+Epoch 5: 385.47520, Time is 2.99s
+[34m[dev set Total] Prec.: 15.81, Rec.: 13.02, F1: 14.28[0m
+saving the best model...
+Epoch 6: 314.47037, Time is 4.20s
+[34m[dev set Total] Prec.: 26.10, Rec.: 20.92, F1: 23.22[0m
+saving the best model...
+Epoch 7: 257.58891, Time is 3.58s
+[34m[dev set Total] Prec.: 35.74, Rec.: 25.56, F1: 29.81[0m
+saving the best model...
+Epoch 8: 205.82471, Time is 4.62s
+[34m[dev set Total] Prec.: 35.63, Rec.: 30.43, F1: 32.83[0m
+saving the best model...
+Epoch 9: 168.01196, Time is 3.03s
+[34m[dev set Total] Prec.: 41.00, Rec.: 32.05, F1: 35.98[0m
+saving the best model...
+Epoch 10: 130.99963, Time is 3.09s
+[34m[dev set Total] Prec.: 44.50, Rec.: 35.37, F1: 39.41[0m
+saving the best model...
+Epoch 11: 102.36691, Time is 4.12s
+[34m[dev set Total] Prec.: 52.01, Rec.: 45.59, F1: 48.59[0m
+saving the best model...
+Epoch 12: 79.46056, Time is 4.10s
+[34m[dev set Total] Prec.: 51.84, Rec.: 46.62, F1: 49.09[0m
+saving the best model...
+Epoch 13: 60.50169, Time is 4.30s
+[34m[dev set Total] Prec.: 50.64, Rec.: 51.43, F1: 51.03[0m
+saving the best model...
+Epoch 14: 48.72345, Time is 4.57s
+[34m[dev set Total] Prec.: 55.43, Rec.: 54.88, F1: 55.16[0m
+saving the best model...
+Epoch 15: 37.65109, Time is 4.35s
+[34m[dev set Total] Prec.: 55.31, Rec.: 56.74, F1: 56.01[0m
+saving the best model...
+Epoch 16: 29.49675, Time is 4.08s
+[34m[dev set Total] Prec.: 61.03, Rec.: 57.83, F1: 59.39[0m
+saving the best model...
+Epoch 17: 23.14484, Time is 4.49s
+[34m[dev set Total] Prec.: 60.00, Rec.: 58.88, F1: 59.43[0m
+saving the best model...
+Epoch 18: 17.47639, Time is 3.55s
+[34m[dev set Total] Prec.: 58.26, Rec.: 60.14, F1: 59.19[0m
+Epoch 19: 13.40249, Time is 3.41s
+[34m[dev set Total] Prec.: 59.23, Rec.: 62.09, F1: 60.63[0m
+saving the best model...
+Epoch 20: 10.09476, Time is 2.55s
+[34m[dev set Total] Prec.: 62.57, Rec.: 63.29, F1: 62.93[0m
+saving the best model...
+Epoch 21: 7.76994, Time is 3.68s
+[34m[dev set Total] Prec.: 60.24, Rec.: 61.91, F1: 61.06[0m
+Epoch 22: 5.82025, Time is 4.47s
+[34m[dev set Total] Prec.: 62.01, Rec.: 62.85, F1: 62.43[0m
+Epoch 23: 4.36111, Time is 3.48s
+[34m[dev set Total] Prec.: 63.86, Rec.: 63.66, F1: 63.76[0m
+saving the best model...
+Epoch 24: 3.13046, Time is 3.29s
+[34m[dev set Total] Prec.: 64.92, Rec.: 64.42, F1: 64.67[0m
+saving the best model...
+Epoch 25: 3.05028, Time is 3.35s
+[34m[dev set Total] Prec.: 65.07, Rec.: 65.44, F1: 65.26[0m
+saving the best model...
+Epoch 26: 2.23868, Time is 3.52s
+[34m[dev set Total] Prec.: 65.10, Rec.: 64.74, F1: 64.92[0m
+Epoch 27: 1.70111, Time is 4.26s
+[34m[dev set Total] Prec.: 64.21, Rec.: 65.78, F1: 64.99[0m
+Epoch 28: 1.39819, Time is 4.24s
+[34m[dev set Total] Prec.: 65.70, Rec.: 66.15, F1: 65.92[0m
+saving the best model...
+Epoch 29: 1.20673, Time is 4.55s
+[34m[dev set Total] Prec.: 65.48, Rec.: 65.80, F1: 65.64[0m
+Epoch 30: 1.01724, Time is 4.22s
+[34m[dev set Total] Prec.: 66.67, Rec.: 66.92, F1: 66.80[0m
+saving the best model...
+Epoch 31: 1.05252, Time is 4.20s
+[34m[dev set Total] Prec.: 66.20, Rec.: 67.53, F1: 66.86[0m
+saving the best model...
+Epoch 32: 0.79800, Time is 3.66s
+[34m[dev set Total] Prec.: 65.34, Rec.: 66.82, F1: 66.07[0m
+Epoch 33: 0.68787, Time is 3.45s
+[34m[dev set Total] Prec.: 65.18, Rec.: 66.57, F1: 65.87[0m
+Epoch 34: 0.62195, Time is 3.75s
+[34m[dev set Total] Prec.: 66.04, Rec.: 66.94, F1: 66.49[0m
+Epoch 35: 0.57239, Time is 4.00s
+[34m[dev set Total] Prec.: 65.61, Rec.: 66.87, F1: 66.24[0m
+Epoch 36: 0.53323, Time is 4.18s
+[34m[dev set Total] Prec.: 65.02, Rec.: 66.44, F1: 65.72[0m
+Epoch 37: 0.49057, Time is 4.29s
+[34m[dev set Total] Prec.: 65.48, Rec.: 66.71, F1: 66.09[0m
+Epoch 38: 0.48903, Time is 3.79s
+[34m[dev set Total] Prec.: 66.61, Rec.: 67.35, F1: 66.97[0m
+saving the best model...
+Epoch 39: 0.43668, Time is 4.26s
+[34m[dev set Total] Prec.: 67.12, Rec.: 67.62, F1: 67.37[0m
+saving the best model...
+Epoch 40: 0.41083, Time is 3.73s
+[34m[dev set Total] Prec.: 66.53, Rec.: 67.77, F1: 67.15[0m
+Epoch 41: 0.39386, Time is 2.73s
+[34m[dev set Total] Prec.: 66.13, Rec.: 67.88, F1: 66.99[0m
+Epoch 42: 0.38849, Time is 2.75s
+[34m[dev set Total] Prec.: 66.26, Rec.: 67.82, F1: 67.03[0m
+Epoch 43: 0.37027, Time is 4.04s
+[34m[dev set Total] Prec.: 66.94, Rec.: 67.77, F1: 67.35[0m
+Epoch 44: 0.36594, Time is 4.43s
+[34m[dev set Total] Prec.: 67.04, Rec.: 67.78, F1: 67.41[0m
+saving the best model...
+Epoch 45: 0.36188, Time is 3.99s
+[34m[dev set Total] Prec.: 67.08, Rec.: 67.92, F1: 67.50[0m
+saving the best model...
+Epoch 46: 0.33728, Time is 3.88s
+[34m[dev set Total] Prec.: 67.14, Rec.: 67.99, F1: 67.56[0m
+saving the best model...
+Epoch 47: 0.35202, Time is 3.92s
+[34m[dev set Total] Prec.: 67.10, Rec.: 67.94, F1: 67.51[0m
+Epoch 48: 0.32646, Time is 4.51s
+[34m[dev set Total] Prec.: 67.07, Rec.: 67.90, F1: 67.48[0m
+Epoch 49: 0.33188, Time is 4.51s
+[34m[dev set Total] Prec.: 67.02, Rec.: 67.90, F1: 67.46[0m
+Epoch 50: 0.32932, Time is 3.96s
+[34m[dev set Total] Prec.: 67.04, Rec.: 67.94, F1: 67.49[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 67.56
+Final testing.
+[34m[test set Total] Prec.: 65.97, Rec.: 67.65, F1: 66.80[0m

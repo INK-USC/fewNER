@@ -1,0 +1,358 @@
+device: cuda:0
+seed: 1337
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 50_9999
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/5555_fixed_random_basic_50_9999_1337
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 5555
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_50_9999.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_50_9999.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-MISC': 1, 'E-MISC': 2, 'O': 3, 'B-PER': 4, 'E-PER': 5, 'B-LOC': 6, 'I-LOC': 7, 'E-LOC': 8, 'S-MISC': 9, 'S-ORG': 10, 'S-LOC': 11, 'B-ORG': 12, 'E-ORG': 13, 'I-PER': 14, 'I-ORG': 15, 'S-PER': 16, 'I-MISC': 17, '<START>': 18, '<STOP>': 19}
+--> For label MISC, picked entity Etruscan, picked instance ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'separatist', 'leader', 'Umberto', 'Bossi', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'Etruscan', 'town', 'of', 'Orvieto', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.']
+--> For label PER, picked entity Vierklau, picked instance ['Vitesse', 'Arnhem', '1', '(', 'Vierklau', '85th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard']
+--> For label LOC, picked entity Seaford Union, picked instance ['--', 'Seaford', 'Union', 'Free', 'School', 'District', ',', 'N.Y.', ',', '$', '5', 'million', 'school', 'bonds', '.']
+--> For label ORG, picked entity Real Madrid, picked instance ['The', 'venue', 'of', 'Atletico', "'s", 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'s", 'Santiago', 'Bernabeu', 'a', 'distinct', 'possibility', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CENTRAL', 'DIVISION'][0m
+[33mPrompt 0: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 5: ['Recriminations', 'built', 'up', 'over', 'how', 'the', 'scandal', "'s", 'central', 'figure', ',', 'convicted', 'child', 'rapist', 'Marc', 'Dutroux', ',', 'managed', 'to', 'prey', 'on', 'children', 'unhindered', 'for', 'so', 'long', '.'][0m
+[33mPrompt 5: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 10: ['"', 'Coming', 'just', 'a', 'million', 'guilders', 'under', 'the', 'forecast', 'range', 'is', "n't", 'overwhelmingly', 'surprising', ',', '"', 'said', 'ING', 'analyst', 'Steven', 'Vrolijk', ',', 'who', 'is', 'continuing', 'to', 'look', 'for', 'a', 'nine', 'to', '10', 'percent', 'rise', 'in', '1996', 'earnings', '.'][0m
+[33mPrompt 10: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 15: ['--', 'Dimitris', 'Kontogiannis', ',', 'Athens', 'Newsroom', '+301', '3311812-4'][0m
+[33mPrompt 15: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Chairman', 'Mohamed', 'Fahim', 'Rayyan', 'told', 'a', 'news', 'conference', 'at', 'Cairo', 'airport', ':', '"', 'The', 'control', 'tower', 'should', 'have', 'allocated', 'the', 'plane', 'another', 'runway', ',', 'instead', 'of', 'the', 'one', 'the', 'plane', 'landed', 'on', '.', '"'][0m
+[33mPrompt 20: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 25: ['Vitesse', 'Arnhem', '1', '(', 'Vierklau', '85th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard'][0m
+[33mPrompt 25: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 30: ['At', 'Headingley', ':', 'Yorkshire', '305-5', '(', 'C.', 'White', '66', 'not', 'out', ',', 'M.', 'Moxon'][0m
+[33mPrompt 30: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 35: ['Thousands', 'in', 'Calcutta', ',', 'where', 'she', 'founded', 'her', 'Missionaries', 'of', 'Charity', 'religious', 'order', 'in', '1949', ',', 'prayed', 'for', 'her', 'recovery', '.'][0m
+[33mPrompt 35: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 40: ['Richard', 'Finn'][0m
+[33mPrompt 40: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 45: ['It', 'took', 'Martinez', 'four', 'Opens', 'to', 'get', 'as', 'far', 'as', 'the', 'quarters', ',', 'and', 'another', 'four', 'to', 'match', 'that', '.'][0m
+[33mPrompt 45: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_50_9999.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-MISC': 1, 'E-MISC': 2, 'O': 3, 'B-PER': 4, 'E-PER': 5, 'B-LOC': 6, 'I-LOC': 7, 'E-LOC': 8, 'S-MISC': 9, 'S-ORG': 10, 'S-LOC': 11, 'B-ORG': 12, 'E-ORG': 13, 'I-PER': 14, 'I-ORG': 15, 'S-PER': 16, 'I-MISC': 17, '<START>': 18, '<STOP>': 19}
+--> For label MISC, picked entity Etruscan, picked instance ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'separatist', 'leader', 'Umberto', 'Bossi', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'Etruscan', 'town', 'of', 'Orvieto', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.']
+--> For label PER, picked entity Vierklau, picked instance ['Vitesse', 'Arnhem', '1', '(', 'Vierklau', '85th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard']
+--> For label LOC, picked entity Seaford Union, picked instance ['--', 'Seaford', 'Union', 'Free', 'School', 'District', ',', 'N.Y.', ',', '$', '5', 'million', 'school', 'bonds', '.']
+--> For label ORG, picked entity Real Madrid, picked instance ['The', 'venue', 'of', 'Atletico', "'s", 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'s", 'Santiago', 'Bernabeu', 'a', 'distinct', 'possibility', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CENTRAL', 'DIVISION'][0m
+[33mPrompt 0: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 5: ['Recriminations', 'built', 'up', 'over', 'how', 'the', 'scandal', "'s", 'central', 'figure', ',', 'convicted', 'child', 'rapist', 'Marc', 'Dutroux', ',', 'managed', 'to', 'prey', 'on', 'children', 'unhindered', 'for', 'so', 'long', '.'][0m
+[33mPrompt 5: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 10: ['"', 'Coming', 'just', 'a', 'million', 'guilders', 'under', 'the', 'forecast', 'range', 'is', "n't", 'overwhelmingly', 'surprising', ',', '"', 'said', 'ING', 'analyst', 'Steven', 'Vrolijk', ',', 'who', 'is', 'continuing', 'to', 'look', 'for', 'a', 'nine', 'to', '10', 'percent', 'rise', 'in', '1996', 'earnings', '.'][0m
+[33mPrompt 10: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 15: ['--', 'Dimitris', 'Kontogiannis', ',', 'Athens', 'Newsroom', '+301', '3311812-4'][0m
+[33mPrompt 15: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Chairman', 'Mohamed', 'Fahim', 'Rayyan', 'told', 'a', 'news', 'conference', 'at', 'Cairo', 'airport', ':', '"', 'The', 'control', 'tower', 'should', 'have', 'allocated', 'the', 'plane', 'another', 'runway', ',', 'instead', 'of', 'the', 'one', 'the', 'plane', 'landed', 'on', '.', '"'][0m
+[33mPrompt 20: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 25: ['Vitesse', 'Arnhem', '1', '(', 'Vierklau', '85th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard'][0m
+[33mPrompt 25: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 30: ['At', 'Headingley', ':', 'Yorkshire', '305-5', '(', 'C.', 'White', '66', 'not', 'out', ',', 'M.', 'Moxon'][0m
+[33mPrompt 30: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 35: ['Thousands', 'in', 'Calcutta', ',', 'where', 'she', 'founded', 'her', 'Missionaries', 'of', 'Charity', 'religious', 'order', 'in', '1949', ',', 'prayed', 'for', 'her', 'recovery', '.'][0m
+[33mPrompt 35: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 40: ['Richard', 'Finn'][0m
+[33mPrompt 40: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 45: ['It', 'took', 'Martinez', 'four', 'Opens', 'to', 'get', 'as', 'far', 'as', 'the', 'quarters', ',', 'and', 'another', 'four', 'to', 'match', 'that', '.'][0m
+[33mPrompt 45: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label MISC, picked entity Etruscan, picked instance ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'separatist', 'leader', 'Umberto', 'Bossi', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'Etruscan', 'town', 'of', 'Orvieto', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.']
+--> For label PER, picked entity Vierklau, picked instance ['Vitesse', 'Arnhem', '1', '(', 'Vierklau', '85th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard']
+--> For label LOC, picked entity Seaford Union, picked instance ['--', 'Seaford', 'Union', 'Free', 'School', 'District', ',', 'N.Y.', ',', '$', '5', 'million', 'school', 'bonds', '.']
+--> For label ORG, picked entity Real Madrid, picked instance ['The', 'venue', 'of', 'Atletico', "'s", 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'s", 'Santiago', 'Bernabeu', 'a', 'distinct', 'possibility', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label MISC, picked entity Etruscan, picked instance ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'separatist', 'leader', 'Umberto', 'Bossi', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'Etruscan', 'town', 'of', 'Orvieto', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.']
+--> For label PER, picked entity Vierklau, picked instance ['Vitesse', 'Arnhem', '1', '(', 'Vierklau', '85th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard']
+--> For label LOC, picked entity Seaford Union, picked instance ['--', 'Seaford', 'Union', 'Free', 'School', 'District', ',', 'N.Y.', ',', '$', '5', 'million', 'school', 'bonds', '.']
+--> For label ORG, picked entity Real Madrid, picked instance ['The', 'venue', 'of', 'Atletico', "'s", 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'s", 'Santiago', 'Bernabeu', 'a', 'distinct', 'possibility', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['A', 'group', 'of', 'Italian', 'comics', 'hope', 'the', 'joke', 'will', 'be', 'on', 'se', '##par', '##ati', '##st', 'leader', 'Um', '##berto', 'Boss', '##i', 'next', 'month', 'when', 'they', 'lead', 'the', 'ancient', 'E', '##tr', '##us', '##can', 'town', 'of', 'Or', '##vie', '##to', 'in', 'a', 'mock', 'split', 'from', 'Rome', '.', 'E', '##tr', '##us', '##can', 'is', 'MISC', '.', '[SEP]', 'V', '##ites', '##se', 'A', '##rn', '##hem', '1', '(', 'V', '##ier', '##kla', '##u', '85', '##th', ')', 'Sparta', 'Rotterdam', '1', '(', 'Gerard', 'V', '##ier', '##kla', '##u', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Real', 'Madrid', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 13
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/5555_fixed_random_basic_50_9999_1337.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1665.12802, Time is 6.87s
+[34m[dev set Total] Prec.: 30.23, Rec.: 0.22, F1: 0.43[0m
+saving the best model...
+Epoch 2: 907.33889, Time is 6.63s
+[34m[dev set Total] Prec.: 22.50, Rec.: 7.02, F1: 10.70[0m
+saving the best model...
+Epoch 3: 678.58678, Time is 7.21s
+[34m[dev set Total] Prec.: 25.37, Rec.: 24.15, F1: 24.74[0m
+saving the best model...
+Epoch 4: 515.49172, Time is 6.43s
+[34m[dev set Total] Prec.: 28.15, Rec.: 29.25, F1: 28.69[0m
+saving the best model...
+Epoch 5: 404.98477, Time is 5.09s
+[34m[dev set Total] Prec.: 44.57, Rec.: 42.30, F1: 43.41[0m
+saving the best model...
+Epoch 6: 300.90761, Time is 6.74s
+[34m[dev set Total] Prec.: 45.30, Rec.: 46.30, F1: 45.79[0m
+saving the best model...
+Epoch 7: 235.21402, Time is 6.51s
+[34m[dev set Total] Prec.: 48.63, Rec.: 49.43, F1: 49.03[0m
+saving the best model...
+Epoch 8: 175.93735, Time is 4.38s
+[34m[dev set Total] Prec.: 51.88, Rec.: 54.18, F1: 53.00[0m
+saving the best model...
+Epoch 9: 127.91304, Time is 6.40s
+[34m[dev set Total] Prec.: 55.50, Rec.: 56.89, F1: 56.19[0m
+saving the best model...
+Epoch 10: 92.39126, Time is 6.76s
+[34m[dev set Total] Prec.: 63.16, Rec.: 61.87, F1: 62.51[0m
+saving the best model...
+Epoch 11: 62.32968, Time is 6.58s
+[34m[dev set Total] Prec.: 64.10, Rec.: 64.20, F1: 64.15[0m
+saving the best model...
+Epoch 12: 42.23761, Time is 6.57s
+[34m[dev set Total] Prec.: 63.90, Rec.: 65.49, F1: 64.69[0m
+saving the best model...
+Epoch 13: 30.63885, Time is 5.96s
+[34m[dev set Total] Prec.: 66.80, Rec.: 66.49, F1: 66.64[0m
+saving the best model...
+Epoch 14: 19.45009, Time is 4.19s
+[34m[dev set Total] Prec.: 66.40, Rec.: 67.48, F1: 66.93[0m
+saving the best model...
+Epoch 15: 13.91632, Time is 4.06s
+[34m[dev set Total] Prec.: 66.85, Rec.: 68.54, F1: 67.69[0m
+saving the best model...
+Epoch 16: 8.45737, Time is 4.41s
+[34m[dev set Total] Prec.: 67.88, Rec.: 68.63, F1: 68.25[0m
+saving the best model...
+Epoch 17: 5.38086, Time is 5.56s
+[34m[dev set Total] Prec.: 67.15, Rec.: 68.74, F1: 67.94[0m
+Epoch 18: 3.32309, Time is 6.14s
+[34m[dev set Total] Prec.: 67.86, Rec.: 68.76, F1: 68.31[0m
+saving the best model...
+Epoch 19: 2.26886, Time is 6.77s
+[34m[dev set Total] Prec.: 68.86, Rec.: 69.11, F1: 68.99[0m
+saving the best model...
+Epoch 20: 1.55161, Time is 6.94s
+[34m[dev set Total] Prec.: 70.18, Rec.: 68.54, F1: 69.35[0m
+saving the best model...
+Epoch 21: 1.13492, Time is 6.22s
+[34m[dev set Total] Prec.: 68.53, Rec.: 70.19, F1: 69.35[0m
+Epoch 22: 0.81731, Time is 6.01s
+[34m[dev set Total] Prec.: 69.70, Rec.: 68.95, F1: 69.32[0m
+Epoch 23: 0.65179, Time is 6.01s
+[34m[dev set Total] Prec.: 68.83, Rec.: 70.48, F1: 69.65[0m
+saving the best model...
+Epoch 24: 0.52881, Time is 6.70s
+[34m[dev set Total] Prec.: 69.63, Rec.: 69.33, F1: 69.48[0m
+Epoch 25: 0.44672, Time is 5.34s
+[34m[dev set Total] Prec.: 71.00, Rec.: 69.30, F1: 70.14[0m
+saving the best model...
+Epoch 26: 0.38076, Time is 6.67s
+[34m[dev set Total] Prec.: 70.63, Rec.: 69.82, F1: 70.22[0m
+saving the best model...
+Epoch 27: 0.35349, Time is 6.77s
+[34m[dev set Total] Prec.: 70.10, Rec.: 70.04, F1: 70.07[0m
+Epoch 28: 0.31897, Time is 6.51s
+[34m[dev set Total] Prec.: 70.27, Rec.: 70.46, F1: 70.37[0m
+saving the best model...
+Epoch 29: 0.30276, Time is 6.24s
+[34m[dev set Total] Prec.: 70.12, Rec.: 70.24, F1: 70.18[0m
+Epoch 30: 0.27280, Time is 5.86s
+[34m[dev set Total] Prec.: 70.82, Rec.: 70.38, F1: 70.60[0m
+saving the best model...
+Epoch 31: 0.26495, Time is 5.00s
+[34m[dev set Total] Prec.: 70.83, Rec.: 70.21, F1: 70.52[0m
+Epoch 32: 0.26271, Time is 5.75s
+[34m[dev set Total] Prec.: 71.00, Rec.: 70.16, F1: 70.57[0m
+Epoch 33: 0.25327, Time is 6.47s
+[34m[dev set Total] Prec.: 70.57, Rec.: 69.20, F1: 69.88[0m
+Epoch 34: 0.24631, Time is 7.20s
+[34m[dev set Total] Prec.: 71.61, Rec.: 69.25, F1: 70.41[0m
+Epoch 35: 0.22983, Time is 5.18s
+[34m[dev set Total] Prec.: 72.59, Rec.: 69.52, F1: 71.02[0m
+saving the best model...
+Epoch 36: 0.21652, Time is 5.09s
+[34m[dev set Total] Prec.: 72.53, Rec.: 69.75, F1: 71.11[0m
+saving the best model...
+Epoch 37: 0.21158, Time is 6.30s
+[34m[dev set Total] Prec.: 71.59, Rec.: 69.48, F1: 70.52[0m
+Epoch 38: 0.20264, Time is 6.00s
+[34m[dev set Total] Prec.: 71.48, Rec.: 69.47, F1: 70.46[0m
+Epoch 39: 0.19600, Time is 4.62s
+[34m[dev set Total] Prec.: 71.94, Rec.: 70.07, F1: 70.99[0m
+Epoch 40: 0.19586, Time is 3.85s
+[34m[dev set Total] Prec.: 71.63, Rec.: 69.94, F1: 70.77[0m
+Epoch 41: 0.19275, Time is 4.36s
+[34m[dev set Total] Prec.: 71.27, Rec.: 69.55, F1: 70.40[0m
+Epoch 42: 0.18842, Time is 5.68s
+[34m[dev set Total] Prec.: 71.13, Rec.: 69.45, F1: 70.28[0m
+Epoch 43: 0.18123, Time is 5.46s
+[34m[dev set Total] Prec.: 71.17, Rec.: 69.52, F1: 70.34[0m
+Epoch 44: 0.18475, Time is 4.66s
+[34m[dev set Total] Prec.: 71.31, Rec.: 69.54, F1: 70.41[0m
+Epoch 45: 0.17902, Time is 5.21s
+[34m[dev set Total] Prec.: 71.42, Rec.: 69.55, F1: 70.47[0m
+Epoch 46: 0.18069, Time is 5.48s
+[34m[dev set Total] Prec.: 71.33, Rec.: 69.60, F1: 70.46[0m
+Epoch 47: 0.18088, Time is 5.79s
+[34m[dev set Total] Prec.: 71.44, Rec.: 69.75, F1: 70.59[0m
+Epoch 48: 0.17435, Time is 5.57s
+[34m[dev set Total] Prec.: 71.55, Rec.: 69.75, F1: 70.64[0m
+Epoch 49: 0.17422, Time is 5.71s
+[34m[dev set Total] Prec.: 71.54, Rec.: 69.75, F1: 70.63[0m
+Epoch 50: 0.17499, Time is 3.89s
+[34m[dev set Total] Prec.: 71.56, Rec.: 69.74, F1: 70.64[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 71.11
+Final testing.
+[34m[test set Total] Prec.: 71.84, Rec.: 68.64, F1: 70.20[0m

@@ -1,0 +1,391 @@
+device: cuda:0
+seed: 42
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 15_9999
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/5555_fixed_random_basic_15_9999_42
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 5555
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_15_9999.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_15_9999.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 15
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'B-PER': 2, 'E-PER': 3, 'B-LOC': 4, 'I-LOC': 5, 'E-LOC': 6, 'I-PER': 7, 'S-ORG': 8, 'S-LOC': 9, 'B-ORG': 10, 'I-ORG': 11, 'E-ORG': 12, 'B-MISC': 13, 'E-MISC': 14, 'S-MISC': 15, 'S-PER': 16, 'I-MISC': 17, '<START>': 18, '<STOP>': 19}
+--> For label PER, picked entity Michael Chang, picked instance ['1', '-', 'Michael', 'Chang', '(', 'U.S.', ')', 'beat', 'Sergi', 'Bruguera', '(', 'Spain', ')', '6-3', '6-2']
+--> For label LOC, picked entity Seaford Union, picked instance ['--', 'Seaford', 'Union', 'Free', 'School', 'District', ',', 'N.Y.', ',', '$', '5', 'million', 'school', 'bonds', '.']
+--> For label ORG, picked entity Scarborough, picked instance ['Rochdale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Torquay', 'v', 'Exeter', ',', 'Wigan', 'v']
+--> For label MISC, picked entity Nepali, picked instance ['Elephants', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['The', 'girl', ',', 'Abyss', 'DeJesus', ',', 'suffers', 'from', 'a', '"', 'hairy', 'nevus', '"', 'on', 'the', 'right', 'side', 'of', 'her', 'face', ',', 'a', 'condition', 'that', 'has', 'only', 'been', 'reported', 'a', 'few', 'times', 'in', 'medical', 'journals', ',', 'the', 'St.', 'Christopher', 'Children', "'s", 'Hospital', 'said', '.'][0m
+[33mPrompt 0: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1: ['Hurte', 'Sierd', 'Zylstra', 'and', 'his', 'wife', ',', 'Jetsi', 'Hendrika', 'Coers', ',', 'both', '50', ',', 'were', 'abducted', 'from', 'the', 'teak', 'plantation', 'they', 'managed', 'late', 'Saturday', 'or', 'early', 'Sunday', 'by', 'at', 'least', 'two', 'men', 'demanding', '$', '1.5', 'million', 'ransom', ',', 'authorities', 'said', '.'][0m
+[33mPrompt 1: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2: ['Rochdale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Torquay', 'v', 'Exeter', ',', 'Wigan', 'v'][0m
+[33mPrompt 2: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 3: ['A.', 'Stewart', 'not', 'out', '40'][0m
+[33mPrompt 3: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 4: ['--', 'Seaford', 'Union', 'Free', 'School', 'District', ',', 'N.Y.', ',', '$', '5', 'million', 'school', 'bonds', '.'][0m
+[33mPrompt 4: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 5: ['"', 'Coming', 'just', 'a', 'million', 'guilders', 'under', 'the', 'forecast', 'range', 'is', "n't", 'overwhelmingly', 'surprising', ',', '"', 'said', 'ING', 'analyst', 'Steven', 'Vrolijk', ',', 'who', 'is', 'continuing', 'to', 'look', 'for', 'a', 'nine', 'to', '10', 'percent', 'rise', 'in', '1996', 'earnings', '.'][0m
+[33mPrompt 5: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 6: ['In', 'Houston', ',', 'Andy', 'Benes', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run-scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St.', 'Louis', 'Cardinals', 'to', 'a', '3-2', 'victory', 'over', 'the', 'Houston', 'Astros', '.'][0m
+[33mPrompt 6: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 7: ['WESTERN', 'DIVISION'][0m
+[33mPrompt 7: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 8: ['Elephants', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.'][0m
+[33mPrompt 8: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 9: ['1', '-', 'Michael', 'Chang', '(', 'U.S.', ')', 'beat', 'Sergi', 'Bruguera', '(', 'Spain', ')', '6-3', '6-2'][0m
+[33mPrompt 9: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 10: ['--', 'Dimitris', 'Kontogiannis', ',', 'Athens', 'Newsroom', '+301', '3311812-4'][0m
+[33mPrompt 10: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 11: ['He', 'added', ':', '"', 'It', "'s", 'very', 'sad', 'to', 'beat', 'Henry', 'Candy', 'because', 'I', 'am', 'godfather', 'to', 'his', 'daughter', '.', '"'][0m
+[33mPrompt 11: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 12: ['Mauritania', 'v', 'Benin', 'postponed', 'to', 'Friday'][0m
+[33mPrompt 12: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 13: ['His', 'supporters', 'will', 'contest', 'the', 'parliamentary', 'election', 'in', 'a', 'coalition', 'of', '30', 'mainly', 'small', 'parties', ',', 'the', 'Republican', 'Front', ',', 'led', 'by', 'Deby', "'s", 'Patriotic', 'Salvation', 'Movement', '.'][0m
+[33mPrompt 13: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 14: ['Word', 'of', 'the', 'findings', ',', 'to', 'be', 'published', 'in', 'the', 'Oct.', '1', 'issue', 'of', 'the', 'journal', '"', 'Human', 'Gene', 'Therapy', ',', '"', 'came', 'in', 'advance', 'of', 'the', 'annual', 'Jerry', 'Lewis', 'Labour', 'Day', 'weekend', 'telethon', 'to', 'raise', 'money', 'for', 'muscular', 'dystrophy', 'research', '.'][0m
+[33mPrompt 14: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_15_9999.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 15
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'B-PER': 2, 'E-PER': 3, 'B-LOC': 4, 'I-LOC': 5, 'E-LOC': 6, 'I-PER': 7, 'S-ORG': 8, 'S-LOC': 9, 'B-ORG': 10, 'I-ORG': 11, 'E-ORG': 12, 'B-MISC': 13, 'E-MISC': 14, 'S-MISC': 15, 'S-PER': 16, 'I-MISC': 17, '<START>': 18, '<STOP>': 19}
+--> For label PER, picked entity Michael Chang, picked instance ['1', '-', 'Michael', 'Chang', '(', 'U.S.', ')', 'beat', 'Sergi', 'Bruguera', '(', 'Spain', ')', '6-3', '6-2']
+--> For label LOC, picked entity Seaford Union, picked instance ['--', 'Seaford', 'Union', 'Free', 'School', 'District', ',', 'N.Y.', ',', '$', '5', 'million', 'school', 'bonds', '.']
+--> For label ORG, picked entity Scarborough, picked instance ['Rochdale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Torquay', 'v', 'Exeter', ',', 'Wigan', 'v']
+--> For label MISC, picked entity Nepali, picked instance ['Elephants', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['The', 'girl', ',', 'Abyss', 'DeJesus', ',', 'suffers', 'from', 'a', '"', 'hairy', 'nevus', '"', 'on', 'the', 'right', 'side', 'of', 'her', 'face', ',', 'a', 'condition', 'that', 'has', 'only', 'been', 'reported', 'a', 'few', 'times', 'in', 'medical', 'journals', ',', 'the', 'St.', 'Christopher', 'Children', "'s", 'Hospital', 'said', '.'][0m
+[33mPrompt 0: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1: ['Hurte', 'Sierd', 'Zylstra', 'and', 'his', 'wife', ',', 'Jetsi', 'Hendrika', 'Coers', ',', 'both', '50', ',', 'were', 'abducted', 'from', 'the', 'teak', 'plantation', 'they', 'managed', 'late', 'Saturday', 'or', 'early', 'Sunday', 'by', 'at', 'least', 'two', 'men', 'demanding', '$', '1.5', 'million', 'ransom', ',', 'authorities', 'said', '.'][0m
+[33mPrompt 1: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2: ['Rochdale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Torquay', 'v', 'Exeter', ',', 'Wigan', 'v'][0m
+[33mPrompt 2: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 3: ['A.', 'Stewart', 'not', 'out', '40'][0m
+[33mPrompt 3: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 4: ['--', 'Seaford', 'Union', 'Free', 'School', 'District', ',', 'N.Y.', ',', '$', '5', 'million', 'school', 'bonds', '.'][0m
+[33mPrompt 4: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 5: ['"', 'Coming', 'just', 'a', 'million', 'guilders', 'under', 'the', 'forecast', 'range', 'is', "n't", 'overwhelmingly', 'surprising', ',', '"', 'said', 'ING', 'analyst', 'Steven', 'Vrolijk', ',', 'who', 'is', 'continuing', 'to', 'look', 'for', 'a', 'nine', 'to', '10', 'percent', 'rise', 'in', '1996', 'earnings', '.'][0m
+[33mPrompt 5: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 6: ['In', 'Houston', ',', 'Andy', 'Benes', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run-scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St.', 'Louis', 'Cardinals', 'to', 'a', '3-2', 'victory', 'over', 'the', 'Houston', 'Astros', '.'][0m
+[33mPrompt 6: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 7: ['WESTERN', 'DIVISION'][0m
+[33mPrompt 7: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 8: ['Elephants', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.'][0m
+[33mPrompt 8: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 9: ['1', '-', 'Michael', 'Chang', '(', 'U.S.', ')', 'beat', 'Sergi', 'Bruguera', '(', 'Spain', ')', '6-3', '6-2'][0m
+[33mPrompt 9: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 10: ['--', 'Dimitris', 'Kontogiannis', ',', 'Athens', 'Newsroom', '+301', '3311812-4'][0m
+[33mPrompt 10: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 11: ['He', 'added', ':', '"', 'It', "'s", 'very', 'sad', 'to', 'beat', 'Henry', 'Candy', 'because', 'I', 'am', 'godfather', 'to', 'his', 'daughter', '.', '"'][0m
+[33mPrompt 11: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 12: ['Mauritania', 'v', 'Benin', 'postponed', 'to', 'Friday'][0m
+[33mPrompt 12: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 13: ['His', 'supporters', 'will', 'contest', 'the', 'parliamentary', 'election', 'in', 'a', 'coalition', 'of', '30', 'mainly', 'small', 'parties', ',', 'the', 'Republican', 'Front', ',', 'led', 'by', 'Deby', "'s", 'Patriotic', 'Salvation', 'Movement', '.'][0m
+[33mPrompt 13: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 14: ['Word', 'of', 'the', 'findings', ',', 'to', 'be', 'published', 'in', 'the', 'Oct.', '1', 'issue', 'of', 'the', 'journal', '"', 'Human', 'Gene', 'Therapy', ',', '"', 'came', 'in', 'advance', 'of', 'the', 'annual', 'Jerry', 'Lewis', 'Labour', 'Day', 'weekend', 'telethon', 'to', 'raise', 'money', 'for', 'muscular', 'dystrophy', 'research', '.'][0m
+[33mPrompt 14: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label PER, picked entity Michael Chang, picked instance ['1', '-', 'Michael', 'Chang', '(', 'U.S.', ')', 'beat', 'Sergi', 'Bruguera', '(', 'Spain', ')', '6-3', '6-2']
+--> For label LOC, picked entity Seaford Union, picked instance ['--', 'Seaford', 'Union', 'Free', 'School', 'District', ',', 'N.Y.', ',', '$', '5', 'million', 'school', 'bonds', '.']
+--> For label ORG, picked entity Scarborough, picked instance ['Rochdale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Torquay', 'v', 'Exeter', ',', 'Wigan', 'v']
+--> For label MISC, picked entity Nepali, picked instance ['Elephants', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label PER, picked entity Michael Chang, picked instance ['1', '-', 'Michael', 'Chang', '(', 'U.S.', ')', 'beat', 'Sergi', 'Bruguera', '(', 'Spain', ')', '6-3', '6-2']
+--> For label LOC, picked entity Seaford Union, picked instance ['--', 'Seaford', 'Union', 'Free', 'School', 'District', ',', 'N.Y.', ',', '$', '5', 'million', 'school', 'bonds', '.']
+--> For label ORG, picked entity Scarborough, picked instance ['Rochdale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Torquay', 'v', 'Exeter', ',', 'Wigan', 'v']
+--> For label MISC, picked entity Nepali, picked instance ['Elephants', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['1', '-', 'Michael', 'Chang', '(', 'U', '.', 'S', '.', ')', 'beat', 'Ser', '##gi', 'B', '##rug', '##uer', '##a', '(', 'Spain', ')', '6', '-', '3', '6', '-', '2', 'Michael', 'Chang', 'is', 'PER', '.', '[SEP]', '-', '-', 'Sea', '##ford', 'Union', 'Free', 'School', 'District', ',', 'N', '.', 'Y', '.', ',', '$', '5', 'million', 'school', 'bonds', '.', 'Sea', '##ford', 'Union', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Scarborough', 'is', 'ORG', '.', '[SEP]', 'Elephant', '##s', 'are', 'protected', 'under', 'Nepali', 'law', ',', 'which', 'provides', 'for', 'jail', 'sentences', 'of', 'up', 'to', '15', 'years', 'for', 'convicted', 'elephant', 'killers', '.', 'Nepali', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 4
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/5555_fixed_random_basic_15_9999_42.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1259.04567, Time is 3.32s
+[34m[dev set Total] Prec.: 1.18, Rec.: 3.92, F1: 1.82[0m
+saving the best model...
+Epoch 2: 953.60388, Time is 2.54s
+[34m[dev set Total] Prec.: 0.51, Rec.: 1.75, F1: 0.79[0m
+Epoch 3: 582.86581, Time is 2.36s
+[34m[dev set Total] Prec.: 2.54, Rec.: 2.73, F1: 2.63[0m
+saving the best model...
+Epoch 4: 378.80647, Time is 2.03s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 5: 323.67426, Time is 1.84s
+[34m[dev set Total] Prec.: 1.52, Rec.: 0.10, F1: 0.19[0m
+Epoch 6: 262.86096, Time is 1.86s
+[34m[dev set Total] Prec.: 7.61, Rec.: 2.96, F1: 4.27[0m
+saving the best model...
+Epoch 7: 223.99702, Time is 1.75s
+[34m[dev set Total] Prec.: 13.48, Rec.: 7.07, F1: 9.28[0m
+saving the best model...
+Epoch 8: 187.59387, Time is 2.57s
+[34m[dev set Total] Prec.: 17.90, Rec.: 10.71, F1: 13.40[0m
+saving the best model...
+Epoch 9: 159.75534, Time is 2.11s
+[34m[dev set Total] Prec.: 23.83, Rec.: 13.34, F1: 17.10[0m
+saving the best model...
+Epoch 10: 136.74454, Time is 2.25s
+[34m[dev set Total] Prec.: 29.78, Rec.: 16.72, F1: 21.42[0m
+saving the best model...
+Epoch 11: 115.24313, Time is 2.38s
+[34m[dev set Total] Prec.: 40.62, Rec.: 25.75, F1: 31.52[0m
+saving the best model...
+Epoch 12: 94.39642, Time is 2.32s
+[34m[dev set Total] Prec.: 46.64, Rec.: 34.81, F1: 39.86[0m
+saving the best model...
+Epoch 13: 80.08057, Time is 2.18s
+[34m[dev set Total] Prec.: 47.49, Rec.: 39.95, F1: 43.39[0m
+saving the best model...
+Epoch 14: 66.76544, Time is 2.31s
+[34m[dev set Total] Prec.: 46.65, Rec.: 42.89, F1: 44.69[0m
+saving the best model...
+Epoch 15: 57.22310, Time is 2.14s
+[34m[dev set Total] Prec.: 47.19, Rec.: 44.26, F1: 45.68[0m
+saving the best model...
+Epoch 16: 44.50284, Time is 2.34s
+[34m[dev set Total] Prec.: 48.06, Rec.: 45.20, F1: 46.59[0m
+saving the best model...
+Epoch 17: 38.16122, Time is 2.55s
+[34m[dev set Total] Prec.: 47.55, Rec.: 45.52, F1: 46.52[0m
+Epoch 18: 32.50159, Time is 2.61s
+[34m[dev set Total] Prec.: 47.90, Rec.: 46.38, F1: 47.13[0m
+saving the best model...
+Epoch 19: 27.69781, Time is 2.42s
+[34m[dev set Total] Prec.: 48.02, Rec.: 47.34, F1: 47.68[0m
+saving the best model...
+Epoch 20: 22.51807, Time is 2.05s
+[34m[dev set Total] Prec.: 47.97, Rec.: 47.78, F1: 47.87[0m
+saving the best model...
+Epoch 21: 19.26239, Time is 2.11s
+[34m[dev set Total] Prec.: 47.71, Rec.: 47.98, F1: 47.85[0m
+Epoch 22: 16.00006, Time is 2.37s
+[34m[dev set Total] Prec.: 47.71, Rec.: 48.06, F1: 47.89[0m
+saving the best model...
+Epoch 23: 13.80975, Time is 2.44s
+[34m[dev set Total] Prec.: 47.60, Rec.: 47.81, F1: 47.71[0m
+Epoch 24: 11.85690, Time is 1.98s
+[34m[dev set Total] Prec.: 47.51, Rec.: 47.24, F1: 47.37[0m
+Epoch 25: 10.93146, Time is 2.03s
+[34m[dev set Total] Prec.: 48.34, Rec.: 47.71, F1: 48.02[0m
+saving the best model...
+Epoch 26: 9.03378, Time is 2.36s
+[34m[dev set Total] Prec.: 48.93, Rec.: 48.27, F1: 48.60[0m
+saving the best model...
+Epoch 27: 7.51779, Time is 2.21s
+[34m[dev set Total] Prec.: 48.81, Rec.: 48.65, F1: 48.73[0m
+saving the best model...
+Epoch 28: 6.58688, Time is 2.18s
+[34m[dev set Total] Prec.: 48.45, Rec.: 48.92, F1: 48.68[0m
+Epoch 29: 5.90482, Time is 2.60s
+[34m[dev set Total] Prec.: 48.54, Rec.: 49.02, F1: 48.78[0m
+saving the best model...
+Epoch 30: 5.29999, Time is 2.23s
+[34m[dev set Total] Prec.: 48.47, Rec.: 48.69, F1: 48.58[0m
+Epoch 31: 4.61240, Time is 2.23s
+[34m[dev set Total] Prec.: 48.59, Rec.: 48.62, F1: 48.61[0m
+Epoch 32: 4.30960, Time is 2.75s
+[34m[dev set Total] Prec.: 48.41, Rec.: 48.82, F1: 48.61[0m
+Epoch 33: 3.74561, Time is 2.47s
+[34m[dev set Total] Prec.: 48.30, Rec.: 48.85, F1: 48.58[0m
+Epoch 34: 3.24316, Time is 2.25s
+[34m[dev set Total] Prec.: 48.39, Rec.: 49.07, F1: 48.73[0m
+Epoch 35: 3.00034, Time is 1.79s
+[34m[dev set Total] Prec.: 48.72, Rec.: 49.26, F1: 48.99[0m
+saving the best model...
+Epoch 36: 2.72052, Time is 2.35s
+[34m[dev set Total] Prec.: 49.01, Rec.: 49.43, F1: 49.22[0m
+saving the best model...
+Epoch 37: 2.59183, Time is 1.94s
+[34m[dev set Total] Prec.: 49.10, Rec.: 49.46, F1: 49.28[0m
+saving the best model...
+Epoch 38: 2.46130, Time is 1.71s
+[34m[dev set Total] Prec.: 49.03, Rec.: 49.38, F1: 49.20[0m
+Epoch 39: 2.09698, Time is 2.49s
+[34m[dev set Total] Prec.: 49.02, Rec.: 49.39, F1: 49.21[0m
+Epoch 40: 2.19519, Time is 2.32s
+[34m[dev set Total] Prec.: 48.96, Rec.: 49.31, F1: 49.13[0m
+Epoch 41: 2.08722, Time is 1.90s
+[34m[dev set Total] Prec.: 48.97, Rec.: 49.26, F1: 49.11[0m
+Epoch 42: 1.79358, Time is 2.29s
+[34m[dev set Total] Prec.: 49.28, Rec.: 49.43, F1: 49.35[0m
+saving the best model...
+Epoch 43: 2.03650, Time is 2.61s
+[34m[dev set Total] Prec.: 49.44, Rec.: 49.39, F1: 49.42[0m
+saving the best model...
+Epoch 44: 1.70990, Time is 2.51s
+[34m[dev set Total] Prec.: 49.59, Rec.: 49.44, F1: 49.52[0m
+saving the best model...
+Epoch 45: 1.78577, Time is 2.08s
+[34m[dev set Total] Prec.: 49.58, Rec.: 49.51, F1: 49.54[0m
+saving the best model...
+Epoch 46: 1.47992, Time is 2.14s
+[34m[dev set Total] Prec.: 49.63, Rec.: 49.60, F1: 49.61[0m
+saving the best model...
+Epoch 47: 1.58710, Time is 2.53s
+[34m[dev set Total] Prec.: 49.58, Rec.: 49.56, F1: 49.57[0m
+Epoch 48: 1.65924, Time is 2.51s
+[34m[dev set Total] Prec.: 49.55, Rec.: 49.61, F1: 49.58[0m
+Epoch 49: 1.54553, Time is 2.24s
+[34m[dev set Total] Prec.: 49.52, Rec.: 49.66, F1: 49.59[0m
+Epoch 50: 1.55762, Time is 2.17s
+[34m[dev set Total] Prec.: 49.51, Rec.: 49.65, F1: 49.58[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 49.61
+Final testing.
+[34m[test set Total] Prec.: 46.60, Rec.: 46.77, F1: 46.68[0m

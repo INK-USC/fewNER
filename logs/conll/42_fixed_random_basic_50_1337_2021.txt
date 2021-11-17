@@ -1,0 +1,319 @@
+device: cuda:0
+seed: 2021
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 50_1337
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/42_fixed_random_basic_50_1337_2021
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 42
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_50_1337.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_50_1337.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'B-ORG': 2, 'E-ORG': 3, 'B-LOC': 4, 'E-LOC': 5, 'S-ORG': 6, 'B-PER': 7, 'E-PER': 8, 'B-MISC': 9, 'E-MISC': 10, 'I-ORG': 11, 'S-PER': 12, 'I-MISC': 13, 'S-LOC': 14, 'I-PER': 15, 'S-MISC': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label ORG, picked entity Perugia, picked instance ['Nocerina', "'s", '4-3', 'defeat', 'of', 'Piacenza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'serie', 'A', 'newcomers', 'Perugia', 'to', 'be', 'delayed', '.']
+--> For label LOC, picked entity Western Ukraine, picked instance ['The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.']
+--> For label PER, picked entity Wasim Akram, picked instance ['A.', 'Mullally', 'b', 'Wasim', 'Akram', '0']
+--> For label MISC, picked entity MAJOR LEAGUE, picked instance ['BASEBALL', '-', 'MAJOR', 'LEAGUE', 'STANDINGS', 'AFTER', 'MONDAY', "'S", 'GAMES', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['--', 'Sydney', 'Newsroom', '61-2', '9373-1800'][0m
+[33mPrompt 0: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 5: ['Preston', '0', 'Bristol', 'Rovers', '0'][0m
+[33mPrompt 5: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 10: ['The', 'scored', 'stayed', 'level', 'to', 'the', 'final', 'minutes', 'but', 'with', 'a', 'penalty', 'shoot', 'out', 'looming', ',', 'Batistuta', 'took', 'charge', '.'][0m
+[33mPrompt 10: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 15: ['"', 'The', 'ultimatum', '(', 'to', 'storm', 'Grozny', ')', 'is', 'no', 'longer', 'an', 'issue', ',', '"', 'he', 'said', 'quoting', 'Ischinger', ',', 'who', 'had', 'been', 'sent', 'to', 'Moscow', 'by', 'German', 'Foreign', 'Minister', 'Klaus', 'Kinkel', 'as', 'his', 'personal', 'envoy', 'to', 'urge', 'an', 'end', 'to', 'Moscow', "'s", 'military', 'campaign', 'in', 'the', 'breakaway', 'region', '.'][0m
+[33mPrompt 15: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Painted', 'parrot', 'scam', 'lands', 'Australian', 'in', 'jail', '.'][0m
+[33mPrompt 20: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 25: ['CENTRAL', 'DIVISION'][0m
+[33mPrompt 25: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 30: ['Oakland', '6', 'NEW', 'YORK', '4'][0m
+[33mPrompt 30: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 35: ['Results', 'of', 'Australian', 'Rules'][0m
+[33mPrompt 35: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 40: ['SUGO', ',', 'Japan', '1996-08-25'][0m
+[33mPrompt 40: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 45: ['Hansa', 'Rostock', 'brought', 'Cologne', "'s", '100', 'percent', 'record', 'to', 'an', 'end', 'with', 'a', '2-0', 'win', 'over', 'the', 'Rhineside', 'club', 'while', 'a', 'Sean', 'Dundee', 'hat-trick', 'inside', 'seven', 'minutes', 'stood', 'out', 'in', 'Karlsruhe', "'s", '4-0', 'demolition', 'of', 'St', 'Pauli', '.'][0m
+[33mPrompt 45: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_50_1337.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'B-ORG': 2, 'E-ORG': 3, 'B-LOC': 4, 'E-LOC': 5, 'S-ORG': 6, 'B-PER': 7, 'E-PER': 8, 'B-MISC': 9, 'E-MISC': 10, 'I-ORG': 11, 'S-PER': 12, 'I-MISC': 13, 'S-LOC': 14, 'I-PER': 15, 'S-MISC': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label ORG, picked entity Perugia, picked instance ['Nocerina', "'s", '4-3', 'defeat', 'of', 'Piacenza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'serie', 'A', 'newcomers', 'Perugia', 'to', 'be', 'delayed', '.']
+--> For label LOC, picked entity Western Ukraine, picked instance ['The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.']
+--> For label PER, picked entity Wasim Akram, picked instance ['A.', 'Mullally', 'b', 'Wasim', 'Akram', '0']
+--> For label MISC, picked entity MAJOR LEAGUE, picked instance ['BASEBALL', '-', 'MAJOR', 'LEAGUE', 'STANDINGS', 'AFTER', 'MONDAY', "'S", 'GAMES', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['--', 'Sydney', 'Newsroom', '61-2', '9373-1800'][0m
+[33mPrompt 0: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 5: ['Preston', '0', 'Bristol', 'Rovers', '0'][0m
+[33mPrompt 5: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 10: ['The', 'scored', 'stayed', 'level', 'to', 'the', 'final', 'minutes', 'but', 'with', 'a', 'penalty', 'shoot', 'out', 'looming', ',', 'Batistuta', 'took', 'charge', '.'][0m
+[33mPrompt 10: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 15: ['"', 'The', 'ultimatum', '(', 'to', 'storm', 'Grozny', ')', 'is', 'no', 'longer', 'an', 'issue', ',', '"', 'he', 'said', 'quoting', 'Ischinger', ',', 'who', 'had', 'been', 'sent', 'to', 'Moscow', 'by', 'German', 'Foreign', 'Minister', 'Klaus', 'Kinkel', 'as', 'his', 'personal', 'envoy', 'to', 'urge', 'an', 'end', 'to', 'Moscow', "'s", 'military', 'campaign', 'in', 'the', 'breakaway', 'region', '.'][0m
+[33mPrompt 15: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Painted', 'parrot', 'scam', 'lands', 'Australian', 'in', 'jail', '.'][0m
+[33mPrompt 20: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 25: ['CENTRAL', 'DIVISION'][0m
+[33mPrompt 25: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 30: ['Oakland', '6', 'NEW', 'YORK', '4'][0m
+[33mPrompt 30: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 35: ['Results', 'of', 'Australian', 'Rules'][0m
+[33mPrompt 35: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 40: ['SUGO', ',', 'Japan', '1996-08-25'][0m
+[33mPrompt 40: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 45: ['Hansa', 'Rostock', 'brought', 'Cologne', "'s", '100', 'percent', 'record', 'to', 'an', 'end', 'with', 'a', '2-0', 'win', 'over', 'the', 'Rhineside', 'club', 'while', 'a', 'Sean', 'Dundee', 'hat-trick', 'inside', 'seven', 'minutes', 'stood', 'out', 'in', 'Karlsruhe', "'s", '4-0', 'demolition', 'of', 'St', 'Pauli', '.'][0m
+[33mPrompt 45: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label ORG, picked entity Perugia, picked instance ['Nocerina', "'s", '4-3', 'defeat', 'of', 'Piacenza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'serie', 'A', 'newcomers', 'Perugia', 'to', 'be', 'delayed', '.']
+--> For label LOC, picked entity Western Ukraine, picked instance ['The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.']
+--> For label PER, picked entity Wasim Akram, picked instance ['A.', 'Mullally', 'b', 'Wasim', 'Akram', '0']
+--> For label MISC, picked entity MAJOR LEAGUE, picked instance ['BASEBALL', '-', 'MAJOR', 'LEAGUE', 'STANDINGS', 'AFTER', 'MONDAY', "'S", 'GAMES', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label ORG, picked entity Perugia, picked instance ['Nocerina', "'s", '4-3', 'defeat', 'of', 'Piacenza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'serie', 'A', 'newcomers', 'Perugia', 'to', 'be', 'delayed', '.']
+--> For label LOC, picked entity Western Ukraine, picked instance ['The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.']
+--> For label PER, picked entity Wasim Akram, picked instance ['A.', 'Mullally', 'b', 'Wasim', 'Akram', '0']
+--> For label MISC, picked entity MAJOR LEAGUE, picked instance ['BASEBALL', '-', 'MAJOR', 'LEAGUE', 'STANDINGS', 'AFTER', 'MONDAY', "'S", 'GAMES', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['No', '##cer', '##ina', "'", 's', '4', '-', '3', 'defeat', 'of', 'Pi', '##ace', '##nza', 'was', 'also', 'subject', 'to', 'a', 'complaint', ',', 'later', 'removed', ',', 'that', 'forced', 'their', 'second', 'round', 'match', 'against', 'se', '##rie', 'A', 'newcomer', '##s', 'Peru', '##gia', 'to', 'be', 'delayed', '.', 'Peru', '##gia', 'is', 'ORG', '.', '[SEP]', 'The', 'harvest', 'is', 'gathered', 'in', 'the', 'dry', 'areas', ',', 'but', 'rainfall', 'in', 'Western', 'Ukraine', 'has', 'delayed', 'harvesting', 'there', '.', 'Western', 'Ukraine', 'is', 'LOC', '.', '[SEP]', 'A', '.', 'Mu', '##lla', '##lly', 'b', 'Was', '##im', 'A', '##kra', '##m', '0', 'Was', '##im', 'A', '##kra', '##m', 'is', 'PER', '.', '[SEP]', 'BA', '##SE', '##BA', '##LL', '-', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'ST', '##AN', '##DI', '##NG', '##S', 'A', '##FT', '##ER', 'M', '##ON', '##DA', '##Y', "'", 'S', 'GA', '##ME', '##S', '.', 'MA', '##J', '##OR', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 13
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/42_fixed_random_basic_50_1337_2021.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 2105.48067, Time is 4.95s
+[34m[dev set Total] Prec.: 14.29, Rec.: 0.20, F1: 0.40[0m
+saving the best model...
+Epoch 2: 725.12567, Time is 4.25s
+[34m[dev set Total] Prec.: 8.57, Rec.: 6.43, F1: 7.35[0m
+saving the best model...
+Epoch 3: 493.97340, Time is 4.08s
+[34m[dev set Total] Prec.: 14.77, Rec.: 21.15, F1: 17.40[0m
+saving the best model...
+Epoch 4: 378.10338, Time is 4.83s
+[34m[dev set Total] Prec.: 20.49, Rec.: 26.84, F1: 23.24[0m
+saving the best model...
+Epoch 5: 309.03076, Time is 4.98s
+[34m[dev set Total] Prec.: 27.64, Rec.: 30.80, F1: 29.13[0m
+saving the best model...
+Epoch 6: 234.29124, Time is 5.47s
+[34m[dev set Total] Prec.: 34.67, Rec.: 39.17, F1: 36.78[0m
+saving the best model...
+Epoch 7: 177.08835, Time is 5.10s
+[34m[dev set Total] Prec.: 44.52, Rec.: 47.52, F1: 45.97[0m
+saving the best model...
+Epoch 8: 127.12097, Time is 4.99s
+[34m[dev set Total] Prec.: 49.93, Rec.: 52.05, F1: 50.97[0m
+saving the best model...
+Epoch 9: 94.78349, Time is 4.49s
+[34m[dev set Total] Prec.: 51.01, Rec.: 54.11, F1: 52.51[0m
+saving the best model...
+Epoch 10: 66.44429, Time is 3.88s
+[34m[dev set Total] Prec.: 50.50, Rec.: 54.56, F1: 52.45[0m
+Epoch 11: 46.08059, Time is 3.18s
+[34m[dev set Total] Prec.: 57.98, Rec.: 57.93, F1: 57.96[0m
+saving the best model...
+Epoch 12: 32.11377, Time is 3.45s
+[34m[dev set Total] Prec.: 54.51, Rec.: 58.67, F1: 56.51[0m
+Epoch 13: 19.48337, Time is 3.85s
+[34m[dev set Total] Prec.: 55.63, Rec.: 59.65, F1: 57.57[0m
+Epoch 14: 12.02167, Time is 4.53s
+[34m[dev set Total] Prec.: 59.68, Rec.: 60.12, F1: 59.90[0m
+saving the best model...
+Epoch 15: 7.82648, Time is 4.89s
+[34m[dev set Total] Prec.: 55.16, Rec.: 62.24, F1: 58.49[0m
+Epoch 16: 4.48300, Time is 4.36s
+[34m[dev set Total] Prec.: 56.79, Rec.: 60.90, F1: 58.77[0m
+Epoch 17: 3.07239, Time is 4.58s
+[34m[dev set Total] Prec.: 59.54, Rec.: 62.70, F1: 61.08[0m
+saving the best model...
+Epoch 18: 2.05702, Time is 4.43s
+[34m[dev set Total] Prec.: 55.39, Rec.: 60.78, F1: 57.96[0m
+Epoch 19: 1.41628, Time is 4.42s
+[34m[dev set Total] Prec.: 56.78, Rec.: 62.41, F1: 59.46[0m
+Epoch 20: 1.05872, Time is 4.32s
+[34m[dev set Total] Prec.: 57.41, Rec.: 61.37, F1: 59.32[0m
+Epoch 21: 0.80710, Time is 4.42s
+[34m[dev set Total] Prec.: 56.65, Rec.: 61.57, F1: 59.01[0m
+Epoch 22: 0.61160, Time is 3.57s
+[34m[dev set Total] Prec.: 58.12, Rec.: 62.51, F1: 60.24[0m
+Epoch 23: 0.50354, Time is 3.70s
+[34m[dev set Total] Prec.: 57.98, Rec.: 62.56, F1: 60.19[0m
+Epoch 24: 0.43451, Time is 2.79s
+[34m[dev set Total] Prec.: 58.79, Rec.: 61.99, F1: 60.35[0m
+Epoch 25: 0.38214, Time is 2.12s
+[34m[dev set Total] Prec.: 58.66, Rec.: 62.02, F1: 60.29[0m
+Epoch 26: 0.33551, Time is 4.10s
+[34m[dev set Total] Prec.: 57.83, Rec.: 61.97, F1: 59.83[0m
+Epoch 27: 0.30643, Time is 4.67s
+[34m[dev set Total] Prec.: 58.25, Rec.: 61.99, F1: 60.06[0m
+Epoch 28: 0.28372, Time is 4.79s
+[34m[dev set Total] Prec.: 58.37, Rec.: 62.16, F1: 60.21[0m
+Epoch 29: 0.26767, Time is 2.49s
+[34m[dev set Total] Prec.: 57.87, Rec.: 62.45, F1: 60.07[0m
+Epoch 30: 0.26065, Time is 2.92s
+[34m[dev set Total] Prec.: 58.43, Rec.: 62.68, F1: 60.48[0m
+Epoch 31: 0.24298, Time is 4.82s
+[34m[dev set Total] Prec.: 58.76, Rec.: 62.51, F1: 60.58[0m
+Epoch 32: 0.21982, Time is 4.93s
+[34m[dev set Total] Prec.: 58.42, Rec.: 62.70, F1: 60.48[0m
+Epoch 33: 0.22064, Time is 4.80s
+[34m[dev set Total] Prec.: 58.74, Rec.: 62.73, F1: 60.67[0m
+Epoch 34: 0.20682, Time is 4.76s
+[34m[dev set Total] Prec.: 58.68, Rec.: 62.51, F1: 60.53[0m
+Epoch 35: 0.20160, Time is 4.76s
+[34m[dev set Total] Prec.: 59.17, Rec.: 62.60, F1: 60.83[0m
+Epoch 36: 0.19017, Time is 4.32s
+[34m[dev set Total] Prec.: 58.92, Rec.: 62.29, F1: 60.56[0m
+Epoch 37: 0.18282, Time is 3.98s
+[34m[dev set Total] Prec.: 59.30, Rec.: 62.48, F1: 60.85[0m
+early stop because there are 20 epochs not increasing f1 on dev
+Archiving the best Model...
+Finished archiving the models
+The best dev: 61.08
+Final testing.
+[34m[test set Total] Prec.: 58.14, Rec.: 61.78, F1: 59.90[0m

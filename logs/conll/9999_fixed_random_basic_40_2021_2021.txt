@@ -1,0 +1,356 @@
+device: cuda:0
+seed: 2021
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 40_2021
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/9999_fixed_random_basic_40_2021_2021
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 9999
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_40_2021.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_40_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 40
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-ORG': 1, 'E-ORG': 2, 'O': 3, 'S-LOC': 4, 'B-PER': 5, 'E-PER': 6, 'S-PER': 7, 'S-MISC': 8, 'B-MISC': 9, 'I-MISC': 10, 'E-MISC': 11, 'S-ORG': 12, 'I-ORG': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label ORG, picked entity Williams, picked instance ['1.', 'Jacques', 'Villeneuve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50.574']
+--> For label LOC, picked entity Charleston, picked instance ['Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'amputated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'improperly', 'disposed', 'of', 'infectious', 'waste', '.']
+--> For label PER, picked entity Medvedev, picked instance ['"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99.9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', "n't", 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22-year-old', 'Medvedev', '.']
+--> For label MISC, picked entity Lebanese, picked instance ['He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Dynamo', 'Kiev', '5', 'Kremin', 'Kremenchuk', '0'][0m
+[33mPrompt 0: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 4: ['5', '-', 'Gabriela', 'Sabatini', '(', 'Argentina', ')', 'beat', 'Asa', 'Carlsson', '(', 'Sweden', ')'][0m
+[33mPrompt 4: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 8: ['Bedie', 'pardoned', 'two', 'other', 'journalists', 'jailed', 'for', 'incitement', 'to', 'disturb', 'public', 'order', '.'][0m
+[33mPrompt 8: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 12: ['Fiorentina', '-', 'Gabriel', 'Batistuta', '(', '11th', ',', '83rd', ')'][0m
+[33mPrompt 12: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 16: ['1.', 'Jacques', 'Villeneuve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50.574'][0m
+[33mPrompt 16: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 20: ['King', 'Birendra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.'][0m
+[33mPrompt 20: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 24: ['SunGard', 'to', 'buy', 'CheckFree', 'unit', '.'][0m
+[33mPrompt 24: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 28: ['Yorkshire', '529-8', 'declared'][0m
+[33mPrompt 28: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 32: ['CLEVELAND', '76', '51', '.598', '-'][0m
+[33mPrompt 32: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 36: ['HOEK', 'LOOS', 'H1', 'NET', 'PROFIT', '28.9', 'MLN', 'GUILDERS', '.'][0m
+[33mPrompt 36: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_40_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 40
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-ORG': 1, 'E-ORG': 2, 'O': 3, 'S-LOC': 4, 'B-PER': 5, 'E-PER': 6, 'S-PER': 7, 'S-MISC': 8, 'B-MISC': 9, 'I-MISC': 10, 'E-MISC': 11, 'S-ORG': 12, 'I-ORG': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label ORG, picked entity Williams, picked instance ['1.', 'Jacques', 'Villeneuve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50.574']
+--> For label LOC, picked entity Charleston, picked instance ['Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'amputated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'improperly', 'disposed', 'of', 'infectious', 'waste', '.']
+--> For label PER, picked entity Medvedev, picked instance ['"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99.9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', "n't", 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22-year-old', 'Medvedev', '.']
+--> For label MISC, picked entity Lebanese, picked instance ['He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Dynamo', 'Kiev', '5', 'Kremin', 'Kremenchuk', '0'][0m
+[33mPrompt 0: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 4: ['5', '-', 'Gabriela', 'Sabatini', '(', 'Argentina', ')', 'beat', 'Asa', 'Carlsson', '(', 'Sweden', ')'][0m
+[33mPrompt 4: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 8: ['Bedie', 'pardoned', 'two', 'other', 'journalists', 'jailed', 'for', 'incitement', 'to', 'disturb', 'public', 'order', '.'][0m
+[33mPrompt 8: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 12: ['Fiorentina', '-', 'Gabriel', 'Batistuta', '(', '11th', ',', '83rd', ')'][0m
+[33mPrompt 12: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 16: ['1.', 'Jacques', 'Villeneuve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50.574'][0m
+[33mPrompt 16: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 20: ['King', 'Birendra', 'of', 'Nepal', 'has', 'told', 'China', 'his', 'nation', 'will', 'not', 'become', 'the', 'tool', 'of', 'people', 'who', 'want', 'Tibetan', 'independence', 'from', 'Beijing', ',', 'the', 'official', 'China', 'Daily', 'newspaper', 'said', 'on', 'Saturday', '.'][0m
+[33mPrompt 20: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 24: ['SunGard', 'to', 'buy', 'CheckFree', 'unit', '.'][0m
+[33mPrompt 24: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 28: ['Yorkshire', '529-8', 'declared'][0m
+[33mPrompt 28: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 32: ['CLEVELAND', '76', '51', '.598', '-'][0m
+[33mPrompt 32: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 36: ['HOEK', 'LOOS', 'H1', 'NET', 'PROFIT', '28.9', 'MLN', 'GUILDERS', '.'][0m
+[33mPrompt 36: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label ORG, picked entity Williams, picked instance ['1.', 'Jacques', 'Villeneuve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50.574']
+--> For label LOC, picked entity Charleston, picked instance ['Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'amputated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'improperly', 'disposed', 'of', 'infectious', 'waste', '.']
+--> For label PER, picked entity Medvedev, picked instance ['"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99.9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', "n't", 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22-year-old', 'Medvedev', '.']
+--> For label MISC, picked entity Lebanese, picked instance ['He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label ORG, picked entity Williams, picked instance ['1.', 'Jacques', 'Villeneuve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50.574']
+--> For label LOC, picked entity Charleston, picked instance ['Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'amputated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'improperly', 'disposed', 'of', 'infectious', 'waste', '.']
+--> For label PER, picked entity Medvedev, picked instance ['"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99.9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', "n't", 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22-year-old', 'Medvedev', '.']
+--> For label MISC, picked entity Lebanese, picked instance ['He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['1', '.', 'Jacques', 'Ville', '##ne', '##uve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50', '.', '57', '##4', 'Williams', 'is', 'ORG', '.', '[SEP]', 'Health', 'officials', 'said', 'on', 'Thursday', 'they', 'were', 'investigating', 'the', 'discovery', 'of', 'an', 'am', '##put', '##ated', 'foot', 'on', 'a', 'beach', 'near', 'Charleston', 'to', 'determine', 'whether', 'a', 'local', 'surgeon', 'had', 'imp', '##roper', '##ly', 'disposed', 'of', 'infectious', 'waste', '.', 'Charleston', 'is', 'LOC', '.', '[SEP]', '"', 'I', 'realised', 'this', 'year', ',', 'that', 'without', 'putting', '99', '.', '9', 'percent', 'of', 'your', 'mind', 'into', 'tennis', ',', 'I', 'do', 'n', "'", 't', 'think', 'you', 'can', 'successful', ',', '"', 'said', 'the', '22', '-', 'year', '-', 'old', 'Me', '##d', '##ved', '##ev', '.', 'Me', '##d', '##ved', '##ev', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Lebanese', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 10
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/9999_fixed_random_basic_40_2021_2021.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1957.76123, Time is 4.02s
+[34m[dev set Total] Prec.: 5.24, Rec.: 9.89, F1: 6.85[0m
+saving the best model...
+Epoch 2: 856.73277, Time is 3.48s
+[34m[dev set Total] Prec.: 24.70, Rec.: 12.33, F1: 16.45[0m
+saving the best model...
+Epoch 3: 541.68008, Time is 3.82s
+[34m[dev set Total] Prec.: 22.27, Rec.: 25.90, F1: 23.95[0m
+saving the best model...
+Epoch 4: 422.56244, Time is 3.73s
+[34m[dev set Total] Prec.: 27.49, Rec.: 26.86, F1: 27.17[0m
+saving the best model...
+Epoch 5: 329.86363, Time is 3.75s
+[34m[dev set Total] Prec.: 38.55, Rec.: 36.65, F1: 37.58[0m
+saving the best model...
+Epoch 6: 267.86432, Time is 3.63s
+[34m[dev set Total] Prec.: 38.82, Rec.: 40.13, F1: 39.47[0m
+saving the best model...
+Epoch 7: 227.67858, Time is 3.62s
+[34m[dev set Total] Prec.: 44.65, Rec.: 44.04, F1: 44.34[0m
+saving the best model...
+Epoch 8: 180.21149, Time is 3.75s
+[34m[dev set Total] Prec.: 47.11, Rec.: 47.07, F1: 47.09[0m
+saving the best model...
+Epoch 9: 138.51962, Time is 3.57s
+[34m[dev set Total] Prec.: 46.63, Rec.: 50.61, F1: 48.54[0m
+saving the best model...
+Epoch 10: 112.44919, Time is 2.86s
+[34m[dev set Total] Prec.: 51.12, Rec.: 53.38, F1: 52.23[0m
+saving the best model...
+Epoch 11: 80.66549, Time is 2.56s
+[34m[dev set Total] Prec.: 51.64, Rec.: 55.25, F1: 53.38[0m
+saving the best model...
+Epoch 12: 57.51721, Time is 2.97s
+[34m[dev set Total] Prec.: 54.13, Rec.: 57.22, F1: 55.63[0m
+saving the best model...
+Epoch 13: 44.60089, Time is 3.06s
+[34m[dev set Total] Prec.: 55.66, Rec.: 58.12, F1: 56.86[0m
+saving the best model...
+Epoch 14: 31.28363, Time is 3.15s
+[34m[dev set Total] Prec.: 56.66, Rec.: 58.12, F1: 57.38[0m
+saving the best model...
+Epoch 15: 24.78917, Time is 3.24s
+[34m[dev set Total] Prec.: 57.96, Rec.: 60.31, F1: 59.11[0m
+saving the best model...
+Epoch 16: 19.40814, Time is 3.41s
+[34m[dev set Total] Prec.: 58.73, Rec.: 59.53, F1: 59.13[0m
+saving the best model...
+Epoch 17: 13.30038, Time is 3.84s
+[34m[dev set Total] Prec.: 59.69, Rec.: 61.91, F1: 60.78[0m
+saving the best model...
+Epoch 18: 11.02451, Time is 3.58s
+[34m[dev set Total] Prec.: 60.15, Rec.: 63.20, F1: 61.64[0m
+saving the best model...
+Epoch 19: 7.96948, Time is 3.32s
+[34m[dev set Total] Prec.: 59.63, Rec.: 63.42, F1: 61.47[0m
+Epoch 20: 6.17102, Time is 3.62s
+[34m[dev set Total] Prec.: 59.28, Rec.: 62.97, F1: 61.07[0m
+Epoch 21: 4.62189, Time is 3.83s
+[34m[dev set Total] Prec.: 60.93, Rec.: 63.20, F1: 62.04[0m
+saving the best model...
+Epoch 22: 3.65680, Time is 3.80s
+[34m[dev set Total] Prec.: 60.75, Rec.: 63.98, F1: 62.32[0m
+saving the best model...
+Epoch 23: 2.80914, Time is 3.95s
+[34m[dev set Total] Prec.: 60.06, Rec.: 62.92, F1: 61.46[0m
+Epoch 24: 2.36130, Time is 3.76s
+[34m[dev set Total] Prec.: 59.56, Rec.: 63.66, F1: 61.54[0m
+Epoch 25: 1.93311, Time is 3.60s
+[34m[dev set Total] Prec.: 59.57, Rec.: 64.25, F1: 61.82[0m
+Epoch 26: 1.56415, Time is 3.73s
+[34m[dev set Total] Prec.: 60.73, Rec.: 64.18, F1: 62.41[0m
+saving the best model...
+Epoch 27: 1.37445, Time is 4.10s
+[34m[dev set Total] Prec.: 60.53, Rec.: 64.06, F1: 62.25[0m
+Epoch 28: 1.17548, Time is 2.58s
+[34m[dev set Total] Prec.: 59.64, Rec.: 64.58, F1: 62.01[0m
+Epoch 29: 1.05038, Time is 2.86s
+[34m[dev set Total] Prec.: 59.41, Rec.: 64.99, F1: 62.08[0m
+Epoch 30: 0.89697, Time is 1.78s
+[34m[dev set Total] Prec.: 58.91, Rec.: 64.48, F1: 61.57[0m
+Epoch 31: 0.83368, Time is 2.69s
+[34m[dev set Total] Prec.: 58.91, Rec.: 64.37, F1: 61.52[0m
+Epoch 32: 0.77631, Time is 3.84s
+[34m[dev set Total] Prec.: 59.00, Rec.: 63.86, F1: 61.33[0m
+Epoch 33: 0.68880, Time is 4.05s
+[34m[dev set Total] Prec.: 59.42, Rec.: 64.65, F1: 61.92[0m
+Epoch 34: 0.64923, Time is 3.72s
+[34m[dev set Total] Prec.: 59.84, Rec.: 65.01, F1: 62.32[0m
+Epoch 35: 0.58701, Time is 3.89s
+[34m[dev set Total] Prec.: 60.18, Rec.: 64.69, F1: 62.35[0m
+Epoch 36: 0.56219, Time is 3.97s
+[34m[dev set Total] Prec.: 59.92, Rec.: 64.67, F1: 62.20[0m
+Epoch 37: 0.53345, Time is 3.81s
+[34m[dev set Total] Prec.: 59.93, Rec.: 64.50, F1: 62.13[0m
+Epoch 38: 0.54784, Time is 3.77s
+[34m[dev set Total] Prec.: 60.48, Rec.: 64.42, F1: 62.39[0m
+Epoch 39: 0.50598, Time is 3.60s
+[34m[dev set Total] Prec.: 60.70, Rec.: 64.48, F1: 62.53[0m
+saving the best model...
+Epoch 40: 0.46640, Time is 3.37s
+[34m[dev set Total] Prec.: 60.45, Rec.: 64.33, F1: 62.33[0m
+Epoch 41: 0.45355, Time is 3.17s
+[34m[dev set Total] Prec.: 60.36, Rec.: 64.55, F1: 62.39[0m
+Epoch 42: 0.44055, Time is 3.19s
+[34m[dev set Total] Prec.: 60.36, Rec.: 64.55, F1: 62.39[0m
+Epoch 43: 0.42737, Time is 2.95s
+[34m[dev set Total] Prec.: 60.28, Rec.: 64.60, F1: 62.36[0m
+Epoch 44: 0.42358, Time is 2.98s
+[34m[dev set Total] Prec.: 60.32, Rec.: 64.77, F1: 62.47[0m
+Epoch 45: 0.42633, Time is 3.34s
+[34m[dev set Total] Prec.: 60.45, Rec.: 64.63, F1: 62.47[0m
+Epoch 46: 0.40756, Time is 3.39s
+[34m[dev set Total] Prec.: 60.71, Rec.: 64.70, F1: 62.64[0m
+saving the best model...
+Epoch 47: 0.40961, Time is 2.29s
+[34m[dev set Total] Prec.: 60.64, Rec.: 64.84, F1: 62.67[0m
+saving the best model...
+Epoch 48: 0.40363, Time is 2.58s
+[34m[dev set Total] Prec.: 60.59, Rec.: 64.85, F1: 62.65[0m
+Epoch 49: 0.41064, Time is 3.99s
+[34m[dev set Total] Prec.: 60.42, Rec.: 64.75, F1: 62.51[0m
+Epoch 50: 0.40350, Time is 3.31s
+[34m[dev set Total] Prec.: 60.44, Rec.: 64.74, F1: 62.51[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 62.67
+Final testing.
+[34m[test set Total] Prec.: 58.83, Rec.: 64.53, F1: 61.55[0m

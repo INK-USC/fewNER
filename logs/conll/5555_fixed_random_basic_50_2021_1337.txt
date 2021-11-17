@@ -1,0 +1,354 @@
+device: cuda:0
+seed: 1337
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 50_2021
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/5555_fixed_random_basic_50_2021_1337
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 5555
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_50_2021.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_50_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-MISC': 1, 'E-MISC': 2, 'O': 3, 'S-LOC': 4, 'B-ORG': 5, 'E-ORG': 6, 'S-MISC': 7, 'S-ORG': 8, 'B-PER': 9, 'E-PER': 10, 'S-PER': 11, 'I-MISC': 12, 'I-ORG': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label MISC, picked entity Indian, picked instance ['Sidhu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one-day', 'international', 'against', 'England', 'at', 'Old', 'Trafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three-test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'Azharuddin', '.']
+--> For label LOC, picked entity Russia, picked instance ['GROZNY', ',', 'Russia', '1996-08-23']
+--> For label ORG, picked entity Gil Vicente, picked instance ['Guimaraes', '4', 'Gil', 'Vicente', '2']
+--> For label PER, picked entity Gwen Torrence, picked instance ['American', 'world', 'champion', 'Gwen', 'Torrence', ',', 'the', 'bronze', 'medallist', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11.00', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['S.', 'African', 'apartheid', 'killer', 'convicted', 'of', 'six', 'murders', '.'][0m
+[33mPrompt 0: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 5: ['American', 'world', 'champion', 'Gwen', 'Torrence', ',', 'the', 'bronze', 'medallist', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11.00', '.'][0m
+[33mPrompt 5: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 10: ['Essex', '532-8'][0m
+[33mPrompt 10: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 15: ['ATHENS', '1996-08-22'][0m
+[33mPrompt 15: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Bedie', 'pardoned', 'two', 'other', 'journalists', 'jailed', 'for', 'incitement', 'to', 'disturb', 'public', 'order', '.'][0m
+[33mPrompt 20: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 25: ['GROZNY', ',', 'Russia', '1996-08-23'][0m
+[33mPrompt 25: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 30: ['AMSTERDAM', '1996-08-28'][0m
+[33mPrompt 30: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 35: ['SunGard', 'to', 'buy', 'CheckFree', 'unit', '.'][0m
+[33mPrompt 35: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 40: ['"', 'If', 'we', 'lose', 'this', 'one', ',', 'Tony', 'and', 'I', 'will', 'have', 'to', 'have', 'a', 'good', 'look', 'at', 'giving', 'someone', 'else', 'a', 'go', ',', '"', 'Newcombe', 'was', 'quoted', 'as', 'saying', 'in', 'Sydney', "'s", 'Daily', 'Telegraph', 'newspaper', '.'][0m
+[33mPrompt 40: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 45: ['Obilic', '3', '3', '0', '0', '8', '1', '9'][0m
+[33mPrompt 45: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_50_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-MISC': 1, 'E-MISC': 2, 'O': 3, 'S-LOC': 4, 'B-ORG': 5, 'E-ORG': 6, 'S-MISC': 7, 'S-ORG': 8, 'B-PER': 9, 'E-PER': 10, 'S-PER': 11, 'I-MISC': 12, 'I-ORG': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label MISC, picked entity Indian, picked instance ['Sidhu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one-day', 'international', 'against', 'England', 'at', 'Old', 'Trafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three-test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'Azharuddin', '.']
+--> For label LOC, picked entity Russia, picked instance ['GROZNY', ',', 'Russia', '1996-08-23']
+--> For label ORG, picked entity Gil Vicente, picked instance ['Guimaraes', '4', 'Gil', 'Vicente', '2']
+--> For label PER, picked entity Gwen Torrence, picked instance ['American', 'world', 'champion', 'Gwen', 'Torrence', ',', 'the', 'bronze', 'medallist', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11.00', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['S.', 'African', 'apartheid', 'killer', 'convicted', 'of', 'six', 'murders', '.'][0m
+[33mPrompt 0: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 5: ['American', 'world', 'champion', 'Gwen', 'Torrence', ',', 'the', 'bronze', 'medallist', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11.00', '.'][0m
+[33mPrompt 5: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 10: ['Essex', '532-8'][0m
+[33mPrompt 10: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 15: ['ATHENS', '1996-08-22'][0m
+[33mPrompt 15: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Bedie', 'pardoned', 'two', 'other', 'journalists', 'jailed', 'for', 'incitement', 'to', 'disturb', 'public', 'order', '.'][0m
+[33mPrompt 20: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 25: ['GROZNY', ',', 'Russia', '1996-08-23'][0m
+[33mPrompt 25: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 30: ['AMSTERDAM', '1996-08-28'][0m
+[33mPrompt 30: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 35: ['SunGard', 'to', 'buy', 'CheckFree', 'unit', '.'][0m
+[33mPrompt 35: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 40: ['"', 'If', 'we', 'lose', 'this', 'one', ',', 'Tony', 'and', 'I', 'will', 'have', 'to', 'have', 'a', 'good', 'look', 'at', 'giving', 'someone', 'else', 'a', 'go', ',', '"', 'Newcombe', 'was', 'quoted', 'as', 'saying', 'in', 'Sydney', "'s", 'Daily', 'Telegraph', 'newspaper', '.'][0m
+[33mPrompt 40: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 45: ['Obilic', '3', '3', '0', '0', '8', '1', '9'][0m
+[33mPrompt 45: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label MISC, picked entity Indian, picked instance ['Sidhu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one-day', 'international', 'against', 'England', 'at', 'Old', 'Trafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three-test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'Azharuddin', '.']
+--> For label LOC, picked entity Russia, picked instance ['GROZNY', ',', 'Russia', '1996-08-23']
+--> For label ORG, picked entity Gil Vicente, picked instance ['Guimaraes', '4', 'Gil', 'Vicente', '2']
+--> For label PER, picked entity Gwen Torrence, picked instance ['American', 'world', 'champion', 'Gwen', 'Torrence', ',', 'the', 'bronze', 'medallist', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11.00', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label MISC, picked entity Indian, picked instance ['Sidhu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one-day', 'international', 'against', 'England', 'at', 'Old', 'Trafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three-test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'Azharuddin', '.']
+--> For label LOC, picked entity Russia, picked instance ['GROZNY', ',', 'Russia', '1996-08-23']
+--> For label ORG, picked entity Gil Vicente, picked instance ['Guimaraes', '4', 'Gil', 'Vicente', '2']
+--> For label PER, picked entity Gwen Torrence, picked instance ['American', 'world', 'champion', 'Gwen', 'Torrence', ',', 'the', 'bronze', 'medallist', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11.00', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'G', '##RO', '##Z', '##N', '##Y', ',', 'Russia', '1996', '-', '08', '-', '23', 'Russia', 'is', 'LOC', '.', '[SEP]', 'G', '##ui', '##mara', '##es', '4', 'Gil', 'Vicente', '2', 'Gil', 'Vicente', 'is', 'ORG', '.', '[SEP]', 'American', 'world', 'champion', 'Gwen', 'Torre', '##nce', ',', 'the', 'bronze', 'medal', '##list', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11', '.', '00', '.', 'Gwen', 'Torre', '##nce', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 13
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/5555_fixed_random_basic_50_2021_1337.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1330.80315, Time is 6.88s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+saving the best model...
+Epoch 2: 676.18520, Time is 5.70s
+[34m[dev set Total] Prec.: 1.37, Rec.: 0.44, F1: 0.66[0m
+saving the best model...
+Epoch 3: 491.41171, Time is 5.87s
+[34m[dev set Total] Prec.: 31.46, Rec.: 25.70, F1: 28.29[0m
+saving the best model...
+Epoch 4: 355.22963, Time is 5.04s
+[34m[dev set Total] Prec.: 36.68, Rec.: 36.71, F1: 36.69[0m
+saving the best model...
+Epoch 5: 272.33960, Time is 5.85s
+[34m[dev set Total] Prec.: 39.38, Rec.: 40.20, F1: 39.79[0m
+saving the best model...
+Epoch 6: 209.74818, Time is 6.20s
+[34m[dev set Total] Prec.: 52.42, Rec.: 52.11, F1: 52.26[0m
+saving the best model...
+Epoch 7: 158.85811, Time is 6.44s
+[34m[dev set Total] Prec.: 55.84, Rec.: 55.68, F1: 55.76[0m
+saving the best model...
+Epoch 8: 110.30901, Time is 4.98s
+[34m[dev set Total] Prec.: 57.46, Rec.: 57.09, F1: 57.27[0m
+saving the best model...
+Epoch 9: 79.64532, Time is 6.14s
+[34m[dev set Total] Prec.: 57.07, Rec.: 59.18, F1: 58.11[0m
+saving the best model...
+Epoch 10: 54.48003, Time is 5.73s
+[34m[dev set Total] Prec.: 58.73, Rec.: 60.64, F1: 59.67[0m
+saving the best model...
+Epoch 11: 36.83253, Time is 5.03s
+[34m[dev set Total] Prec.: 55.63, Rec.: 60.36, F1: 57.90[0m
+Epoch 12: 23.64704, Time is 5.94s
+[34m[dev set Total] Prec.: 54.95, Rec.: 61.47, F1: 58.03[0m
+Epoch 13: 16.32881, Time is 5.89s
+[34m[dev set Total] Prec.: 59.86, Rec.: 61.64, F1: 60.74[0m
+saving the best model...
+Epoch 14: 11.57645, Time is 5.61s
+[34m[dev set Total] Prec.: 57.94, Rec.: 63.20, F1: 60.46[0m
+Epoch 15: 8.03446, Time is 5.32s
+[34m[dev set Total] Prec.: 59.75, Rec.: 64.05, F1: 61.82[0m
+saving the best model...
+Epoch 16: 5.13840, Time is 5.21s
+[34m[dev set Total] Prec.: 59.47, Rec.: 63.69, F1: 61.51[0m
+Epoch 17: 3.23124, Time is 4.55s
+[34m[dev set Total] Prec.: 58.57, Rec.: 64.89, F1: 61.56[0m
+Epoch 18: 2.87985, Time is 5.58s
+[34m[dev set Total] Prec.: 59.93, Rec.: 65.07, F1: 62.39[0m
+saving the best model...
+Epoch 19: 1.70770, Time is 3.59s
+[34m[dev set Total] Prec.: 59.12, Rec.: 64.82, F1: 61.84[0m
+Epoch 20: 1.39287, Time is 5.18s
+[34m[dev set Total] Prec.: 59.41, Rec.: 65.59, F1: 62.35[0m
+Epoch 21: 0.99363, Time is 3.82s
+[34m[dev set Total] Prec.: 57.83, Rec.: 65.14, F1: 61.27[0m
+Epoch 22: 0.85666, Time is 3.92s
+[34m[dev set Total] Prec.: 58.38, Rec.: 65.33, F1: 61.66[0m
+Epoch 23: 1.63257, Time is 5.28s
+[34m[dev set Total] Prec.: 59.80, Rec.: 65.95, F1: 62.72[0m
+saving the best model...
+Epoch 24: 0.53912, Time is 4.12s
+[34m[dev set Total] Prec.: 59.70, Rec.: 66.23, F1: 62.80[0m
+saving the best model...
+Epoch 25: 0.44630, Time is 4.34s
+[34m[dev set Total] Prec.: 59.50, Rec.: 66.47, F1: 62.79[0m
+Epoch 26: 0.40977, Time is 3.27s
+[34m[dev set Total] Prec.: 59.03, Rec.: 65.49, F1: 62.09[0m
+Epoch 27: 0.37709, Time is 4.64s
+[34m[dev set Total] Prec.: 59.26, Rec.: 65.46, F1: 62.21[0m
+Epoch 28: 0.30942, Time is 6.28s
+[34m[dev set Total] Prec.: 59.35, Rec.: 65.41, F1: 62.23[0m
+Epoch 29: 0.28630, Time is 5.99s
+[34m[dev set Total] Prec.: 59.91, Rec.: 65.90, F1: 62.76[0m
+Epoch 30: 0.29802, Time is 5.95s
+[34m[dev set Total] Prec.: 60.29, Rec.: 65.78, F1: 62.91[0m
+saving the best model...
+Epoch 31: 0.24896, Time is 5.88s
+[34m[dev set Total] Prec.: 60.29, Rec.: 65.54, F1: 62.80[0m
+Epoch 32: 0.23218, Time is 5.12s
+[34m[dev set Total] Prec.: 60.33, Rec.: 65.76, F1: 62.93[0m
+saving the best model...
+Epoch 33: 0.21773, Time is 6.01s
+[34m[dev set Total] Prec.: 60.14, Rec.: 65.95, F1: 62.91[0m
+Epoch 34: 0.21858, Time is 5.65s
+[34m[dev set Total] Prec.: 59.64, Rec.: 65.63, F1: 62.49[0m
+Epoch 35: 0.19539, Time is 6.12s
+[34m[dev set Total] Prec.: 59.45, Rec.: 65.54, F1: 62.35[0m
+Epoch 36: 0.73099, Time is 5.44s
+[34m[dev set Total] Prec.: 60.43, Rec.: 65.59, F1: 62.90[0m
+Epoch 37: 0.18338, Time is 5.22s
+[34m[dev set Total] Prec.: 60.80, Rec.: 65.75, F1: 63.18[0m
+saving the best model...
+Epoch 38: 0.18610, Time is 6.18s
+[34m[dev set Total] Prec.: 60.90, Rec.: 65.78, F1: 63.24[0m
+saving the best model...
+Epoch 39: 0.18806, Time is 6.04s
+[34m[dev set Total] Prec.: 60.89, Rec.: 65.85, F1: 63.27[0m
+saving the best model...
+Epoch 40: 0.17325, Time is 5.45s
+[34m[dev set Total] Prec.: 60.85, Rec.: 65.90, F1: 63.27[0m
+Epoch 41: 0.17316, Time is 4.94s
+[34m[dev set Total] Prec.: 60.82, Rec.: 65.88, F1: 63.25[0m
+Epoch 42: 0.16316, Time is 5.54s
+[34m[dev set Total] Prec.: 60.86, Rec.: 65.85, F1: 63.25[0m
+Epoch 43: 0.15723, Time is 5.40s
+[34m[dev set Total] Prec.: 60.88, Rec.: 65.91, F1: 63.30[0m
+saving the best model...
+Epoch 44: 0.16207, Time is 5.01s
+[34m[dev set Total] Prec.: 60.83, Rec.: 65.91, F1: 63.27[0m
+Epoch 45: 0.15808, Time is 5.44s
+[34m[dev set Total] Prec.: 60.88, Rec.: 65.93, F1: 63.30[0m
+saving the best model...
+Epoch 46: 0.15411, Time is 5.47s
+[34m[dev set Total] Prec.: 60.87, Rec.: 65.91, F1: 63.29[0m
+Epoch 47: 0.15219, Time is 4.70s
+[34m[dev set Total] Prec.: 60.87, Rec.: 65.90, F1: 63.29[0m
+Epoch 48: 0.15055, Time is 5.35s
+[34m[dev set Total] Prec.: 60.84, Rec.: 65.90, F1: 63.27[0m
+Epoch 49: 0.15637, Time is 5.53s
+[34m[dev set Total] Prec.: 60.80, Rec.: 65.88, F1: 63.24[0m
+Epoch 50: 0.15439, Time is 5.17s
+[34m[dev set Total] Prec.: 60.80, Rec.: 65.88, F1: 63.24[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 63.30
+Final testing.
+[34m[test set Total] Prec.: 58.00, Rec.: 64.70, F1: 61.17[0m

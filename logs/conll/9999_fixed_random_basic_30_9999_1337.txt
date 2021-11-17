@@ -1,0 +1,364 @@
+device: cuda:0
+seed: 1337
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 30_9999
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/9999_fixed_random_basic_30_9999_1337
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 9999
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_30_9999.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_30_9999.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 30
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-MISC': 1, 'E-MISC': 2, 'O': 3, 'B-PER': 4, 'E-PER': 5, 'B-LOC': 6, 'I-LOC': 7, 'E-LOC': 8, 'S-MISC': 9, 'S-ORG': 10, 'S-LOC': 11, 'B-ORG': 12, 'E-ORG': 13, 'I-PER': 14, 'I-ORG': 15, 'S-PER': 16, 'I-MISC': 17, '<START>': 18, '<STOP>': 19}
+--> For label MISC, picked entity 1996 Miss Teen USA, picked instance ['Machado', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'Cruces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.']
+--> For label PER, picked entity A. Stewart, picked instance ['A.', 'Stewart', 'not', 'out', '40']
+--> For label LOC, picked entity Houston, picked instance ['In', 'Houston', ',', 'Andy', 'Benes', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run-scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St.', 'Louis', 'Cardinals', 'to', 'a', '3-2', 'victory', 'over', 'the', 'Houston', 'Astros', '.']
+--> For label ORG, picked entity Rochdale, picked instance ['Rochdale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Torquay', 'v', 'Exeter', ',', 'Wigan', 'v']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CENTRAL', 'DIVISION'][0m
+[33mPrompt 0: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 3: ['The', 'venue', 'of', 'Atletico', "'s", 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'s", 'Santiago', 'Bernabeu', 'a', 'distinct', 'possibility', '.'][0m
+[33mPrompt 3: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 6: ['NEW', 'YORK', '1996-08-29'][0m
+[33mPrompt 6: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 9: ['--', 'Seaford', 'Union', 'Free', 'School', 'District', ',', 'N.Y.', ',', '$', '5', 'million', 'school', 'bonds', '.'][0m
+[33mPrompt 9: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 12: ['WESTERN', 'DIVISION'][0m
+[33mPrompt 12: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 15: ['--', 'Dimitris', 'Kontogiannis', ',', 'Athens', 'Newsroom', '+301', '3311812-4'][0m
+[33mPrompt 15: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 18: ['His', 'supporters', 'will', 'contest', 'the', 'parliamentary', 'election', 'in', 'a', 'coalition', 'of', '30', 'mainly', 'small', 'parties', ',', 'the', 'Republican', 'Front', ',', 'led', 'by', 'Deby', "'s", 'Patriotic', 'Salvation', 'Movement', '.'][0m
+[33mPrompt 18: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 21: ['Bayern', 'Munich', '3', '2', '1', '0', '7', '2', '7'][0m
+[33mPrompt 21: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 24: ['NEC', 'Nijmegen', '0', 'AZ', 'Alkmaar', '0'][0m
+[33mPrompt 24: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 27: ['Canada', "'s", 'Jacques', 'Villeneuve', 'finished', 'second', 'in', 'his', 'Williams'][0m
+[33mPrompt 27: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_30_9999.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 30
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-MISC': 1, 'E-MISC': 2, 'O': 3, 'B-PER': 4, 'E-PER': 5, 'B-LOC': 6, 'I-LOC': 7, 'E-LOC': 8, 'S-MISC': 9, 'S-ORG': 10, 'S-LOC': 11, 'B-ORG': 12, 'E-ORG': 13, 'I-PER': 14, 'I-ORG': 15, 'S-PER': 16, 'I-MISC': 17, '<START>': 18, '<STOP>': 19}
+--> For label MISC, picked entity 1996 Miss Teen USA, picked instance ['Machado', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'Cruces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.']
+--> For label PER, picked entity A. Stewart, picked instance ['A.', 'Stewart', 'not', 'out', '40']
+--> For label LOC, picked entity Houston, picked instance ['In', 'Houston', ',', 'Andy', 'Benes', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run-scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St.', 'Louis', 'Cardinals', 'to', 'a', '3-2', 'victory', 'over', 'the', 'Houston', 'Astros', '.']
+--> For label ORG, picked entity Rochdale, picked instance ['Rochdale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Torquay', 'v', 'Exeter', ',', 'Wigan', 'v']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CENTRAL', 'DIVISION'][0m
+[33mPrompt 0: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 3: ['The', 'venue', 'of', 'Atletico', "'s", 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'s", 'Santiago', 'Bernabeu', 'a', 'distinct', 'possibility', '.'][0m
+[33mPrompt 3: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 6: ['NEW', 'YORK', '1996-08-29'][0m
+[33mPrompt 6: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 9: ['--', 'Seaford', 'Union', 'Free', 'School', 'District', ',', 'N.Y.', ',', '$', '5', 'million', 'school', 'bonds', '.'][0m
+[33mPrompt 9: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 12: ['WESTERN', 'DIVISION'][0m
+[33mPrompt 12: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 15: ['--', 'Dimitris', 'Kontogiannis', ',', 'Athens', 'Newsroom', '+301', '3311812-4'][0m
+[33mPrompt 15: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 18: ['His', 'supporters', 'will', 'contest', 'the', 'parliamentary', 'election', 'in', 'a', 'coalition', 'of', '30', 'mainly', 'small', 'parties', ',', 'the', 'Republican', 'Front', ',', 'led', 'by', 'Deby', "'s", 'Patriotic', 'Salvation', 'Movement', '.'][0m
+[33mPrompt 18: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 21: ['Bayern', 'Munich', '3', '2', '1', '0', '7', '2', '7'][0m
+[33mPrompt 21: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 24: ['NEC', 'Nijmegen', '0', 'AZ', 'Alkmaar', '0'][0m
+[33mPrompt 24: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 27: ['Canada', "'s", 'Jacques', 'Villeneuve', 'finished', 'second', 'in', 'his', 'Williams'][0m
+[33mPrompt 27: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label MISC, picked entity 1996 Miss Teen USA, picked instance ['Machado', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'Cruces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.']
+--> For label PER, picked entity A. Stewart, picked instance ['A.', 'Stewart', 'not', 'out', '40']
+--> For label LOC, picked entity Houston, picked instance ['In', 'Houston', ',', 'Andy', 'Benes', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run-scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St.', 'Louis', 'Cardinals', 'to', 'a', '3-2', 'victory', 'over', 'the', 'Houston', 'Astros', '.']
+--> For label ORG, picked entity Rochdale, picked instance ['Rochdale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Torquay', 'v', 'Exeter', ',', 'Wigan', 'v']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label MISC, picked entity 1996 Miss Teen USA, picked instance ['Machado', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'Cruces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.']
+--> For label PER, picked entity A. Stewart, picked instance ['A.', 'Stewart', 'not', 'out', '40']
+--> For label LOC, picked entity Houston, picked instance ['In', 'Houston', ',', 'Andy', 'Benes', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run-scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St.', 'Louis', 'Cardinals', 'to', 'a', '3-2', 'victory', 'over', 'the', 'Houston', 'Astros', '.']
+--> For label ORG, picked entity Rochdale, picked instance ['Rochdale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Torquay', 'v', 'Exeter', ',', 'Wigan', 'v']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'In', 'Houston', ',', 'Andy', 'Ben', '##es', 'allowed', 'two', 'runs', 'over', 'seven', 'innings', 'and', 'Royce', 'Clayton', 'had', 'a', 'run', '-', 'scoring', 'single', 'in', 'the', 'seventh', 'to', 'lift', 'the', 'St', '.', 'Louis', 'Cardinals', 'to', 'a', '3', '-', '2', 'victory', 'over', 'the', 'Houston', 'Astros', '.', 'Houston', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'R', '##och', '##dale', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 8
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/9999_fixed_random_basic_30_9999_1337.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1211.80995, Time is 3.61s
+[34m[dev set Total] Prec.: 10.20, Rec.: 8.52, F1: 9.29[0m
+saving the best model...
+Epoch 2: 673.90645, Time is 3.05s
+[34m[dev set Total] Prec.: 28.24, Rec.: 4.77, F1: 8.16[0m
+Epoch 3: 530.30261, Time is 2.76s
+[34m[dev set Total] Prec.: 21.12, Rec.: 8.18, F1: 11.80[0m
+saving the best model...
+Epoch 4: 422.06902, Time is 3.19s
+[34m[dev set Total] Prec.: 23.54, Rec.: 17.55, F1: 20.11[0m
+saving the best model...
+Epoch 5: 349.17757, Time is 3.42s
+[34m[dev set Total] Prec.: 24.34, Rec.: 23.11, F1: 23.71[0m
+saving the best model...
+Epoch 6: 291.54434, Time is 3.31s
+[34m[dev set Total] Prec.: 26.84, Rec.: 27.47, F1: 27.15[0m
+saving the best model...
+Epoch 7: 239.24831, Time is 3.05s
+[34m[dev set Total] Prec.: 42.27, Rec.: 39.19, F1: 40.67[0m
+saving the best model...
+Epoch 8: 196.65572, Time is 3.08s
+[34m[dev set Total] Prec.: 40.94, Rec.: 42.00, F1: 41.46[0m
+saving the best model...
+Epoch 9: 155.96005, Time is 2.96s
+[34m[dev set Total] Prec.: 44.42, Rec.: 44.44, F1: 44.43[0m
+saving the best model...
+Epoch 10: 129.31348, Time is 2.88s
+[34m[dev set Total] Prec.: 46.85, Rec.: 45.91, F1: 46.38[0m
+saving the best model...
+Epoch 11: 104.61282, Time is 2.93s
+[34m[dev set Total] Prec.: 44.08, Rec.: 45.99, F1: 45.02[0m
+Epoch 12: 80.76677, Time is 3.09s
+[34m[dev set Total] Prec.: 45.84, Rec.: 47.00, F1: 46.42[0m
+saving the best model...
+Epoch 13: 63.23245, Time is 3.32s
+[34m[dev set Total] Prec.: 47.34, Rec.: 48.03, F1: 47.68[0m
+saving the best model...
+Epoch 14: 48.73680, Time is 3.03s
+[34m[dev set Total] Prec.: 48.13, Rec.: 50.15, F1: 49.12[0m
+saving the best model...
+Epoch 15: 39.10170, Time is 2.99s
+[34m[dev set Total] Prec.: 48.55, Rec.: 52.37, F1: 50.39[0m
+saving the best model...
+Epoch 16: 28.23666, Time is 3.16s
+[34m[dev set Total] Prec.: 50.28, Rec.: 52.11, F1: 51.17[0m
+saving the best model...
+Epoch 17: 22.28616, Time is 2.84s
+[34m[dev set Total] Prec.: 50.43, Rec.: 52.51, F1: 51.45[0m
+saving the best model...
+Epoch 18: 16.81729, Time is 2.59s
+[34m[dev set Total] Prec.: 51.47, Rec.: 52.48, F1: 51.97[0m
+saving the best model...
+Epoch 19: 12.60953, Time is 2.19s
+[34m[dev set Total] Prec.: 51.78, Rec.: 52.88, F1: 52.32[0m
+saving the best model...
+Epoch 20: 9.79977, Time is 2.42s
+[34m[dev set Total] Prec.: 51.97, Rec.: 53.54, F1: 52.74[0m
+saving the best model...
+Epoch 21: 7.39445, Time is 2.66s
+[34m[dev set Total] Prec.: 52.67, Rec.: 53.72, F1: 53.19[0m
+saving the best model...
+Epoch 22: 5.47516, Time is 3.13s
+[34m[dev set Total] Prec.: 52.68, Rec.: 53.87, F1: 53.27[0m
+saving the best model...
+Epoch 23: 4.63737, Time is 2.76s
+[34m[dev set Total] Prec.: 52.77, Rec.: 54.16, F1: 53.46[0m
+saving the best model...
+Epoch 24: 3.36392, Time is 2.96s
+[34m[dev set Total] Prec.: 53.03, Rec.: 54.18, F1: 53.60[0m
+saving the best model...
+Epoch 25: 2.64529, Time is 3.05s
+[34m[dev set Total] Prec.: 53.00, Rec.: 54.53, F1: 53.75[0m
+saving the best model...
+Epoch 26: 2.19943, Time is 3.06s
+[34m[dev set Total] Prec.: 53.90, Rec.: 54.66, F1: 54.28[0m
+saving the best model...
+Epoch 27: 1.68475, Time is 3.05s
+[34m[dev set Total] Prec.: 55.00, Rec.: 54.93, F1: 54.97[0m
+saving the best model...
+Epoch 28: 1.45407, Time is 2.95s
+[34m[dev set Total] Prec.: 54.93, Rec.: 55.30, F1: 55.11[0m
+saving the best model...
+Epoch 29: 1.17398, Time is 3.08s
+[34m[dev set Total] Prec.: 54.83, Rec.: 55.22, F1: 55.03[0m
+Epoch 30: 1.01230, Time is 3.00s
+[34m[dev set Total] Prec.: 54.89, Rec.: 55.19, F1: 55.04[0m
+Epoch 31: 0.90115, Time is 3.14s
+[34m[dev set Total] Prec.: 54.86, Rec.: 55.27, F1: 55.07[0m
+Epoch 32: 0.76840, Time is 3.08s
+[34m[dev set Total] Prec.: 55.42, Rec.: 55.46, F1: 55.44[0m
+saving the best model...
+Epoch 33: 0.71344, Time is 3.15s
+[34m[dev set Total] Prec.: 55.56, Rec.: 55.47, F1: 55.52[0m
+saving the best model...
+Epoch 34: 0.61552, Time is 3.02s
+[34m[dev set Total] Prec.: 55.29, Rec.: 55.73, F1: 55.51[0m
+Epoch 35: 0.54504, Time is 2.22s
+[34m[dev set Total] Prec.: 55.07, Rec.: 55.81, F1: 55.44[0m
+Epoch 36: 0.50607, Time is 2.16s
+[34m[dev set Total] Prec.: 55.40, Rec.: 55.49, F1: 55.44[0m
+Epoch 37: 0.47946, Time is 3.03s
+[34m[dev set Total] Prec.: 55.85, Rec.: 55.37, F1: 55.61[0m
+saving the best model...
+Epoch 38: 0.45349, Time is 3.15s
+[34m[dev set Total] Prec.: 56.06, Rec.: 55.07, F1: 55.56[0m
+Epoch 39: 0.42535, Time is 2.44s
+[34m[dev set Total] Prec.: 56.37, Rec.: 55.10, F1: 55.73[0m
+saving the best model...
+Epoch 40: 0.39705, Time is 1.91s
+[34m[dev set Total] Prec.: 56.43, Rec.: 55.15, F1: 55.78[0m
+saving the best model...
+Epoch 41: 0.37570, Time is 2.99s
+[34m[dev set Total] Prec.: 56.29, Rec.: 55.22, F1: 55.75[0m
+Epoch 42: 0.35593, Time is 1.82s
+[34m[dev set Total] Prec.: 56.32, Rec.: 55.56, F1: 55.93[0m
+saving the best model...
+Epoch 43: 0.34830, Time is 1.88s
+[34m[dev set Total] Prec.: 55.93, Rec.: 55.52, F1: 55.73[0m
+Epoch 44: 0.34926, Time is 2.43s
+[34m[dev set Total] Prec.: 55.78, Rec.: 55.36, F1: 55.57[0m
+Epoch 45: 0.31779, Time is 2.29s
+[34m[dev set Total] Prec.: 55.84, Rec.: 55.34, F1: 55.59[0m
+Epoch 46: 0.31049, Time is 2.66s
+[34m[dev set Total] Prec.: 55.86, Rec.: 55.39, F1: 55.62[0m
+Epoch 47: 0.31128, Time is 1.67s
+[34m[dev set Total] Prec.: 55.91, Rec.: 55.36, F1: 55.63[0m
+Epoch 48: 0.31277, Time is 2.51s
+[34m[dev set Total] Prec.: 55.91, Rec.: 55.42, F1: 55.67[0m
+Epoch 49: 0.30554, Time is 1.63s
+[34m[dev set Total] Prec.: 55.90, Rec.: 55.41, F1: 55.65[0m
+Epoch 50: 0.30820, Time is 1.63s
+[34m[dev set Total] Prec.: 55.90, Rec.: 55.39, F1: 55.64[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 55.93
+Final testing.
+[34m[test set Total] Prec.: 56.43, Rec.: 54.49, F1: 55.44[0m

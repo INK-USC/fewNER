@@ -1,0 +1,358 @@
+device: cuda:0
+seed: 2021
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 40_9999
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/5555_fixed_random_basic_40_9999_2021
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 5555
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_40_9999.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_40_9999.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 40
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-MISC': 1, 'E-MISC': 2, 'O': 3, 'B-PER': 4, 'E-PER': 5, 'B-LOC': 6, 'I-LOC': 7, 'E-LOC': 8, 'S-MISC': 9, 'S-ORG': 10, 'S-LOC': 11, 'B-ORG': 12, 'E-ORG': 13, 'I-PER': 14, 'I-ORG': 15, 'S-PER': 16, 'I-MISC': 17, '<START>': 18, '<STOP>': 19}
+--> For label MISC, picked entity 1996 Miss Teen USA, picked instance ['Machado', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'Cruces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.']
+--> For label PER, picked entity A. Stewart, picked instance ['A.', 'Stewart', 'not', 'out', '40']
+--> For label LOC, picked entity Santiago Bernabeu, picked instance ['The', 'venue', 'of', 'Atletico', "'s", 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'s", 'Santiago', 'Bernabeu', 'a', 'distinct', 'possibility', '.']
+--> For label ORG, picked entity Wigan, picked instance ['Rochdale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Torquay', 'v', 'Exeter', ',', 'Wigan', 'v']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CENTRAL', 'DIVISION'][0m
+[33mPrompt 0: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 4: ['Hurte', 'Sierd', 'Zylstra', 'and', 'his', 'wife', ',', 'Jetsi', 'Hendrika', 'Coers', ',', 'both', '50', ',', 'were', 'abducted', 'from', 'the', 'teak', 'plantation', 'they', 'managed', 'late', 'Saturday', 'or', 'early', 'Sunday', 'by', 'at', 'least', 'two', 'men', 'demanding', '$', '1.5', 'million', 'ransom', ',', 'authorities', 'said', '.'][0m
+[33mPrompt 4: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 8: ['A.', 'Stewart', 'not', 'out', '40'][0m
+[33mPrompt 8: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 12: ['WESTERN', 'DIVISION'][0m
+[33mPrompt 12: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 16: ['He', 'added', ':', '"', 'It', "'s", 'very', 'sad', 'to', 'beat', 'Henry', 'Candy', 'because', 'I', 'am', 'godfather', 'to', 'his', 'daughter', '.', '"'][0m
+[33mPrompt 16: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Chairman', 'Mohamed', 'Fahim', 'Rayyan', 'told', 'a', 'news', 'conference', 'at', 'Cairo', 'airport', ':', '"', 'The', 'control', 'tower', 'should', 'have', 'allocated', 'the', 'plane', 'another', 'runway', ',', 'instead', 'of', 'the', 'one', 'the', 'plane', 'landed', 'on', '.', '"'][0m
+[33mPrompt 20: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 24: ['NEC', 'Nijmegen', '0', 'AZ', 'Alkmaar', '0'][0m
+[33mPrompt 24: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 28: ['Wolverhampton', '3', '2', '1', '0', '5', '2', '7'][0m
+[33mPrompt 28: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 32: ['NEW', 'YORK', '59', '69', '.461', '21'][0m
+[33mPrompt 32: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 36: ['Collated', 'results', 'of', 'African', 'Nations', 'Cup', 'preliminary', 'round', ',', 'second', 'leg', 'matches', 'played', 'at', 'the', 'weekend', ':'][0m
+[33mPrompt 36: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_40_9999.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 40
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-MISC': 1, 'E-MISC': 2, 'O': 3, 'B-PER': 4, 'E-PER': 5, 'B-LOC': 6, 'I-LOC': 7, 'E-LOC': 8, 'S-MISC': 9, 'S-ORG': 10, 'S-LOC': 11, 'B-ORG': 12, 'E-ORG': 13, 'I-PER': 14, 'I-ORG': 15, 'S-PER': 16, 'I-MISC': 17, '<START>': 18, '<STOP>': 19}
+--> For label MISC, picked entity 1996 Miss Teen USA, picked instance ['Machado', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'Cruces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.']
+--> For label PER, picked entity A. Stewart, picked instance ['A.', 'Stewart', 'not', 'out', '40']
+--> For label LOC, picked entity Santiago Bernabeu, picked instance ['The', 'venue', 'of', 'Atletico', "'s", 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'s", 'Santiago', 'Bernabeu', 'a', 'distinct', 'possibility', '.']
+--> For label ORG, picked entity Wigan, picked instance ['Rochdale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Torquay', 'v', 'Exeter', ',', 'Wigan', 'v']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CENTRAL', 'DIVISION'][0m
+[33mPrompt 0: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 4: ['Hurte', 'Sierd', 'Zylstra', 'and', 'his', 'wife', ',', 'Jetsi', 'Hendrika', 'Coers', ',', 'both', '50', ',', 'were', 'abducted', 'from', 'the', 'teak', 'plantation', 'they', 'managed', 'late', 'Saturday', 'or', 'early', 'Sunday', 'by', 'at', 'least', 'two', 'men', 'demanding', '$', '1.5', 'million', 'ransom', ',', 'authorities', 'said', '.'][0m
+[33mPrompt 4: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 8: ['A.', 'Stewart', 'not', 'out', '40'][0m
+[33mPrompt 8: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 12: ['WESTERN', 'DIVISION'][0m
+[33mPrompt 12: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 16: ['He', 'added', ':', '"', 'It', "'s", 'very', 'sad', 'to', 'beat', 'Henry', 'Candy', 'because', 'I', 'am', 'godfather', 'to', 'his', 'daughter', '.', '"'][0m
+[33mPrompt 16: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Chairman', 'Mohamed', 'Fahim', 'Rayyan', 'told', 'a', 'news', 'conference', 'at', 'Cairo', 'airport', ':', '"', 'The', 'control', 'tower', 'should', 'have', 'allocated', 'the', 'plane', 'another', 'runway', ',', 'instead', 'of', 'the', 'one', 'the', 'plane', 'landed', 'on', '.', '"'][0m
+[33mPrompt 20: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 24: ['NEC', 'Nijmegen', '0', 'AZ', 'Alkmaar', '0'][0m
+[33mPrompt 24: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 28: ['Wolverhampton', '3', '2', '1', '0', '5', '2', '7'][0m
+[33mPrompt 28: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 32: ['NEW', 'YORK', '59', '69', '.461', '21'][0m
+[33mPrompt 32: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 36: ['Collated', 'results', 'of', 'African', 'Nations', 'Cup', 'preliminary', 'round', ',', 'second', 'leg', 'matches', 'played', 'at', 'the', 'weekend', ':'][0m
+[33mPrompt 36: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label MISC, picked entity 1996 Miss Teen USA, picked instance ['Machado', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'Cruces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.']
+--> For label PER, picked entity A. Stewart, picked instance ['A.', 'Stewart', 'not', 'out', '40']
+--> For label LOC, picked entity Santiago Bernabeu, picked instance ['The', 'venue', 'of', 'Atletico', "'s", 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'s", 'Santiago', 'Bernabeu', 'a', 'distinct', 'possibility', '.']
+--> For label ORG, picked entity Wigan, picked instance ['Rochdale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Torquay', 'v', 'Exeter', ',', 'Wigan', 'v']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label MISC, picked entity 1996 Miss Teen USA, picked instance ['Machado', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'Cruces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.']
+--> For label PER, picked entity A. Stewart, picked instance ['A.', 'Stewart', 'not', 'out', '40']
+--> For label LOC, picked entity Santiago Bernabeu, picked instance ['The', 'venue', 'of', 'Atletico', "'s", 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'s", 'Santiago', 'Bernabeu', 'a', 'distinct', 'possibility', '.']
+--> For label ORG, picked entity Wigan, picked instance ['Rochdale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Torquay', 'v', 'Exeter', ',', 'Wigan', 'v']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['Mac', '##had', '##o', ',', '19', ',', 'flew', 'to', 'Los', 'Angeles', 'after', 'slipping', 'away', 'from', 'the', 'New', 'Mexico', 'desert', 'town', 'of', 'Las', 'C', '##ru', '##ces', ',', 'where', 'she', 'attended', 'the', '1996', 'Miss', 'Teen', 'USA', 'pageant', 'on', 'Wednesday', '.', '1996', 'Miss', 'Teen', 'USA', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'The', 'venue', 'of', 'At', '##let', '##ico', "'", 's', 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'", 's', 'Santiago', 'Bern', '##abe', '##u', 'a', 'distinct', 'possibility', '.', 'Santiago', 'Bern', '##abe', '##u', 'is', 'LOC', '.', '[SEP]', 'R', '##och', '##dale', ',', 'Scarborough', 'v', 'Northampton', ',', 'Tor', '##qua', '##y', 'v', 'Exeter', ',', 'Wigan', 'v', 'Wigan', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 10
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/5555_fixed_random_basic_40_9999_2021.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 2402.73998, Time is 5.92s
+[34m[dev set Total] Prec.: 1.31, Rec.: 2.43, F1: 1.70[0m
+saving the best model...
+Epoch 2: 1111.74004, Time is 5.08s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 3: 740.63446, Time is 5.09s
+[34m[dev set Total] Prec.: 0.30, Rec.: 0.12, F1: 0.17[0m
+Epoch 4: 596.78812, Time is 4.76s
+[34m[dev set Total] Prec.: 1.31, Rec.: 0.27, F1: 0.45[0m
+Epoch 5: 490.33093, Time is 4.58s
+[34m[dev set Total] Prec.: 4.20, Rec.: 3.54, F1: 3.84[0m
+saving the best model...
+Epoch 6: 415.21417, Time is 4.59s
+[34m[dev set Total] Prec.: 10.50, Rec.: 5.93, F1: 7.58[0m
+saving the best model...
+Epoch 7: 346.40396, Time is 3.61s
+[34m[dev set Total] Prec.: 22.68, Rec.: 16.20, F1: 18.90[0m
+saving the best model...
+Epoch 8: 286.74585, Time is 3.86s
+[34m[dev set Total] Prec.: 45.34, Rec.: 35.67, F1: 39.93[0m
+saving the best model...
+Epoch 9: 229.74348, Time is 3.93s
+[34m[dev set Total] Prec.: 50.58, Rec.: 41.31, F1: 45.48[0m
+saving the best model...
+Epoch 10: 175.30069, Time is 3.53s
+[34m[dev set Total] Prec.: 52.38, Rec.: 45.67, F1: 48.79[0m
+saving the best model...
+Epoch 11: 135.51462, Time is 5.14s
+[34m[dev set Total] Prec.: 54.42, Rec.: 47.56, F1: 50.76[0m
+saving the best model...
+Epoch 12: 103.38422, Time is 3.87s
+[34m[dev set Total] Prec.: 57.33, Rec.: 50.54, F1: 53.72[0m
+saving the best model...
+Epoch 13: 78.05908, Time is 4.96s
+[34m[dev set Total] Prec.: 56.49, Rec.: 52.22, F1: 54.27[0m
+saving the best model...
+Epoch 14: 61.59988, Time is 5.01s
+[34m[dev set Total] Prec.: 55.39, Rec.: 54.01, F1: 54.69[0m
+saving the best model...
+Epoch 15: 45.80154, Time is 5.35s
+[34m[dev set Total] Prec.: 55.07, Rec.: 53.37, F1: 54.21[0m
+Epoch 16: 36.08432, Time is 4.70s
+[34m[dev set Total] Prec.: 59.17, Rec.: 55.00, F1: 57.01[0m
+saving the best model...
+Epoch 17: 28.69305, Time is 4.81s
+[34m[dev set Total] Prec.: 59.39, Rec.: 55.98, F1: 57.63[0m
+saving the best model...
+Epoch 18: 21.03146, Time is 4.65s
+[34m[dev set Total] Prec.: 62.18, Rec.: 56.15, F1: 59.01[0m
+saving the best model...
+Epoch 19: 16.31088, Time is 4.33s
+[34m[dev set Total] Prec.: 58.57, Rec.: 56.60, F1: 57.57[0m
+Epoch 20: 13.16595, Time is 4.37s
+[34m[dev set Total] Prec.: 60.45, Rec.: 57.92, F1: 59.16[0m
+saving the best model...
+Epoch 21: 9.37024, Time is 4.53s
+[34m[dev set Total] Prec.: 61.50, Rec.: 58.42, F1: 59.92[0m
+saving the best model...
+Epoch 22: 6.99878, Time is 4.82s
+[34m[dev set Total] Prec.: 61.07, Rec.: 59.08, F1: 60.06[0m
+saving the best model...
+Epoch 23: 5.65704, Time is 4.91s
+[34m[dev set Total] Prec.: 62.75, Rec.: 59.58, F1: 61.13[0m
+saving the best model...
+Epoch 24: 3.72134, Time is 4.71s
+[34m[dev set Total] Prec.: 63.42, Rec.: 59.95, F1: 61.64[0m
+saving the best model...
+Epoch 25: 3.03064, Time is 4.57s
+[34m[dev set Total] Prec.: 62.40, Rec.: 60.17, F1: 61.27[0m
+Epoch 26: 2.46210, Time is 4.46s
+[34m[dev set Total] Prec.: 63.57, Rec.: 59.78, F1: 61.62[0m
+Epoch 27: 2.01791, Time is 4.37s
+[34m[dev set Total] Prec.: 63.78, Rec.: 60.98, F1: 62.35[0m
+saving the best model...
+Epoch 28: 1.71761, Time is 4.20s
+[34m[dev set Total] Prec.: 64.13, Rec.: 61.22, F1: 62.64[0m
+saving the best model...
+Epoch 29: 1.49661, Time is 4.12s
+[34m[dev set Total] Prec.: 64.34, Rec.: 61.18, F1: 62.72[0m
+saving the best model...
+Epoch 30: 1.30032, Time is 4.02s
+[34m[dev set Total] Prec.: 63.78, Rec.: 61.11, F1: 62.42[0m
+Epoch 31: 1.11664, Time is 4.58s
+[34m[dev set Total] Prec.: 63.97, Rec.: 61.74, F1: 62.83[0m
+saving the best model...
+Epoch 32: 1.01236, Time is 3.99s
+[34m[dev set Total] Prec.: 65.75, Rec.: 61.77, F1: 63.70[0m
+saving the best model...
+Epoch 33: 0.88763, Time is 3.73s
+[34m[dev set Total] Prec.: 63.34, Rec.: 61.54, F1: 62.42[0m
+Epoch 34: 0.80304, Time is 4.84s
+[34m[dev set Total] Prec.: 62.85, Rec.: 61.64, F1: 62.24[0m
+Epoch 35: 0.72552, Time is 3.80s
+[34m[dev set Total] Prec.: 63.67, Rec.: 62.01, F1: 62.83[0m
+Epoch 36: 0.68326, Time is 3.61s
+[34m[dev set Total] Prec.: 65.69, Rec.: 62.11, F1: 63.85[0m
+saving the best model...
+Epoch 37: 0.64075, Time is 3.23s
+[34m[dev set Total] Prec.: 65.59, Rec.: 62.36, F1: 63.93[0m
+saving the best model...
+Epoch 38: 0.59442, Time is 3.23s
+[34m[dev set Total] Prec.: 65.22, Rec.: 62.38, F1: 63.77[0m
+Epoch 39: 0.56961, Time is 3.51s
+[34m[dev set Total] Prec.: 64.43, Rec.: 62.36, F1: 63.38[0m
+Epoch 40: 0.56261, Time is 2.77s
+[34m[dev set Total] Prec.: 64.21, Rec.: 62.41, F1: 63.30[0m
+Epoch 41: 0.52515, Time is 2.66s
+[34m[dev set Total] Prec.: 64.02, Rec.: 62.66, F1: 63.34[0m
+Epoch 42: 0.51431, Time is 1.98s
+[34m[dev set Total] Prec.: 64.23, Rec.: 62.75, F1: 63.48[0m
+Epoch 43: 0.49060, Time is 3.49s
+[34m[dev set Total] Prec.: 64.53, Rec.: 62.80, F1: 63.65[0m
+Epoch 44: 0.48297, Time is 2.31s
+[34m[dev set Total] Prec.: 64.77, Rec.: 62.71, F1: 63.72[0m
+Epoch 45: 0.46713, Time is 2.73s
+[34m[dev set Total] Prec.: 64.69, Rec.: 62.51, F1: 63.58[0m
+Epoch 46: 0.46027, Time is 3.90s
+[34m[dev set Total] Prec.: 64.56, Rec.: 62.50, F1: 63.51[0m
+Epoch 47: 0.46182, Time is 3.70s
+[34m[dev set Total] Prec.: 64.47, Rec.: 62.61, F1: 63.53[0m
+Epoch 48: 0.45090, Time is 3.97s
+[34m[dev set Total] Prec.: 64.41, Rec.: 62.68, F1: 63.53[0m
+Epoch 49: 0.44537, Time is 3.98s
+[34m[dev set Total] Prec.: 64.28, Rec.: 62.63, F1: 63.44[0m
+Epoch 50: 0.44327, Time is 3.88s
+[34m[dev set Total] Prec.: 64.29, Rec.: 62.63, F1: 63.45[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 63.93
+Final testing.
+[34m[test set Total] Prec.: 64.25, Rec.: 60.50, F1: 62.32[0m

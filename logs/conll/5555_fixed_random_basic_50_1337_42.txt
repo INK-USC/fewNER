@@ -1,0 +1,341 @@
+device: cuda:0
+seed: 42
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 50_1337
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/5555_fixed_random_basic_50_1337_42
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 5555
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_50_1337.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_50_1337.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'B-ORG': 2, 'E-ORG': 3, 'B-LOC': 4, 'E-LOC': 5, 'S-ORG': 6, 'B-PER': 7, 'E-PER': 8, 'B-MISC': 9, 'E-MISC': 10, 'I-ORG': 11, 'S-PER': 12, 'I-MISC': 13, 'S-LOC': 14, 'I-PER': 15, 'S-MISC': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label ORG, picked entity Niugini, picked instance ['Niugini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17.2', 'percent', 'stake', 'in', 'the', 'Lihir', 'gold', 'project', '.']
+--> For label LOC, picked entity London, picked instance ['Diana', 'met', 'Will', 'Carling', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.']
+--> For label PER, picked entity Lauren Ottoz, picked instance ['1.', 'Lauren', 'Ottoz', '(', 'Italy', ')', '49.16']
+--> For label MISC, picked entity Republican National Convention, picked instance ['News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trashed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'nudge', 'Syria', 'into', 'peace', 'with', 'Israel', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['--', 'Sydney', 'Newsroom', '61-2', '9373-1800'][0m
+[33mPrompt 0: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 5: ['Preston', '0', 'Bristol', 'Rovers', '0'][0m
+[33mPrompt 5: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 10: ['The', 'scored', 'stayed', 'level', 'to', 'the', 'final', 'minutes', 'but', 'with', 'a', 'penalty', 'shoot', 'out', 'looming', ',', 'Batistuta', 'took', 'charge', '.'][0m
+[33mPrompt 10: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 15: ['"', 'The', 'ultimatum', '(', 'to', 'storm', 'Grozny', ')', 'is', 'no', 'longer', 'an', 'issue', ',', '"', 'he', 'said', 'quoting', 'Ischinger', ',', 'who', 'had', 'been', 'sent', 'to', 'Moscow', 'by', 'German', 'Foreign', 'Minister', 'Klaus', 'Kinkel', 'as', 'his', 'personal', 'envoy', 'to', 'urge', 'an', 'end', 'to', 'Moscow', "'s", 'military', 'campaign', 'in', 'the', 'breakaway', 'region', '.'][0m
+[33mPrompt 15: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Painted', 'parrot', 'scam', 'lands', 'Australian', 'in', 'jail', '.'][0m
+[33mPrompt 20: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 25: ['CENTRAL', 'DIVISION'][0m
+[33mPrompt 25: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 30: ['Oakland', '6', 'NEW', 'YORK', '4'][0m
+[33mPrompt 30: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 35: ['Results', 'of', 'Australian', 'Rules'][0m
+[33mPrompt 35: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 40: ['SUGO', ',', 'Japan', '1996-08-25'][0m
+[33mPrompt 40: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 45: ['Hansa', 'Rostock', 'brought', 'Cologne', "'s", '100', 'percent', 'record', 'to', 'an', 'end', 'with', 'a', '2-0', 'win', 'over', 'the', 'Rhineside', 'club', 'while', 'a', 'Sean', 'Dundee', 'hat-trick', 'inside', 'seven', 'minutes', 'stood', 'out', 'in', 'Karlsruhe', "'s", '4-0', 'demolition', 'of', 'St', 'Pauli', '.'][0m
+[33mPrompt 45: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_50_1337.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'O': 1, 'B-ORG': 2, 'E-ORG': 3, 'B-LOC': 4, 'E-LOC': 5, 'S-ORG': 6, 'B-PER': 7, 'E-PER': 8, 'B-MISC': 9, 'E-MISC': 10, 'I-ORG': 11, 'S-PER': 12, 'I-MISC': 13, 'S-LOC': 14, 'I-PER': 15, 'S-MISC': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label ORG, picked entity Niugini, picked instance ['Niugini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17.2', 'percent', 'stake', 'in', 'the', 'Lihir', 'gold', 'project', '.']
+--> For label LOC, picked entity London, picked instance ['Diana', 'met', 'Will', 'Carling', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.']
+--> For label PER, picked entity Lauren Ottoz, picked instance ['1.', 'Lauren', 'Ottoz', '(', 'Italy', ')', '49.16']
+--> For label MISC, picked entity Republican National Convention, picked instance ['News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trashed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'nudge', 'Syria', 'into', 'peace', 'with', 'Israel', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['--', 'Sydney', 'Newsroom', '61-2', '9373-1800'][0m
+[33mPrompt 0: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 5: ['Preston', '0', 'Bristol', 'Rovers', '0'][0m
+[33mPrompt 5: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 10: ['The', 'scored', 'stayed', 'level', 'to', 'the', 'final', 'minutes', 'but', 'with', 'a', 'penalty', 'shoot', 'out', 'looming', ',', 'Batistuta', 'took', 'charge', '.'][0m
+[33mPrompt 10: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 15: ['"', 'The', 'ultimatum', '(', 'to', 'storm', 'Grozny', ')', 'is', 'no', 'longer', 'an', 'issue', ',', '"', 'he', 'said', 'quoting', 'Ischinger', ',', 'who', 'had', 'been', 'sent', 'to', 'Moscow', 'by', 'German', 'Foreign', 'Minister', 'Klaus', 'Kinkel', 'as', 'his', 'personal', 'envoy', 'to', 'urge', 'an', 'end', 'to', 'Moscow', "'s", 'military', 'campaign', 'in', 'the', 'breakaway', 'region', '.'][0m
+[33mPrompt 15: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Painted', 'parrot', 'scam', 'lands', 'Australian', 'in', 'jail', '.'][0m
+[33mPrompt 20: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 25: ['CENTRAL', 'DIVISION'][0m
+[33mPrompt 25: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 30: ['Oakland', '6', 'NEW', 'YORK', '4'][0m
+[33mPrompt 30: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 35: ['Results', 'of', 'Australian', 'Rules'][0m
+[33mPrompt 35: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 40: ['SUGO', ',', 'Japan', '1996-08-25'][0m
+[33mPrompt 40: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 45: ['Hansa', 'Rostock', 'brought', 'Cologne', "'s", '100', 'percent', 'record', 'to', 'an', 'end', 'with', 'a', '2-0', 'win', 'over', 'the', 'Rhineside', 'club', 'while', 'a', 'Sean', 'Dundee', 'hat-trick', 'inside', 'seven', 'minutes', 'stood', 'out', 'in', 'Karlsruhe', "'s", '4-0', 'demolition', 'of', 'St', 'Pauli', '.'][0m
+[33mPrompt 45: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label ORG, picked entity Niugini, picked instance ['Niugini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17.2', 'percent', 'stake', 'in', 'the', 'Lihir', 'gold', 'project', '.']
+--> For label LOC, picked entity London, picked instance ['Diana', 'met', 'Will', 'Carling', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.']
+--> For label PER, picked entity Lauren Ottoz, picked instance ['1.', 'Lauren', 'Ottoz', '(', 'Italy', ')', '49.16']
+--> For label MISC, picked entity Republican National Convention, picked instance ['News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trashed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'nudge', 'Syria', 'into', 'peace', 'with', 'Israel', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label ORG, picked entity Niugini, picked instance ['Niugini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17.2', 'percent', 'stake', 'in', 'the', 'Lihir', 'gold', 'project', '.']
+--> For label LOC, picked entity London, picked instance ['Diana', 'met', 'Will', 'Carling', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.']
+--> For label PER, picked entity Lauren Ottoz, picked instance ['1.', 'Lauren', 'Ottoz', '(', 'Italy', ')', '49.16']
+--> For label MISC, picked entity Republican National Convention, picked instance ['News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trashed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'nudge', 'Syria', 'into', 'peace', 'with', 'Israel', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['Ni', '##ug', '##ini', 'holds', 'copper', 'and', 'gold', 'mining', 'interests', 'in', 'Australia', ',', 'Chile', 'and', 'Papua', 'New', 'Guinea', ',', 'where', 'it', 'has', 'a', '17', '.', '2', 'percent', 'stake', 'in', 'the', 'Li', '##hir', 'gold', 'project', '.', 'Ni', '##ug', '##ini', 'is', 'ORG', '.', '[SEP]', 'Diana', 'met', 'Will', 'Carl', '##ing', 'at', 'an', 'exclusive', 'gymnasium', 'in', 'London', '.', 'London', 'is', 'LOC', '.', '[SEP]', '1', '.', 'Lauren', 'Otto', '##z', '(', 'Italy', ')', '49', '.', '16', 'Lauren', 'Otto', '##z', 'is', 'PER', '.', '[SEP]', 'News', 'of', 'the', 'secret', 'trip', 'came', 'after', 'Baker', 'trash', '##ed', 'the', 'Clinton', 'administration', 'at', 'the', 'Republican', 'National', 'Convention', 'two', 'weeks', 'ago', 'for', 'its', 'efforts', 'to', 'n', '##udge', 'Syria', 'into', 'peace', 'with', 'Israel', '.', 'Republican', 'National', 'Convention', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 13
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/5555_fixed_random_basic_50_1337_42.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 2453.82552, Time is 2.10s
+[34m[dev set Total] Prec.: 1.79, Rec.: 0.20, F1: 0.36[0m
+saving the best model...
+Epoch 2: 794.13926, Time is 6.68s
+[34m[dev set Total] Prec.: 10.74, Rec.: 4.33, F1: 6.17[0m
+saving the best model...
+Epoch 3: 574.72641, Time is 6.11s
+[34m[dev set Total] Prec.: 8.27, Rec.: 8.29, F1: 8.28[0m
+saving the best model...
+Epoch 4: 490.79500, Time is 6.18s
+[34m[dev set Total] Prec.: 23.05, Rec.: 21.14, F1: 22.05[0m
+saving the best model...
+Epoch 5: 411.24870, Time is 6.01s
+[34m[dev set Total] Prec.: 22.76, Rec.: 25.21, F1: 23.92[0m
+saving the best model...
+Epoch 6: 363.28564, Time is 6.82s
+[34m[dev set Total] Prec.: 23.79, Rec.: 26.54, F1: 25.09[0m
+saving the best model...
+Epoch 7: 301.43349, Time is 6.61s
+[34m[dev set Total] Prec.: 39.26, Rec.: 38.68, F1: 38.97[0m
+saving the best model...
+Epoch 8: 224.67274, Time is 6.39s
+[34m[dev set Total] Prec.: 48.84, Rec.: 52.59, F1: 50.64[0m
+saving the best model...
+Epoch 9: 156.27578, Time is 5.92s
+[34m[dev set Total] Prec.: 58.82, Rec.: 54.61, F1: 56.64[0m
+saving the best model...
+Epoch 10: 119.54964, Time is 6.19s
+[34m[dev set Total] Prec.: 50.61, Rec.: 55.74, F1: 53.05[0m
+Epoch 11: 82.27573, Time is 6.28s
+[34m[dev set Total] Prec.: 58.79, Rec.: 58.99, F1: 58.89[0m
+saving the best model...
+Epoch 12: 54.60424, Time is 6.29s
+[34m[dev set Total] Prec.: 55.72, Rec.: 60.09, F1: 57.82[0m
+Epoch 13: 37.19404, Time is 6.22s
+[34m[dev set Total] Prec.: 61.74, Rec.: 61.60, F1: 61.67[0m
+saving the best model...
+Epoch 14: 25.36029, Time is 5.49s
+[34m[dev set Total] Prec.: 60.72, Rec.: 62.38, F1: 61.54[0m
+Epoch 15: 15.36922, Time is 6.01s
+[34m[dev set Total] Prec.: 63.28, Rec.: 62.14, F1: 62.71[0m
+saving the best model...
+Epoch 16: 10.54166, Time is 6.51s
+[34m[dev set Total] Prec.: 59.38, Rec.: 63.22, F1: 61.24[0m
+Epoch 17: 7.87219, Time is 6.00s
+[34m[dev set Total] Prec.: 60.99, Rec.: 63.09, F1: 62.02[0m
+Epoch 18: 5.24303, Time is 5.78s
+[34m[dev set Total] Prec.: 60.95, Rec.: 63.09, F1: 62.00[0m
+Epoch 19: 3.31497, Time is 5.77s
+[34m[dev set Total] Prec.: 61.12, Rec.: 64.35, F1: 62.69[0m
+Epoch 20: 2.52002, Time is 5.60s
+[34m[dev set Total] Prec.: 60.67, Rec.: 63.54, F1: 62.07[0m
+Epoch 21: 1.67704, Time is 5.67s
+[34m[dev set Total] Prec.: 61.00, Rec.: 63.17, F1: 62.07[0m
+Epoch 22: 1.27310, Time is 5.76s
+[34m[dev set Total] Prec.: 60.62, Rec.: 64.03, F1: 62.28[0m
+Epoch 23: 0.96176, Time is 5.12s
+[34m[dev set Total] Prec.: 61.74, Rec.: 63.66, F1: 62.69[0m
+Epoch 24: 0.74269, Time is 5.63s
+[34m[dev set Total] Prec.: 60.55, Rec.: 64.18, F1: 62.31[0m
+Epoch 25: 0.60565, Time is 6.46s
+[34m[dev set Total] Prec.: 62.23, Rec.: 64.70, F1: 63.44[0m
+saving the best model...
+Epoch 26: 0.50018, Time is 6.83s
+[34m[dev set Total] Prec.: 62.21, Rec.: 64.48, F1: 63.33[0m
+Epoch 27: 0.44165, Time is 6.44s
+[34m[dev set Total] Prec.: 63.02, Rec.: 64.52, F1: 63.76[0m
+saving the best model...
+Epoch 28: 0.36975, Time is 6.12s
+[34m[dev set Total] Prec.: 62.15, Rec.: 64.16, F1: 63.14[0m
+Epoch 29: 0.34656, Time is 6.50s
+[34m[dev set Total] Prec.: 60.59, Rec.: 64.13, F1: 62.31[0m
+Epoch 30: 0.31369, Time is 5.90s
+[34m[dev set Total] Prec.: 61.14, Rec.: 64.31, F1: 62.69[0m
+Epoch 31: 0.29901, Time is 5.82s
+[34m[dev set Total] Prec.: 61.98, Rec.: 64.21, F1: 63.08[0m
+Epoch 32: 0.27789, Time is 6.26s
+[34m[dev set Total] Prec.: 61.67, Rec.: 64.20, F1: 62.91[0m
+Epoch 33: 0.26328, Time is 6.29s
+[34m[dev set Total] Prec.: 61.73, Rec.: 64.55, F1: 63.11[0m
+Epoch 34: 0.24072, Time is 5.99s
+[34m[dev set Total] Prec.: 61.46, Rec.: 64.55, F1: 62.97[0m
+Epoch 35: 0.22574, Time is 6.40s
+[34m[dev set Total] Prec.: 61.36, Rec.: 64.21, F1: 62.76[0m
+Epoch 36: 0.22643, Time is 6.32s
+[34m[dev set Total] Prec.: 61.95, Rec.: 64.40, F1: 63.15[0m
+Epoch 37: 0.21666, Time is 6.13s
+[34m[dev set Total] Prec.: 61.76, Rec.: 64.50, F1: 63.10[0m
+Epoch 38: 0.21164, Time is 6.17s
+[34m[dev set Total] Prec.: 61.82, Rec.: 64.62, F1: 63.19[0m
+Epoch 39: 0.20316, Time is 6.11s
+[34m[dev set Total] Prec.: 61.68, Rec.: 64.45, F1: 63.03[0m
+Epoch 40: 0.20457, Time is 6.30s
+[34m[dev set Total] Prec.: 61.93, Rec.: 64.52, F1: 63.20[0m
+Epoch 41: 0.19638, Time is 6.33s
+[34m[dev set Total] Prec.: 62.47, Rec.: 64.60, F1: 63.52[0m
+Epoch 42: 0.19967, Time is 6.46s
+[34m[dev set Total] Prec.: 62.45, Rec.: 64.47, F1: 63.44[0m
+Epoch 43: 0.19409, Time is 5.63s
+[34m[dev set Total] Prec.: 62.26, Rec.: 64.33, F1: 63.28[0m
+Epoch 44: 0.18265, Time is 5.80s
+[34m[dev set Total] Prec.: 62.24, Rec.: 64.31, F1: 63.26[0m
+Epoch 45: 0.18431, Time is 6.15s
+[34m[dev set Total] Prec.: 62.22, Rec.: 64.43, F1: 63.31[0m
+Epoch 46: 0.17990, Time is 6.76s
+[34m[dev set Total] Prec.: 62.14, Rec.: 64.47, F1: 63.28[0m
+Epoch 47: 0.17625, Time is 6.60s
+[34m[dev set Total] Prec.: 61.89, Rec.: 64.35, F1: 63.09[0m
+early stop because there are 20 epochs not increasing f1 on dev
+Archiving the best Model...
+Finished archiving the models
+The best dev: 63.76
+Final testing.
+[34m[test set Total] Prec.: 61.40, Rec.: 62.43, F1: 61.91[0m

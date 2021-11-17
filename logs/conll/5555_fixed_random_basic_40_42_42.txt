@@ -1,0 +1,361 @@
+device: cuda:0
+seed: 42
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 40_42
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/5555_fixed_random_basic_40_42_42
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 5555
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_40_42.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_40_42.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 40
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-ORG': 1, 'I-ORG': 2, 'E-ORG': 3, 'O': 4, 'S-LOC': 5, 'S-ORG': 6, 'B-PER': 7, 'E-PER': 8, 'I-PER': 9, 'B-LOC': 10, 'E-LOC': 11, 'B-MISC': 12, 'I-MISC': 13, 'E-MISC': 14, 'S-MISC': 15, 'S-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label ORG, picked entity Reuter London Newsroom, picked instance ['--', 'Reuter', 'London', 'Newsroom', '+44', '171', '542', '7658']
+--> For label LOC, picked entity Island Beach State Park, picked instance ['A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forwarded', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.']
+--> For label PER, picked entity Edvard Grieg, picked instance ['1907', '-', 'Edvard', 'Grieg', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'Peer', 'Gynt', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.']
+--> For label MISC, picked entity British, picked instance ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper-Collins', 'had', 'not', 'helped', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['GACETA', 'DE', 'LOS', 'NEGOCIOS'][0m
+[33mPrompt 0: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 4: ['Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.'][0m
+[33mPrompt 4: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 8: ['An', 'earlier', 'problem', 'with', 'CDU', 'No', '.'][0m
+[33mPrompt 8: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 12: ['Alastair', 'Macdonald'][0m
+[33mPrompt 12: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 16: ['The', 'KDP', 'said', '29', 'PUK', 'fighters', 'were', 'killed', 'in', 'the', 'attack', '.'][0m
+[33mPrompt 16: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Sheffield', 'United', '2', '0', '1', '1', '4', '5', '1'][0m
+[33mPrompt 20: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 24: ['Ssangbangwool', '59', '2', '48', '.500', '5'][0m
+[33mPrompt 24: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 28: ['Misael', 'Valerio', ',', 'head', 'of', 'border', 'police', 'at', 'the', 'Security', 'Ministry', ',', 'told', 'reporters', 'surveillance', 'of', 'the', 'northern', 'border', 'with', 'Nicaragua', 'has', 'been', 'stepped', 'up', 'to', 'keep', 'the', 'kidnappers', 'from', 'fleeing', 'Costa', 'Rica', '.'][0m
+[33mPrompt 28: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 32: ['--', 'Reuter', 'London', 'Newsroom', '+44', '171', '542', '7658'][0m
+[33mPrompt 32: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 36: ['But', 'the', 'visitors', 'responded', 'to', 'the', 'setback', 'immediately', '--', 'veteran', 'striker', 'Ashley', 'Mocude', 'scoring', 'a', 'minute', 'later', 'to', 'give', 'them', 'a', 'two-goal', 'aggregate', 'lead', '.'][0m
+[33mPrompt 36: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_40_42.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 40
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-ORG': 1, 'I-ORG': 2, 'E-ORG': 3, 'O': 4, 'S-LOC': 5, 'S-ORG': 6, 'B-PER': 7, 'E-PER': 8, 'I-PER': 9, 'B-LOC': 10, 'E-LOC': 11, 'B-MISC': 12, 'I-MISC': 13, 'E-MISC': 14, 'S-MISC': 15, 'S-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label ORG, picked entity Reuter London Newsroom, picked instance ['--', 'Reuter', 'London', 'Newsroom', '+44', '171', '542', '7658']
+--> For label LOC, picked entity Island Beach State Park, picked instance ['A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forwarded', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.']
+--> For label PER, picked entity Edvard Grieg, picked instance ['1907', '-', 'Edvard', 'Grieg', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'Peer', 'Gynt', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.']
+--> For label MISC, picked entity British, picked instance ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper-Collins', 'had', 'not', 'helped', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['GACETA', 'DE', 'LOS', 'NEGOCIOS'][0m
+[33mPrompt 0: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 4: ['Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.'][0m
+[33mPrompt 4: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 8: ['An', 'earlier', 'problem', 'with', 'CDU', 'No', '.'][0m
+[33mPrompt 8: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 12: ['Alastair', 'Macdonald'][0m
+[33mPrompt 12: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 16: ['The', 'KDP', 'said', '29', 'PUK', 'fighters', 'were', 'killed', 'in', 'the', 'attack', '.'][0m
+[33mPrompt 16: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Sheffield', 'United', '2', '0', '1', '1', '4', '5', '1'][0m
+[33mPrompt 20: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 24: ['Ssangbangwool', '59', '2', '48', '.500', '5'][0m
+[33mPrompt 24: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 28: ['Misael', 'Valerio', ',', 'head', 'of', 'border', 'police', 'at', 'the', 'Security', 'Ministry', ',', 'told', 'reporters', 'surveillance', 'of', 'the', 'northern', 'border', 'with', 'Nicaragua', 'has', 'been', 'stepped', 'up', 'to', 'keep', 'the', 'kidnappers', 'from', 'fleeing', 'Costa', 'Rica', '.'][0m
+[33mPrompt 28: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 32: ['--', 'Reuter', 'London', 'Newsroom', '+44', '171', '542', '7658'][0m
+[33mPrompt 32: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 36: ['But', 'the', 'visitors', 'responded', 'to', 'the', 'setback', 'immediately', '--', 'veteran', 'striker', 'Ashley', 'Mocude', 'scoring', 'a', 'minute', 'later', 'to', 'give', 'them', 'a', 'two-goal', 'aggregate', 'lead', '.'][0m
+[33mPrompt 36: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label ORG, picked entity Reuter London Newsroom, picked instance ['--', 'Reuter', 'London', 'Newsroom', '+44', '171', '542', '7658']
+--> For label LOC, picked entity Island Beach State Park, picked instance ['A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forwarded', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.']
+--> For label PER, picked entity Edvard Grieg, picked instance ['1907', '-', 'Edvard', 'Grieg', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'Peer', 'Gynt', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.']
+--> For label MISC, picked entity British, picked instance ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper-Collins', 'had', 'not', 'helped', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label ORG, picked entity Reuter London Newsroom, picked instance ['--', 'Reuter', 'London', 'Newsroom', '+44', '171', '542', '7658']
+--> For label LOC, picked entity Island Beach State Park, picked instance ['A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forwarded', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.']
+--> For label PER, picked entity Edvard Grieg, picked instance ['1907', '-', 'Edvard', 'Grieg', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'Peer', 'Gynt', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.']
+--> For label MISC, picked entity British, picked instance ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper-Collins', 'had', 'not', 'helped', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', 'A', 'person', 'walking', 'on', 'the', 'shore', 'at', 'Island', 'Beach', 'State', 'Park', 'found', 'the', 'debris', 'and', 'alerted', 'police', 'who', 'forward', '##ed', 'it', 'to', 'Long', 'Island', ',', 'New', 'York', ',', 'where', 'the', 'National', 'Transportation', 'Safety', 'Board', 'and', 'the', 'FBI', 'are', 'conducting', 'an', 'investigation', '.', 'Island', 'Beach', 'State', 'Park', 'is', 'LOC', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Ed', '##vard', 'G', '##rie', '##g', 'is', 'PER', '.', '[SEP]', 'It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper', '-', 'Collins', 'had', 'not', 'helped', '.', 'British', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 10
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/5555_fixed_random_basic_40_42_42.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1273.02371, Time is 6.00s
+[34m[dev set Total] Prec.: 7.69, Rec.: 0.02, F1: 0.03[0m
+saving the best model...
+Epoch 2: 784.88665, Time is 4.94s
+[34m[dev set Total] Prec.: 2.96, Rec.: 0.13, F1: 0.26[0m
+saving the best model...
+Epoch 3: 613.87721, Time is 5.04s
+[34m[dev set Total] Prec.: 1.56, Rec.: 0.15, F1: 0.28[0m
+saving the best model...
+Epoch 4: 503.11140, Time is 4.74s
+[34m[dev set Total] Prec.: 1.07, Rec.: 0.24, F1: 0.39[0m
+saving the best model...
+Epoch 5: 390.83430, Time is 4.82s
+[34m[dev set Total] Prec.: 12.29, Rec.: 6.35, F1: 8.37[0m
+saving the best model...
+Epoch 6: 315.66001, Time is 4.35s
+[34m[dev set Total] Prec.: 38.84, Rec.: 22.20, F1: 28.25[0m
+saving the best model...
+Epoch 7: 248.35015, Time is 3.97s
+[34m[dev set Total] Prec.: 49.58, Rec.: 33.04, F1: 39.66[0m
+saving the best model...
+Epoch 8: 197.99030, Time is 4.81s
+[34m[dev set Total] Prec.: 54.49, Rec.: 36.81, F1: 43.94[0m
+saving the best model...
+Epoch 9: 156.22676, Time is 5.12s
+[34m[dev set Total] Prec.: 55.26, Rec.: 40.45, F1: 46.71[0m
+saving the best model...
+Epoch 10: 123.00131, Time is 4.99s
+[34m[dev set Total] Prec.: 55.89, Rec.: 42.98, F1: 48.59[0m
+saving the best model...
+Epoch 11: 91.86195, Time is 4.91s
+[34m[dev set Total] Prec.: 54.12, Rec.: 45.50, F1: 49.44[0m
+saving the best model...
+Epoch 12: 65.45340, Time is 5.46s
+[34m[dev set Total] Prec.: 57.83, Rec.: 47.95, F1: 52.43[0m
+saving the best model...
+Epoch 13: 47.46873, Time is 5.33s
+[34m[dev set Total] Prec.: 59.55, Rec.: 53.23, F1: 56.22[0m
+saving the best model...
+Epoch 14: 36.13487, Time is 5.54s
+[34m[dev set Total] Prec.: 62.17, Rec.: 54.21, F1: 57.92[0m
+saving the best model...
+Epoch 15: 27.53766, Time is 5.44s
+[34m[dev set Total] Prec.: 63.67, Rec.: 53.81, F1: 58.32[0m
+saving the best model...
+Epoch 16: 17.48712, Time is 4.54s
+[34m[dev set Total] Prec.: 62.44, Rec.: 57.26, F1: 59.74[0m
+saving the best model...
+Epoch 17: 14.44711, Time is 4.51s
+[34m[dev set Total] Prec.: 66.55, Rec.: 58.00, F1: 61.98[0m
+saving the best model...
+Epoch 18: 9.45901, Time is 4.93s
+[34m[dev set Total] Prec.: 67.45, Rec.: 57.41, F1: 62.03[0m
+saving the best model...
+Epoch 19: 6.58591, Time is 5.05s
+[34m[dev set Total] Prec.: 64.94, Rec.: 59.40, F1: 62.05[0m
+saving the best model...
+Epoch 20: 4.84285, Time is 4.90s
+[34m[dev set Total] Prec.: 65.46, Rec.: 60.19, F1: 62.71[0m
+saving the best model...
+Epoch 21: 3.40218, Time is 4.89s
+[34m[dev set Total] Prec.: 68.01, Rec.: 62.23, F1: 64.99[0m
+saving the best model...
+Epoch 22: 2.53465, Time is 4.48s
+[34m[dev set Total] Prec.: 67.41, Rec.: 61.62, F1: 64.39[0m
+Epoch 23: 1.80472, Time is 4.71s
+[34m[dev set Total] Prec.: 66.71, Rec.: 61.99, F1: 64.26[0m
+Epoch 24: 1.42380, Time is 4.83s
+[34m[dev set Total] Prec.: 68.09, Rec.: 62.65, F1: 65.26[0m
+saving the best model...
+Epoch 25: 1.05124, Time is 4.66s
+[34m[dev set Total] Prec.: 69.52, Rec.: 63.00, F1: 66.10[0m
+saving the best model...
+Epoch 26: 0.83423, Time is 5.05s
+[34m[dev set Total] Prec.: 69.31, Rec.: 63.49, F1: 66.27[0m
+saving the best model...
+Epoch 27: 0.70021, Time is 4.94s
+[34m[dev set Total] Prec.: 68.23, Rec.: 63.52, F1: 65.79[0m
+Epoch 28: 0.66992, Time is 5.04s
+[34m[dev set Total] Prec.: 68.27, Rec.: 64.43, F1: 66.30[0m
+saving the best model...
+Epoch 29: 0.50658, Time is 4.86s
+[34m[dev set Total] Prec.: 69.66, Rec.: 64.72, F1: 67.10[0m
+saving the best model...
+Epoch 30: 0.44348, Time is 4.23s
+[34m[dev set Total] Prec.: 70.48, Rec.: 64.80, F1: 67.52[0m
+saving the best model...
+Epoch 31: 0.42194, Time is 3.46s
+[34m[dev set Total] Prec.: 69.59, Rec.: 65.09, F1: 67.26[0m
+Epoch 32: 0.36383, Time is 5.56s
+[34m[dev set Total] Prec.: 69.47, Rec.: 65.17, F1: 67.25[0m
+Epoch 33: 0.33920, Time is 2.96s
+[34m[dev set Total] Prec.: 68.94, Rec.: 65.31, F1: 67.08[0m
+Epoch 34: 0.30888, Time is 2.97s
+[34m[dev set Total] Prec.: 68.70, Rec.: 65.33, F1: 66.97[0m
+Epoch 35: 0.28793, Time is 5.53s
+[34m[dev set Total] Prec.: 68.36, Rec.: 65.66, F1: 66.98[0m
+Epoch 36: 0.27768, Time is 4.97s
+[34m[dev set Total] Prec.: 68.37, Rec.: 65.85, F1: 67.08[0m
+Epoch 37: 0.25665, Time is 4.33s
+[34m[dev set Total] Prec.: 68.26, Rec.: 65.56, F1: 66.88[0m
+Epoch 38: 0.25278, Time is 4.78s
+[34m[dev set Total] Prec.: 69.03, Rec.: 65.70, F1: 67.32[0m
+Epoch 39: 0.23825, Time is 5.24s
+[34m[dev set Total] Prec.: 69.41, Rec.: 65.44, F1: 67.37[0m
+Epoch 40: 0.22449, Time is 5.11s
+[34m[dev set Total] Prec.: 69.42, Rec.: 65.61, F1: 67.46[0m
+Epoch 41: 0.22098, Time is 5.06s
+[34m[dev set Total] Prec.: 69.50, Rec.: 65.85, F1: 67.62[0m
+saving the best model...
+Epoch 42: 0.21088, Time is 4.85s
+[34m[dev set Total] Prec.: 69.61, Rec.: 65.73, F1: 67.61[0m
+Epoch 43: 0.21436, Time is 5.31s
+[34m[dev set Total] Prec.: 69.46, Rec.: 65.85, F1: 67.61[0m
+Epoch 44: 0.20586, Time is 4.94s
+[34m[dev set Total] Prec.: 69.41, Rec.: 65.91, F1: 67.62[0m
+Epoch 45: 0.20767, Time is 4.87s
+[34m[dev set Total] Prec.: 69.51, Rec.: 65.88, F1: 67.65[0m
+saving the best model...
+Epoch 46: 0.19543, Time is 4.70s
+[34m[dev set Total] Prec.: 69.39, Rec.: 65.90, F1: 67.60[0m
+Epoch 47: 0.19728, Time is 4.77s
+[34m[dev set Total] Prec.: 69.37, Rec.: 65.88, F1: 67.58[0m
+Epoch 48: 0.19331, Time is 5.09s
+[34m[dev set Total] Prec.: 69.35, Rec.: 65.80, F1: 67.53[0m
+Epoch 49: 0.20268, Time is 4.98s
+[34m[dev set Total] Prec.: 69.37, Rec.: 65.83, F1: 67.55[0m
+Epoch 50: 0.19446, Time is 4.96s
+[34m[dev set Total] Prec.: 69.38, Rec.: 65.80, F1: 67.54[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 67.65
+Final testing.
+[34m[test set Total] Prec.: 65.85, Rec.: 64.30, F1: 65.06[0m

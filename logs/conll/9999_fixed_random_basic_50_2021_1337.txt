@@ -1,0 +1,354 @@
+device: cuda:0
+seed: 1337
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 50_2021
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/9999_fixed_random_basic_50_2021_1337
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 9999
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_50_2021.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_50_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-MISC': 1, 'E-MISC': 2, 'O': 3, 'S-LOC': 4, 'B-ORG': 5, 'E-ORG': 6, 'S-MISC': 7, 'S-ORG': 8, 'B-PER': 9, 'E-PER': 10, 'S-PER': 11, 'I-MISC': 12, 'I-ORG': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label MISC, picked entity Indian, picked instance ['Sidhu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one-day', 'international', 'against', 'England', 'at', 'Old', 'Trafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three-test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'Azharuddin', '.']
+--> For label LOC, picked entity Rishon-Lezion, picked instance ['In', 'Rishon-Lezion', ':', 'Hapoel', 'Ironi', '(', 'Israel', ')', '3', 'Constructorul']
+--> For label ORG, picked entity Lincoln, picked instance ['English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.']
+--> For label PER, picked entity Retief Goosen, picked instance ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['S.', 'African', 'apartheid', 'killer', 'convicted', 'of', 'six', 'murders', '.'][0m
+[33mPrompt 0: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 5: ['American', 'world', 'champion', 'Gwen', 'Torrence', ',', 'the', 'bronze', 'medallist', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11.00', '.'][0m
+[33mPrompt 5: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 10: ['Essex', '532-8'][0m
+[33mPrompt 10: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 15: ['ATHENS', '1996-08-22'][0m
+[33mPrompt 15: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Bedie', 'pardoned', 'two', 'other', 'journalists', 'jailed', 'for', 'incitement', 'to', 'disturb', 'public', 'order', '.'][0m
+[33mPrompt 20: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 25: ['GROZNY', ',', 'Russia', '1996-08-23'][0m
+[33mPrompt 25: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 30: ['AMSTERDAM', '1996-08-28'][0m
+[33mPrompt 30: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 35: ['SunGard', 'to', 'buy', 'CheckFree', 'unit', '.'][0m
+[33mPrompt 35: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 40: ['"', 'If', 'we', 'lose', 'this', 'one', ',', 'Tony', 'and', 'I', 'will', 'have', 'to', 'have', 'a', 'good', 'look', 'at', 'giving', 'someone', 'else', 'a', 'go', ',', '"', 'Newcombe', 'was', 'quoted', 'as', 'saying', 'in', 'Sydney', "'s", 'Daily', 'Telegraph', 'newspaper', '.'][0m
+[33mPrompt 40: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 45: ['Obilic', '3', '3', '0', '0', '8', '1', '9'][0m
+[33mPrompt 45: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_50_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 50
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-MISC': 1, 'E-MISC': 2, 'O': 3, 'S-LOC': 4, 'B-ORG': 5, 'E-ORG': 6, 'S-MISC': 7, 'S-ORG': 8, 'B-PER': 9, 'E-PER': 10, 'S-PER': 11, 'I-MISC': 12, 'I-ORG': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label MISC, picked entity Indian, picked instance ['Sidhu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one-day', 'international', 'against', 'England', 'at', 'Old', 'Trafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three-test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'Azharuddin', '.']
+--> For label LOC, picked entity Rishon-Lezion, picked instance ['In', 'Rishon-Lezion', ':', 'Hapoel', 'Ironi', '(', 'Israel', ')', '3', 'Constructorul']
+--> For label ORG, picked entity Lincoln, picked instance ['English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.']
+--> For label PER, picked entity Retief Goosen, picked instance ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['S.', 'African', 'apartheid', 'killer', 'convicted', 'of', 'six', 'murders', '.'][0m
+[33mPrompt 0: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 5: ['American', 'world', 'champion', 'Gwen', 'Torrence', ',', 'the', 'bronze', 'medallist', 'in', 'Atlanta', ',', 'was', 'second', 'in', '11.00', '.'][0m
+[33mPrompt 5: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 10: ['Essex', '532-8'][0m
+[33mPrompt 10: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 15: ['ATHENS', '1996-08-22'][0m
+[33mPrompt 15: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Bedie', 'pardoned', 'two', 'other', 'journalists', 'jailed', 'for', 'incitement', 'to', 'disturb', 'public', 'order', '.'][0m
+[33mPrompt 20: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 25: ['GROZNY', ',', 'Russia', '1996-08-23'][0m
+[33mPrompt 25: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 30: ['AMSTERDAM', '1996-08-28'][0m
+[33mPrompt 30: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 35: ['SunGard', 'to', 'buy', 'CheckFree', 'unit', '.'][0m
+[33mPrompt 35: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 40: ['"', 'If', 'we', 'lose', 'this', 'one', ',', 'Tony', 'and', 'I', 'will', 'have', 'to', 'have', 'a', 'good', 'look', 'at', 'giving', 'someone', 'else', 'a', 'go', ',', '"', 'Newcombe', 'was', 'quoted', 'as', 'saying', 'in', 'Sydney', "'s", 'Daily', 'Telegraph', 'newspaper', '.'][0m
+[33mPrompt 40: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 45: ['Obilic', '3', '3', '0', '0', '8', '1', '9'][0m
+[33mPrompt 45: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label MISC, picked entity Indian, picked instance ['Sidhu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one-day', 'international', 'against', 'England', 'at', 'Old', 'Trafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three-test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'Azharuddin', '.']
+--> For label LOC, picked entity Rishon-Lezion, picked instance ['In', 'Rishon-Lezion', ':', 'Hapoel', 'Ironi', '(', 'Israel', ')', '3', 'Constructorul']
+--> For label ORG, picked entity Lincoln, picked instance ['English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.']
+--> For label PER, picked entity Retief Goosen, picked instance ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label MISC, picked entity Indian, picked instance ['Sidhu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one-day', 'international', 'against', 'England', 'at', 'Old', 'Trafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three-test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'Azharuddin', '.']
+--> For label LOC, picked entity Rishon-Lezion, picked instance ['In', 'Rishon-Lezion', ':', 'Hapoel', 'Ironi', '(', 'Israel', ')', '3', 'Constructorul']
+--> For label ORG, picked entity Lincoln, picked instance ['English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.']
+--> For label PER, picked entity Retief Goosen, picked instance ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['Sid', '##hu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one', '-', 'day', 'international', 'against', 'England', 'at', 'Old', 'T', '##rafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three', '-', 'test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'A', '##z', '##har', '##uddin', '.', 'Indian', 'is', 'MISC', '.', '[SEP]', 'In', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', ':', 'Hapoel', 'Iron', '##i', '(', 'Israel', ')', '3', 'Con', '##st', '##ru', '##ctor', '##ul', 'R', '##ish', '##on', '-', 'Le', '##zio', '##n', 'is', 'LOC', '.', '[SEP]', 'English', 'division', 'three', '-', 'Swansea', 'v', 'Lincoln', '.', 'Lincoln', 'is', 'ORG', '.', '[SEP]', 'Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Re', '##tie', '##f', 'Goose', '##n', 'is', 'PER', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 13
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/9999_fixed_random_basic_50_2021_1337.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1362.65178, Time is 6.69s
+[34m[dev set Total] Prec.: 1.72, Rec.: 0.02, F1: 0.03[0m
+saving the best model...
+Epoch 2: 686.76997, Time is 5.20s
+[34m[dev set Total] Prec.: 1.31, Rec.: 0.37, F1: 0.58[0m
+saving the best model...
+Epoch 3: 486.77750, Time is 5.76s
+[34m[dev set Total] Prec.: 29.45, Rec.: 26.71, F1: 28.01[0m
+saving the best model...
+Epoch 4: 355.56435, Time is 5.47s
+[34m[dev set Total] Prec.: 35.83, Rec.: 36.51, F1: 36.17[0m
+saving the best model...
+Epoch 5: 272.80135, Time is 5.74s
+[34m[dev set Total] Prec.: 39.21, Rec.: 38.60, F1: 38.90[0m
+saving the best model...
+Epoch 6: 208.87702, Time is 5.55s
+[34m[dev set Total] Prec.: 55.47, Rec.: 53.84, F1: 54.64[0m
+saving the best model...
+Epoch 7: 151.84085, Time is 5.65s
+[34m[dev set Total] Prec.: 53.12, Rec.: 55.02, F1: 54.05[0m
+Epoch 8: 115.81444, Time is 5.75s
+[34m[dev set Total] Prec.: 55.84, Rec.: 57.07, F1: 56.45[0m
+saving the best model...
+Epoch 9: 79.29449, Time is 5.87s
+[34m[dev set Total] Prec.: 54.68, Rec.: 57.78, F1: 56.19[0m
+Epoch 10: 54.93808, Time is 6.22s
+[34m[dev set Total] Prec.: 57.36, Rec.: 59.83, F1: 58.57[0m
+saving the best model...
+Epoch 11: 36.14613, Time is 5.11s
+[34m[dev set Total] Prec.: 56.93, Rec.: 60.63, F1: 58.72[0m
+saving the best model...
+Epoch 12: 24.80006, Time is 6.24s
+[34m[dev set Total] Prec.: 57.86, Rec.: 60.51, F1: 59.15[0m
+saving the best model...
+Epoch 13: 15.76932, Time is 6.19s
+[34m[dev set Total] Prec.: 58.24, Rec.: 62.60, F1: 60.34[0m
+saving the best model...
+Epoch 14: 9.48865, Time is 5.92s
+[34m[dev set Total] Prec.: 57.12, Rec.: 63.64, F1: 60.20[0m
+Epoch 15: 6.63428, Time is 6.03s
+[34m[dev set Total] Prec.: 58.19, Rec.: 64.15, F1: 61.02[0m
+saving the best model...
+Epoch 16: 5.30087, Time is 6.21s
+[34m[dev set Total] Prec.: 58.32, Rec.: 63.83, F1: 60.95[0m
+Epoch 17: 3.09584, Time is 5.70s
+[34m[dev set Total] Prec.: 57.87, Rec.: 64.20, F1: 60.87[0m
+Epoch 18: 2.30746, Time is 5.74s
+[34m[dev set Total] Prec.: 59.17, Rec.: 64.74, F1: 61.83[0m
+saving the best model...
+Epoch 19: 1.62534, Time is 5.89s
+[34m[dev set Total] Prec.: 58.29, Rec.: 64.58, F1: 61.28[0m
+Epoch 20: 1.06958, Time is 5.22s
+[34m[dev set Total] Prec.: 58.80, Rec.: 65.53, F1: 61.98[0m
+saving the best model...
+Epoch 21: 0.98516, Time is 5.28s
+[34m[dev set Total] Prec.: 58.22, Rec.: 65.02, F1: 61.43[0m
+Epoch 22: 0.71600, Time is 5.09s
+[34m[dev set Total] Prec.: 59.73, Rec.: 65.02, F1: 62.26[0m
+saving the best model...
+Epoch 23: 0.55670, Time is 5.33s
+[34m[dev set Total] Prec.: 60.02, Rec.: 65.85, F1: 62.80[0m
+saving the best model...
+Epoch 24: 0.44020, Time is 5.40s
+[34m[dev set Total] Prec.: 59.90, Rec.: 66.03, F1: 62.82[0m
+saving the best model...
+Epoch 25: 0.39993, Time is 4.55s
+[34m[dev set Total] Prec.: 58.91, Rec.: 65.96, F1: 62.24[0m
+Epoch 26: 0.33409, Time is 5.71s
+[34m[dev set Total] Prec.: 58.83, Rec.: 64.94, F1: 61.74[0m
+Epoch 27: 0.35352, Time is 4.53s
+[34m[dev set Total] Prec.: 59.81, Rec.: 66.00, F1: 62.75[0m
+Epoch 28: 0.28098, Time is 6.42s
+[34m[dev set Total] Prec.: 59.90, Rec.: 65.63, F1: 62.63[0m
+Epoch 29: 0.24992, Time is 5.96s
+[34m[dev set Total] Prec.: 60.00, Rec.: 65.58, F1: 62.66[0m
+Epoch 30: 0.26134, Time is 4.45s
+[34m[dev set Total] Prec.: 59.56, Rec.: 65.81, F1: 62.53[0m
+Epoch 31: 0.22710, Time is 4.25s
+[34m[dev set Total] Prec.: 59.53, Rec.: 66.08, F1: 62.63[0m
+Epoch 32: 0.20364, Time is 5.26s
+[34m[dev set Total] Prec.: 60.09, Rec.: 66.00, F1: 62.91[0m
+saving the best model...
+Epoch 33: 0.20113, Time is 2.97s
+[34m[dev set Total] Prec.: 60.28, Rec.: 66.07, F1: 63.04[0m
+saving the best model...
+Epoch 34: 0.18930, Time is 4.38s
+[34m[dev set Total] Prec.: 60.37, Rec.: 66.02, F1: 63.07[0m
+saving the best model...
+Epoch 35: 0.18671, Time is 3.62s
+[34m[dev set Total] Prec.: 60.02, Rec.: 65.63, F1: 62.70[0m
+Epoch 36: 0.18376, Time is 5.90s
+[34m[dev set Total] Prec.: 60.27, Rec.: 65.76, F1: 62.90[0m
+Epoch 37: 0.17570, Time is 6.05s
+[34m[dev set Total] Prec.: 60.64, Rec.: 66.15, F1: 63.27[0m
+saving the best model...
+Epoch 38: 0.17105, Time is 6.56s
+[34m[dev set Total] Prec.: 60.69, Rec.: 66.12, F1: 63.29[0m
+saving the best model...
+Epoch 39: 0.17090, Time is 6.37s
+[34m[dev set Total] Prec.: 60.63, Rec.: 66.13, F1: 63.26[0m
+Epoch 40: 0.16743, Time is 5.93s
+[34m[dev set Total] Prec.: 60.16, Rec.: 65.98, F1: 62.93[0m
+Epoch 41: 0.15999, Time is 5.89s
+[34m[dev set Total] Prec.: 60.06, Rec.: 65.90, F1: 62.84[0m
+Epoch 42: 0.16753, Time is 6.03s
+[34m[dev set Total] Prec.: 60.05, Rec.: 65.90, F1: 62.84[0m
+Epoch 43: 0.16119, Time is 6.14s
+[34m[dev set Total] Prec.: 60.42, Rec.: 66.07, F1: 63.12[0m
+Epoch 44: 0.15634, Time is 5.52s
+[34m[dev set Total] Prec.: 60.52, Rec.: 66.05, F1: 63.16[0m
+Epoch 45: 0.15231, Time is 4.68s
+[34m[dev set Total] Prec.: 60.39, Rec.: 65.91, F1: 63.03[0m
+Epoch 46: 0.15283, Time is 4.85s
+[34m[dev set Total] Prec.: 60.36, Rec.: 65.91, F1: 63.02[0m
+Epoch 47: 0.14651, Time is 5.01s
+[34m[dev set Total] Prec.: 60.37, Rec.: 66.02, F1: 63.07[0m
+Epoch 48: 0.15105, Time is 5.36s
+[34m[dev set Total] Prec.: 60.33, Rec.: 65.96, F1: 63.02[0m
+Epoch 49: 0.14166, Time is 5.51s
+[34m[dev set Total] Prec.: 60.35, Rec.: 66.00, F1: 63.05[0m
+Epoch 50: 0.15188, Time is 6.04s
+[34m[dev set Total] Prec.: 60.33, Rec.: 65.98, F1: 63.03[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 63.29
+Final testing.
+[34m[test set Total] Prec.: 58.62, Rec.: 65.77, F1: 61.99[0m

@@ -1,0 +1,350 @@
+device: cuda:0
+seed: 42
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 30_9999
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/42_fixed_random_basic_30_9999_42
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 42
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_30_9999.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_30_9999.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 30
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-MISC': 1, 'E-MISC': 2, 'O': 3, 'B-PER': 4, 'E-PER': 5, 'B-LOC': 6, 'I-LOC': 7, 'E-LOC': 8, 'S-MISC': 9, 'S-ORG': 10, 'S-LOC': 11, 'B-ORG': 12, 'E-ORG': 13, 'I-PER': 14, 'I-ORG': 15, 'S-PER': 16, 'I-MISC': 17, '<START>': 18, '<STOP>': 19}
+--> For label MISC, picked entity British, picked instance ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4.4', 'kg', '(', '9.68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.']
+--> For label PER, picked entity A. Stewart, picked instance ['A.', 'Stewart', 'not', 'out', '40']
+--> For label LOC, picked entity Turkey, picked instance ['More', 'than', '20,000', 'people', 'have', 'been', 'killed', 'in', 'the', '12-year-old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'PKK', 'guerrillas', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.']
+--> For label ORG, picked entity Wolverhampton, picked instance ['Wolverhampton', '3', '2', '1', '0', '5', '2', '7']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CENTRAL', 'DIVISION'][0m
+[33mPrompt 0: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 3: ['The', 'venue', 'of', 'Atletico', "'s", 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'s", 'Santiago', 'Bernabeu', 'a', 'distinct', 'possibility', '.'][0m
+[33mPrompt 3: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 6: ['NEW', 'YORK', '1996-08-29'][0m
+[33mPrompt 6: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 9: ['--', 'Seaford', 'Union', 'Free', 'School', 'District', ',', 'N.Y.', ',', '$', '5', 'million', 'school', 'bonds', '.'][0m
+[33mPrompt 9: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 12: ['WESTERN', 'DIVISION'][0m
+[33mPrompt 12: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 15: ['--', 'Dimitris', 'Kontogiannis', ',', 'Athens', 'Newsroom', '+301', '3311812-4'][0m
+[33mPrompt 15: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 18: ['His', 'supporters', 'will', 'contest', 'the', 'parliamentary', 'election', 'in', 'a', 'coalition', 'of', '30', 'mainly', 'small', 'parties', ',', 'the', 'Republican', 'Front', ',', 'led', 'by', 'Deby', "'s", 'Patriotic', 'Salvation', 'Movement', '.'][0m
+[33mPrompt 18: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 21: ['Bayern', 'Munich', '3', '2', '1', '0', '7', '2', '7'][0m
+[33mPrompt 21: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 24: ['NEC', 'Nijmegen', '0', 'AZ', 'Alkmaar', '0'][0m
+[33mPrompt 24: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 27: ['Canada', "'s", 'Jacques', 'Villeneuve', 'finished', 'second', 'in', 'his', 'Williams'][0m
+[33mPrompt 27: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_30_9999.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 30
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-MISC': 1, 'E-MISC': 2, 'O': 3, 'B-PER': 4, 'E-PER': 5, 'B-LOC': 6, 'I-LOC': 7, 'E-LOC': 8, 'S-MISC': 9, 'S-ORG': 10, 'S-LOC': 11, 'B-ORG': 12, 'E-ORG': 13, 'I-PER': 14, 'I-ORG': 15, 'S-PER': 16, 'I-MISC': 17, '<START>': 18, '<STOP>': 19}
+--> For label MISC, picked entity British, picked instance ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4.4', 'kg', '(', '9.68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.']
+--> For label PER, picked entity A. Stewart, picked instance ['A.', 'Stewart', 'not', 'out', '40']
+--> For label LOC, picked entity Turkey, picked instance ['More', 'than', '20,000', 'people', 'have', 'been', 'killed', 'in', 'the', '12-year-old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'PKK', 'guerrillas', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.']
+--> For label ORG, picked entity Wolverhampton, picked instance ['Wolverhampton', '3', '2', '1', '0', '5', '2', '7']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CENTRAL', 'DIVISION'][0m
+[33mPrompt 0: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 3: ['The', 'venue', 'of', 'Atletico', "'s", 'first', 'league', 'game', ',', 'scheduled', 'for', 'Sunday', ',', 'is', 'still', 'in', 'doubt', 'with', 'the', 'Real', 'Madrid', "'s", 'Santiago', 'Bernabeu', 'a', 'distinct', 'possibility', '.'][0m
+[33mPrompt 3: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 6: ['NEW', 'YORK', '1996-08-29'][0m
+[33mPrompt 6: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 9: ['--', 'Seaford', 'Union', 'Free', 'School', 'District', ',', 'N.Y.', ',', '$', '5', 'million', 'school', 'bonds', '.'][0m
+[33mPrompt 9: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 12: ['WESTERN', 'DIVISION'][0m
+[33mPrompt 12: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 15: ['--', 'Dimitris', 'Kontogiannis', ',', 'Athens', 'Newsroom', '+301', '3311812-4'][0m
+[33mPrompt 15: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 18: ['His', 'supporters', 'will', 'contest', 'the', 'parliamentary', 'election', 'in', 'a', 'coalition', 'of', '30', 'mainly', 'small', 'parties', ',', 'the', 'Republican', 'Front', ',', 'led', 'by', 'Deby', "'s", 'Patriotic', 'Salvation', 'Movement', '.'][0m
+[33mPrompt 18: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 21: ['Bayern', 'Munich', '3', '2', '1', '0', '7', '2', '7'][0m
+[33mPrompt 21: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 24: ['NEC', 'Nijmegen', '0', 'AZ', 'Alkmaar', '0'][0m
+[33mPrompt 24: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 27: ['Canada', "'s", 'Jacques', 'Villeneuve', 'finished', 'second', 'in', 'his', 'Williams'][0m
+[33mPrompt 27: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label MISC, picked entity British, picked instance ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4.4', 'kg', '(', '9.68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.']
+--> For label PER, picked entity A. Stewart, picked instance ['A.', 'Stewart', 'not', 'out', '40']
+--> For label LOC, picked entity Turkey, picked instance ['More', 'than', '20,000', 'people', 'have', 'been', 'killed', 'in', 'the', '12-year-old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'PKK', 'guerrillas', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.']
+--> For label ORG, picked entity Wolverhampton, picked instance ['Wolverhampton', '3', '2', '1', '0', '5', '2', '7']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label MISC, picked entity British, picked instance ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4.4', 'kg', '(', '9.68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.']
+--> For label PER, picked entity A. Stewart, picked instance ['A.', 'Stewart', 'not', 'out', '40']
+--> For label LOC, picked entity Turkey, picked instance ['More', 'than', '20,000', 'people', 'have', 'been', 'killed', 'in', 'the', '12-year-old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'PKK', 'guerrillas', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.']
+--> For label ORG, picked entity Wolverhampton, picked instance ['Wolverhampton', '3', '2', '1', '0', '5', '2', '7']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['Thai', 'airport', 'police', 'arrested', 'a', 'British', 'bartender', 'for', 'allegedly', 'attempting', 'to', 'board', 'a', 'flight', 'for', 'Amsterdam', 'with', 'nearly', '4', '.', '4', 'kg', '(', '9', '.', '68', 'lb', ')', 'of', 'heroin', 'in', 'his', 'luggage', ',', 'police', 'said', 'on', 'Wednesday', '.', 'British', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 8
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/42_fixed_random_basic_30_9999_42.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1728.86742, Time is 4.59s
+[34m[dev set Total] Prec.: 2.16, Rec.: 7.21, F1: 3.32[0m
+saving the best model...
+Epoch 2: 813.00024, Time is 4.30s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 3: 547.40104, Time is 2.94s
+[34m[dev set Total] Prec.: 12.64, Rec.: 5.41, F1: 7.57[0m
+saving the best model...
+Epoch 4: 423.38124, Time is 3.27s
+[34m[dev set Total] Prec.: 9.51, Rec.: 7.34, F1: 8.29[0m
+saving the best model...
+Epoch 5: 348.85954, Time is 4.42s
+[34m[dev set Total] Prec.: 11.92, Rec.: 10.00, F1: 10.88[0m
+saving the best model...
+Epoch 6: 296.60266, Time is 4.51s
+[34m[dev set Total] Prec.: 26.72, Rec.: 20.60, F1: 23.26[0m
+saving the best model...
+Epoch 7: 248.97687, Time is 4.45s
+[34m[dev set Total] Prec.: 39.55, Rec.: 33.18, F1: 36.08[0m
+saving the best model...
+Epoch 8: 203.61124, Time is 4.36s
+[34m[dev set Total] Prec.: 46.00, Rec.: 39.02, F1: 42.22[0m
+saving the best model...
+Epoch 9: 166.54353, Time is 4.17s
+[34m[dev set Total] Prec.: 51.33, Rec.: 44.83, F1: 47.86[0m
+saving the best model...
+Epoch 10: 133.85223, Time is 3.96s
+[34m[dev set Total] Prec.: 48.50, Rec.: 45.82, F1: 47.13[0m
+Epoch 11: 112.67419, Time is 4.60s
+[34m[dev set Total] Prec.: 50.96, Rec.: 46.63, F1: 48.70[0m
+saving the best model...
+Epoch 12: 89.65466, Time is 3.81s
+[34m[dev set Total] Prec.: 52.11, Rec.: 49.53, F1: 50.79[0m
+saving the best model...
+Epoch 13: 69.04071, Time is 4.17s
+[34m[dev set Total] Prec.: 50.15, Rec.: 51.18, F1: 50.66[0m
+Epoch 14: 50.96140, Time is 3.44s
+[34m[dev set Total] Prec.: 55.51, Rec.: 52.86, F1: 54.15[0m
+saving the best model...
+Epoch 15: 38.94485, Time is 4.27s
+[34m[dev set Total] Prec.: 55.80, Rec.: 53.28, F1: 54.51[0m
+saving the best model...
+Epoch 16: 28.75961, Time is 3.40s
+[34m[dev set Total] Prec.: 54.25, Rec.: 54.08, F1: 54.16[0m
+Epoch 17: 22.80173, Time is 4.02s
+[34m[dev set Total] Prec.: 56.62, Rec.: 55.25, F1: 55.93[0m
+saving the best model...
+Epoch 18: 15.57069, Time is 4.01s
+[34m[dev set Total] Prec.: 55.17, Rec.: 54.90, F1: 55.04[0m
+Epoch 19: 11.83115, Time is 2.64s
+[34m[dev set Total] Prec.: 56.98, Rec.: 54.88, F1: 55.91[0m
+Epoch 20: 9.37503, Time is 3.46s
+[34m[dev set Total] Prec.: 53.99, Rec.: 53.37, F1: 53.68[0m
+Epoch 21: 6.96140, Time is 3.71s
+[34m[dev set Total] Prec.: 56.51, Rec.: 55.00, F1: 55.74[0m
+Epoch 22: 5.32471, Time is 4.15s
+[34m[dev set Total] Prec.: 58.72, Rec.: 55.73, F1: 57.18[0m
+saving the best model...
+Epoch 23: 4.07690, Time is 4.20s
+[34m[dev set Total] Prec.: 56.50, Rec.: 55.94, F1: 56.22[0m
+Epoch 24: 3.32404, Time is 4.37s
+[34m[dev set Total] Prec.: 57.48, Rec.: 55.81, F1: 56.64[0m
+Epoch 25: 2.54300, Time is 4.42s
+[34m[dev set Total] Prec.: 58.16, Rec.: 56.70, F1: 57.42[0m
+saving the best model...
+Epoch 26: 2.24037, Time is 4.33s
+[34m[dev set Total] Prec.: 59.49, Rec.: 57.28, F1: 58.36[0m
+saving the best model...
+Epoch 27: 1.77269, Time is 1.96s
+[34m[dev set Total] Prec.: 57.33, Rec.: 57.26, F1: 57.29[0m
+Epoch 28: 1.53290, Time is 3.89s
+[34m[dev set Total] Prec.: 58.95, Rec.: 56.87, F1: 57.89[0m
+Epoch 29: 1.34671, Time is 2.19s
+[34m[dev set Total] Prec.: 58.37, Rec.: 56.70, F1: 57.53[0m
+Epoch 30: 1.12090, Time is 3.30s
+[34m[dev set Total] Prec.: 57.98, Rec.: 56.99, F1: 57.48[0m
+Epoch 31: 0.91684, Time is 4.04s
+[34m[dev set Total] Prec.: 60.19, Rec.: 57.75, F1: 58.94[0m
+saving the best model...
+Epoch 32: 0.83281, Time is 3.47s
+[34m[dev set Total] Prec.: 59.44, Rec.: 57.58, F1: 58.49[0m
+Epoch 33: 0.76260, Time is 2.93s
+[34m[dev set Total] Prec.: 59.75, Rec.: 57.63, F1: 58.67[0m
+Epoch 34: 0.70013, Time is 3.06s
+[34m[dev set Total] Prec.: 58.82, Rec.: 57.21, F1: 58.00[0m
+Epoch 35: 0.64708, Time is 3.36s
+[34m[dev set Total] Prec.: 59.33, Rec.: 56.70, F1: 57.99[0m
+Epoch 36: 0.57138, Time is 2.65s
+[34m[dev set Total] Prec.: 60.54, Rec.: 57.33, F1: 58.89[0m
+Epoch 37: 0.54153, Time is 3.48s
+[34m[dev set Total] Prec.: 61.57, Rec.: 58.08, F1: 59.77[0m
+saving the best model...
+Epoch 38: 0.48688, Time is 3.24s
+[34m[dev set Total] Prec.: 60.71, Rec.: 57.33, F1: 58.97[0m
+Epoch 39: 0.46240, Time is 4.10s
+[34m[dev set Total] Prec.: 60.52, Rec.: 57.41, F1: 58.92[0m
+Epoch 40: 0.42645, Time is 4.04s
+[34m[dev set Total] Prec.: 59.92, Rec.: 57.51, F1: 58.69[0m
+Epoch 41: 0.41473, Time is 3.93s
+[34m[dev set Total] Prec.: 59.70, Rec.: 57.28, F1: 58.46[0m
+Epoch 42: 0.38910, Time is 3.88s
+[34m[dev set Total] Prec.: 59.82, Rec.: 57.19, F1: 58.48[0m
+Epoch 43: 0.37875, Time is 3.56s
+[34m[dev set Total] Prec.: 59.70, Rec.: 57.19, F1: 58.42[0m
+Epoch 44: 0.37856, Time is 3.40s
+[34m[dev set Total] Prec.: 59.91, Rec.: 57.31, F1: 58.58[0m
+Epoch 45: 0.35825, Time is 3.52s
+[34m[dev set Total] Prec.: 60.18, Rec.: 57.38, F1: 58.75[0m
+Epoch 46: 0.35529, Time is 4.00s
+[34m[dev set Total] Prec.: 60.11, Rec.: 57.36, F1: 58.70[0m
+Epoch 47: 0.35236, Time is 3.77s
+[34m[dev set Total] Prec.: 60.03, Rec.: 57.34, F1: 58.66[0m
+Epoch 48: 0.34164, Time is 3.73s
+[34m[dev set Total] Prec.: 60.06, Rec.: 57.36, F1: 58.68[0m
+Epoch 49: 0.33748, Time is 3.27s
+[34m[dev set Total] Prec.: 60.05, Rec.: 57.34, F1: 58.67[0m
+Epoch 50: 0.33267, Time is 4.20s
+[34m[dev set Total] Prec.: 60.08, Rec.: 57.36, F1: 58.69[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 59.77
+Final testing.
+[34m[test set Total] Prec.: 59.86, Rec.: 55.71, F1: 57.71[0m

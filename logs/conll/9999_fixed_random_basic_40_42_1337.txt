@@ -1,0 +1,359 @@
+device: cuda:0
+seed: 1337
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 40_42
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/9999_fixed_random_basic_40_42_1337
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 9999
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_40_42.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_40_42.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 40
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-ORG': 1, 'I-ORG': 2, 'E-ORG': 3, 'O': 4, 'S-LOC': 5, 'S-ORG': 6, 'B-PER': 7, 'E-PER': 8, 'I-PER': 9, 'B-LOC': 10, 'E-LOC': 11, 'B-MISC': 12, 'I-MISC': 13, 'E-MISC': 14, 'S-MISC': 15, 'S-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label ORG, picked entity Reuter London Newsroom, picked instance ['--', 'Reuter', 'London', 'Newsroom', '+44', '171', '542', '7658']
+--> For label LOC, picked entity Bergen, picked instance ['1907', '-', 'Edvard', 'Grieg', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'Peer', 'Gynt', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.']
+--> For label PER, picked entity Fred Funk, picked instance ['283', 'Tom', 'Lehman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark']
+--> For label MISC, picked entity RUGBY LEAGUE, picked instance ['RUGBY', 'LEAGUE', '-', 'EUROPEAN', 'SUPER', 'LEAGUE', 'RESULTS', '/', 'STANDINGS', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['GACETA', 'DE', 'LOS', 'NEGOCIOS'][0m
+[33mPrompt 0: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 4: ['Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.'][0m
+[33mPrompt 4: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 8: ['An', 'earlier', 'problem', 'with', 'CDU', 'No', '.'][0m
+[33mPrompt 8: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 12: ['Alastair', 'Macdonald'][0m
+[33mPrompt 12: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 16: ['The', 'KDP', 'said', '29', 'PUK', 'fighters', 'were', 'killed', 'in', 'the', 'attack', '.'][0m
+[33mPrompt 16: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Sheffield', 'United', '2', '0', '1', '1', '4', '5', '1'][0m
+[33mPrompt 20: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 24: ['Ssangbangwool', '59', '2', '48', '.500', '5'][0m
+[33mPrompt 24: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 28: ['Misael', 'Valerio', ',', 'head', 'of', 'border', 'police', 'at', 'the', 'Security', 'Ministry', ',', 'told', 'reporters', 'surveillance', 'of', 'the', 'northern', 'border', 'with', 'Nicaragua', 'has', 'been', 'stepped', 'up', 'to', 'keep', 'the', 'kidnappers', 'from', 'fleeing', 'Costa', 'Rica', '.'][0m
+[33mPrompt 28: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 32: ['--', 'Reuter', 'London', 'Newsroom', '+44', '171', '542', '7658'][0m
+[33mPrompt 32: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 36: ['But', 'the', 'visitors', 'responded', 'to', 'the', 'setback', 'immediately', '--', 'veteran', 'striker', 'Ashley', 'Mocude', 'scoring', 'a', 'minute', 'later', 'to', 'give', 'them', 'a', 'two-goal', 'aggregate', 'lead', '.'][0m
+[33mPrompt 36: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_40_42.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 40
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-ORG': 1, 'I-ORG': 2, 'E-ORG': 3, 'O': 4, 'S-LOC': 5, 'S-ORG': 6, 'B-PER': 7, 'E-PER': 8, 'I-PER': 9, 'B-LOC': 10, 'E-LOC': 11, 'B-MISC': 12, 'I-MISC': 13, 'E-MISC': 14, 'S-MISC': 15, 'S-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label ORG, picked entity Reuter London Newsroom, picked instance ['--', 'Reuter', 'London', 'Newsroom', '+44', '171', '542', '7658']
+--> For label LOC, picked entity Bergen, picked instance ['1907', '-', 'Edvard', 'Grieg', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'Peer', 'Gynt', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.']
+--> For label PER, picked entity Fred Funk, picked instance ['283', 'Tom', 'Lehman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark']
+--> For label MISC, picked entity RUGBY LEAGUE, picked instance ['RUGBY', 'LEAGUE', '-', 'EUROPEAN', 'SUPER', 'LEAGUE', 'RESULTS', '/', 'STANDINGS', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['GACETA', 'DE', 'LOS', 'NEGOCIOS'][0m
+[33mPrompt 0: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 4: ['Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.'][0m
+[33mPrompt 4: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 8: ['An', 'earlier', 'problem', 'with', 'CDU', 'No', '.'][0m
+[33mPrompt 8: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 12: ['Alastair', 'Macdonald'][0m
+[33mPrompt 12: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 16: ['The', 'KDP', 'said', '29', 'PUK', 'fighters', 'were', 'killed', 'in', 'the', 'attack', '.'][0m
+[33mPrompt 16: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Sheffield', 'United', '2', '0', '1', '1', '4', '5', '1'][0m
+[33mPrompt 20: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 24: ['Ssangbangwool', '59', '2', '48', '.500', '5'][0m
+[33mPrompt 24: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 28: ['Misael', 'Valerio', ',', 'head', 'of', 'border', 'police', 'at', 'the', 'Security', 'Ministry', ',', 'told', 'reporters', 'surveillance', 'of', 'the', 'northern', 'border', 'with', 'Nicaragua', 'has', 'been', 'stepped', 'up', 'to', 'keep', 'the', 'kidnappers', 'from', 'fleeing', 'Costa', 'Rica', '.'][0m
+[33mPrompt 28: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 32: ['--', 'Reuter', 'London', 'Newsroom', '+44', '171', '542', '7658'][0m
+[33mPrompt 32: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 36: ['But', 'the', 'visitors', 'responded', 'to', 'the', 'setback', 'immediately', '--', 'veteran', 'striker', 'Ashley', 'Mocude', 'scoring', 'a', 'minute', 'later', 'to', 'give', 'them', 'a', 'two-goal', 'aggregate', 'lead', '.'][0m
+[33mPrompt 36: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label ORG, picked entity Reuter London Newsroom, picked instance ['--', 'Reuter', 'London', 'Newsroom', '+44', '171', '542', '7658']
+--> For label LOC, picked entity Bergen, picked instance ['1907', '-', 'Edvard', 'Grieg', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'Peer', 'Gynt', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.']
+--> For label PER, picked entity Fred Funk, picked instance ['283', 'Tom', 'Lehman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark']
+--> For label MISC, picked entity RUGBY LEAGUE, picked instance ['RUGBY', 'LEAGUE', '-', 'EUROPEAN', 'SUPER', 'LEAGUE', 'RESULTS', '/', 'STANDINGS', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label ORG, picked entity Reuter London Newsroom, picked instance ['--', 'Reuter', 'London', 'Newsroom', '+44', '171', '542', '7658']
+--> For label LOC, picked entity Bergen, picked instance ['1907', '-', 'Edvard', 'Grieg', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'Peer', 'Gynt', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.']
+--> For label PER, picked entity Fred Funk, picked instance ['283', 'Tom', 'Lehman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark']
+--> For label MISC, picked entity RUGBY LEAGUE, picked instance ['RUGBY', 'LEAGUE', '-', 'EUROPEAN', 'SUPER', 'LEAGUE', 'RESULTS', '/', 'STANDINGS', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['-', '-', 'Re', '##uter', 'London', 'News', '##room', '+', '44', '171', '54', '##2', '76', '##5', '##8', 'Re', '##uter', 'London', 'News', '##room', 'is', 'ORG', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'Bergen', 'is', 'LOC', '.', '[SEP]', '28', '##3', 'Tom', 'Le', '##hman', '72', '69', '74', '68', ',', 'Fred', 'Funk', '72', '70', '73', '68', ',', 'Mark', 'Fred', 'Funk', 'is', 'PER', '.', '[SEP]', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', '-', 'EU', '##RO', '##P', '##EA', '##N', 'S', '##UP', '##ER', 'L', '##EA', '##G', '##UE', 'R', '##ES', '##U', '##LT', '##S', '/', 'ST', '##AN', '##DI', '##NG', '##S', '.', 'R', '##U', '##GB', '##Y', 'L', '##EA', '##G', '##UE', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 10
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/9999_fixed_random_basic_40_42_1337.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1783.72205, Time is 3.89s
+[34m[dev set Total] Prec.: 0.08, Rec.: 0.03, F1: 0.05[0m
+saving the best model...
+Epoch 2: 838.33797, Time is 2.56s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 3: 610.30907, Time is 3.98s
+[34m[dev set Total] Prec.: 0.96, Rec.: 0.49, F1: 0.65[0m
+saving the best model...
+Epoch 4: 494.66571, Time is 2.78s
+[34m[dev set Total] Prec.: 8.14, Rec.: 6.05, F1: 6.94[0m
+saving the best model...
+Epoch 5: 394.11336, Time is 3.00s
+[34m[dev set Total] Prec.: 38.72, Rec.: 28.56, F1: 32.87[0m
+saving the best model...
+Epoch 6: 308.23012, Time is 3.91s
+[34m[dev set Total] Prec.: 44.62, Rec.: 35.65, F1: 39.64[0m
+saving the best model...
+Epoch 7: 247.66171, Time is 4.05s
+[34m[dev set Total] Prec.: 47.62, Rec.: 41.65, F1: 44.43[0m
+saving the best model...
+Epoch 8: 200.42422, Time is 4.19s
+[34m[dev set Total] Prec.: 51.02, Rec.: 45.98, F1: 48.37[0m
+saving the best model...
+Epoch 9: 150.08844, Time is 4.25s
+[34m[dev set Total] Prec.: 50.54, Rec.: 48.38, F1: 49.44[0m
+saving the best model...
+Epoch 10: 115.26138, Time is 3.99s
+[34m[dev set Total] Prec.: 52.31, Rec.: 51.84, F1: 52.07[0m
+saving the best model...
+Epoch 11: 91.26624, Time is 3.51s
+[34m[dev set Total] Prec.: 50.99, Rec.: 50.99, F1: 50.99[0m
+Epoch 12: 69.72833, Time is 3.54s
+[34m[dev set Total] Prec.: 52.91, Rec.: 53.23, F1: 53.07[0m
+saving the best model...
+Epoch 13: 53.59737, Time is 2.98s
+[34m[dev set Total] Prec.: 51.37, Rec.: 55.20, F1: 53.22[0m
+saving the best model...
+Epoch 14: 44.63553, Time is 4.12s
+[34m[dev set Total] Prec.: 56.94, Rec.: 54.90, F1: 55.90[0m
+saving the best model...
+Epoch 15: 31.77228, Time is 2.88s
+[34m[dev set Total] Prec.: 53.98, Rec.: 56.92, F1: 55.41[0m
+Epoch 16: 21.94550, Time is 2.90s
+[34m[dev set Total] Prec.: 55.46, Rec.: 56.45, F1: 55.95[0m
+saving the best model...
+Epoch 17: 16.38373, Time is 3.96s
+[34m[dev set Total] Prec.: 56.21, Rec.: 56.03, F1: 56.12[0m
+saving the best model...
+Epoch 18: 11.47354, Time is 4.05s
+[34m[dev set Total] Prec.: 56.22, Rec.: 57.81, F1: 57.01[0m
+saving the best model...
+Epoch 19: 7.99934, Time is 3.83s
+[34m[dev set Total] Prec.: 56.75, Rec.: 57.21, F1: 56.98[0m
+Epoch 20: 6.38751, Time is 4.05s
+[34m[dev set Total] Prec.: 57.80, Rec.: 57.38, F1: 57.59[0m
+saving the best model...
+Epoch 21: 4.15953, Time is 4.01s
+[34m[dev set Total] Prec.: 56.84, Rec.: 57.83, F1: 57.33[0m
+Epoch 22: 3.29144, Time is 4.01s
+[34m[dev set Total] Prec.: 55.89, Rec.: 59.51, F1: 57.65[0m
+saving the best model...
+Epoch 23: 2.39551, Time is 3.86s
+[34m[dev set Total] Prec.: 57.57, Rec.: 58.37, F1: 57.96[0m
+saving the best model...
+Epoch 24: 2.60019, Time is 4.05s
+[34m[dev set Total] Prec.: 57.61, Rec.: 59.58, F1: 58.58[0m
+saving the best model...
+Epoch 25: 1.51801, Time is 3.95s
+[34m[dev set Total] Prec.: 58.24, Rec.: 58.39, F1: 58.31[0m
+Epoch 26: 1.15773, Time is 3.89s
+[34m[dev set Total] Prec.: 57.69, Rec.: 59.82, F1: 58.74[0m
+saving the best model...
+Epoch 27: 1.02393, Time is 3.94s
+[34m[dev set Total] Prec.: 57.86, Rec.: 60.17, F1: 58.99[0m
+saving the best model...
+Epoch 28: 0.82556, Time is 2.77s
+[34m[dev set Total] Prec.: 58.38, Rec.: 59.63, F1: 59.00[0m
+saving the best model...
+Epoch 29: 0.67569, Time is 3.04s
+[34m[dev set Total] Prec.: 57.48, Rec.: 60.42, F1: 58.92[0m
+Epoch 30: 0.58496, Time is 3.67s
+[34m[dev set Total] Prec.: 58.23, Rec.: 60.24, F1: 59.22[0m
+saving the best model...
+Epoch 31: 0.52556, Time is 3.18s
+[34m[dev set Total] Prec.: 58.75, Rec.: 60.29, F1: 59.51[0m
+saving the best model...
+Epoch 32: 0.46924, Time is 3.56s
+[34m[dev set Total] Prec.: 57.11, Rec.: 60.76, F1: 58.88[0m
+Epoch 33: 0.42444, Time is 3.38s
+[34m[dev set Total] Prec.: 56.84, Rec.: 60.78, F1: 58.75[0m
+Epoch 34: 0.39450, Time is 3.45s
+[34m[dev set Total] Prec.: 57.76, Rec.: 60.49, F1: 59.09[0m
+Epoch 35: 0.35495, Time is 4.00s
+[34m[dev set Total] Prec.: 58.24, Rec.: 60.27, F1: 59.24[0m
+Epoch 36: 0.34740, Time is 3.85s
+[34m[dev set Total] Prec.: 58.07, Rec.: 61.13, F1: 59.56[0m
+saving the best model...
+Epoch 37: 0.31516, Time is 4.04s
+[34m[dev set Total] Prec.: 58.34, Rec.: 61.40, F1: 59.83[0m
+saving the best model...
+Epoch 38: 0.30211, Time is 4.01s
+[34m[dev set Total] Prec.: 58.45, Rec.: 61.27, F1: 59.83[0m
+Epoch 39: 0.63214, Time is 4.08s
+[34m[dev set Total] Prec.: 58.66, Rec.: 61.03, F1: 59.82[0m
+Epoch 40: 0.28802, Time is 3.80s
+[34m[dev set Total] Prec.: 58.56, Rec.: 61.11, F1: 59.81[0m
+Epoch 41: 0.28317, Time is 3.95s
+[34m[dev set Total] Prec.: 58.27, Rec.: 61.18, F1: 59.69[0m
+Epoch 42: 0.27277, Time is 3.90s
+[34m[dev set Total] Prec.: 58.50, Rec.: 61.11, F1: 59.78[0m
+Epoch 43: 0.26611, Time is 4.29s
+[34m[dev set Total] Prec.: 58.62, Rec.: 60.98, F1: 59.78[0m
+Epoch 44: 0.26266, Time is 3.96s
+[34m[dev set Total] Prec.: 58.76, Rec.: 60.91, F1: 59.81[0m
+Epoch 45: 0.25563, Time is 3.71s
+[34m[dev set Total] Prec.: 58.97, Rec.: 61.18, F1: 60.05[0m
+saving the best model...
+Epoch 46: 0.24426, Time is 3.62s
+[34m[dev set Total] Prec.: 58.84, Rec.: 61.10, F1: 59.95[0m
+Epoch 47: 0.24240, Time is 3.90s
+[34m[dev set Total] Prec.: 58.90, Rec.: 61.18, F1: 60.02[0m
+Epoch 48: 0.23880, Time is 3.86s
+[34m[dev set Total] Prec.: 58.91, Rec.: 61.22, F1: 60.04[0m
+Epoch 49: 0.23755, Time is 3.42s
+[34m[dev set Total] Prec.: 58.86, Rec.: 61.23, F1: 60.02[0m
+Epoch 50: 0.24152, Time is 2.94s
+[34m[dev set Total] Prec.: 58.84, Rec.: 61.22, F1: 60.00[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 60.05
+Final testing.
+[34m[test set Total] Prec.: 56.19, Rec.: 60.09, F1: 58.07[0m

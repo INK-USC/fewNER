@@ -1,0 +1,364 @@
+device: cuda:0
+seed: 1337
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 30_42
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/42_fixed_random_basic_30_42_1337
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 42
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_30_42.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_30_42.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 30
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-ORG': 1, 'I-ORG': 2, 'E-ORG': 3, 'O': 4, 'S-LOC': 5, 'S-ORG': 6, 'B-PER': 7, 'E-PER': 8, 'I-PER': 9, 'B-LOC': 10, 'E-LOC': 11, 'B-MISC': 12, 'I-MISC': 13, 'E-MISC': 14, 'S-MISC': 15, 'S-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label ORG, picked entity Northamptonshire, picked instance ['out', ',', 'A.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.']
+--> For label LOC, picked entity San Diego, picked instance ['In', 'San', 'Diego', ',', 'Steve', 'Finley', 'and', 'Jody', 'Reed', 'drove', 'in', 'three', 'runs', 'apiece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six-run', 'lead', 'after', 'three', 'innings', 'and', 'cruised', 'to', 'an', '11-2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.']
+--> For label PER, picked entity Curtis Lee White II, picked instance ['Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.']
+--> For label MISC, picked entity Peer Gynt Suite, picked instance ['1907', '-', 'Edvard', 'Grieg', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'Peer', 'Gynt', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['GACETA', 'DE', 'LOS', 'NEGOCIOS'][0m
+[33mPrompt 0: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 3: ['Tactics', 'used', 'by', 'some', 'underground', 'groups', 'including', 'the', 'cryptic', 'Berkshire', 'Wood', 'Elves', ',', 'which', 'distribute', 'leaflets', 'with', 'instructions', 'on', 'home-made', 'explosives', ',', 'are', 'now', 'the', 'subject', 'of', 'a', 'police', 'investigation', '.'][0m
+[33mPrompt 3: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 6: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper-Collins', 'had', 'not', 'helped', '.'][0m
+[33mPrompt 6: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 9: ['1907', '-', 'Edvard', 'Grieg', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'Peer', 'Gynt', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.'][0m
+[33mPrompt 9: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 12: ['England', 'first', 'innings'][0m
+[33mPrompt 12: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 15: ['2.', 'Armstrong', '3', 'seconds', 'behind'][0m
+[33mPrompt 15: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 18: ['Misael', 'Valerio', ',', 'head', 'of', 'border', 'police', 'at', 'the', 'Security', 'Ministry', ',', 'told', 'reporters', 'surveillance', 'of', 'the', 'northern', 'border', 'with', 'Nicaragua', 'has', 'been', 'stepped', 'up', 'to', 'keep', 'the', 'kidnappers', 'from', 'fleeing', 'Costa', 'Rica', '.'][0m
+[33mPrompt 18: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 21: ['Durham', '14', '0', '9', '5', '22', '50', '87'][0m
+[33mPrompt 21: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 24: ['Reagan', 'recovered', 'fully', 'from', 'his', 'wounds', 'but', 'Brady', ',', 'who', 'was', 'close', 'to', 'death', 'after', 'being', 'shot', 'by', 'John', 'Hinckley', 'Jr', '.'][0m
+[33mPrompt 24: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 27: ['Nantes', '0', 'Lens', '1'][0m
+[33mPrompt 27: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_30_42.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 30
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-ORG': 1, 'I-ORG': 2, 'E-ORG': 3, 'O': 4, 'S-LOC': 5, 'S-ORG': 6, 'B-PER': 7, 'E-PER': 8, 'I-PER': 9, 'B-LOC': 10, 'E-LOC': 11, 'B-MISC': 12, 'I-MISC': 13, 'E-MISC': 14, 'S-MISC': 15, 'S-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label ORG, picked entity Northamptonshire, picked instance ['out', ',', 'A.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.']
+--> For label LOC, picked entity San Diego, picked instance ['In', 'San', 'Diego', ',', 'Steve', 'Finley', 'and', 'Jody', 'Reed', 'drove', 'in', 'three', 'runs', 'apiece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six-run', 'lead', 'after', 'three', 'innings', 'and', 'cruised', 'to', 'an', '11-2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.']
+--> For label PER, picked entity Curtis Lee White II, picked instance ['Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.']
+--> For label MISC, picked entity Peer Gynt Suite, picked instance ['1907', '-', 'Edvard', 'Grieg', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'Peer', 'Gynt', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['GACETA', 'DE', 'LOS', 'NEGOCIOS'][0m
+[33mPrompt 0: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 3: ['Tactics', 'used', 'by', 'some', 'underground', 'groups', 'including', 'the', 'cryptic', 'Berkshire', 'Wood', 'Elves', ',', 'which', 'distribute', 'leaflets', 'with', 'instructions', 'on', 'home-made', 'explosives', ',', 'are', 'now', 'the', 'subject', 'of', 'a', 'police', 'investigation', '.'][0m
+[33mPrompt 3: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 6: ['It', 'said', 'the', 'demise', 'of', 'the', 'Net', 'Book', 'Agreement', 'had', 'hurt', 'the', 'British', 'operations', ',', 'and', 'weak', 'performances', 'from', 'the', 'San', 'Francisco', 'unit', 'of', 'Harper-Collins', 'had', 'not', 'helped', '.'][0m
+[33mPrompt 6: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 9: ['1907', '-', 'Edvard', 'Grieg', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'Peer', 'Gynt', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.'][0m
+[33mPrompt 9: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 12: ['England', 'first', 'innings'][0m
+[33mPrompt 12: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 15: ['2.', 'Armstrong', '3', 'seconds', 'behind'][0m
+[33mPrompt 15: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 18: ['Misael', 'Valerio', ',', 'head', 'of', 'border', 'police', 'at', 'the', 'Security', 'Ministry', ',', 'told', 'reporters', 'surveillance', 'of', 'the', 'northern', 'border', 'with', 'Nicaragua', 'has', 'been', 'stepped', 'up', 'to', 'keep', 'the', 'kidnappers', 'from', 'fleeing', 'Costa', 'Rica', '.'][0m
+[33mPrompt 18: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 21: ['Durham', '14', '0', '9', '5', '22', '50', '87'][0m
+[33mPrompt 21: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 24: ['Reagan', 'recovered', 'fully', 'from', 'his', 'wounds', 'but', 'Brady', ',', 'who', 'was', 'close', 'to', 'death', 'after', 'being', 'shot', 'by', 'John', 'Hinckley', 'Jr', '.'][0m
+[33mPrompt 24: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 27: ['Nantes', '0', 'Lens', '1'][0m
+[33mPrompt 27: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label ORG, picked entity Northamptonshire, picked instance ['out', ',', 'A.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.']
+--> For label LOC, picked entity San Diego, picked instance ['In', 'San', 'Diego', ',', 'Steve', 'Finley', 'and', 'Jody', 'Reed', 'drove', 'in', 'three', 'runs', 'apiece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six-run', 'lead', 'after', 'three', 'innings', 'and', 'cruised', 'to', 'an', '11-2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.']
+--> For label PER, picked entity Curtis Lee White II, picked instance ['Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.']
+--> For label MISC, picked entity Peer Gynt Suite, picked instance ['1907', '-', 'Edvard', 'Grieg', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'Peer', 'Gynt', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label ORG, picked entity Northamptonshire, picked instance ['out', ',', 'A.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.']
+--> For label LOC, picked entity San Diego, picked instance ['In', 'San', 'Diego', ',', 'Steve', 'Finley', 'and', 'Jody', 'Reed', 'drove', 'in', 'three', 'runs', 'apiece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six-run', 'lead', 'after', 'three', 'innings', 'and', 'cruised', 'to', 'an', '11-2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.']
+--> For label PER, picked entity Curtis Lee White II, picked instance ['Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.']
+--> For label MISC, picked entity Peer Gynt Suite, picked instance ['1907', '-', 'Edvard', 'Grieg', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'Peer', 'Gynt', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['out', ',', 'A', '.', 'Wells', '51', ')', 'v', 'Northamptonshire', '.', 'Northamptonshire', 'is', 'ORG', '.', '[SEP]', 'In', 'San', 'Diego', ',', 'Steve', 'Fin', '##ley', 'and', 'Jo', '##dy', 'Reed', 'drove', 'in', 'three', 'runs', 'a', '##piece', 'as', 'the', 'San', 'Diego', 'Padres', 'built', 'a', 'six', '-', 'run', 'lead', 'after', 'three', 'innings', 'and', 'cruise', '##d', 'to', 'an', '11', '-', '2', 'victory', 'over', 'the', 'Philadelphia', 'Phillies', '.', 'San', 'Diego', 'is', 'LOC', '.', '[SEP]', 'Detective', 'Richard', 'Black', 'of', 'the', 'Chesapeake', 'Police', 'Department', ',', 'said', 'a', 'neighbour', ',', 'Curtis', 'Lee', 'White', 'II', ',', '19', ',', 'was', 'arrested', 'in', 'the', 'attack', ',', 'but', 'had', 'not', 'been', 'charged', 'by', 'late', 'morning', 'on', 'Friday', '.', 'Curtis', 'Lee', 'White', 'II', 'is', 'PER', '.', '[SEP]', '1907', '-', 'Ed', '##vard', 'G', '##rie', '##g', ',', 'Norwegian', 'composer', 'best', 'known', 'for', 'his', '"', 'P', '##eer', 'G', '##yn', '##t', 'Suite', '"', 'and', 'his', 'Piano', 'Concerto', ',', 'died', 'in', 'Bergen', '.', 'P', '##eer', 'G', '##yn', '##t', 'Suite', 'is', 'MISC', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 8
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/42_fixed_random_basic_30_42_1337.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1738.55146, Time is 2.93s
+[34m[dev set Total] Prec.: 0.28, Rec.: 0.77, F1: 0.42[0m
+saving the best model...
+Epoch 2: 822.09714, Time is 2.90s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 3: 600.24007, Time is 4.13s
+[34m[dev set Total] Prec.: 1.05, Rec.: 0.37, F1: 0.55[0m
+saving the best model...
+Epoch 4: 476.82404, Time is 4.35s
+[34m[dev set Total] Prec.: 0.94, Rec.: 0.39, F1: 0.55[0m
+saving the best model...
+Epoch 5: 386.84401, Time is 4.48s
+[34m[dev set Total] Prec.: 1.39, Rec.: 0.83, F1: 1.04[0m
+saving the best model...
+Epoch 6: 325.86959, Time is 4.00s
+[34m[dev set Total] Prec.: 9.23, Rec.: 5.98, F1: 7.26[0m
+saving the best model...
+Epoch 7: 258.96182, Time is 4.31s
+[34m[dev set Total] Prec.: 26.72, Rec.: 18.29, F1: 21.71[0m
+saving the best model...
+Epoch 8: 212.47997, Time is 4.37s
+[34m[dev set Total] Prec.: 40.27, Rec.: 28.07, F1: 33.08[0m
+saving the best model...
+Epoch 9: 168.93976, Time is 4.51s
+[34m[dev set Total] Prec.: 47.30, Rec.: 33.66, F1: 39.33[0m
+saving the best model...
+Epoch 10: 136.23515, Time is 4.51s
+[34m[dev set Total] Prec.: 49.51, Rec.: 38.99, F1: 43.62[0m
+saving the best model...
+Epoch 11: 105.06499, Time is 4.55s
+[34m[dev set Total] Prec.: 52.83, Rec.: 43.48, F1: 47.70[0m
+saving the best model...
+Epoch 12: 81.29382, Time is 4.76s
+[34m[dev set Total] Prec.: 54.26, Rec.: 46.38, F1: 50.01[0m
+saving the best model...
+Epoch 13: 61.89206, Time is 3.82s
+[34m[dev set Total] Prec.: 58.51, Rec.: 48.92, F1: 53.29[0m
+saving the best model...
+Epoch 14: 48.20818, Time is 4.05s
+[34m[dev set Total] Prec.: 61.61, Rec.: 48.92, F1: 54.54[0m
+saving the best model...
+Epoch 15: 37.98343, Time is 3.88s
+[34m[dev set Total] Prec.: 59.56, Rec.: 50.84, F1: 54.86[0m
+saving the best model...
+Epoch 16: 29.66830, Time is 4.53s
+[34m[dev set Total] Prec.: 59.12, Rec.: 51.75, F1: 55.19[0m
+saving the best model...
+Epoch 17: 21.59473, Time is 4.90s
+[34m[dev set Total] Prec.: 60.07, Rec.: 51.31, F1: 55.35[0m
+saving the best model...
+Epoch 18: 17.23460, Time is 4.66s
+[34m[dev set Total] Prec.: 62.99, Rec.: 52.17, F1: 57.07[0m
+saving the best model...
+Epoch 19: 13.13968, Time is 2.56s
+[34m[dev set Total] Prec.: 65.05, Rec.: 52.75, F1: 58.25[0m
+saving the best model...
+Epoch 20: 9.51392, Time is 4.65s
+[34m[dev set Total] Prec.: 61.21, Rec.: 52.31, F1: 56.41[0m
+Epoch 21: 7.87169, Time is 2.52s
+[34m[dev set Total] Prec.: 62.08, Rec.: 53.69, F1: 57.58[0m
+Epoch 22: 6.05960, Time is 2.69s
+[34m[dev set Total] Prec.: 66.11, Rec.: 55.62, F1: 60.42[0m
+saving the best model...
+Epoch 23: 4.59653, Time is 4.79s
+[34m[dev set Total] Prec.: 64.04, Rec.: 55.52, F1: 59.48[0m
+Epoch 24: 3.47995, Time is 4.56s
+[34m[dev set Total] Prec.: 64.77, Rec.: 56.10, F1: 60.12[0m
+Epoch 25: 2.80813, Time is 4.45s
+[34m[dev set Total] Prec.: 65.71, Rec.: 55.34, F1: 60.08[0m
+Epoch 26: 2.39536, Time is 4.63s
+[34m[dev set Total] Prec.: 65.76, Rec.: 56.08, F1: 60.53[0m
+saving the best model...
+Epoch 27: 1.75107, Time is 4.57s
+[34m[dev set Total] Prec.: 66.37, Rec.: 58.22, F1: 62.03[0m
+saving the best model...
+Epoch 28: 1.48096, Time is 4.77s
+[34m[dev set Total] Prec.: 68.17, Rec.: 57.85, F1: 62.59[0m
+saving the best model...
+Epoch 29: 1.23950, Time is 4.22s
+[34m[dev set Total] Prec.: 67.88, Rec.: 56.33, F1: 61.57[0m
+Epoch 30: 0.98422, Time is 4.39s
+[34m[dev set Total] Prec.: 66.30, Rec.: 57.88, F1: 61.81[0m
+Epoch 31: 0.90244, Time is 4.41s
+[34m[dev set Total] Prec.: 66.75, Rec.: 59.20, F1: 62.75[0m
+saving the best model...
+Epoch 32: 0.75800, Time is 4.46s
+[34m[dev set Total] Prec.: 67.78, Rec.: 58.18, F1: 62.62[0m
+Epoch 33: 0.65021, Time is 4.31s
+[34m[dev set Total] Prec.: 67.69, Rec.: 58.32, F1: 62.66[0m
+Epoch 34: 0.57352, Time is 4.63s
+[34m[dev set Total] Prec.: 67.31, Rec.: 59.06, F1: 62.92[0m
+saving the best model...
+Epoch 35: 0.55441, Time is 3.72s
+[34m[dev set Total] Prec.: 67.87, Rec.: 59.99, F1: 63.69[0m
+saving the best model...
+Epoch 36: 0.49573, Time is 3.78s
+[34m[dev set Total] Prec.: 66.86, Rec.: 59.55, F1: 62.99[0m
+Epoch 37: 0.45029, Time is 4.91s
+[34m[dev set Total] Prec.: 66.38, Rec.: 59.31, F1: 62.65[0m
+Epoch 38: 0.41437, Time is 4.37s
+[34m[dev set Total] Prec.: 67.05, Rec.: 59.25, F1: 62.91[0m
+Epoch 39: 0.39706, Time is 3.49s
+[34m[dev set Total] Prec.: 68.33, Rec.: 59.55, F1: 63.64[0m
+Epoch 40: 0.38345, Time is 3.54s
+[34m[dev set Total] Prec.: 68.62, Rec.: 59.51, F1: 63.74[0m
+saving the best model...
+Epoch 41: 0.37570, Time is 3.75s
+[34m[dev set Total] Prec.: 68.37, Rec.: 59.73, F1: 63.76[0m
+saving the best model...
+Epoch 42: 0.35567, Time is 4.08s
+[34m[dev set Total] Prec.: 67.65, Rec.: 59.58, F1: 63.36[0m
+Epoch 43: 0.35941, Time is 4.75s
+[34m[dev set Total] Prec.: 67.58, Rec.: 59.51, F1: 63.29[0m
+Epoch 44: 0.33397, Time is 4.04s
+[34m[dev set Total] Prec.: 67.88, Rec.: 59.68, F1: 63.52[0m
+Epoch 45: 0.33472, Time is 4.38s
+[34m[dev set Total] Prec.: 68.45, Rec.: 59.85, F1: 63.86[0m
+saving the best model...
+Epoch 46: 0.32236, Time is 4.40s
+[34m[dev set Total] Prec.: 68.75, Rec.: 59.92, F1: 64.03[0m
+saving the best model...
+Epoch 47: 0.32144, Time is 5.02s
+[34m[dev set Total] Prec.: 68.87, Rec.: 59.95, F1: 64.10[0m
+saving the best model...
+Epoch 48: 0.32146, Time is 4.52s
+[34m[dev set Total] Prec.: 68.86, Rec.: 59.97, F1: 64.11[0m
+saving the best model...
+Epoch 49: 0.31816, Time is 4.30s
+[34m[dev set Total] Prec.: 68.80, Rec.: 59.99, F1: 64.09[0m
+Epoch 50: 0.30652, Time is 4.66s
+[34m[dev set Total] Prec.: 68.83, Rec.: 60.02, F1: 64.12[0m
+saving the best model...
+Archiving the best Model...
+Finished archiving the models
+The best dev: 64.12
+Final testing.
+[34m[test set Total] Prec.: 65.76, Rec.: 56.39, F1: 60.71[0m

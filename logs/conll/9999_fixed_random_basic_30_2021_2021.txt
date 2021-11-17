@@ -1,0 +1,337 @@
+device: cuda:0
+seed: 2021
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 30_2021
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/9999_fixed_random_basic_30_2021_2021
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 9999
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_30_2021.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_30_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 30
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-PER': 1, 'E-PER': 2, 'O': 3, 'S-MISC': 4, 'B-MISC': 5, 'I-MISC': 6, 'E-MISC': 7, 'S-LOC': 8, 'S-ORG': 9, 'B-ORG': 10, 'I-ORG': 11, 'E-ORG': 12, 'S-PER': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label PER, picked entity Peter Hedblom, picked instance ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South']
+--> For label MISC, picked entity Iranian, picked instance ['He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.']
+--> For label LOC, picked entity AMSTERDAM, picked instance ['AMSTERDAM', '1996-08-28']
+--> For label ORG, picked entity BALTIMORE, picked instance ['California', '13', 'BALTIMORE', '0']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Michael', 'Schumacher', "'s", 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa-Francorchamps', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.'][0m
+[33mPrompt 0: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 3: ['GROZNY', ',', 'Russia', '1996-08-23'][0m
+[33mPrompt 3: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 6: ['1.', 'Jacques', 'Villeneuve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50.574'][0m
+[33mPrompt 6: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 9: ['Singapore', 'Refining', 'Company', 'expected', 'to', 'shut', 'CDU', '3', '.'][0m
+[33mPrompt 9: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 12: ['Although', 'five', 'days', 'of', 'the', 'ban', 'were', 'suspended', 'until', 'January', '1', ',', 'Weaver', 'will', 'miss', 'next', 'month', "'s", 'big', 'St', 'Leger', 'meeting', ',', 'including', 'the', 'ride', 'on', 'top', 'stayer', 'Double', 'Trigger', 'in', 'the', 'Doncaster', 'Cup', '.'][0m
+[33mPrompt 12: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 15: ['But', 'one', 'source', ',', 'the', 'head', 'of', 'a', 'Hong', 'Kong', 'trading', 'house', ',', 'said', 'it', 'made', 'no', 'difference', 'if', 'the', 'copper', 'was', 'customs', 'cleared', 'or', 'not', '.'][0m
+[33mPrompt 15: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 18: ['Yorkshire', '529-8', 'declared'][0m
+[33mPrompt 18: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 21: ['Police', 'spokesman', 'Roger', 'Grimwade', 'said', 'the', 'six', 'or', 'seven', 'hijackers', 'remained', 'on', 'board', 'the', 'aircraft', ',', 'which', 'arrived', 'from', 'Cyprus', 'at', '4.30', 'a.m.', '(', '0330', 'GMT', ')', '.'][0m
+[33mPrompt 21: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 24: ['Sidhu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one-day', 'international', 'against', 'England', 'at', 'Old', 'Trafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three-test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'Azharuddin', '.'][0m
+[33mPrompt 24: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 27: ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South'][0m
+[33mPrompt 27: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_30_2021.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 30
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-PER': 1, 'E-PER': 2, 'O': 3, 'S-MISC': 4, 'B-MISC': 5, 'I-MISC': 6, 'E-MISC': 7, 'S-LOC': 8, 'S-ORG': 9, 'B-ORG': 10, 'I-ORG': 11, 'E-ORG': 12, 'S-PER': 13, 'B-LOC': 14, 'E-LOC': 15, 'I-PER': 16, 'I-LOC': 17, '<START>': 18, '<STOP>': 19}
+--> For label PER, picked entity Peter Hedblom, picked instance ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South']
+--> For label MISC, picked entity Iranian, picked instance ['He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.']
+--> For label LOC, picked entity AMSTERDAM, picked instance ['AMSTERDAM', '1996-08-28']
+--> For label ORG, picked entity BALTIMORE, picked instance ['California', '13', 'BALTIMORE', '0']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['Michael', 'Schumacher', "'s", 'victory', 'in', 'the', 'Belgian', 'Formula', 'One', 'Grand', 'Prix', 'at', 'Spa-Francorchamps', 'sparked', 'a', 'speeding', 'epidemic', 'on', 'Belgian', 'roads', 'after', 'the', 'race', 'was', 'over', '.'][0m
+[33mPrompt 0: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 3: ['GROZNY', ',', 'Russia', '1996-08-23'][0m
+[33mPrompt 3: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 6: ['1.', 'Jacques', 'Villeneuve', '(', 'Canada', ')', 'Williams', '1', 'minute', '50.574'][0m
+[33mPrompt 6: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 9: ['Singapore', 'Refining', 'Company', 'expected', 'to', 'shut', 'CDU', '3', '.'][0m
+[33mPrompt 9: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 12: ['Although', 'five', 'days', 'of', 'the', 'ban', 'were', 'suspended', 'until', 'January', '1', ',', 'Weaver', 'will', 'miss', 'next', 'month', "'s", 'big', 'St', 'Leger', 'meeting', ',', 'including', 'the', 'ride', 'on', 'top', 'stayer', 'Double', 'Trigger', 'in', 'the', 'Doncaster', 'Cup', '.'][0m
+[33mPrompt 12: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 15: ['But', 'one', 'source', ',', 'the', 'head', 'of', 'a', 'Hong', 'Kong', 'trading', 'house', ',', 'said', 'it', 'made', 'no', 'difference', 'if', 'the', 'copper', 'was', 'customs', 'cleared', 'or', 'not', '.'][0m
+[33mPrompt 15: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 18: ['Yorkshire', '529-8', 'declared'][0m
+[33mPrompt 18: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 21: ['Police', 'spokesman', 'Roger', 'Grimwade', 'said', 'the', 'six', 'or', 'seven', 'hijackers', 'remained', 'on', 'board', 'the', 'aircraft', ',', 'which', 'arrived', 'from', 'Cyprus', 'at', '4.30', 'a.m.', '(', '0330', 'GMT', ')', '.'][0m
+[33mPrompt 21: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 24: ['Sidhu', 'abandoned', 'the', 'Indian', 'team', 'after', 'the', 'third', 'one-day', 'international', 'against', 'England', 'at', 'Old', 'Trafford', 'in', 'Manchester', 'on', 'May', '26', ',', 'before', 'India', 'began', 'a', 'three-test', 'series', ',', 'citing', 'serious', 'differences', 'with', 'captain', 'Mohammed', 'Azharuddin', '.'][0m
+[33mPrompt 24: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 27: ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South'][0m
+[33mPrompt 27: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label PER, picked entity Peter Hedblom, picked instance ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South']
+--> For label MISC, picked entity Iranian, picked instance ['He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.']
+--> For label LOC, picked entity AMSTERDAM, picked instance ['AMSTERDAM', '1996-08-28']
+--> For label ORG, picked entity BALTIMORE, picked instance ['California', '13', 'BALTIMORE', '0']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label PER, picked entity Peter Hedblom, picked instance ['Peter', 'Hedblom', '(', 'Sweden', ')', '70', '75', '75', ',', 'Retief', 'Goosen', '(', 'South']
+--> For label MISC, picked entity Iranian, picked instance ['He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.']
+--> For label LOC, picked entity AMSTERDAM, picked instance ['AMSTERDAM', '1996-08-28']
+--> For label ORG, picked entity BALTIMORE, picked instance ['California', '13', 'BALTIMORE', '0']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['Peter', 'He', '##d', '##b', '##lo', '##m', '(', 'Sweden', ')', '70', '75', '75', ',', 'Re', '##tie', '##f', 'Goose', '##n', '(', 'South', 'Peter', 'He', '##d', '##b', '##lo', '##m', 'is', 'PER', '.', '[SEP]', 'He', 'made', 'the', 'allegations', 'at', 'the', 'trial', 'of', 'an', 'Iranian', 'and', 'four', 'Lebanese', 'accused', 'of', 'carrying', 'out', 'the', 'attack', '.', 'Iranian', 'is', 'MISC', '.', '[SEP]', 'AM', '##ST', '##ER', '##DA', '##M', '1996', '-', '08', '-', '28', 'AM', '##ST', '##ER', '##DA', '##M', 'is', 'LOC', '.', '[SEP]', 'California', '13', 'BA', '##LT', '##IM', '##OR', '##E', '0', 'BA', '##LT', '##IM', '##OR', '##E', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 8
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/9999_fixed_random_basic_30_2021_2021.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 1790.32698, Time is 3.46s
+[34m[dev set Total] Prec.: 1.61, Rec.: 3.79, F1: 2.26[0m
+saving the best model...
+Epoch 2: 933.19379, Time is 2.25s
+[34m[dev set Total] Prec.: 4.87, Rec.: 0.29, F1: 0.54[0m
+Epoch 3: 578.97330, Time is 3.08s
+[34m[dev set Total] Prec.: 13.83, Rec.: 13.24, F1: 13.53[0m
+saving the best model...
+Epoch 4: 429.66540, Time is 2.18s
+[34m[dev set Total] Prec.: 23.57, Rec.: 26.20, F1: 24.81[0m
+saving the best model...
+Epoch 5: 342.56487, Time is 2.28s
+[34m[dev set Total] Prec.: 26.87, Rec.: 31.24, F1: 28.89[0m
+saving the best model...
+Epoch 6: 277.34549, Time is 3.01s
+[34m[dev set Total] Prec.: 31.36, Rec.: 36.51, F1: 33.74[0m
+saving the best model...
+Epoch 7: 228.86323, Time is 2.42s
+[34m[dev set Total] Prec.: 39.63, Rec.: 41.88, F1: 40.73[0m
+saving the best model...
+Epoch 8: 183.33604, Time is 2.67s
+[34m[dev set Total] Prec.: 44.36, Rec.: 47.42, F1: 45.84[0m
+saving the best model...
+Epoch 9: 143.12071, Time is 2.99s
+[34m[dev set Total] Prec.: 48.51, Rec.: 52.46, F1: 50.41[0m
+saving the best model...
+Epoch 10: 114.22742, Time is 3.43s
+[34m[dev set Total] Prec.: 48.27, Rec.: 52.05, F1: 50.09[0m
+Epoch 11: 86.87091, Time is 2.96s
+[34m[dev set Total] Prec.: 51.38, Rec.: 55.29, F1: 53.26[0m
+saving the best model...
+Epoch 12: 69.01102, Time is 2.57s
+[34m[dev set Total] Prec.: 52.50, Rec.: 56.80, F1: 54.57[0m
+saving the best model...
+Epoch 13: 51.09009, Time is 1.85s
+[34m[dev set Total] Prec.: 53.96, Rec.: 56.89, F1: 55.39[0m
+saving the best model...
+Epoch 14: 39.57887, Time is 2.60s
+[34m[dev set Total] Prec.: 54.15, Rec.: 58.25, F1: 56.13[0m
+saving the best model...
+Epoch 15: 30.50584, Time is 3.14s
+[34m[dev set Total] Prec.: 54.78, Rec.: 59.83, F1: 57.20[0m
+saving the best model...
+Epoch 16: 22.28111, Time is 2.95s
+[34m[dev set Total] Prec.: 55.08, Rec.: 59.13, F1: 57.03[0m
+Epoch 17: 17.49525, Time is 2.83s
+[34m[dev set Total] Prec.: 56.02, Rec.: 60.22, F1: 58.04[0m
+saving the best model...
+Epoch 18: 12.11230, Time is 3.05s
+[34m[dev set Total] Prec.: 55.25, Rec.: 59.41, F1: 57.26[0m
+Epoch 19: 10.36697, Time is 3.06s
+[34m[dev set Total] Prec.: 57.26, Rec.: 60.63, F1: 58.90[0m
+saving the best model...
+Epoch 20: 7.72971, Time is 2.65s
+[34m[dev set Total] Prec.: 56.52, Rec.: 61.13, F1: 58.74[0m
+Epoch 21: 6.34554, Time is 3.16s
+[34m[dev set Total] Prec.: 54.73, Rec.: 59.62, F1: 57.07[0m
+Epoch 22: 4.93283, Time is 3.23s
+[34m[dev set Total] Prec.: 55.72, Rec.: 61.00, F1: 58.24[0m
+Epoch 23: 4.23260, Time is 2.62s
+[34m[dev set Total] Prec.: 54.65, Rec.: 60.58, F1: 57.46[0m
+Epoch 24: 3.19962, Time is 2.19s
+[34m[dev set Total] Prec.: 58.02, Rec.: 61.60, F1: 59.76[0m
+saving the best model...
+Epoch 25: 2.60727, Time is 2.67s
+[34m[dev set Total] Prec.: 57.01, Rec.: 61.43, F1: 59.14[0m
+Epoch 26: 2.54052, Time is 2.48s
+[34m[dev set Total] Prec.: 54.62, Rec.: 60.56, F1: 57.43[0m
+Epoch 27: 1.93176, Time is 3.17s
+[34m[dev set Total] Prec.: 57.35, Rec.: 62.23, F1: 59.69[0m
+Epoch 28: 1.56378, Time is 3.04s
+[34m[dev set Total] Prec.: 55.84, Rec.: 60.69, F1: 58.17[0m
+Epoch 29: 1.44604, Time is 3.35s
+[34m[dev set Total] Prec.: 54.70, Rec.: 60.04, F1: 57.25[0m
+Epoch 30: 1.21063, Time is 3.12s
+[34m[dev set Total] Prec.: 55.65, Rec.: 60.56, F1: 58.00[0m
+Epoch 31: 1.10092, Time is 2.66s
+[34m[dev set Total] Prec.: 54.69, Rec.: 60.44, F1: 57.42[0m
+Epoch 32: 0.98688, Time is 2.64s
+[34m[dev set Total] Prec.: 54.94, Rec.: 60.63, F1: 57.64[0m
+Epoch 33: 0.88779, Time is 2.59s
+[34m[dev set Total] Prec.: 55.66, Rec.: 60.74, F1: 58.09[0m
+Epoch 34: 0.79286, Time is 2.72s
+[34m[dev set Total] Prec.: 55.64, Rec.: 60.85, F1: 58.12[0m
+Epoch 35: 0.75566, Time is 3.11s
+[34m[dev set Total] Prec.: 55.67, Rec.: 61.17, F1: 58.29[0m
+Epoch 36: 0.69180, Time is 3.02s
+[34m[dev set Total] Prec.: 55.52, Rec.: 61.13, F1: 58.19[0m
+Epoch 37: 0.64944, Time is 2.49s
+[34m[dev set Total] Prec.: 55.04, Rec.: 61.06, F1: 57.90[0m
+Epoch 38: 0.60287, Time is 3.17s
+[34m[dev set Total] Prec.: 55.23, Rec.: 61.00, F1: 57.97[0m
+Epoch 39: 0.58057, Time is 3.14s
+[34m[dev set Total] Prec.: 55.84, Rec.: 61.18, F1: 58.39[0m
+Epoch 40: 0.53215, Time is 2.93s
+[34m[dev set Total] Prec.: 55.70, Rec.: 61.10, F1: 58.27[0m
+Epoch 41: 0.52034, Time is 3.02s
+[34m[dev set Total] Prec.: 55.62, Rec.: 61.05, F1: 58.21[0m
+Epoch 42: 0.52815, Time is 2.75s
+[34m[dev set Total] Prec.: 56.03, Rec.: 61.23, F1: 58.52[0m
+Epoch 43: 0.49275, Time is 2.36s
+[34m[dev set Total] Prec.: 56.18, Rec.: 61.20, F1: 58.58[0m
+Epoch 44: 0.47688, Time is 2.57s
+[34m[dev set Total] Prec.: 55.79, Rec.: 61.03, F1: 58.29[0m
+early stop because there are 20 epochs not increasing f1 on dev
+Archiving the best Model...
+Finished archiving the models
+The best dev: 59.76
+Final testing.
+[34m[test set Total] Prec.: 55.88, Rec.: 60.55, F1: 58.12[0m

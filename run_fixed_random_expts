@@ -1,0 +1,15 @@
+#!/bin/bash
+
+TTGPU=4
+CURRGPU=2
+
+for bsz in 15 20 25 30 40 50
+do
+	for seed in 42 5555 9999
+	do
+		screen -S rdfixed_sz"$bsz"_"$seed"_GPU"$CURRGPU" -d -m python sampling_run.py --train_file transformers_trainer.py --dataset conll --data_dir dataset/conll --gpu "$CURRGPU" --suffix "$bsz" --prompt fixed_random --template basic --entity_selection_seed "$seed"
+
+		CURRGPU=$((CURRGPU+1))
+		CURRGPU=$((CURRGPU%TTGPU))
+	done 
+done

@@ -1,0 +1,358 @@
+device: cuda:0
+seed: 2021
+dataset: conll
+data_dir: dataset/conll
+percent_filename_suffix: 40_9999
+optimizer: adamw
+learning_rate: 2e-05
+momentum: 0.0
+l2: 1e-08
+lr_decay: 0
+batch_size: 4
+num_epochs: 50
+train_num: -1
+dev_num: -1
+test_num: -1
+max_no_incre: 20
+max_grad_norm: 1.0
+checkpoint: 
+model_folder: models/conll/42_fixed_random_basic_40_9999_2021
+hidden_dim: 0
+dropout: 0.5
+embedder_type: bert-base-cased
+parallel_embedder: 0
+add_iobes_constraint: 0
+mode: train
+test_file: data/conll2003_sample/test.txt
+percentage: 100
+prompt: fixed_random
+entity_selection_seed: 42
+template: basic
+search_pool: None
+using GPU... 0
+[34m[Data Info] Tokenizing the instances using 'bert-base-cased' tokenizer[0m
+[34m[Data Info] Reading dataset from: 
+dataset/conll/train_40_9999.txt
+dataset/conll/dev.txt
+dataset/conll/test.txt[0m
+[Data Info] Reading file: dataset/conll/train_40_9999.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 40
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-MISC': 1, 'E-MISC': 2, 'O': 3, 'B-PER': 4, 'E-PER': 5, 'B-LOC': 6, 'I-LOC': 7, 'E-LOC': 8, 'S-MISC': 9, 'S-ORG': 10, 'S-LOC': 11, 'B-ORG': 12, 'E-ORG': 13, 'I-PER': 14, 'I-ORG': 15, 'S-PER': 16, 'I-MISC': 17, '<START>': 18, '<STOP>': 19}
+--> For label MISC, picked entity Japanese Tankan, picked instance ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'jitters', 'over', 'the', 'Japanese', 'Tankan', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'s", 'levels', '.']
+--> For label PER, picked entity A. Stewart, picked instance ['A.', 'Stewart', 'not', 'out', '40']
+--> For label LOC, picked entity Turkey, picked instance ['More', 'than', '20,000', 'people', 'have', 'been', 'killed', 'in', 'the', '12-year-old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'PKK', 'guerrillas', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.']
+--> For label ORG, picked entity Wolverhampton, picked instance ['Wolverhampton', '3', '2', '1', '0', '5', '2', '7']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CENTRAL', 'DIVISION'][0m
+[33mPrompt 0: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 4: ['Hurte', 'Sierd', 'Zylstra', 'and', 'his', 'wife', ',', 'Jetsi', 'Hendrika', 'Coers', ',', 'both', '50', ',', 'were', 'abducted', 'from', 'the', 'teak', 'plantation', 'they', 'managed', 'late', 'Saturday', 'or', 'early', 'Sunday', 'by', 'at', 'least', 'two', 'men', 'demanding', '$', '1.5', 'million', 'ransom', ',', 'authorities', 'said', '.'][0m
+[33mPrompt 4: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 8: ['A.', 'Stewart', 'not', 'out', '40'][0m
+[33mPrompt 8: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 12: ['WESTERN', 'DIVISION'][0m
+[33mPrompt 12: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 16: ['He', 'added', ':', '"', 'It', "'s", 'very', 'sad', 'to', 'beat', 'Henry', 'Candy', 'because', 'I', 'am', 'godfather', 'to', 'his', 'daughter', '.', '"'][0m
+[33mPrompt 16: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Chairman', 'Mohamed', 'Fahim', 'Rayyan', 'told', 'a', 'news', 'conference', 'at', 'Cairo', 'airport', ':', '"', 'The', 'control', 'tower', 'should', 'have', 'allocated', 'the', 'plane', 'another', 'runway', ',', 'instead', 'of', 'the', 'one', 'the', 'plane', 'landed', 'on', '.', '"'][0m
+[33mPrompt 20: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 24: ['NEC', 'Nijmegen', '0', 'AZ', 'Alkmaar', '0'][0m
+[33mPrompt 24: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 28: ['Wolverhampton', '3', '2', '1', '0', '5', '2', '7'][0m
+[33mPrompt 28: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 32: ['NEW', 'YORK', '59', '69', '.461', '21'][0m
+[33mPrompt 32: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 36: ['Collated', 'results', 'of', 'African', 'Nations', 'Cup', 'preliminary', 'round', ',', 'second', 'leg', 'matches', 'played', 'at', 'the', 'weekend', ':'][0m
+[33mPrompt 36: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/train_40_9999.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 40
+[Data Info] Using the training set to build label index
+#labels: 20
+label 2idx: {'<PAD>': 0, 'B-MISC': 1, 'E-MISC': 2, 'O': 3, 'B-PER': 4, 'E-PER': 5, 'B-LOC': 6, 'I-LOC': 7, 'E-LOC': 8, 'S-MISC': 9, 'S-ORG': 10, 'S-LOC': 11, 'B-ORG': 12, 'E-ORG': 13, 'I-PER': 14, 'I-ORG': 15, 'S-PER': 16, 'I-MISC': 17, '<START>': 18, '<STOP>': 19}
+--> For label MISC, picked entity Japanese Tankan, picked instance ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'jitters', 'over', 'the', 'Japanese', 'Tankan', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'s", 'levels', '.']
+--> For label PER, picked entity A. Stewart, picked instance ['A.', 'Stewart', 'not', 'out', '40']
+--> For label LOC, picked entity Turkey, picked instance ['More', 'than', '20,000', 'people', 'have', 'been', 'killed', 'in', 'the', '12-year-old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'PKK', 'guerrillas', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.']
+--> For label ORG, picked entity Wolverhampton, picked instance ['Wolverhampton', '3', '2', '1', '0', '5', '2', '7']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CENTRAL', 'DIVISION'][0m
+[33mPrompt 0: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 4: ['Hurte', 'Sierd', 'Zylstra', 'and', 'his', 'wife', ',', 'Jetsi', 'Hendrika', 'Coers', ',', 'both', '50', ',', 'were', 'abducted', 'from', 'the', 'teak', 'plantation', 'they', 'managed', 'late', 'Saturday', 'or', 'early', 'Sunday', 'by', 'at', 'least', 'two', 'men', 'demanding', '$', '1.5', 'million', 'ransom', ',', 'authorities', 'said', '.'][0m
+[33mPrompt 4: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 8: ['A.', 'Stewart', 'not', 'out', '40'][0m
+[33mPrompt 8: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 12: ['WESTERN', 'DIVISION'][0m
+[33mPrompt 12: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 16: ['He', 'added', ':', '"', 'It', "'s", 'very', 'sad', 'to', 'beat', 'Henry', 'Candy', 'because', 'I', 'am', 'godfather', 'to', 'his', 'daughter', '.', '"'][0m
+[33mPrompt 16: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 20: ['Chairman', 'Mohamed', 'Fahim', 'Rayyan', 'told', 'a', 'news', 'conference', 'at', 'Cairo', 'airport', ':', '"', 'The', 'control', 'tower', 'should', 'have', 'allocated', 'the', 'plane', 'another', 'runway', ',', 'instead', 'of', 'the', 'one', 'the', 'plane', 'landed', 'on', '.', '"'][0m
+[33mPrompt 20: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 24: ['NEC', 'Nijmegen', '0', 'AZ', 'Alkmaar', '0'][0m
+[33mPrompt 24: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 28: ['Wolverhampton', '3', '2', '1', '0', '5', '2', '7'][0m
+[33mPrompt 28: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 32: ['NEW', 'YORK', '59', '69', '.461', '21'][0m
+[33mPrompt 32: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 36: ['Collated', 'results', 'of', 'African', 'Nations', 'Cup', 'preliminary', 'round', ',', 'second', 'leg', 'matches', 'played', 'at', 'the', 'weekend', ':'][0m
+[33mPrompt 36: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/dev.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2601
+--> For label MISC, picked entity Japanese Tankan, picked instance ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'jitters', 'over', 'the', 'Japanese', 'Tankan', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'s", 'levels', '.']
+--> For label PER, picked entity A. Stewart, picked instance ['A.', 'Stewart', 'not', 'out', '40']
+--> For label LOC, picked entity Turkey, picked instance ['More', 'than', '20,000', 'people', 'have', 'been', 'killed', 'in', 'the', '12-year-old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'PKK', 'guerrillas', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.']
+--> For label ORG, picked entity Wolverhampton, picked instance ['Wolverhampton', '3', '2', '1', '0', '5', '2', '7']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['CRICKET', '-', 'LEICESTERSHIRE', 'TAKE', 'OVER', 'AT', 'TOP', 'AFTER', 'INNINGS', 'VICTORY', '.'][0m
+[33mPrompt 0: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 260: ['"', 'Randall', 'was', 'one', 'of', 'the', 'most', 'exciting', 'quarterbacks', 'in', 'NFL', 'history', ',', '"', 'said', 'Eagles', 'owner', 'Jeffrey', 'Lurie', '.', '"'][0m
+[33mPrompt 260: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 520: ['CRICKET', '-', 'AUSTRALIA', '228-9', 'IN', '50', 'OVERS', 'V', 'SRI', 'LANKA', '.'][0m
+[33mPrompt 520: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 780: ['BOGOTA', ',', 'Colombia', '1996-08-30'][0m
+[33mPrompt 780: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1040: ['CAIRO', '1996-08-30'][0m
+[33mPrompt 1040: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1300: ['2.', 'Giovanni', 'Lombardi', '(', 'Italy', ')', 'Polti', '5', 'seconds', 'behind'][0m
+[33mPrompt 1300: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1560: ['Oxford', '4', '1', '0', '3', '6', '5', '3'][0m
+[33mPrompt 1560: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1820: ['MINSK', '1996-08-31'][0m
+[33mPrompt 1820: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2080: ['Belgium', "'s", 'best', 'second-half', 'effort', 'came', 'three', 'minutes', 'later', 'when', 'Degryse', 'put', 'the', 'ball', 'over', 'the', 'bar', 'from', 'close', 'range', 'with', 'Recber', 'beaten', '.'][0m
+[33mPrompt 2080: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2340: ['Gonzalo', 'Montoya', ',', 'a', 'police', 'commander', 'in', 'Tacambaro', ',', 'told', 'Radio', 'Red', 'the', 'group', 'was', 'armed', 'with', 'AK-47s', 'and', 'other', 'high-powered', 'assault', 'rifles', 'and', 'wore', 'military-style', 'fatigues', '.'][0m
+[33mPrompt 2340: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2600: ['--', 'Dhaka', 'Newsroom', '880-2-506363'][0m
+[33mPrompt 2600: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] Reading file: dataset/conll/test.txt, labels will be converted to IOBES encoding
+[Data Info] Modify src/data/transformers_dataset.read_txt function if you have other requirements
+number of sentences: 2746
+--> For label MISC, picked entity Japanese Tankan, picked instance ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'jitters', 'over', 'the', 'Japanese', 'Tankan', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'s", 'levels', '.']
+--> For label PER, picked entity A. Stewart, picked instance ['A.', 'Stewart', 'not', 'out', '40']
+--> For label LOC, picked entity Turkey, picked instance ['More', 'than', '20,000', 'people', 'have', 'been', 'killed', 'in', 'the', '12-year-old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'PKK', 'guerrillas', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.']
+--> For label ORG, picked entity Wolverhampton, picked instance ['Wolverhampton', '3', '2', '1', '0', '5', '2', '7']
+[31mSome sample prompts used: [0m
+[34mInstance 0: ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE', 'DEFEAT', '.'][0m
+[33mPrompt 0: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 274: ['West', 'Indies', '-', 'Sherwin', 'Campbell', ',', 'Robert', 'Samuels', ',', 'Brian', 'Lara', ',', 'Shivnarine', 'Chanderpaul', ',', 'Carl', 'Hooper', ',', 'Jimmy', 'Adams', ',', 'Junior', 'Murray', ',', 'Nixon', 'McLean', ',', 'Kenneth', 'Benjamin', ',', 'Curtly', 'Ambrose', ',', 'Courtney', 'Walsh', '(', 'captain', ')', ',', 'Roland', 'Holder', '12th', 'man', '.'][0m
+[33mPrompt 274: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 548: ['Montpellier', '20', '3', '9', '8', '17', '24', '18'][0m
+[33mPrompt 548: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 822: ['Edna', 'Fernandes'][0m
+[33mPrompt 822: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1096: ['Yeltsin', 'has', 'been', 'shown', 'a', 'few', 'times', 'on', 'television', 'since', 'his', 'quintuple', 'bypass', 'on', 'November', '5', 'but', 'has', 'yet', 'to', 'deliver', 'any', 'major', 'television', 'or', 'radio', 'address', 'to', 'the', 'nation', '.'][0m
+[33mPrompt 1096: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1370: ['Minneapolis', '306,364', '153,231'][0m
+[33mPrompt 1370: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1644: ['--', 'Frankfurt', 'Newsroom', ',', '+49', '69', '756525'][0m
+[33mPrompt 1644: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 1918: ['18.', 'Barbara', 'Merlin', '(', 'Italy', ')', '92'][0m
+[33mPrompt 1918: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2192: ['Coleraine', '10', '7', '1', '2', '18', '11', '22'][0m
+[33mPrompt 2192: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2466: ['Australia', '-', 'Tries', ':', 'Matthew', 'Burke', '(', '2', ')', ',', 'Joe', 'Roff', ',', 'David', 'Campese', ',', 'Tim', 'Horan', '.'][0m
+[33mPrompt 2466: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[34mInstance 2740: ['"', 'The', 'years', 'I', 'spent', 'as', 'manager', 'of', 'the', 'Republic', 'of', 'Ireland', 'were', 'the', 'best', 'years', 'of', 'my', 'life', '.'][0m
+[33mPrompt 2740: ['The', 'dollar', ',', 'which', 'dropped', 'sharply', 'on', 'Monday', 'because', 'of', 'ji', '##tters', 'over', 'the', 'Japanese', 'Tank', '##an', 'survey', ',', 'weakened', 'further', 'in', 'quiet', 'trading', 'but', 'regained', 'losses', 'to', 'end', 'the', 'day', 'close', 'to', 'Monday', "'", 's', 'levels', '.', 'Japanese', 'Tank', '##an', 'is', 'MISC', '.', '[SEP]', 'A', '.', 'Stewart', 'not', 'out', '40', 'A', '.', 'Stewart', 'is', 'PER', '.', '[SEP]', 'More', 'than', '20', ',', '000', 'people', 'have', 'been', 'killed', 'in', 'the', '12', '-', 'year', '-', 'old', 'conflict', 'between', 'Turkish', 'troops', 'and', 'P', '##K', '##K', 'guerrilla', '##s', 'fighting', 'for', 'autonomy', 'or', 'independence', 'from', 'Turkey', '.', 'Turkey', 'is', 'LOC', '.', '[SEP]', 'Wolverhampton', '3', '2', '1', '0', '5', '2', '7', 'Wolverhampton', 'is', 'ORG', '.', '[SEP]']
+[0m
+[Data Info] number of training instances: 10
+[31m[Model Info]: Working with transformers package from huggingface with bert-base-cased[0m
+[31m[Optimizer Info]: You should be aware that you are using the optimizer from huggingface.[0m
+[31m[Optimizer Info]: Change the optimier in transformers_util.py if you want to make some modifications.[0m
+[31m[Model Info] Loading pretrained language model bert-base-cased[0m
+[33mUsing AdamW optimizeer by HuggingFace with 2e-05 learning rate, eps: 1e-08, weight decay: 0.0, warmup_step: 0, [0m
+[31m[Optimizer Info] Modify the optimizer info as you need.[0m
+AdamW (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+
+Parameter Group 1
+    betas: (0.9, 0.999)
+    correct_bias: True
+    eps: 1e-08
+    initial_lr: 2e-05
+    lr: 2e-05
+    weight_decay: 0.0
+)
+[Info] The model will be saved to: models/conll/42_fixed_random_basic_40_9999_2021.tar.gz
+[31m[Train Info] Start training, you have set to stop if performace not increase for 20 epochs[0m
+Epoch 1: 2441.04606, Time is 6.00s
+[34m[dev set Total] Prec.: 1.24, Rec.: 2.54, F1: 1.66[0m
+saving the best model...
+Epoch 2: 1137.66037, Time is 5.14s
+[34m[dev set Total] Prec.: 0.00, Rec.: 0.00, F1: 0.00[0m
+Epoch 3: 769.09943, Time is 4.60s
+[34m[dev set Total] Prec.: 0.26, Rec.: 0.08, F1: 0.13[0m
+Epoch 4: 603.98532, Time is 4.37s
+[34m[dev set Total] Prec.: 0.28, Rec.: 0.07, F1: 0.11[0m
+Epoch 5: 509.13092, Time is 4.60s
+[34m[dev set Total] Prec.: 4.92, Rec.: 2.76, F1: 3.54[0m
+saving the best model...
+Epoch 6: 429.28397, Time is 4.86s
+[34m[dev set Total] Prec.: 8.73, Rec.: 5.09, F1: 6.43[0m
+saving the best model...
+Epoch 7: 360.30887, Time is 4.88s
+[34m[dev set Total] Prec.: 20.28, Rec.: 14.69, F1: 17.03[0m
+saving the best model...
+Epoch 8: 294.35686, Time is 4.82s
+[34m[dev set Total] Prec.: 37.48, Rec.: 32.74, F1: 34.95[0m
+saving the best model...
+Epoch 9: 236.40326, Time is 5.20s
+[34m[dev set Total] Prec.: 46.12, Rec.: 39.63, F1: 42.63[0m
+saving the best model...
+Epoch 10: 179.89566, Time is 5.25s
+[34m[dev set Total] Prec.: 48.50, Rec.: 43.58, F1: 45.91[0m
+saving the best model...
+Epoch 11: 142.32498, Time is 5.41s
+[34m[dev set Total] Prec.: 51.93, Rec.: 49.26, F1: 50.56[0m
+saving the best model...
+Epoch 12: 110.21704, Time is 5.17s
+[34m[dev set Total] Prec.: 51.28, Rec.: 49.02, F1: 50.12[0m
+Epoch 13: 83.99231, Time is 4.82s
+[34m[dev set Total] Prec.: 53.73, Rec.: 52.34, F1: 53.02[0m
+saving the best model...
+Epoch 14: 64.81682, Time is 3.73s
+[34m[dev set Total] Prec.: 53.28, Rec.: 53.30, F1: 53.29[0m
+saving the best model...
+Epoch 15: 48.06909, Time is 5.06s
+[34m[dev set Total] Prec.: 56.61, Rec.: 53.77, F1: 55.16[0m
+saving the best model...
+Epoch 16: 38.22110, Time is 3.35s
+[34m[dev set Total] Prec.: 55.91, Rec.: 53.44, F1: 54.65[0m
+Epoch 17: 27.63568, Time is 4.03s
+[34m[dev set Total] Prec.: 56.85, Rec.: 55.25, F1: 56.04[0m
+saving the best model...
+Epoch 18: 22.85422, Time is 5.16s
+[34m[dev set Total] Prec.: 56.80, Rec.: 56.16, F1: 56.48[0m
+saving the best model...
+Epoch 19: 16.77908, Time is 5.03s
+[34m[dev set Total] Prec.: 56.54, Rec.: 56.92, F1: 56.73[0m
+saving the best model...
+Epoch 20: 13.68738, Time is 4.90s
+[34m[dev set Total] Prec.: 55.36, Rec.: 57.49, F1: 56.41[0m
+Epoch 21: 9.41122, Time is 4.85s
+[34m[dev set Total] Prec.: 54.65, Rec.: 57.95, F1: 56.25[0m
+Epoch 22: 7.53601, Time is 5.08s
+[34m[dev set Total] Prec.: 56.83, Rec.: 58.12, F1: 57.47[0m
+saving the best model...
+Epoch 23: 6.53757, Time is 4.72s
+[34m[dev set Total] Prec.: 57.41, Rec.: 58.57, F1: 57.99[0m
+saving the best model...
+Epoch 24: 4.64969, Time is 4.87s
+[34m[dev set Total] Prec.: 59.96, Rec.: 59.01, F1: 59.48[0m
+saving the best model...
+Epoch 25: 3.80600, Time is 5.02s
+[34m[dev set Total] Prec.: 59.02, Rec.: 59.48, F1: 59.25[0m
+Epoch 26: 3.00909, Time is 5.09s
+[34m[dev set Total] Prec.: 59.38, Rec.: 60.29, F1: 59.83[0m
+saving the best model...
+Epoch 27: 2.41672, Time is 4.93s
+[34m[dev set Total] Prec.: 59.49, Rec.: 60.59, F1: 60.04[0m
+saving the best model...
+Epoch 28: 2.04346, Time is 4.29s
+[34m[dev set Total] Prec.: 58.58, Rec.: 60.54, F1: 59.54[0m
+Epoch 29: 1.71396, Time is 5.12s
+[34m[dev set Total] Prec.: 60.30, Rec.: 60.74, F1: 60.52[0m
+saving the best model...
+Epoch 30: 1.48096, Time is 4.08s
+[34m[dev set Total] Prec.: 61.12, Rec.: 61.15, F1: 61.13[0m
+saving the best model...
+Epoch 31: 1.35272, Time is 3.98s
+[34m[dev set Total] Prec.: 61.52, Rec.: 61.33, F1: 61.43[0m
+saving the best model...
+Epoch 32: 1.14862, Time is 3.41s
+[34m[dev set Total] Prec.: 61.51, Rec.: 61.89, F1: 61.70[0m
+saving the best model...
+Epoch 33: 1.00375, Time is 4.79s
+[34m[dev set Total] Prec.: 61.45, Rec.: 61.10, F1: 61.27[0m
+Epoch 34: 0.95041, Time is 4.09s
+[34m[dev set Total] Prec.: 61.09, Rec.: 62.11, F1: 61.59[0m
+Epoch 35: 0.87708, Time is 3.05s
+[34m[dev set Total] Prec.: 60.25, Rec.: 61.74, F1: 60.98[0m
+Epoch 36: 0.77245, Time is 3.51s
+[34m[dev set Total] Prec.: 61.16, Rec.: 62.16, F1: 61.66[0m
+Epoch 37: 0.70639, Time is 3.06s
+[34m[dev set Total] Prec.: 60.88, Rec.: 62.07, F1: 61.47[0m
+Epoch 38: 0.66541, Time is 3.13s
+[34m[dev set Total] Prec.: 61.04, Rec.: 62.45, F1: 61.73[0m
+saving the best model...
+Epoch 39: 0.63223, Time is 3.14s
+[34m[dev set Total] Prec.: 60.94, Rec.: 62.31, F1: 61.62[0m
+Epoch 40: 0.59904, Time is 3.01s
+[34m[dev set Total] Prec.: 60.85, Rec.: 62.26, F1: 61.54[0m
+Epoch 41: 0.59949, Time is 3.06s
+[34m[dev set Total] Prec.: 60.89, Rec.: 62.39, F1: 61.63[0m
+Epoch 42: 0.56345, Time is 2.41s
+[34m[dev set Total] Prec.: 60.87, Rec.: 62.45, F1: 61.65[0m
+Epoch 43: 0.54904, Time is 1.33s
+[34m[dev set Total] Prec.: 60.67, Rec.: 62.55, F1: 61.59[0m
+Epoch 44: 0.52060, Time is 3.06s
+[34m[dev set Total] Prec.: 60.82, Rec.: 62.51, F1: 61.66[0m
+Epoch 45: 0.51358, Time is 3.08s
+[34m[dev set Total] Prec.: 60.92, Rec.: 62.48, F1: 61.69[0m
+Epoch 46: 0.50116, Time is 2.96s
+[34m[dev set Total] Prec.: 61.14, Rec.: 62.55, F1: 61.83[0m
+saving the best model...
+Epoch 47: 0.49838, Time is 2.96s
+[34m[dev set Total] Prec.: 61.20, Rec.: 62.51, F1: 61.85[0m
+saving the best model...
+Epoch 48: 0.47864, Time is 3.15s
+[34m[dev set Total] Prec.: 61.12, Rec.: 62.48, F1: 61.79[0m
+Epoch 49: 0.48444, Time is 2.99s
+[34m[dev set Total] Prec.: 61.06, Rec.: 62.46, F1: 61.75[0m
+Epoch 50: 0.47720, Time is 2.95s
+[34m[dev set Total] Prec.: 61.09, Rec.: 62.51, F1: 61.79[0m
+Archiving the best Model...
+Finished archiving the models
+The best dev: 61.85
+Final testing.
+[34m[test set Total] Prec.: 61.76, Rec.: 62.34, F1: 62.05[0m
