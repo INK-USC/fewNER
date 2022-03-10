@@ -28,6 +28,10 @@ def set_seed(opt, seed):
         torch.cuda.manual_seed(seed)
         torch.cuda.manual_seed_all(seed)
 
+def show_args(args):
+    for k, v in vars(args).items():
+        print(f"{k:>30} ====> {v}")
+
 
 def parse_arguments(parser):
     """
@@ -76,8 +80,6 @@ def parse_arguments(parser):
     parser.add_argument('--search_pool', type=str, choices=["source","target","source+target"], help="template mode")
 
     args = parser.parse_args()
-    for k in args.__dict__:
-        print(k + ": " + str(args.__dict__[k]))
     return args
 
 
@@ -217,6 +219,7 @@ def main():
     # Configure command line argument parser
     parser = argparse.ArgumentParser(description="LSTM CRF implementation")
     opt = parse_arguments(parser)
+    show_args(opt)
 
     if opt.mode == "train":
         conf = Config(opt)
