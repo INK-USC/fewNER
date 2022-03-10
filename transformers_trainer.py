@@ -266,7 +266,7 @@ def main():
         result_out_dir += "_crf"
         if not os.path.exists(result_out_dir):
             os.makedirs(result_out_dir)
-        result_out_file_path = os.path.join(result_out_dir, "train_{}.txt".format(opt.percent_filename_suffix))
+        result_out_file_path = os.path.join(result_out_dir, f"train_{opt.prompt}_{opt.template}_{opt.percent_filename_suffix}_{opt.seed}.txt")
 
         train_model(conf, conf.num_epochs, train_dataloader, dev_dataloader, test_dataloader, result_out_file_path)
     elif opt.mode == "test":

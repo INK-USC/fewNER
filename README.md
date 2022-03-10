@@ -74,6 +74,7 @@ Possible values for:
         - 50_5555
         - 50_9999
 - `<TRAIN_SEED>` : 42, 1337, 2021
+- `<SAMPLE_SEED>` : 42, 1337, 2021, 5555, 9999
 
 ### Single run
 
@@ -82,16 +83,7 @@ Execute a single run.
 - In-domain setting
 
   ```bash
-  python3 transformers_trainer.py \
-    --dataset <DATASET> \
-    --data_dir dataset/<DATASET> \
-    --model_folder models/<DATASET>/test10 \
-    --device cuda:0 \
-    --percent_filename_suffix <SEEDED_SUFFIX> \
-    --prompt <PROMPT> \
-    --template <TEMPLATE> \
-    --num_epochs 50 \
-    --seed <TRAIN_SEED>
+  scripts/in_domain/in_domain_one.sh <DATASET> <SHOT> <PROMPT> <TEMPLATE> <TRAIN_SEED> <SAMPLE_SEED>
   ```
 
 - Domain Adaptation setting
@@ -116,15 +108,9 @@ This setting runs all 15 runs i.e. 5 different sub-samples x 3 training seeds
 - In-domain setting
 
   ```bash
-  python sampling_run.py \
-    --train_file transformers_trainer.py \
-    --dataset <DATASET> \
-    --data_dir dataset/<DATASET> \
-    --gpu 0 \
-    --suffix <SUFFIX> \
-    --prompt <PROMPT> \
-    --template <TEMPLATE>
+  scripts/in_domain/in_domain_all.sh
   ```
+  * remember to configure the parameters on top of this script.
 
 - Domain Adaptation setting
   ```bash
