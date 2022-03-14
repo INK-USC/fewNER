@@ -1,1 +1,1 @@
-Scripts to run expts in domain adaptation part.
+Scripts to run experiments in domain adaptation part.

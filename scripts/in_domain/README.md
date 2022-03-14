@@ -1,1 +1,1 @@
-Scripts to run expts in in-domain part.
+Scripts to run experiments in in-domain part.

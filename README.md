@@ -60,21 +60,9 @@ Possible values for:
 - `<PROMPT>` : from the table above
 - `<TEMPLATE>` : from the table above
 - `<SUFFIX>` : 25, 50
-- `<SEEDED_SUFFIX>` :
-    - For train size 25:
-        - 25_42
-        - 25_1337
-        - 25_2021
-        - 25_5555
-        - 25_9999
-    - For train size 50:
-        - 50_42
-        - 50_1337
-        - 50_2021
-        - 50_5555
-        - 50_9999
 - `<TRAIN_SEED>` : 42, 1337, 2021
 - `<SAMPLE_SEED>` : 42, 1337, 2021, 5555, 9999
+- `<CHECK_POINT>` : Saved checkpoint
 
 ### Single run
 
@@ -88,17 +76,7 @@ Execute a single run.
 
 - Domain Adaptation setting
   ```bash
-  python3 transformers_continual_trainer.py \
-    --dataset <DATASET> \
-    --data_dir dataset/<DATASET> \
-    --checkpoint checkpoint/conll_all \
-    --model_folder models/<DATASET>/transfer_train_50_conll \
-    --device cuda:0 \
-    --prompt <PROMPT> \
-    --template <TEMPLATE> \
-    --search_pool target \
-    --percent_filename_suffix <SEEDED_SUFFIX> \
-    --seed <TRAIN_SEED>
+  scripts/domain_adaptation/domain_adaptation_one.sh <DATASET> <SHOT> <PROMPT> <TEMPLATE> <TRAIN_SEED> <SAMPLE_SEED> <CHECK_POINT>
   ```
 
 ### Multiple runs
@@ -114,16 +92,7 @@ This setting runs all 15 runs i.e. 5 different sub-samples x 3 training seeds
 
 - Domain Adaptation setting
   ```bash
-  python sampling_continual_run_slurm.py \
-    --train_file transformers_continual_trainer.py \
-    --dataset <DATASET> \
-    --data_dir dataset/<DATASET> \
-    --gpu 0 \
-    --suffix <SUFFIX> \
-    --prompt <PROMPT> \
-    --template <TEMPLATE> \
-    --search_pool target \
-    --checkpoint checkpoint/conll_all
+  scripts/domain_adaptation/domain_adaptation_all.sh
   ```
 
 ### Running prompt Search
