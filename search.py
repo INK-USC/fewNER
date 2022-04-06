@@ -72,7 +72,7 @@ def parse_arguments(parser):
     parser.add_argument('--percentage', type=int, default=100, help="how much percentage of training dataset to use")
 
     parser.add_argument('--prompt', type=str, choices=["max", "random", "sbert", "bertscore"], help="prompt mode")
-    parser.add_argument('--template', type=str, choices=["no_context", "basic", "basic_all", "structure", "structure_all", "lexical", "lexical_all"], help="template mode")
+    parser.add_argument('--template', type=str, choices=["no_context", "context", "context_all", "structure", "structure_all", "lexical", "lexical_all"], help="template mode")
     parser.add_argument('--search_pool', type=str, choices=["source", "target", "source+target"], help="template mode")
 
     args = parser.parse_args()

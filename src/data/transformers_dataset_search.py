@@ -28,7 +28,7 @@ def maybe_show_prompt(id, word, prompt, mod):
 def convert_instances_to_feature_tensors(instances: List[Instance],
                                          tokenizer: PreTrainedTokenizer,
                                          label2idx: Dict[str, int],
-                                         template: str = None, # "no_context", "basic", "basic_all", "structure", "structure_all"
+                                         template: str = None, # "no_context", "context", "context_all", "structure", "structure_all"
                                          entity_candidate: Dict[str, List] = None):
 
     features = []
@@ -71,15 +71,15 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
 
             prompt_tokens = []
             for entity_label in max_entities:
-                if template in ["no_context", "basic", "basic_all"]:
-                    if template in ["basic", "basic_all"]:
+                if template in ["no_context", "context", "context_all"]:
+                    if template in ["context", "context_all"]:
                         instance_words = max_entities[entity_label][1].ori_words
                         for i, word in enumerate(instance_words):
                             instance_tokens = tokenizer.tokenize(" " + word)
                             for sub_token in instance_tokens:
                                 prompt_tokens.append(sub_token)
 
-                    if template in ["no_context", "basic"]:
+                    if template in ["no_context", "context"]:
                         entity_tokens = tokenizer.tokenize(" " + max_entities[entity_label][0])
                         for sub_token in entity_tokens:
                             prompt_tokens.append(sub_token)
@@ -89,7 +89,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                         prompt_tokens.append(".")
                         prompt_tokens.append(tokenizer.sep_token)
 
-                    elif template in ["basic_all"]:
+                    elif template in ["context_all"]:
                         for entity in max_entities[entity_label][1].entities:
                             entity_tokens = tokenizer.tokenize(" " + entity[0])
                             for sub_token in entity_tokens:

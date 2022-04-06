@@ -34,7 +34,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                                          tokenizer: PreTrainedTokenizer,
                                          label2idx: Dict[str, int],
                                          prompt: str = None, # "max", "random", "sbert", "bertscore"
-                                         template: str = None, # "no_context", "basic", "basic_all", "structure", "structure_all"
+                                         template: str = None, # "no_context", "context", "context_all", "structure", "structure_all"
                                          prompt_candidates_from_outside: List[str] = None,
                                          constrained_instances: bool = False):
     
@@ -163,7 +163,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                 scores.append(score.item())
                 # stats end
 
-                if template == "basic_all":
+                if template == "context_all":
                     for i, word in enumerate(prompt_words):
                         instance_tokens = tokenizer.tokenize(" " + word)
                         for sub_token in instance_tokens:
@@ -260,7 +260,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                 scores.append(score.item())
                 # stats end
 
-                if template == "basic_all":
+                if template == "context_all":
                     for i, word in enumerate(prompt_words):
                         instance_tokens = tokenizer.tokenize(" " + word)
                         for sub_token in instance_tokens:
@@ -317,15 +317,15 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
         elif prompt == "max":
             prompt_tokens = []
             for entity_label in max_entities:
-                if template in ["no_context", "basic", "basic_all"]:
-                    if template in ["basic", "basic_all"]:
+                if template in ["no_context", "context", "context_all"]:
+                    if template in ["context", "context_all"]:
                         instance_words = max_entities[entity_label][1].ori_words
                         for i, word in enumerate(instance_words):
                             instance_tokens = tokenizer.tokenize(" " + word)
                             for sub_token in instance_tokens:
                                 prompt_tokens.append(sub_token)
 
-                    if template in ["no_context", "basic"]:
+                    if template in ["no_context", "context"]:
                         entity_tokens = tokenizer.tokenize(" " + max_entities[entity_label][0])
                         for sub_token in entity_tokens:
                             prompt_tokens.append(sub_token)
@@ -335,7 +335,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                         prompt_tokens.append(".")
                         prompt_tokens.append(tokenizer.sep_token)
 
-                    elif template in ["basic_all"]:
+                    elif template in ["context_all"]:
                         for entity in max_entities[entity_label][1].entities:
                             entity_tokens = tokenizer.tokenize(" " + entity[0])
                             for sub_token in entity_tokens:
@@ -399,18 +399,18 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
         elif prompt == "random":
             prompt_tokens = []
             for entity_label in entity_dict:
-                if template in ["no_context", "basic", "basic_all"]:
+                if template in ["no_context", "context", "context_all"]:
                     entity = random.choice(tuple(entity_dict[entity_label]))
                     instance = random.choice(entity_dict[entity_label][entity])
 
-                    if template in ["basic", "basic_all"]:
+                    if template in ["context", "context_all"]:
                         instance_words = instance.ori_words
                         for i, word in enumerate(instance_words):
                             instance_tokens = tokenizer.tokenize(" " + word)
                             for sub_token in instance_tokens:
                                 prompt_tokens.append(sub_token)
 
-                    if template in ["no_context", "basic"]:
+                    if template in ["no_context", "context"]:
                         entity_tokens = tokenizer.tokenize(" " + entity)
                         for sub_token in entity_tokens:
                             prompt_tokens.append(sub_token)
@@ -420,7 +420,7 @@ def convert_instances_to_feature_tensors(instances: List[Instance],
                         prompt_tokens.append(".")
                         prompt_tokens.append(tokenizer.sep_token)
 
-                    elif template in ["basic_all"]:
+                    elif template in ["context_all"]:
                         for entity in instance.entities:
                             entity_tokens = tokenizer.tokenize(" " + entity[0])
                             for sub_token in entity_tokens:

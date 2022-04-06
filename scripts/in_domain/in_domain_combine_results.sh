@@ -1,7 +1,7 @@
 dataset=conll
 shots=25
 prompt=max
-template=basic
+template=context
 
 output_file="combine_results_${prompt}_${template}_${shots}.txt"
 

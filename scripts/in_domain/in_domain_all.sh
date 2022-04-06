@@ -1,7 +1,7 @@
 dataset=conll
 shots=25
 prompt=max
-template=basic
+template=context
 # 15 runs in total
 for sample_seed in 42 1337 2021 5555 9999;
 do
