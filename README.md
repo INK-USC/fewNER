@@ -1,5 +1,13 @@
-# fewNER
+# Good Examples Make A Faster Learner: Simple Demonstration-based Learning for Low-resource NER
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-green.svg?style=flat-square)](http://makeapullrequest.com)
+[![arXiv](https://img.shields.io/badge/arXiv-2110.08454-b31b1b.svg)](https://arxiv.org/abs/2110.08454)
 
+This repo provides the model, code & data of our paper: [Good Examples Make A Faster Learner: Simple Demonstration-based Learning for Low-resource NER](https://arxiv.org/abs/2110.08454) (ACL 2022).
+[[PDF]](https://arxiv.org/pdf/2110.08454.pdf)
+
+## Overview
+Demonstration-based learning framework for NER integrates prompt into the input itself to make better input representations for token classification.
+Concatenating simple demonstration can be helpful to improve the performance.
 
 ## Table of contents
 
@@ -43,12 +51,12 @@ cp score.py ~/.conda/envs/<ENV_NAME>/lib/python3.6/site-packages/bert_score/scor
 
 ## Valid Combination Table
 
-| Prompt      | Template                                                         |
-| ----------- | ---------------------------------------------------------------- |
-| `max`       | `no_context`, `basic`, `lexical` |
-| `random`    | `no_context`, `basic`, `lexical`|
-| `sbert`     | `basic_all`, `lexical_all`                                     |
-| `bertscore` | `basic_all`, `lexical_all`                                     |
+| Prompt      | Template                                                         | Description |
+| ----------- | ---------------------------------------------------------------- |-------- |
+| `max`       | `no_context`, `context`, `lexical` | Entity-oriented demonstration - Popular |
+| `random`    | `no_context`, `context`, `lexical` | Entity-oriented demonstration - Random |
+| `sbert`     | `context_all`, `lexical_all` | Instance-oriented demonstration - SBERT |
+| `bertscore` | `context_all`, `lexical_all` | Instance-oriented demonstration - BERTSCORE |
 
 <hr/>
 
@@ -99,7 +107,7 @@ This setting runs all 15 runs i.e. 5 different sub-samples x 3 training seeds
 
 | Prompt      | Template                                                         |
 | ----------- | ---------------------------------------------------------------- |
-| `search`    | `no_context`, `basic`, `lexical` |
+| `search`    | `no_context`, `context`, `lexical` |
 
 1. search for best entities (based on only one seed)
     ```bash
