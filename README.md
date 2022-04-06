@@ -114,7 +114,7 @@ This setting runs all 15 runs i.e. 5 different sub-samples x 3 training seeds
     python3 search.py \
         --dataset <DATASET> \
         --data_dir dataset/<DATASET> \
-        --model_folder models/<DATASET>/conll_max_basic \
+        --model_folder models/<DATASET>/conll_max_context \
         --device cuda:0 \
         --percent_filename_suffix <SEEDED_SUFFIX> \
         --template <TEMPLATE>
