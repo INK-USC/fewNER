@@ -130,3 +130,14 @@ This setting runs all 15 runs i.e. 5 different sub-samples x 3 training seeds
         --suffix <SUFFIX> \
         --template <TEMPLATE>
     ```
+
+## Citation
+If you find our work helpful, please cite the following:
+```bib
+@InProceedings{lee2021fewner,
+  author =  {Lee, Dong-Ho and Kadakia, Akshen and Tan, Kangmin and Agarwal, Mahak and Feng, Xinyu and Shibuya, Takashi and Mitani, Ryosuke and Sekiya, Toshiyuki and Pujara, Jay and Ren, Xiang},
+  title =   {Good Examples Make A Faster Learner: Simple Demonstration-based Learning for Low-resource NER},
+  year =    {2022},  
+  booktitle = {Association for Computational Linguistics (ACL)},  
+}
+```
